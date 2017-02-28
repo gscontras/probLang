@@ -1,0 +1,112 @@
+html {
+    font-family: roboto, arial, sans-serif;
+    color: #fff;
+    background-color: #f5f5f5;
+}
+
+h1 {
+    font-size: 160%;
+    color: #444;
+    margin: 1em 0 1.5em 0;
+}
+
+h2 {
+    font-size: 140%;
+    margin: 1.5em 0 1em 0;
+}
+
+h3 {
+    font-size: 120%;
+    margin: 1.5em 0 1em 0;
+}
+
+.site-title {
+    display: block;
+    font-size: 120%;
+    color: #888;
+    text-decoration: none;
+    /* text-align: center; */
+}
+
+a.site-title:hover {
+    text-decoration: underline
+}
+
+a.chapter-link {
+    color: #095AD3;
+}
+
+.page-content-wrapper {
+    background-color: #fff;
+    overflow: visible;
+}
+
+.page-content {
+    line-height: 23px;
+    padding: 40px;
+    background-color: #fff;
+    color: #000;
+    min-height: 500px;
+    max-width: 650px;
+    margin-right: auto;
+    /* margin-left: auto; */
+    overflow: visible;
+}
+
+.page-content .CodeMirror-lines, .page-content .wpedit .result {
+    padding: 5px;
+    line-height: 18px;
+}
+
+.page-content .wpedit button.run, .page-content .wpedit button.cancel {
+    font-size: 12px;
+}
+
+.page-content .wpedit .result pre {
+    font-size: 12px;
+    margin: 5px;
+}
+
+.page-content .wpedit .result pre.error {
+    color: red;
+    background-color: #fff;
+}
+
+.page-content > p > img {
+    display: block;
+    margin: auto;
+    padding: 20px;
+}
+
+.MathJax_Preview {
+    color: #888
+}
+
+.math_finished .MathJax_Preview {
+    display: none
+}
+
+ol li {
+    list-style-type: upper-roman
+}
+ol li ol li {
+    list-style-type: decimal;
+}
+
+header, footer {
+    padding: 30px;
+}
+
+header.site-header {
+    border-bottom: 1px solid #e5e5e5;
+}
+
+footer {
+    font-size: 80%;
+    text-align: center;
+    border-top: 1px solid #e5e5e5;
+}
+
+footer a {
+    color: #bbb
+}
