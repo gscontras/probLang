@@ -7,15 +7,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/gscontras/probLang.git"
+    "url": "git+http://github.com/gscontras/probLang.git"
   },
   "keywords": [],
   "author": "",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/gscontras/probLang/issues"
+    "url": "http://github.com/gscontras/probLang/issues"
   },
-  "homepage": "https://gscontras.github.io/probLang",
+  "homepage": "http://gscontras.github.io/probLang",
   "dependencies": {
     "webppl": "^0.8.1",
     "webppl-timeit": "^0.3.0",
