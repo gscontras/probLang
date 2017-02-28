@@ -1,5 +1,5 @@
 {
-  "name": "gscontras-ESSLLI-2016",
+  "name": "gscontras-probLang",
   "version": "0.0.1",
   "description": "",
   "scripts": {
@@ -7,15 +7,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/gscontras/ESSLLI-2016.git"
+    "url": "git+https://github.com/gscontras/probLang.git"
   },
   "keywords": [],
   "author": "",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/gscontras/ESSLLI-2016/issues"
+    "url": "https://github.com/gscontras/probLang/issues"
   },
-  "homepage": "https://gscontras.github.io/ESSLLI-2016",
+  "homepage": "https://gscontras.github.io/probLang",
   "dependencies": {
     "webppl": "^0.8.1",
     "webppl-timeit": "^0.3.0",
