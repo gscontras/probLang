@@ -1,8 +1,6 @@
 # Site settings
 
 title: Probabilistic languge understanding
-subtitle: "An introduction to the Rational Speech Act framework"
-authors: Greg Scontras and Michael Henry Tessler
 baseurl: "/probLang"
 url: "http://gscontras.github.io/probLang"
 
