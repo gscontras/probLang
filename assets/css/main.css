@@ -1,7 +1,7 @@
 html {
     font-family: roboto, arial, sans-serif;
     color: #fff;
-    background-color: #f5f5f5;
+    background-color: #444444; /* header/footer background */
 }
 
 h1 {
@@ -22,10 +22,28 @@ h3 {
 
 .site-title {
     display: block;
-    font-size: 120%;
-    color: #888;
+    font-size: 160%;
+    color: #fff;
     text-decoration: none;
-    /* text-align: center; */
+    text-align: center; 
+}
+
+.site-subtitle {
+    display: block;
+    font-size: 140%;
+    color: #fff;
+    text-decoration: none;
+    text-align: center; 
+    margin: .25em;
+}
+
+.site-authors {
+    display: block;
+    /*font-size: 140%;*/
+    color: #fff;
+    text-decoration: none;
+    text-align: center; 
+    margin: .75em;
 }
 
 a.site-title:hover {
@@ -37,7 +55,7 @@ a.chapter-link {
 }
 
 .page-content-wrapper {
-    background-color: #fff;
+    background-color: #a3a3a3;
     overflow: visible;
 }
 
@@ -49,7 +67,7 @@ a.chapter-link {
     min-height: 500px;
     max-width: 650px;
     margin-right: auto;
-    /* margin-left: auto; */
+    margin-left: auto; 
     overflow: visible;
 }
 

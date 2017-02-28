@@ -3,7 +3,7 @@
 
 // Github links
 
-var github_repository = "https://github.com/gscontras/ESSLLI-2016/";
+var github_repository = "https://github.com/gscontras/probLang/";
 
 function markdown_url(page_url) {
     return page_url.slice(0, -4) + "md";
