@@ -4,7 +4,7 @@ title: Summary and outlook
 description: "What have we done???"
 ---
 
-### Day 5: Summary and outlook
+### Chapter 10: Summary and outlook
 
 What have we done???
 

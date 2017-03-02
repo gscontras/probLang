@@ -4,7 +4,7 @@ title: Introducing the Rational Speech Act framework
 description: "An introduction to language understanding as Bayesian inference"
 ---
 
-### Day 1: Language understanding as Bayesian inference
+### Chapter 1: Language understanding as Bayesian inference
 
 <!--   - Gricean pragmatics, probability theory, and utility functions 
   - The basic Rational Speech-Acts framework

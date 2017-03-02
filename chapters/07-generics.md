@@ -1,10 +1,10 @@
 ---
 layout: chapter
-title: Generic language
-description: "Extending and sythensizing extant models of predication"
+title: Extending our models of predication"
+description: "Generic language"
 ---
 
-### Day 4: Pragmatics rescues underspecified semantics 
+### Chapter 7: Generic language 
 
 ## The philosophical problem
 
