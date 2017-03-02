@@ -1,6 +1,6 @@
 ---
 layout: chapter
-title: Extending our models of predication"
+title: Extending our models of predication
 description: "Generic language"
 ---
 
