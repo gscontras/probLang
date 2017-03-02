@@ -198,3 +198,10 @@ function setDate(){
 
 ga('create', 'UA-54996-16', 'auto');
 ga('send', 'pageview');
+
+
+// On page load
+
+$(document).ready(function() {
+  setDate();
+});
