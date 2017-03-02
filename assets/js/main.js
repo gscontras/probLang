@@ -172,6 +172,16 @@ $(function(){
 });
 
 
+// Date
+
+function setDate(){
+  var today = new Date();
+  var dd = today.getDate();
+  var mm = today.getMonth() + 1; //January is 0!
+  var yyyy = today.getFullYear();
+  $(".date").text(yyyy+'-'+mm+'-'+dd);
+}
+
 // Analytics
 
 (function(i, s, o, g, r, a, m) {

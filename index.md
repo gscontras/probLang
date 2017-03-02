@@ -10,12 +10,6 @@ The present course serves an a practical introduction to this modeling framework
 
 <!-- Recent advances in computational cognitive science (i.e., simulation-based probabilistic programs) have paved the way for significant progress in formal, implementable models of pragmatics. Rather than describing a pragmatic reasoning process, these models articulate and implement one, deriving both qualitative and quantitative predictions of human behavior---predictions that consistently prove correct, demonstrating the viability and value of the framework. However, many of these models operate at the utterance level, taking as their starting point whatever the compositional semantics delivers to them as the meaning of a proposition; the models deliberately avoid the composition of the literal interpretations over which they operate. We aim to change that, further shrinking the theoretical and practical distance between semantics and pragmatics by incorporating *both* within a single model of meaning in language. To that end, this course examines the ways that a semantic compositional mechanism may be modeled dynamically and probabilistically, within the broader framework of computational cognitive science. -->
 
-
-## Citation
-
-G. Scontras and M. H. Tessler (2017). *Probabilistic language understanding: An introduction to the Rational Speech Act framework*. Retrieved from https://gscontras.github.io/probLang/
-
-
 <!-- ## Course description
 
 Much work in formal, compositional semantics follows the tradition of positing systematic but inflexible theories of meaning. However, in practice, the meaning we derive from language is heavily dependent on nearly all aspects of context, both linguistic and situational. To formally explain these nuanced aspects of meaning and better understand the compositional mechanism that delivers them, recent work in formal pragmatics recognizes semantics not as one of the final steps in meaning calculation, but rather as one of the first. For example, within the Bayesian Rational Speech Act framework refp:frankgoodman2012, speakers and listeners reason about each other's reasoning about the literal interpretation of utterances. The resulting interpretation necessarily depends on the literal interpretation of an utterance, but is not necessarily wholly determined by it. This move---reasoning about likely interpretations---provides ready explanations for complex phenomena ranging from metaphor refp:kaoetal2014metaphor and hyperbole refp:kaoetal2014 to the specification of thresholds in degree semantics refp:lassitergoodman2013.
@@ -39,10 +33,15 @@ The present course serves to demonstrate that this semantic leveling is unnecess
     {% endif %}
 {% endfor %}
 
+## Citation
+
+G. Scontras and M. H. Tessler (2017). *Probabilistic language understanding: An introduction to the Rational Speech Act framework*. Retrieved <span class="date"></span> from https://gscontras.github.io/probLang/
+
 ## Useful resources
 
-- [Probabilistic Models of Cognition](https://probmods.org): An introduction to computational cognitive science and the probabilistic programming language Church
+- [Probabilistic Models of Cognition](https://probmods.org): An introduction to computational cognitive science and the probabilistic programming language WebPPL
 - [The Design and Implementation of Probabilistic Programming Languages](http://dippl.org): An introduction to probabilistic programming languages, WebPPL in particular
+- [Modeling Agents with Probabilistic Programs](http://agentmodels.org): An introduction to formal models of rational agents using WebPPL
 - [Pragmatic language interpretation as probabilistic inference](http://langcog.stanford.edu/papers_new/goodman-2016-underrev.pdf): A recent review of the RSA framework
 - [webppl.org](http://webppl.org): An online editor for WebPPL
 - [WebPPL documentation](http://webppl.readthedocs.io/en/master/)
@@ -50,3 +49,7 @@ The present course serves to demonstrate that this semantic leveling is unnecess
 - [Forest](http://forestdb.org): A Repository for probabilistic models
 - [RWebPPL](https://github.com/mhtess/rwebppl): If you would rather use WebPPL within R
 - [WebPPL Tutorials](https://github.com/mhtess/webppl-tutorials): Basic tutorials for WebPPL
+
+## Acknowledgments
+
+We want to thank lots of people.
