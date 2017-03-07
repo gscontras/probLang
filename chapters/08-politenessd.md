@@ -158,4 +158,9 @@ viz(s2_both)
 
 ~~~~
 
+References:
+
+- Cite:yoonetal2017
+
+
 Here we link to the [next chapter](09-overinformativeness.html).
