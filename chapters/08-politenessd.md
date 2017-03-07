@@ -6,7 +6,7 @@ description: "Politeness"
 
 ### Chapter 8: Politeness
 
-Here is the full politeness model from reft:yoonetal2017:
+Here is the full politeness model from reft:yoonetal2017 :
 
 ~~~~
 ///fold:
