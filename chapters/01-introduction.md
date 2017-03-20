@@ -30,9 +30,9 @@ $$P_{L_{0}}(s\mid u) \propto [\![u]\!](s) \cdot P(s)$$
 <!-- \mid -->
 
 ~~~~
-// possible states of the world
-var worldPrior = function() {
-  return uniformDraw([
+// possible objects of reference
+var objectPrior = function() {
+  uniformDraw([
     {shape: "square", color: "blue"},
     {shape: "circle", color: "blue"},
     {shape: "square", color: "green"}
@@ -42,33 +42,31 @@ var worldPrior = function() {
 // possible one-word utterances
 var utterances = ["blue","green","square","circle"]
 
-// meaning funtion to interpret the utterances
-var meaning = function(utterance, world){
-  return utterance == "blue" ? world.color == "blue" :
-  utterance == "green" ? world.color == "green" :
-  utterance == "circle" ? world.shape == "circle" :
-  utterance == "square" ? world.shape == "square" :
+// meaning function to interpret the utterances
+var meaning = function(utterance, obj){
+  (utterance === "blue" || utterance === "green") ? utterance === obj.color :
+  (utterance === "circle" || utterance === "square") ? utterance === obj.shape :
   true
 }
 
 // literal listener
 var literalListener = function(utterance){
-  Infer({method:"enumerate"}, function(){
-    var world = worldPrior();
-    var uttTruthVal = meaning(utterance, world);
+  Infer({model: function(){
+    var obj = objectPrior();
+    var uttTruthVal = meaning(utterance, obj);
     condition(uttTruthVal == true)
-    return world
-  })
+    return obj
+  }})
 }
 
 viz.table(literalListener("blue"))
 
 ~~~~
 
-> **Exercises:** 
+> **Exercises:**
 
 > 1. Check what happens with the other utterances.
-> 2. In the model above, `worldPrior()` returns a sample from a `uniformDraw` over the possible world states. What happens when the listener's beliefs are not uniform over world states? (Hint, use a `categorical` distribution by calling `categorical({ps: [list_of_probabilities], vs: [list_of_states]})`).
+> 2. In the model above, `objectPrior()` returns a sample from a `uniformDraw` over the possible objects of reference. What happens when the listener's beliefs are not uniform over the possible objects of reference (e.g., the "green square" is very salient)? (Hint, use a `categorical` distribution by calling `categorical({ps: [list_of_probabilities], vs: [list_of_states]})`).
 
 Fantastic! We now have a way of integrating a listener's prior beliefs about the world with the truth functional meaning of an utterance.
 
@@ -82,27 +80,27 @@ var actions = ['a1', 'a2', 'a3'];
 
 // define some utilities for the actions
 var utility = function(action){
-  var table = { 
-    a1: -1, 
-    a2: 6, 
+  var table = {
+    a1: -1,
+    a2: 6,
     a3: 8
   };
   return table[action];
 };
 
-// define speaker optimality
-var alpha = 1
+// define actor optimality
+var optimality = 1
 
-// define a rational agent who chooses actions 
+// define a rational agent who chooses actions
 // according to their expected utility
-var agent = Infer({ method: 'enumerate' }, function(){
+var agent = Infer({ model: function(){
     var action = uniformDraw(actions);
-    factor(alpha * utility(action));
+    factor(optimality * utility(action));
     return action;
-});
+}});
 
 print("the probability that an agent will take various actions:")
-viz.auto(agent);
+viz(agent);
 
 ~~~~
 
@@ -119,7 +117,7 @@ $$U_{S_{1}}(u; s) = log(L_{0}(s\mid u)) - C(u)$$
 
 (In WebPPL, $$log(L_{0}(s\mid u))$$ can be accessed via `literalListener(u).score(s)`.)
 
-With this utility function in mind, $$S_{1}$$ computes the probability of an utterance $$u$$ given some state $$s$$ in proportion to the speaker’s utility function $$U_{S_{1}}$$. The term $$\alpha > 0$$ controls the speaker’s optimality, that is, the speaker’s rationality in choosing utterances. 
+With this utility function in mind, $$S_{1}$$ computes the probability of an utterance $$u$$ given some state $$s$$ in proportion to the speaker’s utility function $$U_{S_{1}}$$. The term $$\alpha > 0$$ controls the speaker’s optimality, that is, the speaker’s rationality in choosing utterances.
 
 <!-- <center>The pragmatic speaker: P<sub>S<sub>1</sub></sub>(u|s) ∝ exp(αU<sub>S<sub>1</sub></sub>(u;s))</center> -->
 
@@ -127,12 +125,12 @@ $$P_{S_{1}}(u\mid s) \propto exp(\alpha U_{S_{1}}(u; s))$$
 
 ~~~~
 // pragmatic speaker
-var speaker = function(world){
-  Infer({method:"enumerate"}, function(){
+var speaker = function(obj){
+  Infer({model: function(){
     var utterance = utterancePrior();
-    factor(alpha * literalListener(utterance).score(world))
+    factor(alpha * literalListener(utterance).score(obj))
     return utterance
-  })
+  }})
 }
 ~~~~
 
@@ -150,9 +148,9 @@ $$P_{L_{1}}(s\mid u) \propto P_{S_{1}}(u\mid s) \cdot P(s)$$
 // pragmatic listener
 var pragmaticListener = function(utterance){
   Infer({method:"enumerate"}, function(){
-    var world = worldPrior();
-    observe(speaker(world), utterance)
-    return world
+    var obj = objectPrior();
+    observe(speaker(obj), utterance)
+    return obj
   })
 }
 ~~~~
@@ -167,7 +165,7 @@ Within the RSA framework, communication is thus modeled as in Fig. 1, where $$L_
 
 #### Application: Simple referential communication
 
-In its initial formulation, reft:frankgoodman2012 use the basic RSA framework to model referent choice in efficient communication. To see the mechanism at work, imagine a referential communication game with three objects, as in Fig. 2. 
+In its initial formulation, reft:frankgoodman2012 use the basic RSA framework to model referent choice in efficient communication. To see the mechanism at work, imagine a referential communication game with three objects, as in Fig. 2.
 
 <img src="../images/rsa_scene.png" alt="Fig. 2: Example referential communication scenario from Frank & Goodman (2012). Speakers choose a single word, $$u$$, to signal an object, $$s$$." style="width: 400px;"/>
 <center>Fig. 2: Example referential communication scenario from Frank and Goodman. Speakers choose a single word, <i>u</i>, to signal an object, <i>s</i>.</center>
@@ -177,9 +175,9 @@ Suppose a speaker wants to signal an object, but only has a single word with whi
 ~~~~
 // Here is the code from the Frank and Goodman RSA model
 
-// possible states of the world
-var worldPrior = function() {
-  return uniformDraw([
+// possible objects of reference
+var objectPrior = function() {
+  uniformDraw([
     {shape: "square", color: "blue"},
     {shape: "circle", color: "blue"},
     {shape: "square", color: "green"}
@@ -189,47 +187,41 @@ var worldPrior = function() {
 // possible one-word utterances
 var utterances = ["blue","green","square","circle"]
 
-// meaning funtion to interpret the utterances
-var meaning = function(utterance, world){
-  return utterance == "blue" ? world.color == "blue" :
-  utterance == "green" ? world.color == "green" :
-  utterance == "circle" ? world.shape == "circle" :
-  utterance == "square" ? world.shape == "square" :
+// meaning function to interpret the utterances
+var meaning = function(utterance, obj){
+  (utterance === "blue" || utterance === "green") ? utterance === obj.color :
+  (utterance === "circle" || utterance === "square") ? utterance === obj.shape :
   true
 }
 
-
 // literal listener
 var literalListener = function(utterance){
-  Infer({method:"enumerate"},
-        function(){
-    var world = worldPrior()
-    condition(meaning(utterance, world))
-    return world
-  })
+  Infer({model: function(){
+    var obj = objectPrior();
+    condition(meaning(utterance, obj))
+    return obj
+  }})
 }
 
 // set speaker optimality
 var alpha = 1
 
 // pragmatic speaker
-var speaker = function(world){
-  Infer({method:"enumerate"},
-        function(){
+var speaker = function(obj){
+  Infer({model: function(){
     var utterance = uniformDraw(utterances)
-    factor(alpha * literalListener(utterance).score(world))
+    factor(alpha * literalListener(utterance).score(obj))
     return utterance
-  })
+  }})
 }
 
 // pragmatic listener
 var pragmaticListener = function(utterance){
-  Infer({method:"enumerate"},
-        function(){
-    var world = worldPrior()
-    observe(speaker(world),utterance)
-    return world
-  })
+  Infer({model: function(){
+    var obj = objectPrior()
+    observe(speaker(obj),utterance)
+    return obj
+  }})
 }
 
 print("literal listener's interpretation of 'blue':")
@@ -241,7 +233,7 @@ viz.table(pragmaticListener("blue"))
 
 ~~~~
 
-> **Exercises:** 
+> **Exercises:**
 
 > 1. Explore what happens if you make the speaker *more* optimal.
 > 2. Add another object to the scenario.
