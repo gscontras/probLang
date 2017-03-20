@@ -147,11 +147,11 @@ $$P_{L_{1}}(s\mid u) \propto P_{S_{1}}(u\mid s) \cdot P(s)$$
 ~~~~ norun
 // pragmatic listener
 var pragmaticListener = function(utterance){
-  Infer({method:"enumerate"}, function(){
+  Infer({model: function(){
     var obj = objectPrior();
     observe(speaker(obj), utterance)
     return obj
-  })
+  }})
 }
 ~~~~
 
