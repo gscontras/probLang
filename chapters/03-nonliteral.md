@@ -390,4 +390,111 @@ viz.hist(pragmaticListener("terrible"))
 
 #### Application 3: Methaphor
 
+~~~~
+// John could either be a whale or a person.
+var categories = ["whale", "person"]
+
+// It is extremely unlikely that John is actually a whale.
+var categoriesPrior = function() {
+  categorical([0.01, 0.99], categories)
+}
+
+// The speaker could either say "John is a whale" or "John is a person."
+var utterances = ["whale", "person"]
+
+// The utterances are equally costly.
+var utterancePrior = function() {
+  categorical([0.1, 0.1], utterances)
+}
+
+// The features of John being considered are "large", "graceful",
+// "majestic." Features are binary.
+var featureSets = [
+  {large : 1, graceful : 1, majestic : 1},
+  {large : 1, graceful : 1, majestic : 0},
+  {large : 1, graceful : 0, majestic : 1},
+  {large : 1, graceful : 0, majestic : 0},
+  {large : 0, graceful : 1, majestic : 1},
+  {large : 0, graceful : 1, majestic : 0},
+  {large : 0, graceful : 0, majestic : 1},
+  {large : 0, graceful : 0, majestic : 0}
+]
+
+var featureSetPrior = function(category) {
+  category === "whale" ? categorical([0.30592786494628, 0.138078454222818,
+                                      0.179114768847673, 0.13098781834847,
+                                      0.0947267162507846, 0.0531420411185539,
+                                      0.0601520520596695, 0.0378702842057509],
+                                     featureSets) :
+  category === "person" ? categorical([0.11687632453038, 0.105787535267869,
+                                       0.11568145784997, 0.130847056136141,
+                                       0.15288225956497, 0.128098151176801,
+                                       0.114694702836614, 0.135132512637255],
+                                      featureSets) :
+  true
+}
+
+// Speaker's possible goals are to communicate feature 1, 2, or 3
+var goals = ["large", "graceful", "majestic"]
+
+// Prior probability of speaker's goal is set to uniform but can
+// change with context/QUD.
+var goalPrior = function() {
+  categorical([0.33, 0.33, 0.33], goals)
+}
+
+// Speaker optimality parameter
+var alpha = 3
+
+// Check if interpreted categroy is identical to utterance
+var literalInterpretation = function(utterance, category) {
+  utterance === category ? true : false
+}
+
+// Check if goal is satisfied
+var goalState = function(goal, featureSet) {
+  goal === "large" ? featureSet.large :
+  goal === "graceful" ? featureSet.graceful :
+  goal === "majestic" ? featureSet.majestic :
+  true
+}
+
+//  Define a literal listener
+var literalListener = function(utterance, goal) {
+  Infer({model: function() {
+    var category = categoriesPrior()
+    var featureSet = featureSetPrior(category)
+    condition(literalInterpretation(utterance, category))
+    return goalState(goal, featureSet)
+  }})
+}         
+
+// Speaker model
+var speaker = function(large, graceful, majestic, goal) {
+  Infer({model: function() {
+    var utterance = utterancePrior()
+    factor(alpha * 
+           literalListener(utterance,goal).score(goalState(goal, {large : large, graceful : graceful, majestic : majestic})))
+    return utterance
+  }})
+}
+
+// Define a pragmatic listener
+var pragmaticListener = function(utterance) {
+  Infer({model: function() {
+    var category = categoriesPrior()
+    var featureSet = featureSetPrior(category)
+    var large = featureSet.large
+    var graceful = featureSet.graceful
+    var majestic = featureSet.majestic
+    var goal = goalPrior()
+    observe(speaker(large, graceful, majestic, goal), utterance)
+    return [category, large, graceful, majestic]
+  }})
+}
+
+viz.hist(pragmaticListener("whale"))
+
+~~~~
+
 
