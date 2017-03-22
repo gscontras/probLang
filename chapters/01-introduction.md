@@ -144,7 +144,7 @@ The pragmatic listener $$L_{1}$$ computes the probability of a state $$s$$ given
 
 $$P_{L_{1}}(s\mid u) \propto P_{S_{1}}(u\mid s) \cdot P(s)$$
 
-~~~~ norun
+~~~~ 
 // pragmatic listener
 var pragmaticListener = function(utterance){
   Infer({model: function(){
