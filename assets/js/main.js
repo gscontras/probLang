@@ -23,11 +23,28 @@ function github_page_url(page_url) {
 
 
 // WebPPL editor
+// Code boxes
+function setupCodeBoxes(){
+  // TODO: optimize this, (maybe have wpEditor.setup take a content option?)
+  $('pre > code:not(.language-norun)').map(function(i,el) {
+    var firstLine = $(el).text().split("\n")[0];
+    var language = (firstLine == '// language: javascript' ? 'javascript' : 'webppl');
 
-$(function(){
-  var preEls = Array.prototype.slice.call(document.querySelectorAll("pre"));
-  preEls.map(function(el) { wpEditor.setup(el, {language: 'webppl'}); });          
-});
+    var preEl = $(el).parent()[0];
+    wpEditor.setup(preEl, {language: language})
+  })
+}
+
+$(setupCodeBoxes);
+
+if (typeof Distribution !== 'undefined') {
+  Distribution.prototype.__print__ = viz.print;
+}
+
+// $(function(){
+//   var preEls = Array.prototype.slice.call(document.querySelectorAll("pre"));
+//   preEls.map(function(el) { wpEditor.setup(el, {language: 'webppl'}); });          
+// });
 
 
 // References and bibliography
