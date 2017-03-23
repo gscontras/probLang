@@ -48,4 +48,5 @@ G. Scontras and M. H. Tessler (2017). *Probabilistic language understanding: An 
 
 ## Acknowledgments
 
-We want to thank lots of people.
+This webbook grew out of a course taught by the authors at [ESSLLI 2016](http://esslli2016.unibz.it) in Bolzano, Italy. We owe a special debt of gratitude to our first set of students for their patience, insight, and willingness to serve as test subjects. We are also indebted to the authors of the models included in this text---without their work, there would be nothing to teach!
+
