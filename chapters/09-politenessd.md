@@ -1,6 +1,6 @@
 ---
 layout: chapter
-title: Something about politeness
+title: Social reasoning about social reasoning
 description: "Politeness"
 ---
 
@@ -161,6 +161,3 @@ viz(s2_both)
 References:
 
 - Cite:yoonetal2017
-
-
-Here we link to the [next chapter](09-overinformativeness.html).

@@ -1,6 +1,6 @@
 ---
 layout: chapter
-title: Planning utterances
+title: Choosing our utterances
 description: "Rationally-redundant referring expressions"
 ---
 
@@ -8,4 +8,4 @@ description: "Rationally-redundant referring expressions"
 
 
 
-Here we link to the [next chapter](10-summary.html).
+Here we link to the [next chapter](09-politeness.html).
