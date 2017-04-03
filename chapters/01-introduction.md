@@ -243,6 +243,7 @@ viz.table(pragmaticListener("blue"))
 > 2. Add another object to the scenario.
 > 3. Add a new multi-word utterance.
 > 4. Check the behavior of the other possible utterances.
+> 5. Is there any way to get "blue" to refer to something green? Why or why not?
 
 
 
