@@ -119,6 +119,8 @@ $$U_{S_{1}}(u; s) = log(L_{0}(s\mid u)) - C(u)$$
 
 (In WebPPL, $$log(L_{0}(s\mid u))$$ can be accessed via `literalListener(u).score(s)`.)
 
+> **Exercise:** Return to the first code box and find $$log(L_{0}(s\mid u))$$ for the utterance "blue" and each of the three possible reference objects.
+
 With this utility function in mind, $$S_{1}$$ computes the probability of an utterance $$u$$ given some state $$s$$ in proportion to the speaker’s utility function $$U_{S_{1}}$$. The term $$\alpha > 0$$ controls the speaker’s optimality, that is, the speaker’s rationality in choosing utterances.
 
 <!-- <center>The pragmatic speaker: P<sub>S<sub>1</sub></sub>(u|s) ∝ exp(αU<sub>S<sub>1</sub></sub>(u;s))</center> -->
