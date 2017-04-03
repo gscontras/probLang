@@ -107,8 +107,9 @@ viz(agent);
 
 > **Exercises:**
 
-> 1. Explore what happens when you change the agent's optimality.
-> 2. Explore what happens when you change the utilities.
+> 1. Check to make sure `utility()` return the correct value for `a3`.
+> 2. Explore what happens when you change the agent's optimality.
+> 3. Explore what happens when you change the utilities.
 
 In language understanding, the utility of an utterance is how well it communicates the state of the world $$s$$ to a listener. So, the speaker $$S_{1}$$ chooses utterances $$u$$ to communicate the state $$s$$ to the hypothesized literal listener $$L_{0}$$. Another way to think about this: $$S_{1}$$ wants to minimize the effort $$L_{0}$$ would need to arrive at $$s$$ from $$u$$, all while being efficient at communicating. $$S_{1}$$ thus seeks to minimize the surprisal of $$s$$ given $$u$$ for the literal listener $$L_{0}$$, while bearing in mind the utterance cost, $$C(u)$$. (This trade-off between efficacy and efficiency is not trivial: speakers could always use minimal ambiguity, but unambiguous utterances tend toward the unwieldy, and, very often, unnecessary. We will see this tension play out later in the course.)
 
