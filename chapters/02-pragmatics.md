@@ -76,13 +76,12 @@ var literalMeanings = {
 
 // literal listener
 var literalListener = cache(function(utt) {
-  return Infer({method:"enumerate"},
-  function(){
+  return Infer({model: function(){
     var state = statePrior()
     var meaning = literalMeanings[utt]
     condition(meaning(state))
     return state
-  })
+  }})
 });
 
 // set speaker optimality
@@ -90,22 +89,20 @@ var alpha = 1
 
 // pragmatic speaker
 var speaker = cache(function(state) {
-  return Infer({method:"enumerate"},
-  function(){
+  return Infer({model: function(){
     var utt = utterancePrior()
     factor(alpha * literalListener(utt).score(state))
     return utt
-  })
+  }})
 });
 
 // pragmatic listener
 var pragmaticListener = cache(function(utt) {
-  return Infer({method:"enumerate"},
-  function(){
+  return Infer({model: function(){
     var state = statePrior()
     observe(speaker(state),utt)
     return state
-  })
+  }})
 });
 
 print("pragmatic listener's interpretation of 'some':")
@@ -135,12 +132,11 @@ $$P_{L_{1}}(s\mid u, a) \propto P_{S_{1}}(u\mid s, a) \cdot P(s)$$
 ~~~~
 // pragmatic listener
 var pragmaticListener = cache(function(access,utt) {
-  return Infer({method:"enumerate"},
-               function(){
+  return Infer({model: function(){
     var state = statePrior()
     observe(speaker(access,state),utt)
     return numTrue(state)
-  })
+  }})
 });
 ~~~~
 
@@ -193,13 +189,12 @@ $$P_{S_{1}}(u\mid o, a) \propto exp(\alpha\mathbb{E}_{P(s\mid o, a)}[U(u; s)])$$
 ~~~~
 // pragmatic speaker
 var speaker = cache(function(access,state) {
-  return Infer({method:"enumerate"},
-               function(){
+  return Infer({model: function(){
     var utterance = utterancePrior()
     var beliefState = belief(state,access)
     factor(alpha * literalListener(utterance).score(beliefState))
     return utterance
-  })
+  }})
 });
 ~~~~
 
@@ -255,13 +250,12 @@ var literalMeanings = {
 
 // literal listener
 var literalListener = cache(function(utt) {
-  return Infer({method:"enumerate"},
-               function(){
+  return Infer({model: function(){
     var state = statePrior()
     var meaning = literalMeanings[utt]
     condition(meaning(state))
     return state
-  })
+  }})
 });
 
 // set speaker optimality
@@ -269,23 +263,21 @@ var alpha = 1
 
 // pragmatic speaker
 var speaker = cache(function(access,state) {
-  return Infer({method:"enumerate"},
-               function(){
+  return Infer({model: function(){
     var utt = utterancePrior()
     var beliefState = belief(state,access)
     factor(alpha * literalListener(utt).score(beliefState))
     return utt
-  })
+  }})
 });
 
 // pragmatic listener
 var pragmaticListener = cache(function(access,utt) {
-  return Infer({method:"enumerate"},
-               function(){
+  return Infer({model: function(){
     var state = statePrior()
     observe(speaker(access,state),utt)
     return numTrue(state)
-  })
+  }})
 });
 
 print("pragmatic listener for a full-access speaker:")
