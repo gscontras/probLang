@@ -25,6 +25,11 @@ var statePrior = function() {
 statePrior() // sample a state
 ~~~~
 
+> **Exercises:**
+
+> 1. Try visualizing `statePrior()` by drawing many samples and plotting the output (hint: you'll need to use the `repeat` function, which has a strange syntax that is documented [here](http://webppl.readthedocs.io/en/master/functions/arrays.html#repeat)).
+> 2. Try visualizing `statePrior()` by wrapping it in an inference model (à la our $$L_0$$ model) and plotting the output.
+
 Next, assume that speakers may describe the current state of the world in one of three ways:
 
 ~~~~
