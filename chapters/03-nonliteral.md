@@ -108,8 +108,7 @@ var meaning = function(utterance, state) {
 
 
 var literalListener = cache(function(utterance, qud) {
-  return Infer({method : "enumerate"},
-               function() {
+  return Infer({model: function(){
 
     var state = statePrior() // uncertainty about the state
     var valence = valencePrior(state) // uncertainty about the valence
@@ -118,8 +117,8 @@ var literalListener = cache(function(utterance, qud) {
     condition(meaning(utterance,state))
 
     return qudFn(state,valence)
-  })
-});
+  }
+})});
 ~~~~
 
 > **Exercises:** 
@@ -132,21 +131,19 @@ This enriched literal listener does a joint inference about the state and the va
 
 ~~~~
 var speaker = cache(function(qValue, qud) {
-  return Infer({method : "enumerate"},
-               function() {
+  return Infer({model: function(){
     var utterance = utterancePrior()
     factor(alpha * literalListener(utterance,qud).score(qValue))
     return utterance
-  })
-});
+  }
+})});
 ~~~~
 
 To model hyperbole, Kao et al. posited that the pragmatic listener actually has uncertainty about what the QUD is, and jointly infers the world state (and speaker valence) and the intended QUD from the utterance he receives. That is, the pragmatic listener simulates how the speaker would behave with various QUDs.
 
 ~~~~
 var pragmaticListener = cache(function(utterance) {
-  return Infer({method : "enumerate"},
-               function() {
+  return Infer({model: function(){
     var state = statePrior()
     var valence = valencePrior(state)
     var qud = qudPrior()
@@ -154,8 +151,8 @@ var pragmaticListener = cache(function(utterance) {
     var qValue = qudFn(state, valence)
     observe(speaker(qValue, qud),utterance)
     return {state : state, valence : valence}
-  })
-});
+  }
+})});
 ~~~~
 
 Here is the full model:
@@ -231,33 +228,30 @@ var meaning = function(utterance, state) {
 // Literal listener, infers the qud value assuming the utterance is 
 // true of the state
 var literalListener = cache(function(utterance, qud) {
-  return Infer({method : "enumerate"},
-               function() {
+  return Infer({model: function(){
     var state = statePrior()
     var valence = valencePrior(state)
     var qudFn = qudFns[qud]
     condition(meaning(utterance,state))
     return qudFn(state,valence)
-  })
-});
+  }
+})});
 
 // set speaker optimality
 var alpha = 1
 
 // Speaker, chooses an utterance to convey a particular value of the qud
 var speaker = cache(function(qValue, qud) {
-  return Infer({method : "enumerate"},
-               function() {
+  return Infer({model: function(){
     var utterance = utterancePrior()
     factor(alpha*literalListener(utterance,qud).score(qValue))
     return utterance
-  })
-});
+  }
+})});
 
 // Pragmatic listener, jointly infers the price state, speaker valence, and QUD
 var pragmaticListener = cache(function(utterance) {
-  return Infer({method : "enumerate"},
-               function() {
+  return Infer({model: function(){
     var state = statePrior()
     var valence = valencePrior(state)
     var qud = qudPrior()
@@ -268,8 +262,8 @@ var pragmaticListener = cache(function(utterance) {
     observe(speaker(qValue, qud), utterance)
 
     return {state : state, valence : valence}
-  })
-});
+  }
+})});
 
 var listenerPosterior = pragmaticListener(10000);
 
