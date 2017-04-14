@@ -288,7 +288,7 @@ By capturing the extreme (im)probability of kettle prices, together with the fle
 
 #### Application 2: Irony
 
-The same machinery---actively reasoning about the QUD---has been used to capture other cases of non-literal language. reft:kaogoodman2015 use this process to model ironic language, utterances whose intended meanings are opposite in polarity to the literal meaning. For example, if we are standing outside on a beauitful day and I tell you the weather is "terrible," you're unlikely to conclude that I intend to be taken literally. Instead, you will probably interpret the utterance ironically and conclude that I intended the opposite of what I uttered, namely that the weather is good and I'm happy about it. The following model implements this reasoning process by formalizing three possible conversational goals: communicating about the true state, communicating about the speaker's valence (i.e., whether they feel positively or negatively toward the state), and communicating about the speaker's arousal (i.e., how strongly they feel about the state). 
+The same machinery---actively reasoning about the QUD---has been used to capture other cases of non-literal language. [Kao and Goodman (2015)](http://cocolab.stanford.edu/papers/KaoEtAl2015-Cogsci.pdf) use this process to model ironic language, utterances whose intended meanings are opposite in polarity to the literal meaning. For example, if we are standing outside on a beauitful day and I tell you the weather is "terrible," you're unlikely to conclude that I intend to be taken literally. Instead, you will probably interpret the utterance ironically and conclude that I intended the opposite of what I uttered, namely that the weather is good and I'm happy about it. The following model implements this reasoning process by formalizing three possible conversational goals: communicating about the true state, communicating about the speaker's valence (i.e., whether they feel positively or negatively toward the state), and communicating about the speaker's arousal (i.e., how strongly they feel about the state). 
 
 ~~~~
 // There are three possible states the weather could be in: terrible, ok, or amazing
@@ -389,7 +389,8 @@ viz.hist(pragmaticListener("terrible"))
 
 #### Application 3: Methaphor
 
-reft:kaoetal2014metaphor
+In yet another application, reft:kaoetal2014metaphor use a QUD manipulation to model metaphor, perhaps the most flagrant case of non-literal language use. If I call John a whale, you're unlikely to infer that he's an acquatic mammal. However, you probably will infer that John has qualities characteristic of whales (e.g., size, grace, majesty, etc.). The following model implements this reasoning process by aligning utterances (e.g., "whale", "person") with stereotypical features, then introducing uncertainty about which feature is currently the topic of conversation.
+
 
 ~~~~
 // John could either be a whale or a person.
