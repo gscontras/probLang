@@ -12,7 +12,7 @@ description: "Jointly inferring parameters and interpretations"
 
 
 
-One of the most remarkable aspects of natural language is its compositionality: speakers generate arbitrarily complex meanings by stitching together their smaller, meaning-bearing parts. The compositional nature of language has served as the bedrock of semantic (indeed, linguistic) theory since its modern inception; Montague demonstrates with his fragment how meaning gets constructed from a lexicon and some rules of composition. Since then, compositionality has continued to guide semantic inquiry: what are the meaning of the parts, and what is the nature of the mechanism that composes them? Put differently, what are the representations of the language we use, and what is the nature of the computational system that manipulates them?
+One of the most remarkable aspects of natural language is its compositionality: speakers generate arbitrarily complex meanings by stitching together their smaller, meaning-bearing parts. The compositional nature of language has served as the bedrock of semantic (indeed, linguistic) theory since its modern inception; Montague demonstrates with his fragment how meaning gets constructed from a lexicon and some rules of composition. Since then, compositionality has continued to guide semantic inquiry: what are the meanings of the parts, and what is the nature of the mechanism that composes them? Put differently, what are the representations of the language we use, and what is the nature of the computational system that manipulates them?
 
 So far, the models we have considered operate at the level of full utterances.  These models assume conversational agents who reason over propositional content to arrive at enriched interpretations: "I want the blue one," "Some of the apples are red," "The electric kettle cost $10,000 dollars," etc. Now, let's approach meaning from the opposite direction: building the literal interpretations (and our model of the world that verifies them) from the bottom up: [semantic parsing](http://dippl.org/examples/semanticparsing.html). The model constructs literal interpretations and verifying worlds from the semantic atoms of sentences. However, whereas the model explicitly targets comositional semantics, it stops at the level of the literal listener, the base of RSA reasoning. In what follows, we consider a different approach to approximating compositional semantics within the RSA framework.
 
@@ -26,7 +26,7 @@ Quantifier scope ambiguities have stood at the heart of linguistic inquiry for n
 	- surface scope: ∀ > ¬; paraphrase: "none"
 	- inverse scope: ¬ > ∀; paraphrease: "not all"
 
-Rather than modeling the relative scoping of operators directly in the semantic composition, we can capture the possible meanings of these sentences---and, crucially, the active reasoning of speakers and listeners *about* these possible meanings---by assuming that the meaning of the utterance is evalatuated relative to a scope interpretation parameter (surface vs. inverse). The meaning function thus takes an utterance, a world state, and a scope interpretation parameter "inverse"; it returns a truth value.
+Rather than modeling the relative scoping of operators directly in the semantic composition, we can capture the possible meanings of these sentences---and, crucially, the active reasoning of speakers and listeners *about* these possible meanings---by assuming that the meaning of the utterance is evalatuated relative to a scope interpretation parameter (surface vs. inverse). The meaning function thus takes an utterance, a world state, and a scope interpretation parameter "inverse" (i.e., whether the utterance receives an inverse interpretation); it returns a truth value.
 
 ~~~~
 // possible world states
@@ -161,7 +161,7 @@ viz.marginals(posterior);
 > 1. The pragmatic listener believes the `inverse` interpretation is more likely. Why?
 > 2. Add some more utterances and check what happens to the interpretation of the ambiguous utterance.
 
-As in the hyperbole model, we can add uncertainty about the QUD:
+As in the non-literal language models from the previous chapter, here we can add uncertainty about the topic of conversation, or QUD. This move recognizes that "All of the apples aren't red" might be used to answer various questions. The listener might be interested to learn how many apples are red, or whether all of the apples are red, or whether none of them are, etc. Each question corresponds to a unique QUD; it's up to $$L_1$$ to decide which QUD is most likely given the utterance.
 
 ~~~~
 // Here is the code for the quantifier scope model
