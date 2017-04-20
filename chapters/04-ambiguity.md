@@ -60,12 +60,11 @@ The literal listener *L<sub>0</sub>* has prior uncertainty about the true state,
 ~~~~
 // Literal listener (L0)
 var literalListener = cache(function(utterance, scope) {
-  return Infer({method:"enumerate"},
-  function(){
+  Infer({model: function(){
     var state = statePrior();
     condition(meaning(utterance,state,scope));
     return state;
-  });
+  }});
 });
 ~~~~
 
@@ -74,13 +73,12 @@ The interpretation variable (*scope*) is lifted, so that it will be actively rea
 ~~~~
 // Pragmatic listener (L1)
 var pragmaticListener = cache(function(utterance) {
-  return Infer({method:"enumerate"},
-  function(){
+  Infer({model: function(){
     var state = statePrior();
     var scope = scopePrior();
     observe(speaker(scope,state),utterance);
     return [scope,state];
-  });
+  }});
 });
 ~~~~
 
@@ -121,34 +119,31 @@ var meaning = function(utterance, state, scope) {
 
 // Literal listener (L0)
 var literalListener = cache(function(utterance,scope) {
-  return Infer({method:"enumerate"},
-               function(){
+  return Infer({model: function(){
     var state = statePrior();
     condition(meaning(utterance,state,scope));
     return state;
-  });
+  }});
 });
 
 // Speaker (S)
 var speaker = cache(function(scope,state) {
-  return Infer({method:"enumerate"},
-               function(){
+  return Infer({model: function(){
     var utterance = utterancePrior();
     observe(literalListener(utterance,scope),state);
     return utterance;
-  });
+  }});
 });
 
 // Pragmatic listener (L1)
 var pragmaticListener = cache(function(utterance) {
-  return Infer({method:"enumerate"},
-               function(){
+  return Infer({model: function(){
     var state = statePrior();
     var scope = scopePrior();
     observe(speaker(scope,state),utterance);
     return {state: state,
             scope: scope}
-  });
+  }});
 });
 
 var posterior = pragmaticListener("all-not")
@@ -208,37 +203,34 @@ var QUDFun = function(QUD,state) {
 
 // Literal listener (L0)
 var literalListener = cache(function(utterance,scope,QUD) {
-  return Infer({method:"enumerate"},
-  function(){
+  Infer({model: function(){
     var state = statePrior();
     var qState = QUDFun(QUD,state)
     condition(meaning(utterance,state,scope));
     return qState;
-  });
+  }});
 });
 
 // Speaker (S)
 var speaker = cache(function(scope,state,QUD) {
-  return Infer({method:"enumerate"},
-  function(){
+  Infer({model: function(){
     var utterance = utterancePrior();
     var qState = QUDFun(QUD,state);
     observe(literalListener(utterance,scope,QUD),qState);
     return utterance;
-  });
+  }});
 });
 
 // Pragmatic listener (L1)
 var pragmaticListener = cache(function(utterance) {
-  return Infer({method:"enumerate"},
-  function(){
+  Infer({model: function(){
     var state = statePrior();
     var scope = scopePrior();
     var QUD = QUDPrior();
     observe(speaker(scope,state,QUD),utterance);
     return {state: state,
             scope: scope}
-  });
+  }});
 });
 
 var posterior = pragmaticListener("all-not")
@@ -246,8 +238,10 @@ viz.marginals(posterior);
 
 ~~~~
 
-> **Exercise:** What does the pragmatic listener infer about the QUD? Does this match your own intuitions? If not, how can you more closely align the model's predictions with your own?
+> **Exercises:** 
 
+> 1. What does the pragmatic listener infer about the QUD? Does this match your own intuitions? If not, how can you more closely align the model's predictions with your own?
+> 2. Try adding a `none red?` QUD. What does this addition do to $$L_1$$'s inference about the state? Why?
 
 
 Here we link to the [next chapter](05-vagueness.html).
