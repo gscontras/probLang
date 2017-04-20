@@ -26,7 +26,7 @@ Quantifier scope ambiguities have stood at the heart of linguistic inquiry for n
 	- surface scope: ∀ > ¬; paraphrase: "none"
 	- inverse scope: ¬ > ∀; paraphrease: "not all"
 
-Rather than modeling the relative scoping of operators directly in the semantic composition, we can capture the possible meanings of these sentences---and, crucially, the active reasoning of speakers and listeners *about* these possible meanings---by assuming that the meaning of the utterance is evalatuated relative to a scope interpretation parameter (surface vs. inverse). The meaning function thus takes an utterance, a world state, and a scope interpretation parameter "inverse" (i.e., whether the utterance receives an inverse interpretation); it returns a truth value.
+Rather than modeling the relative scoping of operators directly in the semantic composition, we can capture the possible meanings of these sentences---and, crucially, the active reasoning of speakers and listeners *about* these possible meanings---by assuming that the meaning of the utterance is evalatuated relative to a scope interpretation parameter (surface vs. inverse). The meaning function thus takes an utterance, a world state, and an interpretation parameter `scope` (i.e., which interpretation the ambiguous utterance receives); it returns a truth value.
 
 ~~~~
 // possible world states
@@ -55,7 +55,7 @@ meaning("all-not", 1, "surface")
 
 ~~~~
 
-The literal listener *L<sub>0</sub>* has prior uncertainty about the true state, *s*, and otherwise updates beliefs about *s* by conditioning on the meaning of *u* together with the intended scope:
+The literal listener $$L_0$$ has prior uncertainty about the true state, *s*, and otherwise updates beliefs about *s* by conditioning on the meaning of *u* together with the intended scope:
 
 ~~~~
 // Literal listener (L0)
@@ -242,6 +242,116 @@ viz.marginals(posterior);
 
 > 1. What does the pragmatic listener infer about the QUD? Does this match your own intuitions? If not, how can you more closely align the model's predictions with your own?
 > 2. Try adding a `none red?` QUD. What does this addition do to $$L_1$$'s inference about the state? Why?
+
+
+Finally, we can add one more layer to our models: rather than predicting how a listener would interpret the ambiguous utterance, we can predict how a *speaker* would use it. In other words, we can derive predictions about whether the ambiguous utterance would be endorsed as a good description of a specific state of the world. A speaker might see that two our of three apples are red. In this scenario, is the ambiguous utterance a good description? To answer this question, the speaker should reason about how a listener would interpret the utterance. But our current speaker model isn't able to derive these predictions for us, given the variables that have been lifted to the level of $$L_1$$ (i.e., `scope` and `QUD`). In the case of lifted variables, we'll need another level of inference to model a *pragmatic* speaker, $$S_2$$.
+
+This pragmatic speaker observes the state of the world and chooses an utterance that would best communicate this state to a pragmatic listener:
+
+~~~~
+// Pragmatic speaker (S2)
+var pragmaticSpeaker = cache(function(state) {
+  Infer({model: function(){
+    var utterance = utterancePrior();
+    factor(pragmaticListener(utterance).score(state))
+    return utterance
+  }})
+})
+
+~~~~
+
+The full model simply adds $$S_2$$ as an additional layer of inference.
+
+~~~~
+// Here is the code for the quantifier scope model
+
+// possible utterances
+var utterances = ["null","all-not"];
+
+var utterancePrior = function() {
+  uniformDraw(utterances)
+}
+
+// possible world states
+var states = [0,1,2,3];
+var statePrior = function() {
+  uniformDraw(states);
+}
+
+// possible scopes
+var scopePrior = function(){ 
+  return uniformDraw(["surface", "inverse"])
+}
+
+// meaning function
+var meaning = function(utterance, state, scope) {
+  return utterance == "all-not" ? 
+    scope == "surface" ? state == 0 :
+  state < 3 : 
+  true;
+};
+
+// QUDs
+var QUDs = ["how many?","all red?","none red?"];
+var QUDPrior = function() {
+  uniformDraw(QUDs);
+}
+var QUDFun = function(QUD,state) {
+  QUD == "all red?" ? state == 3 :
+  QUD == "none red?" ? state == 0 :
+  state;
+};
+
+// Literal listener (L0)
+var literalListener = cache(function(utterance,scope,QUD) {
+  Infer({model: function(){
+    var state = statePrior();
+    var qState = QUDFun(QUD,state)
+    condition(meaning(utterance,state,scope));
+    return qState;
+  }});
+});
+
+var alpha = 1
+
+// Speaker (S)
+var speaker = cache(function(scope,state,QUD) {
+  Infer({model: function(){
+    var utterance = utterancePrior();
+    var qState = QUDFun(QUD,state);
+    factor(alpha * literalListener(utterance,scope,QUD).score(qState));
+    return utterance;
+  }});
+});
+
+// Pragmatic listener (L1)
+var pragmaticListener = cache(function(utterance) {
+  Infer({model: function(){
+    var state = statePrior();
+    var scope = scopePrior();
+    var QUD = QUDPrior();
+    observe(speaker(scope,state,QUD),utterance);
+    return state
+  }});
+});
+
+// Pragmatic speaker (S2)
+var pragmaticSpeaker = cache(function(state) {
+  Infer({model: function(){
+    var utterance = utterancePrior();
+    factor(pragmaticListener(utterance).score(state))
+    return utterance
+  }})
+})
+
+// A speaker decides whether to endorse the ambiguous utterance as a 
+// description of the not-all world state
+pragmaticSpeaker(2)
+
+~~~~
+
+> **Exercise:** What changes can you make to the model to get the speaker's endorsement to increase? Why do these changes have this effect?
+
 
 
 Here we link to the [next chapter](05-vagueness.html).
