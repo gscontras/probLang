@@ -29,13 +29,13 @@ Quantifier scope ambiguities have stood at the heart of linguistic inquiry for n
 Rather than modeling the relative scoping of operators directly in the semantic composition, we can capture the possible meanings of these sentences---and, crucially, the active reasoning of speakers and listeners *about* these possible meanings---by assuming that the meaning of the utterance is evalatuated relative to a scope interpretation parameter (surface vs. inverse). The meaning function thus takes an utterance, a world state, and an interpretation parameter `scope` (i.e., which interpretation the ambiguous utterance receives); it returns a truth value.
 
 ~~~~
-// possible world states
-var states = [0,1,2];
+// possible world states: how many apples are red
+var states = [0,1,2,3];
 var statePrior = function() {
   uniformDraw(states);
 }
 
-// possible utterances
+// possible utterances: saying nothing or asserting the ambiguous utterance
 var utterances = ["null","all-not"];
 
 // possible scopes
@@ -47,7 +47,7 @@ var scopePrior = function(){
 var meaning = function(utterance, state, scope) {
   return utterance == "all-not" ? 
     scope == "surface" ? state == 0 :
-  state < 2 : 
+  state < 3 : 
   true;
 };
 
@@ -89,17 +89,14 @@ The full model puts all of these pieces together:
 
 // possible utterances
 var utterances = ["null","all-not"];
-var cost = function(utterance) {
-  return 1;
-};
+
 var utterancePrior = function() {
-  return utterances[discrete(map(function(u) {
-    return Math.exp(-cost(u));
-  }, utterances))];
-};
+  uniformDraw(utterances)
+}
+
 
 // possible world states
-var states = [0,1,2];
+var states = [0,1,2,3];
 var statePrior = function() {
   uniformDraw(states);
 }
@@ -113,7 +110,7 @@ var scopePrior = function(){
 var meaning = function(utterance, state, scope) {
   return utterance == "all-not" ? 
     scope == "surface" ? state == 0 :
-  state < 2 : 
+  state < 3 : 
   true;
 };
 
@@ -159,21 +156,18 @@ viz.marginals(posterior);
 As in the non-literal language models from the previous chapter, here we can add uncertainty about the topic of conversation, or QUD. This move recognizes that "All of the apples aren't red" might be used to answer various questions. The listener might be interested to learn how many apples are red, or whether all of the apples are red, or whether none of them are, etc. Each question corresponds to a unique QUD; it's up to $$L_1$$ to decide which QUD is most likely given the utterance.
 
 ~~~~
-// Here is the code for the quantifier scope model
+// Here is the code for the QUD quantifier scope model
 
 // possible utterances
 var utterances = ["null","all-not"];
-var cost = function(utterance) {
-  return 1;
-};
+
 var utterancePrior = function() {
-  return utterances[discrete(map(function(u) {
-    return Math.exp(-cost(u));
-  }, utterances))];
-};
+  uniformDraw(utterances)
+}
+
 
 // possible world states
-var states = [0,1,2];
+var states = [0,1,2,3];
 var statePrior = function() {
   uniformDraw(states);
 }
@@ -187,7 +181,7 @@ var scopePrior = function(){
 var meaning = function(utterance, state, scope) {
   return utterance == "all-not" ? 
     scope == "surface" ? state == 0 :
-  state < 2 : 
+  state < 3 : 
   true;
 };
 
@@ -197,7 +191,7 @@ var QUDPrior = function() {
   uniformDraw(QUDs);
 }
 var QUDFun = function(QUD,state) {
-  return QUD == "all red?" ? state == 2 :
+  return QUD == "all red?" ? state == 3 :
   state;
 };
 
