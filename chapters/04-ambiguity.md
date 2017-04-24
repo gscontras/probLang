@@ -68,7 +68,7 @@ var literalListener = cache(function(utterance, scope) {
 });
 ~~~~
 
-The interpretation variable (*scope*) is lifted, so that it will be actively reasoned about by the pragmatic listener. The pragmatic listener resolves the interpretation of an ambiguous utterance (determining what the speaker likely intended) while inferring the true state of the world:
+The interpretation variable (`scope`) is lifted, so that it will be actively reasoned about by the pragmatic listener. The pragmatic listener resolves the interpretation of an ambiguous utterance (determining what the speaker likely intended) while inferring the true state of the world:
 
 ~~~~
 // Pragmatic listener (L1)
