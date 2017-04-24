@@ -22,7 +22,7 @@ What we want is a way for our models of language understanding to target sub-pro
 
 Quantifier scope ambiguities have stood at the heart of linguistic inquiry for nearly as long as the enterprise has existed in its current form. reft:montague1973 builds the possibility for scope-shifting into the bones of his semantics. reft:may1977 proposes the rule of QR, which derives scope ambiguities syntactically. Either of these efforts ensures that when you combine quantifiers like *every* and *all* with other logical operators like negation, you get an ambiguous sentence; the ambiguities correspond to the relative scope of these operators within the logical form (LF) of the sentence (whence the name "scope ambiguities").
 
-- *All of the apples aren't red.*
+- *Every apple isn't red.*
 	- surface scope: ∀ > ¬; paraphrase: "none"
 	- inverse scope: ¬ > ∀; paraphrease: "not all"
 
