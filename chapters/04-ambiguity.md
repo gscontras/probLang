@@ -153,7 +153,7 @@ viz.marginals(posterior);
 > 1. The pragmatic listener believes the `inverse` interpretation is more likely. Why?
 > 2. Add some more utterances and check what happens to the interpretation of the ambiguous utterance.
 
-As in the non-literal language models from the previous chapter, here we can add uncertainty about the topic of conversation, or QUD. This move recognizes that "All of the apples aren't red" might be used to answer various questions. The listener might be interested to learn how many apples are red, or whether all of the apples are red, or whether none of them are, etc. Each question corresponds to a unique QUD; it's up to $$L_1$$ to decide which QUD is most likely given the utterance.
+As in the non-literal language models from the previous chapter, here we can add uncertainty about the topic of conversation, or QUD. This move recognizes that "Every apple isn't red" might be used to answer various questions. The listener might be interested to learn how many apples are red, or whether all of the apples are red, or whether none of them are, etc. Each question corresponds to a unique QUD; it's up to $$L_1$$ to decide which QUD is most likely given the utterance.
 
 ~~~~
 // Here is the code for the QUD quantifier scope model
