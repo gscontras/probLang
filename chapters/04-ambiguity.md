@@ -36,7 +36,7 @@ var statePrior = function() {
 }
 
 // possible utterances: saying nothing or asserting the ambiguous utterance
-var utterances = ["null","all-not"];
+var utterances = ["null","every-not"];
 
 // possible scopes
 var scopePrior = function(){ 
@@ -45,13 +45,13 @@ var scopePrior = function(){
 
 // meaning function
 var meaning = function(utterance, state, scope) {
-  return utterance == "all-not" ? 
+  return utterance == "every-not" ? 
     scope == "surface" ? state == 0 :
   state < 3 : 
   true;
 };
 
-meaning("all-not", 1, "surface")
+meaning("every-not", 1, "surface")
 
 ~~~~
 
@@ -88,7 +88,7 @@ The full model puts all of these pieces together:
 // Here is the code for the quantifier scope model
 
 // possible utterances
-var utterances = ["null","all-not"];
+var utterances = ["null","every-not"];
 
 var utterancePrior = function() {
   uniformDraw(utterances)
@@ -108,7 +108,7 @@ var scopePrior = function(){
 
 // meaning function
 var meaning = function(utterance, state, scope) {
-  return utterance == "all-not" ? 
+  return utterance == "every-not" ? 
     scope == "surface" ? state == 0 :
   state < 3 : 
   true;
@@ -143,7 +143,7 @@ var pragmaticListener = cache(function(utterance) {
   }});
 });
 
-var posterior = pragmaticListener("all-not")
+var posterior = pragmaticListener("every-not")
 viz.marginals(posterior);
 
 ~~~~
@@ -159,7 +159,7 @@ As in the non-literal language models from the previous chapter, here we can add
 // Here is the code for the QUD quantifier scope model
 
 // possible utterances
-var utterances = ["null","all-not"];
+var utterances = ["null","every-not"];
 
 var utterancePrior = function() {
   uniformDraw(utterances)
@@ -179,7 +179,7 @@ var scopePrior = function(){
 
 // meaning function
 var meaning = function(utterance, state, scope) {
-  return utterance == "all-not" ? 
+  return utterance == "every-not" ? 
     scope == "surface" ? state == 0 :
   state < 3 : 
   true;
@@ -227,7 +227,7 @@ var pragmaticListener = cache(function(utterance) {
   }});
 });
 
-var posterior = pragmaticListener("all-not")
+var posterior = pragmaticListener("every-not")
 viz.marginals(posterior);
 
 ~~~~
@@ -260,7 +260,7 @@ The full model simply adds $$S_2$$ as an additional layer of inference.
 // Here is the code for the quantifier scope model
 
 // possible utterances
-var utterances = ["null","all-not"];
+var utterances = ["null","every-not"];
 
 var utterancePrior = function() {
   uniformDraw(utterances)
@@ -279,7 +279,7 @@ var scopePrior = function(){
 
 // meaning function
 var meaning = function(utterance, state, scope) {
-  return utterance == "all-not" ? 
+  return utterance == "every-not" ? 
     scope == "surface" ? state == 0 :
   state < 3 : 
   true;
