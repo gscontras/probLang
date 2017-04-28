@@ -288,7 +288,7 @@ viz.density(generateStatePrior(subParams["high"]))
 ~~~~
 
 
-We can add these state priors to the basic adjectives model, together with a lifted variable concerning the comparison class. Now, the pragmatic listener $$L_1$$ is told the relevant subordinate category (e.g., *John is a basketball player*) and hears the utterance with the scalar adjective (i.e., *John is tall*). On the basis of this information, $$L_1$$ jointly infers the state (i.e., John's height) and the relevant comparison class the speaker intended (e.g., *tall for all people* vs. $tall for a basketball player*).
+We can add these state priors to the basic adjectives model, together with a lifted variable concerning the comparison class. Now, the pragmatic listener $$L_1$$ is told the relevant subordinate category (e.g., *John is a basketball player*) and hears the utterance with the scalar adjective (i.e., *John is tall*). On the basis of this information, $$L_1$$ jointly infers the state (i.e., John's height) and the relevant comparison class the speaker intended (e.g., *tall for all people* vs. *tall for a basketball player*).
 
 
 ~~~~
@@ -444,7 +444,7 @@ var L1predictions = map(function(stim){
   }
 }, exptConditions)
 
-display("probability of superordinate comparison class (listener model)")
+display("probability of superordinate comparison class (i.e., tall for all people)")
 viz.bar(L1predictions, {groupBy: 'sub'})
 
 ~~~~
