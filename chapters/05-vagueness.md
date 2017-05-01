@@ -319,8 +319,9 @@ viz.density(marginalize(expensiveSweater, "theta"));
 
 > **Exercises:** 
 
-> 1. Check $$L_1$$'s behavior for coffee makers and headphones and laptops.
-> 2. Add an $$S_2$$ layer to the model and check its predictions.
+> 1. Vizualize the various state priors.
+> 2. Check $$L_1$$'s behavior for coffee makers and headphones and laptops.
+> 3. Add an $$S_2$$ layer to the model and check its predictions.
 
 
 
@@ -361,7 +362,7 @@ var generateStatePrior = cache(function(stateParams) {
   })
 });
 
-// information about the superordinate category priors
+// information about the suberordinate category priors
 var subParams = {
   low: {mu: -1, sigma: 0.5}, // gymnast heights
   middle: {mu: 0, sigma: 0.5}, // soccer player heights
@@ -379,6 +380,7 @@ viz.density(generateStatePrior(subParams["high"]))
 
 ~~~~
 
+> **Exercise**: Try altering the `subParams` to generate different subordinate category priors.
 
 We can add these state priors to the basic adjectives model, together with a lifted variable concerning the comparison class. Now, the pragmatic listener $$L_1$$ is told the relevant subordinate category (e.g., *John is a basketball player*) and hears the utterance with the scalar adjective (i.e., *John is tall*). On the basis of this information, $$L_1$$ jointly infers the state (i.e., John's height) and the relevant comparison class the speaker intended (e.g., *tall for all people* vs. *tall for a basketball player*).
 
