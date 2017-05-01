@@ -14,6 +14,92 @@ Sometimes our words themselves are imprecise, vague, and heavily dependent on co
 
 reft:lassitergoodman2013 propose we parameterize the meaning function for sentences containing gradable adjectives so that their interpretations are underspecified. This interpretation-fixing parameter, the gradable threshold value *theta* (i.e., a degree), is something that conversational participants can use their prior knowledge to actively reason about and set. As with the ambiguity-resolving variable above, *theta* gets lifted to the level of the pragmatic listener, who jointly infers the gradable threshold (e.g., the point at which elements of the relevant domain count as expensive) and the true state (e.g., the indicated element's price). 
 
+The model depends crucially on our prior knowledge of the world state. Let's start with a toy prior for the prices of books.
+
+~~~~
+var book = {
+  "prices": [2, 6, 10, 14, 18, 22, 26, 30],
+  "probabilities": [1, 2, 3, 4, 4, 3, 2, 1]
+};
+
+var statePrior = function() {
+  return categorical(book.probabilities, book.prices);
+};
+
+~~~~
+
+> **Exercise:** Visualize the `statePrior`.   
+
+Next, we create a prior for the degree threshold *theta*. Since we're talking about *expensive* books, *theta* will be the price cutoff to count as expensive. But we want to be able to use *expensive* to describe anything with a price, so we'll set the `thetaPrior` to be uniform over the possible prices in our world.
+
+~~~~
+var book = {
+  "prices": [2, 6, 10, 14, 18, 22, 26, 30],
+  "probabilities": [1, 2, 3, 4, 4, 3, 2, 1]
+};
+
+var statePrior = function() {
+  return categorical(book.probabilities, book.prices);
+};
+
+var thetaPrior = function() {
+    return uniformDraw(book.prices);
+}
+
+~~~~
+
+> **Exercise:** Visualize the `thetaPrior`.
+
+We introduce two possible utterances: saying that a book is *expensive*, or saying nothing at all. The semantics of the *expensive* utterance checks the relevant item's price against the price cutoff.
+
+~~~~
+var book = {
+  "prices": [2, 6, 10, 14, 18, 22, 26, 30],
+  "probabilities": [1, 2, 3, 4, 4, 3, 2, 1]
+};
+
+var statePrior = function() {
+  return categorical(book.probabilities, book.prices);
+};
+
+var thetaPrior = function() {
+    return uniformDraw(book.prices);
+};
+
+var utterances = ["expensive", ""];
+var cost = {
+  "expensive": 1,
+  "": 0
+};
+var utterancePrior = function() {
+  var uttProbs = map(function(u) {return Math.exp(-cost[u]) }, utterances);
+  return categorical(uttProbs, utterances);
+};
+
+var meaning = function(utterance, price, theta) {
+  if (utterance == "expensive") {
+    return price >= theta;
+  } else {
+    return true;
+  }
+};
+
+var literalListener = cache(function(utterance, theta) {
+  return Infer({method: "enumerate"}, function() {
+    var price = statePrior();
+
+    condition(meaning(utterance, price, theta))
+
+    return price;
+  })
+})
+
+~~~~
+
+> **Exercise:** Check $$L_0$$'s predictions for various price cutoffs.
+
+We get a full RSA model once we add $$S_1$$ and $$L_1$$; $$L_1$$ hears the gradable adjective and jointly infers the relevant item price and cutoff to count as expensive.
+
 ~~~~
 ///fold:
 var marginalize = function(dist, key){
@@ -56,7 +142,7 @@ var meaning = function(utterance, price, theta) {
   }
 };
 
-var literalListener = cache(function(utterance, theta, item) {
+var literalListener = cache(function(utterance, theta) {
   return Infer({method: "enumerate"}, function() {
     var price = statePrior();
 
@@ -66,21 +152,21 @@ var literalListener = cache(function(utterance, theta, item) {
   });
 });
 
-var speaker = cache(function(price, theta, item) {
+var speaker = cache(function(price, theta) {
   return Infer({method: "enumerate"}, function() {
     var utterance = utterancePrior();
 
-    factor( alpha * literalListener(utterance, theta, item).score(price) );
+    factor( alpha * literalListener(utterance, theta).score(price) );
 
     return utterance;
   });
 });
 
-var pragmaticListener = function(utterance, item) {
+var pragmaticListener = function(utterance) {
   return Infer({method: "enumerate"}, function() {
     var price = statePrior();
     var theta = thetaPrior();
-    factor(speaker(price, theta, item).score(utterance));
+    factor(speaker(price, theta).score(utterance));
     return { price: price, theta: theta };
   });
 };
@@ -91,9 +177,12 @@ viz.auto(marginalize(expensiveBook, "theta"));
 
 ~~~~
 
-> **Exercise:** What happens when you make the `"expensive"` utterance more costly? Why?
+> **Exercises:** 
 
-Rather than assuming prior knowledge (e.g., knowledge about domain-specific prices), Lassiter and Goodman measure it, then feed these measurements into the model as facts about the world. Doing so allows the model to make actual predictions about the behavior we expect to observe from listeners.
+> 1. What happens when you make the `"expensive"` utterance more costly? Why?
+> 2. Try altering the `statePrior` and see what happens to $$L_1$$'s inference.
+
+In the actual model, rather than assuming prior knowledge (e.g., knowledge about domain-specific prices), Lassiter and Goodman measure it, then feed these measurements into the model as facts about the world. Doing so allows the model to make actual predictions about the behavior we expect to observe from listeners.
 
 ~~~~
 ///fold:
@@ -228,7 +317,10 @@ print("the listener's posterior over sweater price thresholds:")
 viz.density(marginalize(expensiveSweater, "theta"));
 ~~~~
 
-> **Exercise:** Check the listener's behavior for coffee makers and headphones and laptops.
+> **Exercises:** 
+
+> 1. Check $$L_1$$'s behavior for coffee makers and headphones and laptops.
+> 2. Add an $$S_2$$ layer to the model and check its predictions.
 
 
 
