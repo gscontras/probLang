@@ -38,29 +38,32 @@ Now, to talk about the weight of a plurality of obejcts, given that we're dealin
 
 ~~~~
 // possible object weights
-  var objects = [2,3,4];
-  var objectPrior = function() {
-    uniformDraw(objects);
-  }
+var objects = [2,3,4];
+var objectPrior = function() {
+uniformDraw(objects);
+}
 
-  var numberObjects = 3
+var numberObjects = 3
 
-  // build states with n many objects
-  var statePrior = function(nObjLeft,stateSoFar) {
-    var stateSoFar = stateSoFar == undefined ? [] : stateSoFar
-    if (nObjLeft == 0) {
-      return stateSoFar
-    } else {
-      var newObj = objectPrior()
-      var newState = stateSoFar.concat([newObj])
-      return statePrior(nObjLeft - 1,newState)
-    }
-  }
+// build states with n many objects
+var statePrior = function(nObjLeft,stateSoFar) {
+var stateSoFar = stateSoFar == undefined ? [] : stateSoFar
+if (nObjLeft == 0) {
+  return stateSoFar
+} else {
+  var newObj = objectPrior()
+  var newState = stateSoFar.concat([newObj])
+  return statePrior(nObjLeft - 1,newState)
+}
+}
 
-  // threshold priors
-  var distThetaPrior = function(){return objectPrior()};  
-  var collThetaPrior = function(){return uniformDraw([2,3,4,5,6,7,8,9,10,11,12])};
+// threshold priors
+var distThetaPrior = function(){return objectPrior()};  
+var collThetaPrior = function(){return uniformDraw([2,3,4,5,6,7,8,9,10,11,12])};
 ~~~~
+
+> **Exercise:** Visualize the threshold priors.
+
 
 The final piece of knowledge we need concerns utterances and a meaning function that will let us interpret them. A speaker can use the ambiguous utterances, "The objects are heavy," which receives either a distributive or a collective interpretation. For a slightly higher cost, the speaker can use unambiguous utterances: "The objects each are heavy" (distributive) or "The objects together are heavy" (collective). Lastly, the speaker has the option of saying nothing at all, the cheapest option.
 
@@ -95,6 +98,8 @@ var meaning = function(utt,state,distTheta,collTheta,isCollective) {
   distInterpretation(state,distTheta)
 }
 ~~~~
+
+> **Exercise:** Try out the meaning function on some utterances. (Hint: you'll need to the state and threshold priors from the code box above.)
 
 This model was designed to account for the possible noise in our estimation of collective properties. For example, when talking about the collective height of a plurality, our estimate of the collective property will depend on the physical arrangement of that property (i.e., how the objects are stacked); a listener might encounter the objects in a different arrangement that the speaker did, introducing noise in the estimation of the collective property. To model this noise, we parameterize the `collectiveInterpretation` so that as noise increases our estimate of the collective property departs from the actual value.
 
@@ -305,6 +310,8 @@ var L1predictions = map(function(stim) {
 viz.bar(L1predictions)
 ~~~~
 
+**Exercise:** Generate predictions from the $$S_1$$ speaker.
+
 Finally, we add in a speaker knowledge manipulation: the speaker either has full access to the individual weights in the world state (i.e., `knowledge == true`), or the speaker only has access to the total weight of the world state (i.e., `knowledge == false`).
 
 ~~~~
@@ -494,3 +501,8 @@ var L1predictions = map(function(stim) {
 
 viz.bar(L1predictions, {groupBy: 'knowledge'})
 ~~~~
+
+> **Exercises:** 
+
+> 1. Try out the speaker `speakerBelief` function---how does it work?
+> 2. Add an $$S_2$$ layer to the model.
