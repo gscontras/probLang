@@ -6,7 +6,9 @@ description: "Plural predication"
 
 ### Chapter 6: Plural predication
 
-Some knowledge about the world, which contains objects (which have weights):
+Our models so far have focused on identifying singular states of the world: a single object, a single price, or, in the case of the scalar implicature or scope ambiguity models, the single number corresponding to the numerosity of some state. Now, we extend our sights to pluralities: collections of objects. A plurality has members with properties (e.g., weights), but a plurality has collective properties of its own (e.g., total weight). To model the ambiguity inherent to plural predication---whether we are talking about the individual member properties or the collective property---we'll need to expand our ontology to include sets of objects.
+
+We begin with some knowledge about the world, which contains objects (which have their own properties, e.g., weights). The `statePrior` recursively generates states with the appropriate number of objects; each state corresponds to a plurality.
 
 ~~~~
 // possible object weights
@@ -32,7 +34,7 @@ var statePrior = function(nObjLeft,stateSoFar) {
 
 > **Exercise:** Visualize the state prior.
 
-Now, given that we're dealing with scalar adjective semantics, we'll also need to create a prior over threshold values. As before, these priors will be uniform over possible object weights. However, given that we can either talk about individual object weights or the weights of collections, we'll need two different threshold priors, one over possible individual object weights and another that scales up to possible collection weights.
+Now, to talk about the weight of a plurality of obejcts, given that we're dealing with scalar adjective semantics, we'll need to create a prior over threshold values. As before, these priors will be uniform over possible object weights. However, given that we can either talk about individual object weights or the weights of collections, we'll need two different threshold priors, one over possible individual object weights and another that scales up to possible collective weights.
 
 ~~~~
 // possible object weights
@@ -60,7 +62,7 @@ Now, given that we're dealing with scalar adjective semantics, we'll also need t
   var collThetaPrior = function(){return uniformDraw([2,3,4,5,6,7,8,9,10,11,12])};
 ~~~~
 
-Now let's get some utterances and a meaning function that will let us interpret them. A speaker can use the ambiguous utterances, "The objects are heavy," which receives either a distributive or a collective interpretation. For a slightly higher cost, the speaker can use unambiguous utterances: "The objects each are heavy" or "The objects together are heavy." Lastly, the speaker has the option of saying nothing at all, the cheapest option of all.
+The final piece of knowledge we need concerns utterances and a meaning function that will let us interpret them. A speaker can use the ambiguous utterances, "The objects are heavy," which receives either a distributive or a collective interpretation. For a slightly higher cost, the speaker can use unambiguous utterances: "The objects each are heavy" (distributive) or "The objects together are heavy" (collective). Lastly, the speaker has the option of saying nothing at all, the cheapest option.
 
 ~~~~
 var utterances = [
@@ -94,7 +96,7 @@ var meaning = function(utt,state,distTheta,collTheta,isCollective) {
 }
 ~~~~
 
-This model was designed to account for the possible noise in our estimation of collective properties. To model this noise, we must parameterize the `collectiveInterpretation` so that as noise increases our estimate of the collective property departs from the actual value.
+This model was designed to account for the possible noise in our estimation of collective properties. For example, when talking about the collective height of a plurality, our estimate of the collective property will depend on the physical arrangement of that property (i.e., how the objects are stacked); a listener might encounter the objects in a different arrangement that the speaker did, introducing noise in the estimation of the collective property. To model this noise, we parameterize the `collectiveInterpretation` so that as noise increases our estimate of the collective property departs from the actual value.
 
 ~~~~
 var utterances = [
@@ -129,6 +131,8 @@ var meaning = function(utt,state,distTheta,collTheta,isCollective,noise) {
   distInterpretation(state,distTheta)
 }
 ~~~~
+
+The full model combines all of these ingredients in the RSA framework, with recursive reasoning about the likely state of the world:
 
 ~~~~
 ///fold: 
