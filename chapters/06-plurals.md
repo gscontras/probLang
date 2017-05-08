@@ -104,6 +104,22 @@ var meaning = function(utt,state,distTheta,collTheta,isCollective) {
 This model was designed to account for the possible noise in our estimation of collective properties. For example, when talking about the collective height of a plurality, our estimate of the collective property will depend on the physical arrangement of that property (i.e., how the objects are stacked); a listener might encounter the objects in a different arrangement that the speaker did, introducing noise in the estimation of the collective property. To model this noise, we parameterize the `collectiveInterpretation` so that as noise increases our estimate of the collective property departs from the actual value.
 
 ~~~~
+// error function
+var erf = function(x) {
+  var a1 =  0.254829592;
+  var a2 = -0.284496736;
+  var a3 =  1.421413741;
+  var a4 = -1.453152027;
+  var a5 =  1.061405429;
+  var p  =  0.3275911;
+  var sign = x < 0 ? -1 : 1
+  var z = Math.abs(x);
+  var t = 1.0/(1.0 + p*z);
+  var y = 1.0 - (((((a5*t + a4)*t) + a3)*t + a2)*t + a1)*t*Math.exp(-z*z);
+  var answer = sign*y
+  return answer
+}
+
 var utterances = [
   "null",
   "heavy",
