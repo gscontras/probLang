@@ -99,7 +99,7 @@ var meaning = function(utt,state,distTheta,collTheta,isCollective) {
 }
 ~~~~
 
-> **Exercise:** Try out the meaning function on some utterances. (Hint: you'll need to the state and threshold priors from the code box above.)
+> **Exercise:** Try out the meaning function on some utterances.
 
 This model was designed to account for the possible noise in our estimation of collective properties. For example, when talking about the collective height of a plurality, our estimate of the collective property will depend on the physical arrangement of that property (i.e., how the objects are stacked); a listener might encounter the objects in a different arrangement that the speaker did, introducing noise in the estimation of the collective property. To model this noise, we parameterize the `collectiveInterpretation` so that as noise increases our estimate of the collective property departs from the actual value.
 
