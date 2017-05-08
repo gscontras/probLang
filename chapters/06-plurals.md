@@ -520,5 +520,5 @@ viz.bar(L1predictions, {groupBy: 'knowledge'})
 
 > **Exercises:** 
 
-> 1. Try out the speaker `speakerBelief` function---how does it work?
+> 1. Try out the `speakerBelief` function---how does it work?
 > 2. Add an $$S_2$$ layer to the model.
