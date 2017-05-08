@@ -81,7 +81,7 @@ var utterancePrior = function() {
 };
 
 // x > theta interpretations
-var collInterpretation = function(state, collTheta,noise) {
+var collInterpretation = function(state, collTheta) {
   return sum(state) >= collTheta
 }
 
@@ -94,7 +94,7 @@ var meaning = function(utt,state,distTheta,collTheta,isCollective) {
   return  utt == "null" ? true :
   utt == "each-heavy" ? distInterpretation(state,distTheta) :
   utt == "together-heavy" ? collInterpretation(state,collTheta) :
-  isCollective ? collInterpretation(state,collTheta,noise) :
+  isCollective ? collInterpretation(state,collTheta) :
   distInterpretation(state,distTheta)
 }
 ~~~~
