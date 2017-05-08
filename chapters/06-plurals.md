@@ -204,9 +204,7 @@ var KL = function(p, q) {
 
 
 // wrapper for plural predication model
-var pluralPredication = function( collectiveNoise,
-                                   knowledge
-                                  ) {
+var pluralPredication = function(collectiveNoise) {
 
   // possible object weights
   var objects = [2,3,4];
@@ -248,7 +246,7 @@ var pluralPredication = function( collectiveNoise,
   var utterancePrior = function() {
     return categorical([3,2,1,1],utterances)
   };
-  
+
   // x > theta interpretations
   var collInterpretation = function(state, collTheta,noise) {
     var weight = 1 - (0.5 * (1 + erf((collTheta - sum(state)) / 
@@ -301,22 +299,18 @@ var pluralPredication = function( collectiveNoise,
     });
   });
 
-  return listener("heavy",knowledge)
+  return listener("heavy")
 }
 
 var conditions = [
-  {noise : "0-no", knowledge : true},
-  {noise : "0-no", knowledge : false},
-  {noise : "1-low", knowledge : true},
-  {noise : "1-low", knowledge : false},
-  {noise : "2-mid", knowledge : true},
-  {noise : "2-mid", knowledge : false},
-  {noise : "3-high", knowledge : true},
-  {noise : "3-high", knowledge : false},
+  {noise : "0-no"},
+  {noise : "1-low"},
+  {noise : "2-mid"},
+  {noise : "3-high"},
 ]
 
 var L1predictions = map(function(stim) {
-  var L1posterior = pluralPredication(stim.noise,stim.knowledge)
+  var L1posterior = pluralPredication(stim.noise)
   return {
     x: stim.noise,
     y: exp(marginalize(L1posterior, "coll").score(true)),
