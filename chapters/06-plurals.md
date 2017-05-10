@@ -270,24 +270,24 @@ var pluralPredication = function(collectiveNoise) {
   var alpha = 10
 
   var literal = cache(function(utterance,distThetaPos,collThetaPos,isCollective) {
-    Infer({method:"enumerate"}, function(){
+    return Infer({model: function(){
       var state = statePrior(numberObjects);
       var noise = noiseVariance
       condition(meaning(utterance,state,distThetaPos,collThetaPos,isCollective,noise));
       return state;
-    })
+    }})
   });
 
   var speaker = cache(function(state,distThetaPos,collThetaPos,isCollective) {
-    Infer({method:"enumerate"}, function(){
+    return Infer({model: function(){
       var utterance = utterancePrior()
       factor(literal(utterance,distThetaPos,collThetaPos,isCollective).score(state))
       return utterance
-    })
+    }})
   });
 
   var listener = cache(function(utterance) {
-    Infer({method:"enumerate"}, function(){
+    return Infer({model: function(){
       var state = statePrior(numberObjects);
       var isCollective = flip(0.8)
       var distThetaPos = distThetaPrior();
@@ -296,7 +296,7 @@ var pluralPredication = function(collectiveNoise) {
              speaker(state,distThetaPos,collThetaPos,isCollective).score(utterance) 
             );
       return {coll: isCollective, state: state}
-    });
+    }});
   });
 
   return listener("heavy")
@@ -441,27 +441,28 @@ var pluralPredication = function( collectiveNoise,
   var alpha = 10
 
   var literal = cache(function(utterance,distThetaPos,collThetaPos,isCollective) {
-    Infer({method:"enumerate"}, function(){
+    return Infer({model: function(){
       var state = statePrior(numberObjects);
       var noise = noiseVariance
       condition(meaning(utterance,state,distThetaPos,collThetaPos,isCollective,noise));
       return state;
-    })
+    }})
   });
 
   var speakerBelief = cache(function(state,speakerKnows) {
-    Infer({method:"enumerate"}, function(){
+    return Infer({model: function(){
       var obs = function(s) {
         return speakerKnows ? s : sum(s) 
       }
       var bState = statePrior(numberObjects)
       condition(arraysEqual(obs(bState),obs(state)))
       return bState
+    }})
     })
-  })
+  
 
   var speaker = cache(function(state,distThetaPos,collThetaPos,isCollective,speakerKnows) {
-    Infer({method:"enumerate"}, function(){
+    return Infer({model: function(){
       var utterance = utterancePrior()
       var bDist = speakerBelief(state,speakerKnows)
       var lDist = literal(utterance,distThetaPos,collThetaPos,isCollective)
@@ -470,11 +471,11 @@ var pluralPredication = function( collectiveNoise,
                 lDist)
             )
       return utterance
-    })
+    }})
   });
 
   var listener = cache(function(utterance,speakerKnows) {
-    Infer({method:"enumerate"}, function(){
+    return Infer({model: function(){
       var state = statePrior(numberObjects);
       var isCollective = flip(0.8)
       var distThetaPos = distThetaPrior();
@@ -483,7 +484,7 @@ var pluralPredication = function( collectiveNoise,
              speaker(state,distThetaPos,collThetaPos,isCollective,speakerKnows).score(utterance) 
             );
       return {coll: isCollective, state: state}
-    });
+    }});
   });
 
   return listener("heavy",knowledge)
