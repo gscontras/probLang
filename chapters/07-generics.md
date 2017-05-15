@@ -8,7 +8,7 @@ description: "Generic language"
 
 ## The philosophical problem
 
-Generic language (e.g., *Swans are white.*) is a simple and ubiquitous way to communicate generalizations about categories.  Linguists, philosophers, and psychologists have scratched their collective heads for decades, trying to figure out what makes a generic sentence true or false. At first glance, generics feel like universally-quantified statements as in *All swans are white*.  Unlike universals, however, generics are resilient to counter-examples (e.g., *Swans are white* even though there are black swans).  Our intuitions then fall back to something more vague like *Swans, in general, are white* because indeed most swans are white. But mosquitos, in general, do not carry malaria, yet everyone agrees *Mosquitos carry malaria*.
+Generic language (e.g., *Swans are white.*) is a simple and ubiquitous way to communicate generalizations about categories.  Linguists, philosophers, and psychologists have scratched their collective heads for decades, trying to figure out what makes a generic sentence true or false. At first glance, generics feel like universally-quantified statements, as in *All swans are white*.  Unlike universals, however, generics are resilient to counter-examples (e.g., *Swans are white* even though there are black swans).  Our intuitions then fall back to something more vague like *Swans, in general, are white* because indeed most swans are white. But mosquitos, in general, do not carry malaria, yet everyone agrees *Mosquitos carry malaria*.
 
 Indeed, it appears that any truth conditions stated in terms of how common the property is within the kind violates intuitions. Consider the birds: for a bird, being female practically implies you will lay eggs (the properties are present in the same proportion), yet we say things like *Birds lay eggs* and we do not say things like *Birds are female*.
 
@@ -18,7 +18,7 @@ reft:tessler2016manuscript propose that the core meaning of a generic statement 
 
 The model takes the generic $$[\![\text{K has F}]\!]$$ to mean the prevalence of property F within kind K (i.e., $$P(F \mid K)$$) is above some threshold (cf. Cohen 1999). Quantifiers can be described as conditions on prevalence: $$[\![\text{some}]\!] := P(F \mid K) > 0 $$, $$[\![\text{all}]\!] := P(F \mid K) = 1$$. But for the generic, no fixed value of the threshold would suffice. Instead, we leave the threshold underspecified in the semantics (`threshold = uniform(0,1)`) and infer it in context.
 
-Context here takes the form of the listener's and speaker's shared beliefs about the property in question. The shape of this distribution affects the listener's interpretation, because the threshold must be calibrated to make utterances truthful and informative. The shape of this distribution varies significantly among different properties (e.g. *lays eggs*, *carries malaria*), and may be the result of a deeper conceptual model of the world. For instance, if speakers and listeners believe that some kinds have a causal mechanism that *could* give rise to the property, while others do not, then we would expect the prior to be structured as a mixture distribution (cf. Griffiths & Tenenbaum, 2005). 
+Context here takes the form of the listener's and speaker's shared beliefs about the property in question. The shape of this distribution affects the listener's interpretation, because the threshold must be calibrated to make utterances truthful and informative. The shape of this distribution varies significantly among different properties (e.g., *lays eggs*, *carries malaria*), and may be the result of a deeper conceptual model of the world. For instance, if speakers and listeners believe that some kinds have a causal mechanism that *could* give rise to the property, while others do not, then we would expect the prior to be structured as a mixture distribution (cf. Griffiths & Tenenbaum, 2005). 
 
 First, let's try to understand the prior.
 
@@ -138,7 +138,7 @@ print(threshold)
 meaning("generic", 0.5, threshold)
 ~~~~
 
-Since we have a prior and a meaning function, we are ready to put in RSA. For the speaker utterances, we use only the alternative of staying silent. Staying silent is a null utterance that has no information content. The inclusion of the null utterance turns the generic into a speech-act, and is useful for evaluating the meaning of an utterance without competition of alternatives.
+Since we have a prior and a meaning function, we are ready to implement RSA. For the speaker utterances, we use only the alternative of staying silent. Staying silent is a null utterance that has no information content. The inclusion of the null utterance turns the generic into a speech-act, and is useful for evaluating the meaning of an utterance without competition of alternatives.
 
 ~~~~
 ///fold:
@@ -238,9 +238,9 @@ viz.auto(fepsCarryMalaria)
 
 ~~~~
 
-> **Exercise:** Test pragmatic listener's interpretations of generics about different properties (hence, different priors).
+> **Exercise:** Test the pragmatic listener's interpretations of generics about different properties (hence, different priors).
 
-So we have a model that can interpret generic language (with a very simple semantics). We can now imagine a speaker who thinks about this type of listener, and decides if a generic utterance is a good thing to say. Speaker models are interpreted as models of utterance production or endorsement (reft:DegenGoodman2014Cogsci). If we specify the alternative utterance to be a *null* utterance (or, *silence*), we model the choice between uttering the generic (i.e., endorsing its truth) or nothing at all (i.e., not endorsing its truth). (Note: You could also think about truth judgments with the altnernative of saying the negation e.g., it's not the case that Ks have F. Model behavior is very similar using that alternative in this case.)
+So we have a model that can interpret generic language (with a very simple semantics). We can now imagine a speaker who thinks about this type of listener, and decides if a generic utterance is a good thing to say. Speaker models are interpreted as models of utterance production, or endorsement (reft:DegenGoodman2014Cogsci). If we specify the alternative utterance to be a *null* utterance (or, *silence*), we model the choice between uttering the generic (i.e., endorsing its truth) or nothing at all (i.e., not endorsing its truth). (Note: You could also think about truth judgments with the alternative of saying the negation, e.g., it's not the case that Ks have F. Model behavior is very similar using that alternative in this case.)
 
 ~~~~
 ///...
@@ -429,14 +429,14 @@ var glippet = function() {
 
 var theWorld = _.flatten([repeat(10, fep), repeat(10, wug), repeat(10, glippet)])
 
-var kinds = _.uniq(_.pluck(theWorld, "kind"));
+var kinds = _.uniq(_.map(theWorld, "kind"));
 
 print('height distribution over all creatures')
-viz.density(_.pluck(theWorld, "height"))
+viz.density(_.map(theWorld, "height"))
 
 var rs = map(function(k){
   print('height distribution for ' + k)
-  viz.density(_.pluck(_.where(theWorld,{kind: k}), "height"), {bounds:[0,1]})
+  viz.density(_.map(_.filter(theWorld,{kind: k}), "height"), {bounds:[0,1]})
 }, kinds)
 
 print('')
@@ -501,11 +501,11 @@ var stateBins = [0.01,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1]
 
 var theWorld = _.flatten([repeat(10, fep), repeat(10, wug), repeat(10, glippet)])
 
-var allKinds = _.uniq(_.pluck(theWorld, "kind"))
+var allKinds = _.uniq(_.map(theWorld, "kind"))
 
 var prevalence = function(world, kind, property){
-  var members = _.where(world, {kind: kind})
-  return round(listMean(_.pluck(members, property)))
+  var members = _.filter(world, {kind: kind})
+  return round(listMean(_.map(members, property)))
 }
 
 var prevalencePrior = function(property, world){
@@ -577,7 +577,7 @@ var glippet = function() {
 ///
 
 var theWorld = _.flatten([repeat(10, fep), repeat(10, wug), repeat(10, glippet)])
-var allKinds = _.uniq(_.pluck(theWorld, "kind"))
+var allKinds = _.uniq(_.map(theWorld, "kind"))
 
 var propertyDegrees = {
   wings: "wings",
@@ -588,8 +588,8 @@ var propertyDegrees = {
 
 
 var prevalence = function(world, kind, property){
-  var members = _.where(world, {kind: kind})
-  return round(listMean(_.pluck(members, property)))
+  var members = _.filter(world, {kind: kind})
+  return round(listMean(_.map(members, property)))
 }
 
 var prevalencePrior = function(property, world){
@@ -598,7 +598,7 @@ var prevalencePrior = function(property, world){
 }
 
 var scalePrior = function(property){
-  var p = _.pluck(theWorld, property)
+  var p = _.map(theWorld, property)
   return makeHistogram(p)
 }
 
