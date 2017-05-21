@@ -6,49 +6,53 @@ description: "Politeness"
 
 ### Chapter 8: Politeness
 
-Here is the full politeness model from reft:yoonetal2017 :
+When we speak, we simultaneously address many goals. Among those goals are the desires to be informative and polite. Unfortunately, being polite often conflicts with informativity, especially in sensitive situations. To address this conflict, [Yoon et al. (2017)](http://langcog.stanford.edu/papers_new/yoon-2017-underrev.pdf) developed the following model of polite indirect discourse, which decomposes the speaker's ulity function into two componets: 1) epistemic utility, and 2) social utility. 
+<!-- Here is the full politeness model from [Yoon et al. (2017)](http://langcog.stanford.edu/papers_new/yoon-2017-underrev.pdf): -->
 
 ~~~~
-///fold:
-var utterances = [
-  "yes_terrible","yes_bad","yes_okay","yes_good","yes_amazing",
-  "not_terrible","not_bad","not_okay","not_good","not_amazing"
-  ];
-
-var states = [1,2,3,4,5];
-
+// helper function split utterances at "_" to find negation
 var isNegation = function(utt){
   return (utt.split("_")[0] == "not")
 };
 
+// helper function to calculate marginal distribution
 var marginalize = function(dist, key){
-	return Infer({model: function(){ sample(dist)[key] }})
+  return Infer({model: function(){ sample(dist)[key] }})
 }
 
+// helper function to round
+var round = function(x){
+  return Math.round(x * 100) / 100
+}
+
+// possible utterances (both positive and negative)
+var utterances = [
+  "yes_terrible","yes_bad","yes_okay","yes_good","yes_amazing",
+  "not_terrible","not_bad","not_okay","not_good","not_amazing"
+];
+
+// utterance costs (negative utterance more expensive)
 var cost_yes = 1;
 var cost_neg = 2;
-var speakerOptimality = 5;
-var speakerOptimality2 = 2;
-var alpha = 1;
-var s = 1;
-var w = 0.1;
-
-var round = function(x){
-	return Math.round(x * 100) / 100
-}
-
-var weightBins = map(round, _.range(0,1, 0.05))
-var phiWeights = repeat(weightBins.length, function(){1})
 
 var uttCosts = map(function(u) {
-	return isNegation(u) ? Math.exp(-cost_neg) : Math.exp(-cost_yes)
+  return isNegation(u) ? Math.exp(-cost_neg) : Math.exp(-cost_yes)
 }, utterances)
 
+// utterance prior
 var utterancePrior = Infer({model: function(){
   return utterances[discrete(uttCosts)]
 }});
 
-// taken from literal semantics expt
+// possible states of the world (cf. Yelp reviews)
+var states = [1,2,3,4,5];
+
+// info for epistemic vs. social utility prior;
+// 1 corresponds to fully favoring epistemic utility
+var weightBins = map(round, _.range(0,1, 0.05))
+var phiWeights = repeat(weightBins.length, function(){1})
+
+// probability an utterance describing a state
 var literalSemantics = {
   "state": [1, 2, 3, 4, 5],
   "not_amazing": [0.9925, 0.9186, 0.7876, 0.2321, 0.042],
@@ -63,28 +67,33 @@ var literalSemantics = {
   "yes_terrible": [0.9593, 0.5217, 0.0753, 0.008, 0.044]
 };
 
-var meaning = function(words, state){
-  return flip(literalSemantics[words][state - 1]);
+// determine whether the utterance describes the state
+// by flipping a coin with the literalSemantics weight
+var meaning = function(utterance, state){
+  return flip(literalSemantics[utterance][state - 1]);
 };
-///
 
+// literal listener
 var listener0 = cache(function(utterance) {
   Infer({model: function(){
-		var state = uniformDraw(states);
+    var state = uniformDraw(states);
     var m = meaning(utterance, state);
     condition(m);
     return state;
-	}})
+  }})
 }, 10000);
 
+// speaker
+var speakerOptimality = 5;
+
 var speaker1 = cache(function(state, speakerGoals) {
-	Infer({model: function(){
+  Infer({model: function(){
 
     var utterance = sample(utterancePrior);
     var L0 = listener0(utterance);
 
     var epistemicUtility = L0.score(state);
-    var socialUtility = expectation(L0, function(s){return alpha*s});
+    var socialUtility = expectation(L0, function(s){return s});
     var eUtility = speakerGoals.phi*epistemicUtility;
     var sUtility = (1-speakerGoals.phi)*socialUtility;
     var speakerUtility = eUtility+sUtility;
@@ -92,43 +101,49 @@ var speaker1 = cache(function(state, speakerGoals) {
     factor(speakerOptimality*speakerUtility);
 
     return utterance;
-	}})
+  }})
 }, 10000);
 
+// pragmatic listener
+// infers the state and the speaker's goals (i.e., phi)
 var listener1 = cache(function(utterance) {
-	Infer({model: function(){
+  Infer({model: function(){
 
-   var speakerGoals = {
-     phi: categorical ({vs: weightBins, ps: phiWeights})
-   }
-   var state = uniformDraw(states);
+    var speakerGoals = {
+      // sample from speaker goal prior
+      phi: categorical({vs: weightBins, ps: phiWeights})
+    }
+    var state = uniformDraw(states);
 
-   var S1 = speaker1(state, speakerGoals)
-   observe(S1, utterance)
+    var S1 = speaker1(state, speakerGoals)
+    observe(S1, utterance)
 
-   return {
-     state: state,
-     goals: speakerGoals
-   }
+    return {
+      state: state,
+      goals: speakerGoals
+    }
 
- }})
+  }})
 }, 10000);
+
+// pragmatic speaker
+var speakerOptimality2 = 2;
 
 var speaker2 = cache(function(state, informativeness) {
-	Infer({model: function(){
+  Infer({model: function(){
 
-	 var utterance = sample(utterancePrior);
-	 var intendedGoals = {phi: informativeness}
+    var utterance = sample(utterancePrior);
+    var intendedGoals = {phi: informativeness}
 
-   var L1 = listener1(utterance)
-	 var L1_state = marginalize(L1, "state");
+    var L1 = listener1(utterance)
+    var L1_state = marginalize(L1, "state");
 
-   factor(speakerOptimality2 * L1.score({"state":state, "goals":intendedGoals}))
-	//  factor(speakerOptimality2 * L1_state.score(state))
+    // align both the intended state and the intended goals (i.e., informativeness)
+    factor(speakerOptimality2 * L1.score({"state":state, "goals":intendedGoals}))
 
-   return isNegation(utterance) ? "negation" : "direct"
+    return isNegation(utterance) ? "negation" : "direct"
 
- }})
+  }})
 }, 10000);
 
 display("listener hears 'it wasn't amazing'; how bad was it?")
@@ -157,7 +172,3 @@ var s2_both  = speaker2(1, 0.5)
 viz(s2_both)
 
 ~~~~
-
-References:
-
-- Cite:yoonetal2017
