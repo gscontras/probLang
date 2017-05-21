@@ -4,14 +4,13 @@ title: Summary and outlook
 description: "What have we done???"
 ---
 
-### Chapter 10: Summary and outlook
+### Chapter 9: Summary and outlook
 
 What have we done???
 
-> **Exercises:** 
+> **Exercise:** Discuss.
 
-> 1. Discuss.
-> 2. Please tell us how you thought to course went by filling out this [short form](https://goo.gl/forms/yQFmjsoR9TwCpFT03).
+<!-- > 2. Please tell us how you thought to course went by filling out this [short form](https://goo.gl/forms/yQFmjsoR9TwCpFT03). -->
 
 Thank you!
 
