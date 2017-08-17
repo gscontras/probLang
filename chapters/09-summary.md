@@ -10,7 +10,7 @@ description: "Questions about RSA"
 
 We close by discussing a number of questions that often come up in the context of RSA. These questions can be divided into three categories: **understanding** the models, **testing** the models, and **extending** the models. We have structured this section according to that categorization. 
 
-#### Understanding the models
+#### 1. Understanding the models
 
 ##### What is the status of RSA as a framework? Given the diversity among models, what are the core features of RSA?
 
@@ -66,7 +66,7 @@ In general, we believe that connecting the black box $$\alpha$$ to the psycholog
 
 Here, another question that commonly arises is whether the assumed reasoning process is **too sophisticated**. The claims that are typically made is that language users are not capable of deep recursive reasoning, or that it is much too complicated to integrate so many different pieces of information in real time. If one were to interpret these models as models of the online reasoning process, then it would be an empirical question whether this reasoning process is too complicated to be executed online during conversation. However, since its original conception, RSA modelers have been careful to point out that the models are intended to provide a **computational-level analysis** of the language use problem that agents face ([Marr, 1982](https://mitpress.mit.edu/books/vision-0)), rather than specifying the mechanism by which they solve that problem. One should not take, say, each level of recursion as an actual reasoning step. If one wanted to interpret these models as online processing models, one would need to formulate **linking hypotheses** between model output and measures of online processing. One should avoid making pronouncements about presumed processing difficulty simply on the basis of architectural considerations of these models without such linking hypotheses. However, with these hypotheses in hand, we can test the question of whether reifying any model component as a psychological mechanism is useful for explaining online processing phenomena.
 
-#### Testing the models
+#### 2. Testing the models
 
 ##### How do we test the predictions of these models?
 
@@ -79,7 +79,7 @@ Here, another question that commonly arises is whether the assumed reasoning pro
 ##### Bayesian inference is intractable in the limit -- why are we not worried about this?
 
 
-#### Extending the models
+#### 3. Extending the models
 
 ##### How do we extend RSA to language learning?
 
