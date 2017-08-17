@@ -12,7 +12,7 @@ We close by discussing a number of questions that often come up in the context o
 
 #### 1. Understanding the models
 
-- **What is the status of RSA as a framework? Given the diversity among models, what are the core features of RSA?** 
+**What is the status of RSA as a framework? Given the diversity among models, what are the core features of RSA?** 
 
 The RSA modeling framework views language understanding as **recursive social reasoning** between speakers and listeners. Language users interpret utterances by reasoning about the process that generated that utterance: a model speaker trying to inform a naive listener about the state of the world. Language users choose utterances in a similar fashion, by reasoning about how a listener would interpret the utterance they choose. In practice, these various levels of reasoning get implemented as simulation-based probabilistic programs, here in the probabilistic programming language WebPPL.
 
@@ -24,7 +24,7 @@ The pragmatic calculus proceeds in a similar fashion for each of the models we e
 
 In order to formally articulate the pragmatic reasoning that stands at the heart of RSA, our models minimally require the following components. First, we must model the various **levels of inference**. A typical RSA model includes a literal listener, which serves to ground the truth-functional semantics; a speaker, who chooses utterances by soft-max optimizing utility; and the pragmatic listener, who integrates their beliefs about the speaker and the world via Bayes’ rule to arrive at an interpretation of the observed utterance. Second, we must model the **prior beliefs** that language users bring to bear on conversation itself: the possible states and their relative probabilities, the possible utterances and their relative costs, and a truth-functional mapping between the utterances and the states they describe. Third, we must model additional aspects of the utterance **context**, including the relevant QUD(s) and beliefs about speaker optimality. Any number of these model components may be modified in various ways, but the core architectural assumption of nested inference about utterances integrating world knowledge in context remains.
 
-- **How does one decide which aspects of context to represent in a model?** 
+**How does one decide which aspects of context to represent in a model?** 
 
 The question of what counts as context is an unsolved -- and indeed unsolvable -- problem. There is an infinity of facts about any communicative scenario: the color of the floor, the temperature of the room, the number of the attendant cats, etc. Which facts matter for the purpose of communication? The goal of modeling interactive language use cannot be to represent the entirety of the world -- the world does that already for us. Instead, the goal is to **identify**, **isolate**, and **represent the interaction** of those aspects of context that influence communication in systematic ways. 
 
@@ -45,7 +45,7 @@ But RSA also allows for explicitly modeling these factors. In Chapters 3 and 4, 
 It is an empirical question whether representing these aspects of context will suffice for the purpose of characterizing pragmatic language use. Probably not. Still, the above factors are likely to matter in the computation of any meaning-related inferences. And, the true power of RSA is not in isolating these factors, but in offering a principled way with which to formulate their interaction via nested probabilistic inference. Forcing researchers to be **explicit** about the precise way in which these factors interact allows for the **systematic investigation** of contextual information in communication.
   
 
-- **We know that language users are limited cognitive agents. Where do resource limitations come in?** 
+**We know that language users are limited cognitive agents. Where do resource limitations come in?** 
 
 In short, the answer to this question is: across models, resource limitations are captured in the rationality parameter **$$\alpha$$** and in the assumed **depth of reasoning**. In both cases, these aspects of the models are mere approximations of the resource limitations; we are not modeling the limitations themselves, but rather the **downstream effects** they have on the reasoning process. Resource limitations may also be captured by model-specific assumptions, for example, the prior on quantifier scope we saw in Chapter 4, which we interpreted as differences in the ease with which a particular scope assignment comes to mind a priori. 
 
