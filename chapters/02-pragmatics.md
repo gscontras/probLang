@@ -115,7 +115,7 @@ viz.auto(pragmaticListener('some'));
 > 1. Explore what happens if you make the speaker *less* optimal.
 > 2. Subtract one of the utterances. What changed?
 > 3. Add a new utterance. What changed?
-> 4. Check what would happen if 'some' literally meant some-but-not-all (hint: use `!=` to state that two values are not equal).
+> 4. Check what would happen if 'some' literally meant some-but-not-all (hint: use `!=` to assert that two values are not equal).
 > 5. Change the relative probabilities of the various states and see what happens to model predictions.
 
 
