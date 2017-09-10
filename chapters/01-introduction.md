@@ -86,7 +86,7 @@ var literalListener = function(utterance){
 ///fold:
 //ugly print function for whole matrix literal listener
 var print_literalListener = function(){
-  var LLMatrix = map(function(u) {map(function(s) {Math.exp(literalListener(u).score(s))}, states)}, utterances)
+  var LLMatrix = map(function(u) {map(function(s) {mfRound(Math.exp(literalListener(u).score(s)),2)}, states)}, utterances)
   return ("\t" + states[0].color + "-" + states[0].shape + 
         "\t" + states[1].color + "-" + states[1].shape + 
         "\t" + states[2].color + "-" + states[2].shape + "\n" +
@@ -98,7 +98,10 @@ var print_literalListener = function(){
         "\t" + "\t" + LLMatrix[1][2] + "\n" +
   utterances[2] + "\t" + LLMatrix[2][0] +
         "\t" + "\t" + LLMatrix[2][1] + 
-        "\t" + "\t" + LLMatrix[2][2])
+        "\t" + "\t" + LLMatrix[2][2] + "\n" +
+  utterances[3] + "\t" + LLMatrix[3][0] +
+        "\t" + "\t" + LLMatrix[3][1] + 
+        "\t" + "\t" + LLMatrix[3][2])
 }
 ///
 print_literalListener()
@@ -336,10 +339,10 @@ var pragmaticListener = function(utterance){
 
 print("literal listener's interpretation")
 print(print_literalListener())
-print("s ")
+print(" ")
 print("speaker's utterance distribution:")
 print(print_speaker())
-print(" "
+print(" ")
 print("pragmatic listener's interpretation:")
 print(print_pragmaticListener())
 
