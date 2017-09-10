@@ -84,10 +84,10 @@ var literalListener = function(utterance){
 }
 
 ///fold:
-/var mfRound = function(number, integers){
+var mfRound = function(number, integers){
   Math.round(number*Math.pow(10,integers))/Math.pow(10,integers);
 } 
-/ugly print function for whole matrix literal listener
+//ugly print function for whole matrix literal listener
 var print_literalListener = function(){
   var LLMatrix = map(function(u) {map(function(s) {mfRound(Math.exp(literalListener(u).score(s)),2)}, states)}, utterances)
   return ("\t" + states[0].color + "-" + states[0].shape + 
