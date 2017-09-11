@@ -6,7 +6,48 @@ description: "Politeness"
 
 ### Chapter 8: Politeness
 
-When we speak, we simultaneously address many goals. Among those goals are the desires to be informative and polite. Unfortunately, being polite often conflicts with informativity, especially in sensitive situations. To address this conflict, [Yoon et al. (2017)](http://langcog.stanford.edu/papers_new/yoon-2017-underrev.pdf) developed the following model of polite indirect discourse, which decomposes the speaker's ulity function into two componets: 1) epistemic utility, and 2) social utility. 
+When using language, speakers aim to get listeners to believe the things that they believe. But sometimes, we don't listeners to know *exactly* how we feel. Imagine your date bakes you a batch of flax seed, sugar-free, gluten-free cookies before your big presentation next week. (What a sweetheart.) You are grateful for them, something to take your mind off impending doom. But then you bite into them, and you wonder if they actually qualify as cookies and not just seed fragments glued together. Your date asks you what you think. You smile and say "They're good."
+
+Politeness violates a critical principle of cooperative communication: exchanging information efficiently and accurately. If information transfer was the only currency in communication, a cooperative speaker would find polite utterances undesirable because they are potentially misleading. But polite language use is critical to making sure your date doesn't charge out of the room before you can qualify what you meant by the truthful and informative "These cookies are not good".
+
+Brown and Levinson (1987) recast the notion of a cooperative speaker as one who has both an epistemic goal to improve the listener’s knowledge state as well as a social goal to minimize any potential damage to the hearer’s (and the speaker’s own) self-image, which they called *face*. [Yoon, Tessler, et al. (2016)](http://langcog.stanford.edu/papers_new/yoon-2016-cogsci.pdf) formalize this idea in the RSA framework by decomposing the speaker's utility function into two components: 1) epistemic utility and 2) social utility.
+
+Epistemic utility is the normal surprisal-based utility from RSA.
+
+$$
+U_{epistemic}(w; s) = \ln(P_{L_0}(s \mid w))
+$$
+
+Social utility is the expected utility of the state the listener would infer given the utterance $$w$$:
+
+$$
+U_{social}(w; s) = \mathbb{E}_{P_{L_0}(s \mid w)}[V(s)]
+$$
+
+where $$V$$ is a value function that maps states to subjective utility values---this captures the affective consequences for the listener of being in state $s$.
+
+Speaker utility is then a mixture of these components:
+
+$$
+U(w; s; \phi) = \phi \cdot U_{epistemic} + (1 - \phi) \cdot U_{social}
+$$
+
+Note that at this point, we do not differentiate state value to the listener from state value to the speaker, though in many situations these could in principle be different.
+Also at this point, we do not allow for *deception* or *meanness*, which would be exact opposite of epistemic and social utilities, respectively --- though this could very naturally be incorporated. 
+
+In WebPPL, this looks like the following:
+
+~~~~ norun
+var utility = {
+  epistemic: literalListener.score(state),
+  social: expectation(literalListener, valueFunction)
+};
+var speakerUtility = phi * utility.epistemic + (1 - phi) * utility.social
+~~~~
+
+where `valueFunction` projects the listener's distribution on world states onto subjective valuations of those world states (e.g., the subjective value of a listener believing the cookies they baked were a 4.5 out of 5 stars).
+
+
 <!-- Here is the full politeness model from [Yoon et al. (2017)](http://langcog.stanford.edu/papers_new/yoon-2017-underrev.pdf): -->
 
 ~~~~
