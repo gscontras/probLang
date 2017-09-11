@@ -6,7 +6,7 @@ description: "An introduction to language understanding as Bayesian inference"
 
 ### Chapter 1: Language understanding as Bayesian inference
 
-<!--   - Gricean pragmatics, probability theory, and utility functions 
+<!--   - Gricean pragmatics, probability theory, and utility functions
   - The basic Rational Speech-Acts framework
   - Background knowledge in language understanding -->
 
@@ -17,7 +17,7 @@ Much work in formal, compositional semantics follows the tradition of positing s
 
 The probabilistic pragmatics approach leverages the tools of structured probabilistic models formalized in a stochastic 𝞴-calculus to develop and refine a general theory of communication. The framework synthesizes the knowledge and approaches from diverse areas --- formal semantics, Bayesian models of inference, formal theories of measurement, philosophy of language, etc. --- into an articulated theory of language in practice. These new tools yield broader empirical coverage and richer explanations for linguistic phenomena through the recognition of language as a means of communication, not merely a vacuum-sealed formal system. By subjecting the heretofore off-limits land of pragmatics to articulated formal models, the rapidly growing body of research both informs pragmatic phenomena and enriches theories of semantics. In what follows, we consider the first foray into this framework.
 
-#### Introducing the Rational Speech Act framework
+### Introducing the Rational Speech Act framework
 
 The Rational Speech Act (RSA) framework views communication as recursive reasoning between a speaker and a listener. The listener interprets the speaker’s utterance by reasoning about a cooperative speaker trying to inform a naive listener about some state of affairs. Using Bayesian inference, the listener reasons about what the state of the world is likely to be given that a speaker produced some utterance, knowing that the speaker is reasoning about how a listener is most likely to interpret that utterance. Thus, we have (at least) three levels of inference. At the top, the sophisticated, **pragmatic listener**, $$L_{1}$$, reasons about the **pragmatic speaker**, $$S_{1}$$, and infers the state of the world $$s$$ given that the speaker chose to produce the utterance $$u$$. The speaker chooses $$u$$ by maximizing the probability that a naive, **literal listener**, $$L_{0}$$, would correctly infer the state of the world $$s$$ given the literal meaning of $$u$$.
 
@@ -26,13 +26,13 @@ To make this more intelligible, let's consider a concrete example and a vanilla 
 <img src="../images/rsa_scene.png" alt="Fig. 2: Example referential communication scenario from Frank & Goodman (2012). Speakers choose a single word, $$u$$, to signal an object, $$s$$." style="width: 400px;"/>
 <center>Fig. 1: Example referential communication scenario from Frank and Goodman. Speakers choose a single word, <i>u</i>, to signal an object, <i>s</i>.</center>
 
-In a **reference game** a speaker wants to refer to one of the given objects. To simplify, we assume that the speaker may only choose one property (see below) with which to do so. In the example of Fig. 1 the **set of world states** 
+In a **reference game** a speaker wants to refer to one of the given objects. To simplify, we assume that the speaker may only choose one property (see below) with which to do so. In the example of Fig. 1 the **set of world states**
 
-$$S = \{\text{blue-square}, \text{blue-circle}, \text{green-square}\}$$ 
+$$S = \{\text{blue-square}, \text{blue-circle}, \text{green-square}\}$$
 
-contains the three objects given. The **set of utterances** 
+contains the three objects given. The **set of utterances**
 
-$$U = \{ \text{"square"}, \text{"circle"}, \text{"green"}, \text{"blue"}  \}$$ 
+$$U = \{ \text{"square"}, \text{"circle"}, \text{"green"}, \text{"blue"}  \}$$
 
 contains the four properties from which the speaker can choose.
 
@@ -41,8 +41,7 @@ A vanilla RSA model for this scenario consists of three recursively layered, con
 <img src="../images/rsa_schema.png" alt="Fig. 1: Graphical representation of the Bayesian RSA model." style="width: 400px;"/>
 <center>Fig. 2: Bayesian RSA schema.</center>
 
-
-##### literal listeners
+### Literal listeners
 
 At the base of this reasoning, the naive, literal listener $$L_{0}$$ interprets an utterance according to its meaning. That is, $$L_{0}$$ computes the probability of $$s$$ given $$u$$ according to the semantics of $$u$$ and the prior probability of $$s$$. A standard view of the semantic content of an utterance suffices: a mapping from states of the world to truth values. For example, the utterance $$\text{"blue"}$$ is true of states $$\text{blue-square}$$ and $$\text{blue-circle}$$ and false of state $$\text{green-square}$$. We write $$[\![u]\!] \colon S \mapsto \{0,1\}$$ for the denotation function of such a standard, Boolean semantics of utterances in terms of states. The literal listener is then defined via a function $$P_{L_{0}} \colon U \mapsto \Delta^S$$ that maps each utterance to a probability distribution over world states, like so:
 
@@ -53,6 +52,31 @@ Here $$P(s)$$ is an a priori belief regarding which state or object the speaker 
 The literal listener rule can be written as follows:
 
 ~~~~
+///fold:
+var mfRound = function(number, integers){
+  Math.round(number*Math.pow(10,integers))/Math.pow(10,integers);
+}
+//ugly print function for whole matrix literal listener
+var literalListener_matrix = function(){
+  var LLMatrix = map(function(u) {map(function(s) {mfRound(Math.exp(literalListener(u).score(s)),2)}, states)}, utterances)
+  return ("\t" + states[0].color + "-" + states[0].shape +
+        "\t" + states[1].color + "-" + states[1].shape +
+        "\t" + states[2].color + "-" + states[2].shape + "\n" +
+  utterances[0] + "\t" + LLMatrix[0][0] +
+        "\t" + "\t" + LLMatrix[0][1] +
+        "\t" + "\t" + LLMatrix[0][2] + "\n" +
+  utterances[1] + "\t" + LLMatrix[1][0] +
+        "\t" + "\t" + LLMatrix[1][1] +
+        "\t" + "\t" + LLMatrix[1][2] + "\n" +
+  utterances[2] + "\t" + LLMatrix[2][0] +
+        "\t" + "\t" + LLMatrix[2][1] +
+        "\t" + "\t" + LLMatrix[2][2] + "\n" +
+  utterances[3] + "\t" + LLMatrix[3][0] +
+        "\t" + "\t" + LLMatrix[3][1] +
+        "\t" + "\t" + LLMatrix[3][2])
+}
+///
+
 // set of states (here: objects of reference)
 var states = [{shape: "square", color: "blue"},
               {shape: "circle", color: "blue"},
@@ -83,33 +107,7 @@ var literalListener = function(utterance){
   }})
 }
 
-///fold:
-var mfRound = function(number, integers){
-  Math.round(number*Math.pow(10,integers))/Math.pow(10,integers);
-} 
-//ugly print function for whole matrix literal listener
-var print_literalListener = function(){
-  var LLMatrix = map(function(u) {map(function(s) {mfRound(Math.exp(literalListener(u).score(s)),2)}, states)}, utterances)
-  return ("\t" + states[0].color + "-" + states[0].shape + 
-        "\t" + states[1].color + "-" + states[1].shape + 
-        "\t" + states[2].color + "-" + states[2].shape + "\n" +
-  utterances[0] + "\t" + LLMatrix[0][0] +
-        "\t" + "\t" + LLMatrix[0][1] + 
-        "\t" + "\t" + LLMatrix[0][2] + "\n" +
-  utterances[1] + "\t" + LLMatrix[1][0] +
-        "\t" + "\t" + LLMatrix[1][1] + 
-        "\t" + "\t" + LLMatrix[1][2] + "\n" +
-  utterances[2] + "\t" + LLMatrix[2][0] +
-        "\t" + "\t" + LLMatrix[2][1] + 
-        "\t" + "\t" + LLMatrix[2][2] + "\n" +
-  utterances[3] + "\t" + LLMatrix[3][0] +
-        "\t" + "\t" + LLMatrix[3][1] + 
-        "\t" + "\t" + LLMatrix[3][2])
-}
-///
-print_literalListener()
-
-
+viz.table(literalListener("blue"))
 ~~~~
 
 > **Exercises:**
@@ -119,11 +117,13 @@ print_literalListener()
 
 Fantastic! We now have a way of integrating a listener's prior beliefs about the world with the truth functional meaning of an utterance.
 
-##### Pragmatic speakers
+### Pragmatic speakers
 
 Speech acts are actions; thus, the speaker is modeled as a rational (Bayesian) actor. He chooses an action (e.g., an utterance) according to its utility. The speaker simulates taking an action, evaluates its utility, and chooses actions based on their utility. Rationality of choice is often defined as choice of an action that maximizes the agent's (expected) utility. Here we consider a generalization in which speakers use a *softmax* function to approximate the (classical) rational choice to a variable degree. (For more on *action as inverse planning* see  [agentmodels.org](http://agentmodels.org/chapters/3-agents-as-programs.html).)
 
-In the code box below you'll see a generic softmax agent model. Note that in this model, `agent` uses `factor` (other related functions are `condition` and `observe`, as documented [here](http://webppl.readthedocs.io/en/dev/inference/conditioning.html); for general information on conditioning see [probmods.org](http://probmods.org/chapters/03-conditioning.html)). In rough terms, what happens is this. Each `factor` statement interacts with a call to `Infer` by incrementing a so-called log-score, the logarithm of the probability of the argument to be evaluated. For example, when `Infer` considers the probabilities of the three actions in the example below (by enumeration, its default method), it first calculates a log-score for each action (e.g., by evaluating `factor` statement and the fact that each action is a draw from a uniform distribution), and then computes normalized probabilities from these. In effect, the function `agent` therefore computes the distribution:
+#### Bayesian decision-making
+
+In the code box below you'll see a generic *approximately rational* agent model. Note that in this model, `agent` uses `factor` (other related functions are `condition` and `observe`, as documented [here](http://webppl.readthedocs.io/en/dev/inference/conditioning.html); for general information on conditioning see [probmods.org](http://probmods.org/chapters/03-conditioning.html)). In rough terms, what happens is this. Each `factor` statement interacts with a call to `Infer` by incrementing a so-called log-score, the logarithm of the probability of the argument to be evaluated. For example, when `Infer` considers the probabilities of the three actions in the example below (by enumeration, its default method), it first calculates a log-score for each action (e.g., by evaluating `factor` statement and the fact that each action is a draw from a uniform distribution), and then computes normalized probabilities from these. In effect, the function `agent` therefore computes the distribution:
 
 $$P(a_i) = \frac{\exp(\alpha \cdot \text{Util}(a_i)}{\sum_{j} \exp(\alpha \cdot \text{Util}(a_j))}$$
 
@@ -163,6 +163,8 @@ viz(agent);
 > 2. Explore what happens when you change the agent's optimality.
 > 3. Explore what happens when you change the utilities.
 
+#### A Rational Speech Actor
+
 In language understanding, the utility of an utterance is how well it communicates the state of the world $$s$$ to a listener. So, the speaker $$S_{1}$$ chooses utterances $$u$$ to communicate the state $$s$$ to the hypothesized literal listener $$L_{0}$$. Another way to think about this: $$S_{1}$$ wants to minimize the effort $$L_{0}$$ would need to arrive at $$s$$ from $$u$$, all while being efficient at communicating. $$S_{1}$$ thus seeks to minimize the surprisal of $$s$$ given $$u$$ for the literal listener $$L_{0}$$, while bearing in mind the utterance cost, $$C(u)$$. (This trade-off between efficacy and efficiency is not trivial: speakers could always use minimal ambiguity, but unambiguous utterances tend toward the unwieldy, and, very often, unnecessary. We will see this tension play out later in the course.)
 
 Speakers act in accordance with the speaker’s utility function $$U_{S_{1}}$$: utterances are more useful at communicating about some state as surprisal and utterance cost decrease.
@@ -196,13 +198,15 @@ var speaker = function(obj){
 
 We now have a model of the generative process of an utterance. With this in hand, we can imagine a listener who thinks about this kind of speaker.
 
+### Pragmatic listeners
+
 The pragmatic listener $$L_{1}$$ computes the probability of a state $$s$$ given some utterance $$u$$. By reasoning about the speaker $$S_{1}$$, this probability is proportional to the probability that $$S_{1}$$ would choose to utter $$u$$ to communicate about the state $$s$$, together with the prior probability of $$s$$ itself. In other words, to interpret an utterance, the pragmatic listener considers the process that *generated* the utterance in the first place. (Note that the listener model uses `observe`, which functions like `factor` with $$\alpha$$ set to $$1$$.)
 
 <!-- <center>The pragmatic listener: P<sub>L<sub>1</sub></sub>(s|u) ∝ P<sub>S<sub>1</sub></sub>(u|s) · P(s)</center> -->
 
 $$P_{L_{1}}(s\mid u) \propto P_{S_{1}}(u\mid s) \cdot P(s)$$
 
-~~~~ 
+~~~~
 // pragmatic listener
 var pragmaticListener = function(utterance){
   Infer({model: function(){
@@ -214,78 +218,74 @@ var pragmaticListener = function(utterance){
 ~~~~
 
 
-
-
-
-
-##### putting it all together
+### Putting it all together
 
 Let's explore what happens when we put all of the previous agent models together.
 
 ~~~~
-// Here is the code from the Frank and Goodman RSA model
+// Frank and Goodman (2012) RSA model
 
-// print methods
 ///fold:
+// print methods
 var mfRound = function(number, integers){
   Math.round(number*Math.pow(10,integers))/Math.pow(10,integers);
-} 
+}
 //ugly print function for whole matrix literal listener
 var print_literalListener = function(){
   var LLMatrix = map(function(u) {map(function(s) {mfRound(Math.exp(literalListener(u).score(s)),2)}, states)}, utterances)
-  return ("\t" + states[0].color + "-" + states[0].shape + 
-        "\t" + states[1].color + "-" + states[1].shape + 
+  return ("\t" + states[0].color + "-" + states[0].shape +
+        "\t" + states[1].color + "-" + states[1].shape +
         "\t" + states[2].color + "-" + states[2].shape + "\n" +
   utterances[0] + "\t" + LLMatrix[0][0] +
-        "\t" + "\t" + LLMatrix[0][1] + 
+        "\t" + "\t" + LLMatrix[0][1] +
         "\t" + "\t" + LLMatrix[0][2] + "\n" +
   utterances[1] + "\t" + LLMatrix[1][0] +
-        "\t" + "\t" + LLMatrix[1][1] + 
+        "\t" + "\t" + LLMatrix[1][1] +
         "\t" + "\t" + LLMatrix[1][2] + "\n" +
   utterances[2] + "\t" + LLMatrix[2][0] +
-        "\t" + "\t" + LLMatrix[2][1] + 
+        "\t" + "\t" + LLMatrix[2][1] +
         "\t" + "\t" + LLMatrix[2][2] + "\n" +
   utterances[3] + "\t" + LLMatrix[3][0] +
-        "\t" + "\t" + LLMatrix[3][1] + 
+        "\t" + "\t" + LLMatrix[3][1] +
         "\t" + "\t" + LLMatrix[3][2])
 }
 //ugly print function for whole matrix pragmatic speaker
 var print_speaker = function(){
   var LLMatrix = map(function(s) {map(function(u) {mfRound(Math.exp(speaker(s).score(u)),2)}, utterances)}, states)
-  return ("\t" + "\t" + utterances[0]  + 
-        "\t" + "\t" + utterances[1] + 
+  return ("\t" + "\t" + utterances[0]  +
+        "\t" + "\t" + utterances[1] +
         "\t" + "\t" + utterances[2] +
         "\t" + "\t" + utterances[3] + "\n" +
   states[0].color + "-" + states[0].shape + "\t" + LLMatrix[0][0] +
-        "\t" + "\t" + LLMatrix[0][1] + 
-        "\t" + "\t" + LLMatrix[0][2] + 
+        "\t" + "\t" + LLMatrix[0][1] +
+        "\t" + "\t" + LLMatrix[0][2] +
         "\t" + "\t" + LLMatrix[0][3] + "\n" +
   states[1].color + "-" + states[1].shape + "\t" + LLMatrix[1][0] +
-        "\t" + "\t" + LLMatrix[1][1] + 
-        "\t" + "\t" + LLMatrix[1][2] + 
+        "\t" + "\t" + LLMatrix[1][1] +
+        "\t" + "\t" + LLMatrix[1][2] +
         "\t" + "\t" + LLMatrix[1][3] + "\n" +
   states[2].color + "-" + states[2].shape + "\t" + LLMatrix[2][0] +
-        "\t" + "\t" + LLMatrix[2][1] + 
-        "\t" + "\t" + LLMatrix[2][2] + 
+        "\t" + "\t" + LLMatrix[2][1] +
+        "\t" + "\t" + LLMatrix[2][2] +
         "\t" + "\t" + LLMatrix[2][3])
 }
 //ugly print function for whole matrix pragmatic listener
 var print_pragmaticListener = function(){
   var LLMatrix = map(function(u) {map(function(s) {mfRound(Math.exp(pragmaticListener(u).score(s)),2)}, states)}, utterances)
-  return ("\t" + states[0].color + "-" + states[0].shape + 
-        "\t" + states[1].color + "-" + states[1].shape + 
+  return ("\t" + states[0].color + "-" + states[0].shape +
+        "\t" + states[1].color + "-" + states[1].shape +
         "\t" + states[2].color + "-" + states[2].shape + "\n" +
   utterances[0] + "\t" + LLMatrix[0][0] +
-        "\t" + "\t" + LLMatrix[0][1] + 
+        "\t" + "\t" + LLMatrix[0][1] +
         "\t" + "\t" + LLMatrix[0][2] + "\n" +
   utterances[1] + "\t" + LLMatrix[1][0] +
-        "\t" + "\t" + LLMatrix[1][1] + 
+        "\t" + "\t" + LLMatrix[1][1] +
         "\t" + "\t" + LLMatrix[1][2] + "\n" +
   utterances[2] + "\t" + LLMatrix[2][0] +
-        "\t" + "\t" + LLMatrix[2][1] + 
+        "\t" + "\t" + LLMatrix[2][1] +
         "\t" + "\t" + LLMatrix[2][2] + "\n" +
   utterances[3] + "\t" + LLMatrix[3][0] +
-        "\t" + "\t" + LLMatrix[3][1] + 
+        "\t" + "\t" + LLMatrix[3][1] +
         "\t" + "\t" + LLMatrix[3][2])
 }
 ///
@@ -340,16 +340,17 @@ var pragmaticListener = function(utterance){
   }})
 }
 
-print("literal listener's interpretation")
-print(print_literalListener())
-print(" ")
-print("speaker's utterance distribution:")
-print(print_speaker())
-print(" ")
-print("pragmatic listener's interpretation:")
-print(print_pragmaticListener())
+// full probability tables
+// display("literal listener's interpretation")
+// display(print_literalListener())
+// display(" ")
+// display("speaker's utterance distribution:")
+// display(print_speaker())
+// display(" ")
+// display("pragmatic listener's interpretation:")
+// display(print_pragmaticListener())
 
-
+viz.table(pragmaticListener("blue"))
 ~~~~
 
 > **Exercises:**
@@ -359,7 +360,6 @@ print(print_pragmaticListener())
 > 3. Add a new multi-word utterance.
 > 4. Check the behavior of the other possible utterances.
 > 5. Is there any way to get "blue" to refer to something green? Why or why not?
-
 
 
 In the [next chapter](02-pragmatics.html), we'll see how RSA models have been developed to model more complex aspects of pragmatic reasoning and language understanding.
