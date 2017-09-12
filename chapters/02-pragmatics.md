@@ -126,7 +126,7 @@ Capturing scalar implicature within the RSA framework might not induce waves of 
 <img src="../images/scalar.png" alt="Fig. 3: Example communication scenario from Goodman and Stuhmüller." style="width: 500px;"/>
 <center>Fig. 1: Example communication scenario from Goodman and Stuhmüller: How will the listener interpret the speaker’s utterance? How will this change if she knows that he can see only two of the objects?.</center>
 
-In the extended Scalar Implicature model, the pragmatic listener infers the true state of the world not only on the basis of the observed utterance, but also the speaker's espistemic access $$a$$.
+In the extended Scalar Implicature model, the pragmatic listener infers the true state of the world not only on the basis of the observed utterance, but also the speaker's epistemic access $$a$$.
 
 $$P_{L_{1}}(s\mid u, a) \propto P_{S_{1}}(u\mid s, a) \cdot P(s)$$
 
