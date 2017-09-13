@@ -8,9 +8,9 @@ description: "BDA for the RSA reference game model"
 
 *Author: Michael Franke*
 
-WebPPL allows us to conveniently specify even complex probabilistic cognitive models and to explore the predictions these models make. Usually these predictions are probabilistic, e.g., the probability that a pragmatic listener assigns to interpretation $$s$$ after hearing utterance $$u$$ is $$.7$$. Sometimes it suffices for our explanatory purposes to just obtain such (probabilistic) predictions. For example, we might want to explain that the listener's assumptions about the speaker's knowledge impact conclusions about scalar implicatures in a particular qualitative but systematic way (see [Chapter 2](02-pragmatics.html)). Sometimes, however, our explanatory amibitions are more adventurous. Sometimes we like to explain quantitative data, e.g., from observational experiments or corpora. In this case, WebPPL makes it easy to analyse our experimental data through the lens of our probabilistic cognitive models; or, put the other way around, reason about unknown parameters (such as: which model to believe in) based on the data observed. 
+WebPPL allows us to conveniently specify even complex probabilistic cognitive models and to explore the predictions these models make. Usually these predictions are probabilistic. For example, the RSA model might predict that the probability $$P_{L_1}(s \mid u)$$ that a pragmatic listener assigns to interpretation $$s$$ after hearing utterance $$u$$ is $$.7$$. Sometimes it suffices for our explanatory purposes to just obtain such (probabilistic) predictions. For example, we might want to explain that the listener's assumptions about the speaker's knowledge impact conclusions about scalar implicatures in a particular qualitative but systematic way (see [Chapter 2](02-pragmatics.html)). Sometimes, however, our explanatory amibitions are more adventurous. Sometimes we like to explain quantitative data, e.g., from observational experiments or corpora. In this case, WebPPL makes it easy to analyse our experimental data through the lens of our probabilistic cognitive models; or, put the other way around, reason about unknown parameters (such as: which model to believe in) based on the data observed. 
 
-##### Motivating example
+#### Motivating example
 
 Consider the vanilla RSA model from [Chapter 1](01-introduction.html) once more. The model is intended to explain data from reference games, such as pictured in Fig. 1.
 
@@ -18,15 +18,13 @@ Consider the vanilla RSA model from [Chapter 1](01-introduction.html) once more.
 <center>Fig. 1: Example referential communication scenario from Frank and Goodman. Speakers choose a single word, <i>u</i>, to signal an object, <i>s</i>.</center>
 
 
-The vanilla RSA model defines a literal and a pragmatic listener rule, both of which maps utterances $$u \in U$$ to probability distributions over states/objects $$s \in S$$: $$P_{L_{0,1}} \colon U \rightarrow \Delta(S)$$. (The predictions for the pragmatic listener depend on the optimization parameter $$\alpha$$, which is here set to $$1$$. - We will come back to this below.) Let us look at how literal and pragmatic listeners would interpret the utterance "blue" for the example from [Chapter 1](01-introduction.html).
+The vanilla RSA model defines a literal and a pragmatic listener rule, both of which map utterances $$u \in U$$ to probability distributions over states/objects $$s \in S$$: $$P_{L_{0,1}} \colon U \rightarrow \Delta(S)$$. Let us use the code below to look at how literal and pragmatic listeners would interpret the utterance "blue" for the example from [Chapter 1](01-introduction.html). (The predictions for the pragmatic listener depend on the optimization parameter $$\alpha$$. It is here set to $$1$$. We will come back to this below.)
 
 ~~~~
 // Frank and Goodman (2012) RSA model
 
 // set of states (here: objects of reference)
-var states = [{shape: "square", color: "blue"},
-              {shape: "circle", color: "blue"},
-              {shape: "square", color: "green"}]
+var states = ["blue_circle", "green_square", "blue_square"]
 
 // set of utterances
 var utterances = ["blue","green","square","circle"]
@@ -38,9 +36,7 @@ var objectPrior = function() {
 
 // meaning function to interpret the utterances
 var meaning = function(utterance, obj){
-  (utterance === "blue" || utterance === "green") ? utterance === obj.color :
-  (utterance === "circle" || utterance === "square") ? utterance === obj.shape :
-  true
+  _.includes(obj, utterance)
 }
 
 // literal listener
@@ -79,7 +75,7 @@ display("Pragmatic listener's interpretation of 'blue':")
 viz.table(pragmaticListener("blue"))
 ~~~~
 
-Suppose we conduct a simple experiment in which we provide the referential context in Fig. 1 above and ask our participants to choose the object which they believe that a speaker who chose utterance "blue" might have meant. The experiment of refp:frankgoodman2012 was slightly different (a betting paradigm in which participants had to distribute 100 points over the potential referents), but refp:QingFranke2013:Variations-on-a executed exactly such a forced choice experiment, in which each participant must choose exactly one referent. They observed that in all conditions equivalent to an observation of "blue", 115 participants chose the blue square and 65 chose the blue circle, while nobody (phew!) chose the green square.
+Suppose we conducted a simple experiment in which we provide the referential context in Fig. 1 above and ask our participants to choose the object which they believe that a speaker who chose utterance "blue" might have meant. The experiment of reft:frankgoodman2012 was slightly different (a betting paradigm in which participants had to distribute 100 points over the potential referents), but reft:QingFranke2013:Variations-on-a executed exactly such a **forced choice experiment**, in which each participant had to choose exactly one referent. They observed that in all conditions structurally equivalent to an observation of utterance "blue" in the context of Fig. 1, 115 participants chose the blue square and 65 chose the blue circle, while nobody (phew!) chose the green square.
 
 ~~~~
 var comp_data = {
@@ -87,40 +83,45 @@ var comp_data = {
 }
 ~~~~
 
-What can we do with this data and our model? - A lot! Much depends on what we want. We could summon **classical statistics**, for example, to test whether an observation of 115 successes in 115+65 = 180 trials is surprising under a null hypothesis that assumes, like our literal listener does, that successes and failures are equally likely. Indeed, a binomial test gives a highly significant result ($$p \le 0.001$$), which is standardly interpreted as an indication that the null hypothesis is to be rejected. In our case this means that it is highly unlikely that the data observed was generated by a literal listener model.
+What can we do with this data and our model? - Generally, a lot! Much depends on what we want. We could summon **classical statistics**, for example, to test whether an observation of 115 successes in 115+65 = 180 trials is surprising under a **null hypothesis** that assumes, like a literal listener model does, that successes and failures are equally likely. Indeed, a binomial test gives a highly significant result ($$p \le 0.001$$), which is standardly interpreted as an indication that the null hypothesis is to be rejected. In our case this means that it is highly unlikely that the data observed was generated by a literal listener model.
 
-**Bayesian data analysis** is different from classical hypothesis testing. From a Bayesian point of view, we might rather ask: how likely is it that the literal listener model or the pragmatic listener model has generated the observed results? Suppose that we are initially completely undecided about which model is likely correct, but (for the sake of a simple example) consider only those two listener models. Then our **prior belief** in each model is equal $$P(M_{LL}) = P(M_{PL}) = 0.5$$, where $$M_{LL}$$ and $$M_{PL}$$ are the literal and pragmatic listener model, respectively. Our **posterior belief** after observing data $$D$$ concerning the probability of $$M_{LL}$$ can be calculated by Bayes rule:
+**Bayesian data analysis** is different from classical hypothesis testing. From a Bayesian point of view, we might rather ask: how likely is it that the literal listener model or the pragmatic listener model has generated the observed results? Suppose that we are initially completely undecided about which model is likely correct, but (for the sake of a simple example) consider only those two listener models. Then our **prior belief** in each model is equal $$P(M_{L_0}) = P(M_{L_1}) = 0.5$$, where $$M_{L_0}$$ and $$M_{L_1}$$ are the literal and pragmatic listener model, respectively. Our **posterior belief** after observing data $$D$$ concerning the probability of $$M_{L_0}$$ can be calculated by Bayes rule:
 
-$$ P(M_{LL} \mid D) = \frac{P(D \mid M_{LL}) \cdot P(M_{LL})}{P(D \mid M_{LL}) \cdot P(M_{LL}) + P(D \mid M_{PL}) \cdot P(M_{PL})}$$
+$$ P(M_{L_0} \mid D) = \frac{ P(M_{L_0}) \cdot P(D \mid M_{L_0})}{P(M_{L_0}) \cdot P(D \mid M_{L_0})  +  P(M_{L_1}) \cdot P(D \mid M_{L_1})}$$
 
-Since prior beliefs are equal, they cancel out entirely, leaving us with:
+Since prior beliefs are equal, they cancel out, leaving us with:
 
-$$ P(M_{LL} \mid D) = \frac{P(D \mid M_{LL}) }{P(D \mid M_{LL}) + P(D \mid M_{PL}) }$$
+$$ P(M_{L_0} \mid D) = \frac{P(D \mid M_{L_0}) }{P(D \mid M_{L_0}) + P(D \mid M_{L_1}) }$$
 
-The remaining terms refer to the **likelihood** of the data $$D$$ under each model, i.e., how likely the actually observed data was from each model's point of view. We can easily calculate that in WebPPL:
-
+The remaining terms are of the form $$P(D \mid M)$$ and refer to the **likelihood** of the data $$D$$ under each model, i.e., how likely the actually observed data was from each model's point of view. We can easily calculate them in WebPPL and retrive the corresponding posterior beliefs:
 
 ~~~~
-
-var LH_literalLister = Math.exp(Binomial({n: 180, p: 0.5}).score(115))
-var LH_pragmatLister = Math.exp(Binomial({n: 180, p: 0.6}).score(115))
+var total_observations = 180
+var observed_successes = 115
+var LH_literalLister = Math.exp(Binomial({n: total_observations, p: 0.5}).score(observed_successes))
+var LH_pragmatLister = Math.exp(Binomial({n: total_observations, p: 0.6}).score(observed_successes))
 var posterior_literalListener = LH_literalLister / 
     (LH_literalLister + LH_pragmatLister)
 print(posterior_literalListener)
 
 ~~~~
 
+> **Exercises:**
+
+> 1. What is the probability $$P(M_{L_1} \mid D)$$ of the pragmatic listener model given the data?
+> 2. How much more likely is the pragmatic listener model than the literal listener model, given the data?
+> 3. Play around with different values for `observed_successes`. For which of these will the literal listener model be more likely?
+> 4. Play around with different values for `total_observations`. What happens to our beliefs if we observe more data rather than less, while keeping the ratio between `total_observations` and `observed_successes` the same? (Just multiply both `total_observations` and `observed_successes` with the same factor to explore this.)
+
 #### Parameter estimation
 
-The above approach generalizes beyond the simplest case of two models to that where we have an infinity of models. First some conceptual contortionism: the literal listener's predictions are equivalent to those of a pragmatic listener with optimality parameter $$\alpha \rightarrow 0$$. The following code treats $$\alpha$$ as an argument of function calls to `speaker` and `pragmaticListener` but is otherwise the exact same as above. 
+The above approach generalizes beyond the simplest case of two models to that where we have an infinity of models. First some conceptual contortionism: the literal listener's predictions are equivalent to those of a pragmatic listener with optimality parameter $$\alpha \rightarrow 0$$. To help show this, the following code treats $$\alpha$$ as an argument of function calls to `speaker` and `pragmaticListener` but is otherwise the exact same as above. 
 
 ~~~~
 // Frank and Goodman (2012) RSA model
 
 // set of states (here: objects of reference)
-var states = [{shape: "square", color: "blue"},
-              {shape: "circle", color: "blue"},
-              {shape: "square", color: "green"}]
+var states = ["blue_circle", "green_square", "blue_square"]
 
 // set of utterances
 var utterances = ["blue","green","square","circle"]
@@ -132,9 +133,7 @@ var objectPrior = function() {
 
 // meaning function to interpret the utterances
 var meaning = function(utterance, obj){
-  (utterance === "blue" || utterance === "green") ? utterance === obj.color :
-  (utterance === "circle" || utterance === "square") ? utterance === obj.shape :
-  true
+  _.includes(obj, utterance)
 }
 
 // literal listener
@@ -167,26 +166,31 @@ var pragmaticListener = function(utterance, alpha){ //alpha is now an argument
 display("Literal listener's interpretation of 'blue':")
 viz.table(literalListener("blue"))
 display("Pragmatic listener's interpretation of 'blue':")
-viz.table(pragmaticListener("blue"), 1)
+viz.table(pragmaticListener("blue"), 1) // we now need to supply alpha here
 ~~~~
 
 > **Exercises:**
 
 > 1. Check that $$\alpha \rightarrow 0$$ gives predictions identical to the literal listener's rule.
+> 2. What happens if we feed in $$\alpha = 0$$? Why is this happening?
 
-In a sense, we now have infinitely many models, one for each value of $$\alpha$$. Another equivalent way of looking at this is to say that we have one model $$M_{PL}$$ whose probabilistic predictions depend on the value of the parameter $$\alpha$$. In other words, we have defined a parameterized likelihood function for observational data $$P(D \mid M_{PL}, \alpha)$$. Whenever it is clear what the model is, we can drop the reference to the model. For the general case of possibly high-dimensional continuous parameter vector $$\theta$$, we can use Bayes rule for **parameter inference** like so:
+In a sense, we now have infinitely many models, one for each value of $$\alpha$$. Another equivalent way of looking at this is to say that we have one model $$M_{L_1}$$ whose probabilistic predictions depend on the value of the parameter $$\alpha$$. In other words, we have defined a parameterized likelihood function for observational data $$P(D \mid M_{L_1}, \alpha)$$. Whenever it is clear what the model is, we can drop the reference to the model from our notation. For the general case of possibly high-dimensional continuous parameter vector $$\theta$$, we can use Bayes rule for **parameter inference** like so:
 
-$$ P(\theta \mid D) = \frac{P(D \mid \theta) \cdot P(\theta)}{ \int P(D \mid \theta') \cdot P(\theta') \text{d} \theta'}$$
+$$ P(\theta \mid D) = \frac{P(\theta) \cdot P(D \mid \theta)}{ \int P(\theta) \cdot P(D \mid \theta') \ \text{ d} \theta'}$$
+
+For complex models with unwieldy parameter spaces, the above formula can quickly become intractable. The problem is in the normalizing constant, the so-called **marginal likelihood**. ("Likelihood" because we sum over, so to speak, the likelihood $$P(D \mid \theta)$$ of the data; "marginal" because we marginalize over (think: compute a probability-weighted sum over) all parameter values.) But even if the above is not calculable with a single precise mathematical formula, there are ways of obtainting samples from the posterior distribution which do not require knowledge of an easily computable representation of the marginal likelihood. **Markov Chain Monte Carlo (MCMCM) methods** are a family of algorithms that provide this. Concretely, MCMC methods provide a clever and efficient way of generating samples from $$P(\theta \mid D)$$ by using only the non-normalized posterior scores, i.e., the product of prior and likelihood at a single parameter value $$\theta$$, which is usually very fast and easy to compute (at least relative to the integral needed for the marginal likelihood):
+
+$$ P(\theta \mid D) \propto P(\theta) \cdot P(D \mid \theta)$$
+
+Notice that sampling-based approximations of probability distributions are at the heart of probabilistic programming, Consequently, WebPPL has functionality for MCMC-driven inference built in. To allow the computation of samples from the posterior over optimality parameter $$\alpha$$ in our simple running example, we need to define a function (see code box below) which basically implements the non-normalized posterior scores of the last formula above, in such a way that WebPPL understand what is what:
 
 ~~~~
-// Frank and Goodman (2012) RSA model (as before)
+// Frank and Goodman (2012) RSA model
 
 ///fold:
 
 // set of states (here: objects of reference)
-var states = [{shape: "square", color: "blue"},
-              {shape: "circle", color: "blue"},
-              {shape: "square", color: "green"}]
+var states = ["blue_circle", "green_square", "blue_square"]
 
 // set of utterances
 var utterances = ["blue","green","square","circle"]
@@ -198,9 +202,7 @@ var objectPrior = function() {
 
 // meaning function to interpret the utterances
 var meaning = function(utterance, obj){
-  (utterance === "blue" || utterance === "green") ? utterance === obj.color :
-  (utterance === "circle" || utterance === "square") ? utterance === obj.shape :
-  true
+  _.includes(obj, utterance)
 }
 
 // literal listener
@@ -239,18 +241,27 @@ var non_normalized_posterior = function(){
   var alpha = uniform({a:0, b:10})
   var predicted_probability = 
       Math.exp(
-        pragmaticListener("blue", alpha).score({shape: "square", color: "blue"})
+        pragmaticListener("blue", alpha).score("blue_square")
       )
   var likelihood = Binomial({n: 180, p: predicted_probability}).score(115)    
   factor(likelihood)
+  return {alpha}
 }
 
 var posterior_samples = Infer({
   method: "MCMC",
-  samples: 20000,
-  burn: 2500,
-//   verbose: true,
+  samples: 10000, // how many samples to obtain
+  burn: 1500,     // number of steps for algorithm to adapt
   model: non_normalized_posterior})
   
 viz(posterior_samples)  
 ~~~~
+
+> **Exercises:**
+
+> 1. Looking at the density plot that results from this computation, which region of $$\alpha$$ values is most likely given the data? 
+> 2. Are the special cases of $$\alpha = 1$$ and $$\alpha = 0$$ competitive, or are they very clearly much worse than the "best values"?
+> 3. Bayesian posterior inference depends on the specification of a prior over parameters. The above code oringially uses a uniform prior over $$\alpha$$: `var alpha = uniform({a:0, b:10})`. Adapt the code above to retrieve samples just from the prior by commenting out the `factor` statement.
+> 4. Change the prior for $$\alpha$$ to a non-uniform prior, using a Gamma distribution: `var alpha = gamma({shape:0.1, scale:10})`. Plot samples from this prior to get a feeling for the shape of this prior. What do you think is going to happen when we use this prior for Bayesian posterior inference.
+> 5. Add the commented-out `factor` statement back in and inspect the result. Try to see that Bayesian posterior inference over parameters is a mixture of prior and likelihood terms.
+> 6. What do you think will happen when we increase or decrease the number of observations while keeping the ratio of total observations to observed counts constant (like in a previous exercise)? Try it!
