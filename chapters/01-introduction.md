@@ -66,7 +66,7 @@ viz.table(literalListener("blue"))
 > **Exercises:**
 
 > 1. Check what happens with the other utterances.
-> 2. In the model above, `objectPrior()` returns a sample from a `uniformDraw` over the possible objects of reference. What happens when the listener's beliefs are not uniform over the possible objects of reference (e.g., the "green square" is very salient)? (Hint: use a `categorical` distribution by calling `categorical({ps: [list_of_probabilities], vs: [list_of_states]})`).
+> 2. In the model above, `objectPrior()` returns a sample from a `uniformDraw` over the possible objects of reference. What happens when the listener's beliefs are not uniform over the possible objects of reference (e.g., the "green square" is very salient)? (Hint: use a `categorical` distribution by calling `categorical({ps: [list_of_probabilities], vs: [list_of_states]})`.)
 > 3. Try vizualizing the model output differently (hint: [WebPPL-viz](http://probmods.github.io/webppl-viz/) documents the various visualization options).
 
 Fantastic! We now have a way of integrating a listener's prior beliefs about the world with the truth functional meaning of an utterance.
