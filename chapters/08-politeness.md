@@ -6,19 +6,30 @@ description: "Politeness"
 
 ### Chapter 8: Politeness
 
-When using language, speakers aim to get listeners to believe the things that they believe. But sometimes, we don't listeners to know *exactly* how we feel. Imagine your date bakes you a batch of flax seed, sugar-free, gluten-free cookies before your big presentation next week. (What a sweetheart.) You are grateful for them, something to take your mind off impending doom. But then you bite into them, and you wonder if they actually qualify as cookies and not just seed fragments glued together. Your date asks you what you think. You smile and say "They're good."
+When using language, speakers aim to get listeners to believe the things that they believe.
+But sometimes, we don't want listeners to know *exactly* how we feel.
+Imagine your date bakes you a batch of flax seed, sugar-free, gluten-free cookies before your big presentation next week.
+(What a sweetheart.)
+You are grateful for them---something to take your mind off impending doom.
+But then you bite into them, and you wonder if they actually qualify as cookies and not just seed fragments glued together.
+Your date asks you what you think.
+You look up and say "They're good."
 
-Politeness violates a critical principle of cooperative communication: exchanging information efficiently and accurately. If information transfer was the only currency in communication, a cooperative speaker would find polite utterances undesirable because they are potentially misleading. But polite language use is critical to making sure your date doesn't charge out of the room before you can qualify what you meant by the truthful and informative "These cookies are not good".
+Politeness violates a critical principle of cooperative communication: exchanging information efficiently and accurately.
+If information transfer was the only currency in communication, a cooperative speaker would find polite utterances undesirable because they are potentially misleading.
+But polite language use is critical to making sure your date doesn't charge out of the room before you can qualify what you meant by the more truthful and informative "These cookies are not good".
 
-Brown and Levinson (1987) recast the notion of a cooperative speaker as one who has both an epistemic goal to improve the listener’s knowledge state as well as a social goal to minimize any potential damage to the hearer’s (and the speaker’s own) self-image, which they called *face*. [Yoon, Tessler, et al. (2016)](http://langcog.stanford.edu/papers_new/yoon-2016-cogsci.pdf) formalize this idea in the RSA framework by decomposing the speaker's utility function into two components: 1) epistemic utility and 2) social utility.
+Brown and Levinson (1987) recast the notion of a cooperative speaker as one who has both an epistemic goal to improve the listener’s knowledge state as well as a social goal to minimize any potential damage to the hearer’s (and the speaker’s own) self-image, which they called *face*. [Yoon, Tessler, et al. (2016)](http://langcog.stanford.edu/papers_new/yoon-2016-cogsci.pdf) formalize a version of this idea in the RSA framework by introducing a new component to the speaker's utility function: social utility.
 
-Epistemic utility is the normal surprisal-based utility from RSA.
+### A new speaker
+
+The usual speaker utility from RSA is a surprisal-based, epistemic utility:
 
 $$
 U_{epistemic}(w; s) = \ln(P_{L_0}(s \mid w))
 $$
 
-Social utility is the expected utility of the state the listener would infer given the utterance $$w$$:
+Social utility is the expected subjective utility of the state the listener would infer given the utterance $$w$$:
 
 $$
 U_{social}(w; s) = \mathbb{E}_{P_{L_0}(s \mid w)}[V(s)]
@@ -33,7 +44,7 @@ U(w; s; \phi) = \phi \cdot U_{epistemic} + (1 - \phi) \cdot U_{social}
 $$
 
 Note that at this point, we do not differentiate state value to the listener from state value to the speaker, though in many situations these could in principle be different.
-Also at this point, we do not allow for *deception* or *meanness*, which would be exact opposite of epistemic and social utilities, respectively --- though this could very naturally be incorporated. 
+Also at this point, we do not allow for *deception* or *meanness*, which would be exact opposite of epistemic and social utilities, respectively --- though this could very naturally be incorporated. (In Yoon, Tessler, et al., 2016, they do investigate *meanness* by having independent weights on the two utilities. For simplicity, we adopt the notation of [Yoon et al. 2017](http://langcog.stanford.edu/papers_new/yoon-2017-cogsci.pdf), in which they describe utility as a simpler mixture-model.)
 
 In WebPPL, this looks like the following:
 
@@ -45,8 +56,186 @@ var utility = {
 var speakerUtility = phi * utility.epistemic + (1 - phi) * utility.social
 ~~~~
 
-where `valueFunction` projects the listener's distribution on world states onto subjective valuations of those world states (e.g., the subjective value of a listener believing the cookies they baked were a 4.5 out of 5 stars).
+`expectation` computes the expected value (or mean) of the distribution supplied to it as the first argument.
+The second argument is an optional *projection function*, for when you want the expectation computed with respect to some transformation of the distribution (technically: a transformation of the support of the distribution).
+Here, `valueFunction` projects the listener's distribution from world states onto subjective valuations of those world states (e.g., the subjective value of a listener believing the cookies they baked were a 4.5 out of 5 stars).
 
+We consider a simplified case study of the example given at the beginning.
+The listener has completed some task or product (e.g., baked some cookies) and solicits the speaker's feedback.
+Performance on the task has some scale, ranging from 1 - 5 hearts (like an online review of a product: 5 hearts is the best the speaker could feel about it; 1 heart is the worst).
+These are the states of the world that the speaker can be informative with respect to.
+For example, the speaker may think the cookies deserve 2 out of 5 hearts.
+
+At the same time, these states of the world also have some inherent subjective value: 5 hears is better than 3 hearts.
+`phi` governs how much the speaker seeks to communicate information about the state vs. make the listener believe she is a highly valued state.
+
+~~~~
+var states = [1,2,3,4,5]
+var utterances = ["terrible","bad","okay","good","amazing"]
+
+// correspondence of utterances to states (empirically measured)
+var literalSemantics = {
+  "terrible":[.95,.85,.02,.02,.02],
+  "bad":[.85,.95,.02,.02,.02],
+  "okay":[0.02,0.25,0.95,.65,.35],
+  "good":[.02,.05,.55,.95,.93],
+  "amazing":[.02,.02,.02,.65,0.95]
+}
+
+// determine whether the utterance describes the state
+// by flipping a coin with the literalSemantics weight
+// ... state - 1 because of 0-indexing
+var meaning = function(utterance, state){
+  return flip(literalSemantics[utterance][state - 1]);
+};
+
+// value function scales social utility by a parameter lambda
+var lambda = 1.25 // value taken from MAP estimate from Yoon, Tessler, et al. 2016
+var valueFunction = function(s){
+  return lambda * s
+};
+
+// literal listener
+var listener0 = function(utterance) {
+  Infer({model: function(){
+    var state = uniformDraw(states);
+    var m = meaning(utterance, state);
+    condition(m);
+    return state;
+  }})
+};
+
+var alpha = 10; // MAP estimate from Yoon, Tessler, et al. 2016
+var speaker1 = function(state, phi) {
+  Infer({model: function(){
+
+    var utterance = uniformDraw(utterances);
+    var L0_posterior = listener0(utterance);
+
+    var utility = {
+      epistemic: L0_posterior.score(state),
+      social: expectation(L0_posterior, valueFunction)
+    };
+
+    var speakerUtility = phi * utility.epistemic +
+                        (1 - phi) * utility.social
+
+    factor(alpha * speakerUtility);
+
+    return utterance;
+  }})
+};
+
+speaker1(1, 0.99)
+~~~~
+
+> **Exercises**:
+
+> 1. What kind of speaker is assuming with the above function call (`speaker(1, 0.99)`)?
+> 2. Change the call to the speaker to make it so that it only cares about making the listener feel good.
+> 3. Change the call to the speaker to make it so that it cares about both making the listener feel good and conveying information.
+
+
+### A listener who understands politeness
+
+~~~~
+///fold:
+var states = [1,2,3,4,5]
+var utterances = ["terrible","bad","okay","good","amazing"]
+
+// correspondence of utterances to states (empirically measured)
+var literalSemantics = {
+  "terrible":[.95,.85,.02,.02,.02],
+  "bad":[.85,.95,.02,.02,.02],
+  "okay":[0.02,0.25,0.95,.65,.35],
+  "good":[.02,.05,.55,.95,.93],
+  "amazing":[.02,.02,.02,.65,0.95]
+}
+
+// determine whether the utterance describes the state
+// by flipping a coin with the literalSemantics weight
+// ... state - 1 because of 0-indexing
+var meaning = function(utterance, state){
+  return flip(literalSemantics[utterance][state - 1]);
+};
+
+// value function scales social utility by a parameter lambda
+var lambda = 1.25 // value taken from MAP estimate from Yoon, Tessler, et al. 2016
+var valueFunction = function(s){
+  return lambda * s
+};
+
+// literal listener
+var listener0 = cache(function(utterance) {
+  Infer({model: function(){
+    var state = uniformDraw(states);
+    var m = meaning(utterance, state);
+    condition(m);
+    return state;
+  }})
+});
+
+var alpha = 10; // MAP estimate from Yoon, Tessler, et al. 2016
+var speaker1 = cache(function(state, phi) {
+  Infer({model: function(){
+
+    var utterance = uniformDraw(utterances);
+    var L0_posterior = listener0(utterance);
+
+    var utility = {
+      epistemic: L0_posterior.score(state),
+      social: expectation(L0_posterior, valueFunction)
+    };
+
+    var speakerUtility = phi * utility.epistemic +
+                        (1 - phi) * utility.social
+
+    factor(alpha * speakerUtility);
+
+    return utterance;
+  }})
+});
+///
+
+
+var pragmaticListener = function(utterance) {
+  Infer({model: function(){
+
+    var state = uniformDraw(states)
+    var phi = uniformDraw([0.1, 0.3, 0.5, 0.7, 0.9])
+    var S1 = speaker1(state, phi)
+
+    observe(S1, utterance)
+
+    return { state, phi }
+
+  }})
+}
+
+var listenerPosterior = pragmaticListener("good")
+
+display("expected state = " +
+        expectation(marginalize(listenerPosterior, "state")))
+viz(marginalize(listenerPosterior, "state"))
+
+display("expected phi = " +
+        expectation(marginalize(listenerPosterior, "phi")))
+viz.density(marginalize(listenerPosterior, "phi"))
+~~~~
+
+Above, we have a listener who hears that they did "good" and infers how well they actually did, as well as how much the speaker values honesty vs. kindness.
+
+> **Exercises**:
+
+> 1. Examine the marginal posteriors on `state`. Does this make sense? Compare it to what the `literalListener` would believe upon hearing the same.
+> 2. Examine the marginal posterior on `phi`. Does this make sense? What utterance would make the `pragmaticListener` infer something different about `phi`? Test your knowledge by running that utterance through the `pragmaticListener`?
+> 3. In Yoon, Tessler, et al. (2017), the authors ran an experiment testing participants' intuitions if they knew what kind of speaker they were dealing with (i.e., knew `phi`). Modify `pragmaticListener` so that she knows the speaker (a) wants the listener to feel good, (b) wants to convey information to the listener, and (c) both, and test the models on the utterance "good".
+> 4. The authors also ran an experiment testing participants' intuitions if they knew what state of the world they were in. Modify `pragmaticListener` so that she knows what state of the world she is in. Come up with your own interesting situations (i.e., choose a state and an utterance) and show the model predictions. Are the predictions in accord with your intuitions? Why or why not?
+
+
+### Indirect polite speech acts
+
+...TO DO...
 
 <!-- Here is the full politeness model from [Yoon et al. (2017)](http://langcog.stanford.edu/papers_new/yoon-2017-underrev.pdf): -->
 
@@ -93,57 +282,6 @@ var states = [1,2,3,4,5];
 var weightBins = map(round, _.range(0,1, 0.05))
 var phiWeights = repeat(weightBins.length, function(){1})
 
-// probability an utterance describing a state
-var literalSemantics = {
-  "state": [1, 2, 3, 4, 5],
-  "not_amazing": [0.9925, 0.9186, 0.7876, 0.2321, 0.042],
-  "not_bad": [0.0075, 0.2897, 0.8514, 0.8694, 0.8483],
-  "not_good": [0.9926, 0.8871, 0.1582, 0.0073, 0.0081],
-  "not_okay": [0.9198, 0.7652, 0.1063, 0.0074, 0.1192],
-  "not_terrible": [0.0415, 0.4363, 0.9588, 0.9225, 0.9116],
-  "yes_amazing": [0.0077, 0.0077, 0.0426, 0.675, 0.9919],
-  "yes_bad": [0.9921, 0.9574, 0.0078, 0.0078, 0.0079],
-  "yes_good": [0.008, 0.0408, 0.8279, 0.9914, 0.993],
-  "yes_okay": [0.0078, 0.286, 0.9619, 0.7776, 0.6122],
-  "yes_terrible": [0.9593, 0.5217, 0.0753, 0.008, 0.044]
-};
-
-// determine whether the utterance describes the state
-// by flipping a coin with the literalSemantics weight
-var meaning = function(utterance, state){
-  return flip(literalSemantics[utterance][state - 1]);
-};
-
-// literal listener
-var listener0 = cache(function(utterance) {
-  Infer({model: function(){
-    var state = uniformDraw(states);
-    var m = meaning(utterance, state);
-    condition(m);
-    return state;
-  }})
-}, 10000);
-
-// speaker
-var speakerOptimality = 5;
-
-var speaker1 = cache(function(state, speakerGoals) {
-  Infer({model: function(){
-
-    var utterance = sample(utterancePrior);
-    var L0 = listener0(utterance);
-
-    var epistemicUtility = L0.score(state);
-    var socialUtility = expectation(L0, function(s){return s});
-    var eUtility = speakerGoals.phi*epistemicUtility;
-    var sUtility = (1-speakerGoals.phi)*socialUtility;
-    var speakerUtility = eUtility+sUtility;
-
-    factor(speakerOptimality*speakerUtility);
-
-    return utterance;
-  }})
-}, 10000);
 
 // pragmatic listener
 // infers the state and the speaker's goals (i.e., phi)
