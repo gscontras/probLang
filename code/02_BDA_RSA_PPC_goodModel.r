@@ -191,8 +191,8 @@ posteriorSamples %>%
   ggplot(., aes(x = value))+
   geom_histogram()+facet_wrap(~Parameter, scales = 'free')
 
-speakerSamples = filter(posteriorSamples, Parameter == "PPC_speaker")
-listenerSamples = filter(posteriorSamples, Parameter == "PPC_listener")
+speakerSamples = filter(posteriorSamples, Parameter == "PP_speaker")
+listenerSamples = filter(posteriorSamples, Parameter == "PP_listener")
 
 PPC_speaker = map_df(1:nrow(speakerSamples), function(i) {
   data.frame(
@@ -210,7 +210,7 @@ PPC_speaker_plot = PPC_speaker %>% ggplot(aes(x = value)) +
 
 PPC_speaker_plot
 
-ggsave("PPC_speaker_plot_bad.jpg", PPC_speaker_plot, width = 5, height = 7)
+ggsave("../images/PPC_speaker_goodModel.jpg", PPC_speaker_plot, width = 5, height = 7)
 
 
 PPC_listener = map_df(1:nrow(listenerSamples), function(i) {
@@ -229,4 +229,4 @@ PPC_listener_plot = PPC_listener %>% ggplot(aes(x = value)) +
 
 PPC_listener_plot
 
-ggsave("PPC_listener_plot_bad.jpg", PPC_listener_plot, width = 5, height = 7)
+ggsave("../images/PPC_listener_goodModel.jpg", PPC_listener_plot, width = 5, height = 7)
