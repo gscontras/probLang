@@ -8,7 +8,7 @@ description: "Non-literal language"
 
 <!--   - Building the literal interpretations
   - Compositional mechanisms and semantic types
-    - Functional Application; Predicate Modification 
+    - Functional Application; Predicate Modification
   - The compositional semantics example from DIPPL -->
 
 
@@ -79,9 +79,9 @@ var statePrior = function() {
 var valencePrior = function(state) {
   var probs = {
     50 : 0.3173,
-    51 : 0.3173, 
+    51 : 0.3173,
     500 : 0.7920,
-    501 : 0.7920, 
+    501 : 0.7920,
     1000 : 0.8933,
     1001 : 0.8933,
     5000 : 0.9524,
@@ -100,7 +100,7 @@ var qudFns = {
   approxState : function(state, valence) {return {state: approx(state, 10) } },
 };
 
-// Literal interpretation "meaning" function; 
+// Literal interpretation "meaning" function;
 // checks if uttered number reflects price state
 var meaning = function(utterance, state) {
   return utterance == state;
@@ -121,7 +121,7 @@ var literalListener = cache(function(utterance, qud) {
 })});
 ~~~~
 
-> **Exercises:** 
+> **Exercises:**
 
 > 1. Suppose the literal listener hears the kettle costs `10000` dollars with the `"stateValence"` QUD. What does it infer?
 > 2. Test out other QUDs. What aspects of interpretation does the literal listener capture? What aspects does it not capture?
@@ -181,9 +181,9 @@ var statePrior = function() {
 var valencePrior = function(state) {
   var probs = {
     50 : 0.3173,
-    51 : 0.3173, 
+    51 : 0.3173,
     500 : 0.7920,
-    501 : 0.7920, 
+    501 : 0.7920,
     1000 : 0.8933,
     1001 : 0.8933,
     5000 : 0.9524,
@@ -195,7 +195,7 @@ var valencePrior = function(state) {
   return tf
 };
 
-// Prior over QUDs 
+// Prior over QUDs
 var qudPrior = function() {
   return categorical([0.17, 0.32, 0.17, 0.17, 0.17],
                      ["state", "valence", "stateValence", "approxState", "approxStateValence"])
@@ -225,7 +225,7 @@ var meaning = function(utterance, state) {
   return utterance == state;
 };
 
-// Literal listener, infers the qud value assuming the utterance is 
+// Literal listener, infers the qud value assuming the utterance is
 // true of the state
 var literalListener = cache(function(utterance, qud) {
   return Infer({model: function(){
@@ -271,11 +271,12 @@ print("pragmatic listener's joint interpretation of 'The kettle cost $10,000':")
 viz.auto(listenerPosterior)
 
 print("marginal distributions:")
-viz.marginals(listenerPosterior)
+viz.density(marginalize(listenerPosterior, "state"))
+viz.hist(marginalize(listenerPosterior, "valence"))
 
 ~~~~
 
-> **Exercises:** 
+> **Exercises:**
 
 > 1. Try the `pragmaticListener` with the other possible utterances.
 > 2. Check the predictions of the `speaker` for the `approxStateValence` QUD.
@@ -288,7 +289,7 @@ By capturing the extreme (im)probability of kettle prices, together with the fle
 
 #### Application 2: Irony
 
-The same machinery---actively reasoning about the QUD---has been used to capture other cases of non-literal language. [Kao and Goodman (2015)](http://cocolab.stanford.edu/papers/KaoEtAl2015-Cogsci.pdf) use this process to model ironic language, utterances whose intended meanings are opposite in polarity to the literal meaning. For example, if we are standing outside on a beauitful day and I tell you the weather is "terrible," you're unlikely to conclude that I intend to be taken literally. Instead, you will probably interpret the utterance ironically and conclude that I intended the opposite of what I uttered, namely that the weather is good and I'm happy about it. The following model implements this reasoning process by formalizing three possible conversational goals: communicating about the true state, communicating about the speaker's valence (i.e., whether they feel positively or negatively toward the state), and communicating about the speaker's arousal (i.e., how strongly they feel about the state). 
+The same machinery---actively reasoning about the QUD---has been used to capture other cases of non-literal language. [Kao and Goodman (2015)](http://cocolab.stanford.edu/papers/KaoEtAl2015-Cogsci.pdf) use this process to model ironic language, utterances whose intended meanings are opposite in polarity to the literal meaning. For example, if we are standing outside on a beauitful day and I tell you the weather is "terrible," you're unlikely to conclude that I intend to be taken literally. Instead, you will probably interpret the utterance ironically and conclude that I intended the opposite of what I uttered, namely that the weather is good and I'm happy about it. The following model implements this reasoning process by formalizing three possible conversational goals: communicating about the true state, communicating about the speaker's valence (i.e., whether they feel positively or negatively toward the state), and communicating about the speaker's arousal (i.e., how strongly they feel about the state).
 
 ~~~~
 // There are three possible states the weather could be in: terrible, ok, or amazing
@@ -317,14 +318,14 @@ var arousals = ["low", "high"]
 // Define goals and goal priors. Could want to communicate state of the world,    
 // valence about it, or arousal (intensity of feeling) about it.
 var goals = ["goalState", "goalValence", "goalArousal"]
-    
+
 var goalPrior = function() {
   categorical([0.1, 0.1, 0.1], goals)
 }
 
 // Assume possible utterances are identical to possible states
 var utterances = states
-    
+
 // Assume cost of utterances is uniform.
 var utterancePrior = function() {
   uniformDraw(utterances)
@@ -337,12 +338,12 @@ var arousalPrior = function(state) {
   state === "amazing" ? categorical([0.1, 0.9], arousals) :
   true
 }
-    
+
 // Literal interpretation is just when utterance equals state
 var literalInterpretation = function(utterance, state) {
   utterance === state ? true : false
 }
-    
+
 // A speaker's goal is satisfied if the listener infers the correct and relevant information.
 var goalState = function(goal, state, valence, arousal) {
   goal === "goalState" ? state :
@@ -384,7 +385,7 @@ var pragmaticListener = function(utterance) {
 }
 
 viz.hist(pragmaticListener("terrible"))
-    
+
 ~~~~
 
 #### Application 3: Methaphor
@@ -475,7 +476,7 @@ var literalListener = function(utterance, goal) {
 var speaker = function(large, graceful, majestic, goal) {
   Infer({model: function() {
     var utterance = utterancePrior()
-    factor(alpha * 
+    factor(alpha *
            literalListener(utterance,goal).score(goalState(goal, {large : large, graceful : graceful, majestic : majestic})))
     return utterance
   }})
@@ -500,4 +501,3 @@ viz.hist(pragmaticListener("whale"))
 ~~~~
 
 All of the models we have considered so far operate at the level of full utterances, with conversational participants reasoning about propositions. In the [next chapter](03-ambiguity.html), we begin to look at what it would take to model reasoning about sub-propositional meaning-bearing elements within the RSA framework.
-
