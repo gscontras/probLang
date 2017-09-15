@@ -132,10 +132,10 @@ $$P_{L_{1}}(s\mid u, a) \propto P_{S_{1}}(u\mid s, a) \cdot P(s)$$
 
 ~~~~
 // pragmatic listener
-var pragmaticListener = cache(function(access,utt) {
+var pragmaticListener = cache(function(access, utt) {
   return Infer({model: function(){
     var state = statePrior()
-    observe(speaker(access,state),utt)
+    observe(speaker(state, access), utt)
     return numTrue(state)
   }})
 });
@@ -155,30 +155,38 @@ var numTrue = function(state) {
 ///
 
 // red apple base rate
-var baserate = 0.8
+var totalStates = 3
+var base_rate = 0.8
+
+var sampleApple = function(){
+  return flip(base_rate)
+};
 
 // state builder
 var statePrior = function() {
-  var s1 = flip(baserate)
-  var s2 = flip(baserate)
-  var s3 = flip(baserate)
-  return [s1,s2,s3]
+  return repeat(3, sampleApple)
 }
 
-// speaker belief function
-var belief = function(actualState, access) {
-  var fun = function(access,state) {
-    return access ? state : uniformDraw(statePrior())
-  }
-  return map2(fun, access, actualState);
+// speaker belief functions ////
+// what to believe about a single apple
+var beliefSingle = function(actualSingleApple, accessSingle) {
+  return accessSingle ? actualSingleApple : sampleApple()
+}
+// what to believe about the set of apples
+var belief = function(state, access) {
+  return map2(beliefSingle, state, access);
 }
 
 print("1000 runs of the speaker's belief function:")
 
-viz(repeat(1000,function() {
-  numTrue(belief([true,true,true],[true,true,false]))
+viz(repeat(1000, function() {
+  numTrue(
+    belief(
+      [true, true, true],
+      [true, true, false]
+      )
+    )
 }))
-
 ~~~~
 
 > **Exercise:** See what happens when you change the red apple base rate.
@@ -189,10 +197,10 @@ $$P_{S_{1}}(u\mid o, a) \propto exp(\alpha\mathbb{E}_{P(s\mid o, a)}[U(u; s)])$$
 
 ~~~~
 // pragmatic speaker
-var speaker = cache(function(access,state) {
+var speaker = cache(function(state, access) {
   return Infer({model: function(){
     var utterance = utterancePrior()
-    var beliefState = belief(state,access)
+    var beliefState = belief(state, access)
     factor(alpha * literalListener(utterance).score(beliefState))
     return utterance
   }})
@@ -219,22 +227,25 @@ var numTrue = function(state) {
 // Here is the code from the Goodman and Stuhlmüller speaker-access SI model
 
 // red apple base rate
-var baserate = 0.8
+var base_rate = 0.8
 
-// state prior
+var sampleApple = function(){
+  return flip(base_rate)
+};
+
+// state builder
 var statePrior = function() {
-  var s1 = flip(baserate)
-  var s2 = flip(baserate)
-  var s3 = flip(baserate)
-  return [s1,s2,s3]
+  return repeat(3, sampleApple)
 }
 
-// speaker belief function
-var belief = function(actualState, access) {
-  var fun = function(access,state) {
-    return access ? state : uniformDraw(statePrior())
-  }
-  return map2(fun, access, actualState);
+// speaker belief functions ////
+// what to believe about a single apple
+var beliefSingle = function(actualSingleApple, accessSingle) {
+  return accessSingle ? actualSingleApple : sampleApple()
+}
+// what to believe about the set of apples
+var belief = function(state, access) {
+  return map2(beliefSingle, state, access);
 }
 
 // utterance prior
@@ -242,7 +253,7 @@ var utterancePrior = function() {
   uniformDraw(['all','some','none'])
 }
 
-// meaning funtion to interpret utterances
+// meaning function to interpret utterances
 var literalMeanings = {
   all: function(state) { return all(function(s){s}, state); },
   some: function(state) { return any(function(s){s}, state); },
@@ -263,28 +274,28 @@ var literalListener = cache(function(utt) {
 var alpha = 1
 
 // pragmatic speaker
-var speaker = cache(function(access,state) {
+var speaker = cache(function(state, access) {
   return Infer({model: function(){
     var utt = utterancePrior()
-    var beliefState = belief(state,access)
+    var beliefState = belief(state, access)
     factor(alpha * literalListener(utt).score(beliefState))
     return utt
   }})
 });
 
 // pragmatic listener
-var pragmaticListener = cache(function(access,utt) {
+var pragmaticListener = cache(function(utt, access) {
   return Infer({model: function(){
     var state = statePrior()
-    observe(speaker(access,state),utt)
+    observe(speaker(state, access), utt)
     return numTrue(state)
   }})
 });
 
 print("pragmatic listener for a full-access speaker:")
-viz.auto(pragmaticListener([true,true,true],'some'))
+viz(pragmaticListener('some', [true,true,true]))
 print("pragmatic listener for a partial-access speaker:")
-viz.auto(pragmaticListener([true,true,false],'some'))
+viz(pragmaticListener('some', [true,true,false]))
 
 ~~~~
 
