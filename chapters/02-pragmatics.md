@@ -8,12 +8,12 @@ description: "Enriching the literal interpretations"
 
 <!--   - Building the literal interpretations
   - Compositional mechanisms and semantic types
-    - Functional Application; Predicate Modification 
+    - Functional Application; Predicate Modification
   - The compositional semantics example from DIPPL -->
 
 #### Application 1: Scalar implicature
 
-Scalar implicature stands as the poster child of pragmatic inference. Utterances are strengthened---via implicature---from a relatively weak literal interpretation to a pragmatic interpretation that goes beyond the literal semantics: "Some of the apples are red," an utterance compatible with all of the apples being red, gets strengthed to "Some but not all of the apples are red."  The mechanisms underlying this process have been discussed at length. reft:goodmanstuhlmuller2013 apply an RSA treatment to the phenomenon and formally articulate the model by which scalar implicatures get calculated.
+Scalar implicature stands as the poster child of pragmatic inference. Utterances are strengthened---via implicature---from a relatively weak literal interpretation to a pragmatic interpretation that goes beyond the literal semantics: "Some of the apples are red," an utterance compatible with all of the apples being red, gets strengthened to "Some but not all of the apples are red."  The mechanisms underlying this process have been discussed at length. reft:goodmanstuhlmuller2013 apply an RSA treatment to the phenomenon and formally articulate the model by which scalar implicatures get calculated.
 
 Assume a world with three apples; zero, one, two, or three of those apples may be red:
 
@@ -28,7 +28,7 @@ statePrior() // sample a state
 > **Exercises:**
 
 > 1. Try visualizing `statePrior()` by drawing many samples and plotting the output (hint: you'll need to use the `repeat()` function, which has a strange syntax that is documented [here](http://webppl.readthedocs.io/en/master/functions/arrays.html#repeat)).
-> 2. Try visualizing `statePrior()` by wrapping it in an inference model (à la our $$L_0$$ model) and plotting the output.
+> 2. Try visualizing `statePrior()` by wrapping it in `Infer` (à la our $$L_0$$ model) and using `{method: "forward", samples: 1000}`.
 
 Next, assume that speakers may describe the current state of the world in one of three ways:
 
@@ -50,7 +50,7 @@ var meaning = literalMeanings[utt]; // get its meaning
 [utt, meaning(3)] // apply meaning to state = 3
 ~~~~
 
-With this knowledge about the communcation scenario---crucially, the availability of the "all" alternative utterance---a pragmatic listener is able to infer from the "some" utterance that the "all" utterance describes an unlikely state. In other words, the pragmatic listener strengthens "some" via scalar implicature.
+With this knowledge about the communication scenario---crucially, the availability of the "all" alternative utterance---a pragmatic listener is able to infer from the "some" utterance that the "all" utterance describes an unlikely state. In other words, the pragmatic listener strengthens "some" via scalar implicature.
 
 Technical note: Below, `cache` is used to save the results of the various Bayesian inferences being performed. This is used for computational efficiency when dealing with nested inferences.
 
@@ -106,27 +106,27 @@ var pragmaticListener = cache(function(utt) {
 });
 
 print("pragmatic listener's interpretation of 'some':")
-viz.auto(pragmaticListener('some'));
+viz(pragmaticListener('some'));
 
 ~~~~
 
-> **Exercises:** 
+> **Exercises:**
 
 > 1. Explore what happens if you make the speaker *less* optimal.
 > 2. Subtract one of the utterances. What changed?
 > 3. Add a new utterance. What changed?
 > 4. Check what would happen if 'some' literally meant some-but-not-all.
-> 5. Change the relative probabilities of the various states.
+> 5. Change the relative prior probabilities of the various states.
 
 
 #### Application 2: Scalar implicature and speaker knowledge
 
-Capturing scalar implicature within the RSA framework might not induce waves of excitement. However, by implementing implicature-calculation within a formal model of communication, we can also capture its interactions with other pragmatic factors. Goodman and Stuhlmüller (2013) explored what happens when the speaker only has partial knowledge about the state of the world (Fig. 1). Below, we explore this model, taking into account the listener's knowledge about the speaker's epistemic state: whether or not the speaker has full or partial knowledge about the state of the world. 
+Capturing scalar implicature within the RSA framework might not induce waves of excitement. However, by implementing implicature-calculation within a formal model of communication, we can also capture its interactions with other pragmatic factors. Goodman and Stuhlmüller (2013) explored what happens when the speaker only has partial knowledge about the state of the world (Fig. 1). Below, we explore this model, taking into account the listener's knowledge about the speaker's epistemic state: whether or not the speaker has full or partial knowledge about the state of the world.
 
 <img src="../images/scalar.png" alt="Fig. 3: Example communication scenario from Goodman and Stuhmüller." style="width: 500px;"/>
 <center>Fig. 1: Example communication scenario from Goodman and Stuhmüller: How will the listener interpret the speaker’s utterance? How will this change if she knows that he can see only two of the objects?.</center>
 
-In the extended Scalar Implicature model, the pragmatic listener infers the true state of the world not only on the basis of the observed utterance, but also the speaker's espistemic access $$a$$.
+In the extended Scalar Implicature model, the pragmatic listener infers the true state of the world not only on the basis of the observed utterance, but also the speaker's epistemic access $$a$$.
 
 $$P_{L_{1}}(s\mid u, a) \propto P_{S_{1}}(u\mid s, a) \cdot P(s)$$
 
@@ -175,7 +175,7 @@ var belief = function(actualState, access) {
 
 print("1000 runs of the speaker's belief function:")
 
-viz.auto(repeat(1000,function() {
+viz(repeat(1000,function() {
   numTrue(belief([true,true,true],[true,true,false]))
 }))
 
@@ -288,9 +288,12 @@ viz.auto(pragmaticListener([true,true,false],'some'))
 
 ~~~~
 
-> **Exercise:** 
+> **Exercise:**
 
 > 1. Check the predictions for the other possible knowledge states.
-> 2. Compare the full-access predictions with the predictions from the simpler scalar implicature model above. Why are the predictions of the two models different? How can you get the model predictions to converge? (Hint: first try to align the predictions of the simpler model with those of the knowledge model, then try aligning the predictions of the knowledge model with those fo the simpler model.)
+> 2. Compare the full-access predictions with the predictions from the simpler scalar implicature model above. Why are the predictions of the two models different? How can you get the model predictions to converge? (Hint: first try to align the predictions of the simpler model with those of the knowledge model, then try aligning the predictions of the knowledge model with those of the simpler model.)
 
-We have seen how the RSA framework can implement the mechanism whereby utterance interpretations are strengthened. Through an interaction between what was said, what could have been said, and what all of those things literally mean, the model delivers scalar implicature. And by taking into account awareness of the speaker's knowledge, the model successfully *blocks* implicatures in those cases where listeners are unlikely to access them. 
+We have seen how the RSA framework can implement the mechanism whereby utterance interpretations are strengthened. Through an interaction between what was said, what could have been said, and what all of those things literally mean, the model delivers scalar implicature. And by taking into account awareness of the speaker's knowledge, the model successfully *blocks* implicatures in those cases where listeners are unlikely to access them.
+
+In RSA, speakers try to optimize information transmission. It seems like it would have nothing to say, then, about situations where speakers produce utterances that are *literally false*, as in  "I had to wait a million years to get a table last night!"
+In the [next chapter](03-nonliteral.html), we'll see how expanding the range of communicative goals of the speaker can lead listeners to infer nonliteral interpretations of utterances.
