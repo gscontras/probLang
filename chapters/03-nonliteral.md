@@ -115,7 +115,7 @@ viz(Infer({
 }))
 ~~~~
 
-Putting it all together, the Literal Listener updates these prior belief distributions by conditioning on the literal meaning of the utterance. The Question Under Discussion determines which kind of distribution (e.g., state or affect or both) will be returned.
+Putting it all together, the Literal Listener updates these prior belief distributions by conditioning on the literal meaning of the utterance. The Question Under Discussion determines which kind of distribution (e.g., price or affect or both) will be returned.
 
 ~~~~
 ///fold:
@@ -199,7 +199,7 @@ var literalListener = cache(function(utterance, qud) {
 > 2. Test out other QUDs. What aspects of interpretation does the literal listener capture? What aspects does it not capture?
 > 3. Create a new QUD function and try it out with "the kettle costs `10000` dollars".
 
-This enriched literal listener does a joint inference about the state and the valence but assumes a particular QUD by which to interpret the utterance. Similarly, the speaker chooses an utterance to convey a particular value of the QUD to the literal listener:
+This enriched literal listener does a joint inference about the price and the valence but assumes a particular QUD by which to interpret the utterance. Similarly, the speaker chooses an utterance to convey a particular value of the QUD to the literal listener:
 
 ~~~~
 var speaker = function(qudValue, qud) {
@@ -211,18 +211,19 @@ var speaker = function(qudValue, qud) {
 })};
 ~~~~
 
-To model hyperbole, Kao et al. posited that the pragmatic listener actually has uncertainty about what the QUD is, and jointly infers the world state (and speaker valence) and the intended QUD from the utterance he receives. That is, the pragmatic listener simulates how the speaker would behave with various QUDs.
+To model hyperbole, Kao et al. posited that the pragmatic listener actually has uncertainty about what the QUD is, and jointly infers the price (and speaker valence) and the intended QUD from the utterance he receives. That is, the pragmatic listener simulates how the speaker would behave with various QUDs.
 
 ~~~~
 var pragmaticListener = function(utterance) {
   return Infer({model: function(){
     var price = pricePrior()
-    var valence = valencePrior(state)
+    var valence = valencePrior(price)
+    var fullState = {price, valence}
     var qud = qudPrior()
     var qudFn = qudFns[qud]
     var qudValue = qudFn(price, valence)
     observe( speaker(qudValue, qud), utterance)
-    return {price, valence}
+    return fullState
   }
 })};
 ~~~~
