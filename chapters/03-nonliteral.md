@@ -18,47 +18,52 @@ The models we have so far considered strengthen the literal interpretations of o
 
 If you hear that someone waited "a million years" for a table at a popular restaurant or paid "a thousand dollars" for a coffee at a hipster hangout, you are unlikely to conclude that the improbable literal meanings are true. Instead, you conclude that the diner waited a long time, or paid an exorbitant amount of money, *and that she is frustrated with the experience*. Whereas blue circles are compatible with the literal meaning of "blue," five-dollar coffees are not compatible with the literal meaning of "a thousand dollars." How, then, do we arrive at sensible interpretations when our words are literally false?
 
-reft:kaoetal2014 propose that we model hyperbole understanding as pragmatic inference. Crucially, they propose that we recognize uncertainty about **communicative goals**: what Question Under Discussion (QUD) a speaker is likely addressing with their utterance. QUDs are modeled as summaries of the full world states, or *projections* of full world states onto the aspect(s) that are relevant for the Question Under Discussion. In the case study of hyperbolic language understanding, reft:kaoetal2014 propose that two aspects of the world are critical: the true state of the world and speakers' attitude toward the true state of the world (i.e., the valence of their *affect*), which is modeled simply as a binary positive/negative variable (representing whether or not the speaker is upset). In addition, the authors investigate the *pragmatic halo* effect, by considering a QUD that addresses *approximately* the exact state (`approxState`):
+reft:kaoetal2014 propose that we model hyperbole understanding as pragmatic inference. Crucially, they propose that we recognize uncertainty about **communicative goals**: what Question Under Discussion (QUD) a speaker is likely addressing with their utterance. QUDs are modeled as summaries of the full world states, or *projections* of full world states onto the aspect(s) that are relevant for the Question Under Discussion. In the case study of hyperbolic language understanding, reft:kaoetal2014 propose that two aspects of the world are critical: the true state of the world and speakers' attitude toward the true state of the world (e.g., the valence of their *affect*), which is modeled simply as a binary positive/negative variable (representing whether or not the speaker is upset). In addition, the authors investigate the *pragmatic halo* effect, by considering a QUD that addresses *approximately* the exact price (`approxPrice`):
 
 ~~~~
 ///fold:
 // Round x to nearest multiple of b (used for approximate interpretation):
-var approx = function(x,b) {
+var approx = function(x) {
+  var b = 10
   return b * Math.round(x / b)
 };
+var stringify = function(x){return JSON.stringify(x)}
 ///
 
 var qudFns = {
-  state : function(state, valence) {return {state: state} },
-  valence : function(state, valence) {return {valence: valence} },
-  stateValence : function(state, valence) {return {state: state, valence: valence} },
-  approxState : function(state, valence) {return {state: approx(state, 10) } },
+  price : function(state) {return { price: state.price } },
+  valence : function(state) {return { valence: state.valence } },
+  priceValence : function(state) {
+    return { price: state.price, valence: state.valence }
+  },
+  approxPrice : function(state) {return { price: approx(state.price) } },
 };
 
-print("QUD values for state (i.e., price)=51, valence (i.e., is annoyed?) = true")
+var fullState = { price: 51, valence: true }
+display("full state = " + stringify(fullState))
 
-print("valence QUD")
-var fun1 = qudFns["valence"]
-print(fun1(51, true))
+var valenceQudFn = qudFns["valence"]
+var valenceQudVal = valenceQudFn(fullState)
+display("valence QUD value = " + stringify(valenceQudVal))
 
-print("state QUD")
-var fun2 = qudFns["state"]
-print(fun2(51, true))
+var priceQudFn = qudFns["price"]
+var priceQudVal = priceQudFn(fullState)
+display("price QUD value = " + stringify(priceQudVal))
 
-print("stateValence QUD")
-var fun3 = qudFns["stateValence"]
-print(fun3(51, true))
+var priceValenceQudFn = qudFns["priceValence"]
+var priceValenceQudVal = priceValenceQudFn(fullState)
+display("priceValence QUD value = " + stringify(priceValenceQudVal))
 
-print("approxState QUD")
-var fun4 = qudFns["approxState"]
-print(fun4(51, true))
+var approxPriceQudFn = qudFns["approxPrice"]
+var approxPriceQudVal = approxPriceQudFn(fullState)
+display("approxPrice QUD value = " + stringify(approxPriceQudVal))
 ~~~~
 
-Accurately modeling world knowledge is key to getting appropriate inferences from the world. Kao et al. achieve this using **prior elicitation**, an empirical methodology for gathering precise quantitative information about interlocutors' relevant world knowledge. They do this to estimate the prior knowledge people carry about the price of an object (in this case, an *eletric kettle*), as well as the probability of getting upset (i.e., experiencing a negatively-valenced affect) in response to a given price.
+Accurately modeling world knowledge is key to getting appropriate inferences from the world. Kao et al. achieve this using **prior elicitation**, an empirical methodology for gathering precise quantitative information about interlocutors' relevant world knowledge. They do this to estimate the prior knowledge people carry about the price of an object (in this case, an *electric kettle*), as well as the probability of getting upset (i.e., experiencing a negatively-valenced affect) in response to a given price.
 
 ~~~~
 // Prior probability of kettle prices (taken from human experiments)
-var statePrior = function() {
+var pricePrior = function() {
   return categorical({
     vs: [
       50, 51,
@@ -79,7 +84,7 @@ var statePrior = function() {
 
 // Probability that given a price state, the speaker thinks it's too
 // expensive (taken from human experiments)
-var valencePrior = function(state) {
+var valencePrior = function(price) {
   var probs = {
     50 : 0.3173,
     51 : 0.3173,
@@ -92,19 +97,20 @@ var valencePrior = function(state) {
     10000 : 0.9864,
     10001 : 0.9864
   }
-  var tf = flip(probs[state]);
+  var tf = flip(probs[price]);
   return tf
 };
 
-display("marginal distribution on states")
-viz.table(Infer({model: statePrior}))
+display("marginal distribution on prices")
+viz.table(Infer({model: pricePrior}))
 
-display("join distribution on state and valence")
+display("joint distribution on price and valence")
 viz(Infer({
   model: function(){
-    var state = statePrior();
-    var valence = valencePrior(state);
-    return {valence, affect}
+    var price = pricePrior();
+    var valence = valencePrior(price);
+    var state = {price, valence}
+    return state
   }
 }))
 ~~~~
@@ -115,12 +121,12 @@ Putting it all together, the Literal Listener updates these prior belief distrib
 ///fold:
 // Round x to nearest multiple of b (used for approximate interpretation):
 var approx = function(x,b) {
+  var b = 10;
   return b * Math.round(x / b)
 };
-///
 
 // Prior probability of kettle prices (taken from human experiments)
-var statePrior = function() {
+var pricePrior = function() {
   return categorical({
     vs: [
       50, 51,
@@ -141,7 +147,7 @@ var statePrior = function() {
 
 // Probability that given a price state, the speaker thinks it's too
 // expensive (taken from human experiments)
-var valencePrior = function(state) {
+var valencePrior = function(price) {
   var probs = {
     50 : 0.3173,
     51 : 0.3173,
@@ -154,70 +160,71 @@ var valencePrior = function(state) {
     10000 : 0.9864,
     10001 : 0.9864
   }
-  var tf = flip(probs[state]);
+  var tf = flip(probs[price]);
   return tf
 };
-
+///
 var qudFns = {
-  state : function(state, valence) {return {state: state} },
-  valence : function(state, valence) {return {valence: valence} },
-  stateValence : function(state, valence) {return {state: state, valence: valence} },
-  approxState : function(state, valence) {return {state: approx(state, 10) } },
+  price : function(state) {return { price: state.price } },
+  valence : function(state) {return { valence: state.valence } },
+  priceValence : function(state) {
+    return { price: state.price, valence: state.valence }
+  },
+  approxPrice : function(state) {return { price: approx(state.price) } },
 };
 
 // Literal interpretation "meaning" function;
 // checks if uttered number reflects price state
-var meaning = function(utterance, state) {
-  return utterance == state;
+var meaning = function(utterance, price) {
+  return utterance == price;
 };
-
 
 var literalListener = cache(function(utterance, qud) {
   return Infer({model: function(){
 
-    var state = statePrior() // uncertainty about the state
-    var valence = valencePrior(state) // uncertainty about the valence
+    var price = pricePrior() // uncertainty about the price
+    var valence = valencePrior(price) // uncertainty about the valence
     var qudFn = qudFns[qud]
 
-    condition(meaning(utterance,state))
+    condition( meaning(utterance, price) )
 
-    return qudFn(state,valence)
+    return qudFn({price, valence})
   }
 })});
 ~~~~
 
 > **Exercises:**
 
-> 1. Suppose the literal listener hears the kettle costs `10000` dollars with the `"stateValence"` QUD. What does it infer?
+> 1. Suppose the literal listener hears the kettle costs `10000` dollars with the `"priceValence"` QUD. What does it infer?
 > 2. Test out other QUDs. What aspects of interpretation does the literal listener capture? What aspects does it not capture?
 > 3. Create a new QUD function and try it out with "the kettle costs `10000` dollars".
 
 This enriched literal listener does a joint inference about the state and the valence but assumes a particular QUD by which to interpret the utterance. Similarly, the speaker chooses an utterance to convey a particular value of the QUD to the literal listener:
 
 ~~~~
-var speaker = cache(function(qValue, qud) {
+var speaker = function(qudValue, qud) {
   return Infer({model: function(){
     var utterance = utterancePrior()
-    factor(alpha * literalListener(utterance,qud).score(qValue))
+    factor(alpha * literalListener(utterance, qud).score(qValue))
     return utterance
   }
-})});
+})};
 ~~~~
 
 To model hyperbole, Kao et al. posited that the pragmatic listener actually has uncertainty about what the QUD is, and jointly infers the world state (and speaker valence) and the intended QUD from the utterance he receives. That is, the pragmatic listener simulates how the speaker would behave with various QUDs.
 
 ~~~~
-var pragmaticListener = cache(function(utterance) {
+var pragmaticListener = function(utterance) {
   return Infer({model: function(){
-    var state = statePrior()
+    var price = pricePrior()
     var valence = valencePrior(state)
     var qud = qudPrior()
     var qudFn = qudFns[qud]
-    var qudValue = qudFn(state, valence)
+    var qudValue = qudFn(price, valence)
     observe( speaker(qudValue, qud), utterance)
-    return {state, valence}
+    return {price, valence}
   }
-})});
+})};
 ~~~~
 
 Here is the full model:
@@ -226,14 +233,13 @@ Here is the full model:
 ///fold:
 // Round x to nearest multiple of b (used for approximate interpretation):
 var approx = function(x,b) {
+  var b = 10;
   return b * Math.round(x / b)
 };
-///
 
 // Here is the code from the Kao et al. hyperbole model
-
-// Define list of kettle prices under consideration (possible price states)
-var statePrior = function() {
+// Prior probability of kettle prices (taken from human experiments)
+var pricePrior = function() {
   return categorical({
     vs: [
       50, 51,
@@ -271,26 +277,32 @@ var valencePrior = function(state) {
   return tf
 };
 
-// Prior over QUDs
-var qudPrior = function() {
- categorical({
-    vs: ["state", "valence", "stateValence", "approxState", "approxStateValence"],
-    ps: [0.17, 0.32, 0.17, 0.17, 0.17]
-  })
+// Literal interpretation "meaning" function;
+// checks if uttered number reflects price state
+var meaning = function(utterance, price) {
+  return utterance == price;
 };
 
 var qudFns = {
-  state : function(state, valence) {return {state} },
-  valence : function(state, valence) {return {valence} },
-  stateValence : function(state, valence) {return {state, valence} },
-  approxState : function(state, valence) {
-    return {state: approx(state, 10) }
+  price : function(state) {return { price: state.price } },
+  valence : function(state) {return { valence: state.valence } },
+  priceValence : function(state) {
+    return { price: state.price, valence: state.valence }
   },
-  approxStateValence: function(state, valence) {
-    return {state: approx(state, 10), valence }
+  approxPrice : function(state) {return { price: approx(state.price) } },
+  approxPriceValence: function(state) {
+    return { price: approx(state.price), valence: state.valence  }
   }
 };
+///
 
+// Prior over QUDs
+var qudPrior = function() {
+ categorical({
+    vs: ["price", "valence", "priceValence", "approxPrice", "approxPriceValence"],
+    ps: [1, 1, 1, 1, 1]
+  })
+};
 
 // Define list of possible utterances (same as price states)
 var utterances = [
@@ -301,29 +313,36 @@ var utterances = [
   10000, 10001
 ];
 
-// Precise numbers are costlier
-var utterancePrior = function() {
-  categorical({
-    vs: utterances,
-    ps: [0.18, 0.1, 0.18, 0.1, 0.18, 0.1, 0.18, 0.1, 0.18, 0.1]
-  })
-};
+// precise numbers can be assumed to be costlier than round numbers
+var preciseNumberCost = 1
+var utteranceCost = function(numberUtt){
+  return numberUtt == approx(numberUtt) ? // if it's a round number utterance
+        0 : // no cost
+        preciseNumberCost // cost of precise numbers (>= 0)
+}
 
-// Literal interpretation "meaning" function; checks if uttered number
-// reflects price state
-var meaning = function(utterance, state) {
-  return utterance == state;
+var utteranceProbs = map(function(numberUtt){
+  return Math.exp(-utteranceCost(numberUtt)) // prob ~ e^(-cost)
+}, utterances)
+
+var utterancePrior = function() {
+  categorical({ vs: utterances, ps: utteranceProbs })
 };
 
 // Literal listener, infers the qud value assuming the utterance is
 // true of the state
 var literalListener = cache(function(utterance, qud) {
   return Infer({model: function(){
-    var state = statePrior()
-    var valence = valencePrior(state)
+
+    var price = pricePrior() // uncertainty about the price
+    var valence = valencePrior(price) // uncertainty about the valence
+    var fullState = {price, valence}
+
+    condition( meaning(utterance, price) )
+
     var qudFn = qudFns[qud]
-    condition(meaning(utterance,state))
-    return qudFn(state,valence)
+
+    return qudFn(fullState)
   }
 })});
 
@@ -331,10 +350,10 @@ var literalListener = cache(function(utterance, qud) {
 var alpha = 1
 
 // Speaker, chooses an utterance to convey a particular value of the qud
-var speaker = cache(function(qValue, qud) {
+var speaker = cache(function(qudValue, qud) {
   return Infer({model: function(){
     var utterance = utterancePrior()
-    factor(alpha*literalListener(utterance,qud).score(qValue))
+    factor(alpha*literalListener(utterance,qud).score(qudValue))
     return utterance
   }
 })});
@@ -342,16 +361,19 @@ var speaker = cache(function(qValue, qud) {
 // Pragmatic listener, jointly infers the price state, speaker valence, and QUD
 var pragmaticListener = cache(function(utterance) {
   return Infer({model: function(){
-    var state = statePrior()
-    var valence = valencePrior(state)
+    //////// priors ////////
+    var price = pricePrior()
+    var valence = valencePrior(price)
     var qud = qudPrior()
+    ////////////////////////
 
+    var fullState = {price, valence}
     var qudFn = qudFns[qud]
-    var qudValue = qudFn(state, valence)
+    var qudValue = qudFn(fullState)
 
     observe(speaker(qudValue, qud), utterance)
 
-    return {state, valence}
+    return fullState
   }
 })});
 
@@ -360,16 +382,16 @@ var listenerPosterior = pragmaticListener(10000);
 print("pragmatic listener's joint interpretation of 'The kettle cost $10,000':")
 viz(listenerPosterior)
 
-print("marginal distributions:")
-viz.table(marginalize(listenerPosterior, "state"))
-viz.hist(marginalize(listenerPosterior, "valence"))
-
+// print("marginal distributions:")
+// viz.table(marginalize(listenerPosterior, "price"))
+// viz.hist(marginalize(listenerPosterior, "valence"))
 ~~~~
 
 > **Exercises:**
 
-> 1. Try the `pragmaticListener` with the other possible utterances.
-> 2. Check the predictions of the `speaker` for the `approxStateValence` QUD.
+> 1. In the second code box, we looked at the joint *prior* distribution over price and valence. Compare the results of that with the listener interpretation of "10000". What is similar? What is different?
+> 2. Try the `pragmaticListener` with the other possible utterances.
+> 3. Check the predictions of the `speaker` for the `approxPriceValence` QUD.
 
 By capturing the extreme (im)probability of kettle prices, together with the flexibility introduced by shifting communicative goals, the model is able to derive the inference that a speaker who comments on a "$10,000 kettle" likely intends to communicate that the kettle price was upsetting. The model thus captures some of the most flexible uses of language: what we mean when our utterances are literally false.
 
