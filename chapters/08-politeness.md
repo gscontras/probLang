@@ -129,7 +129,7 @@ var speaker1 = function(state, phi) {
 
     factor(alpha * speakerUtility)
 
-    return utterance;
+    return {utterance};
   }})
 };
 
