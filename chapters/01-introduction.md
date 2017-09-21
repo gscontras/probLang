@@ -52,35 +52,9 @@ Here $$P(s)$$ is an a priori belief regarding which state or object the speaker 
 The literal listener rule can be written as follows:
 
 ~~~~
-///fold:
-var mfRound = function(number, integers){
-  Math.round(number*Math.pow(10,integers))/Math.pow(10,integers);
-}
-//ugly print function for whole matrix literal listener
-var literalListener_matrix = function(){
-  var LLMatrix = map(function(u) {map(function(s) {mfRound(Math.exp(literalListener(u).score(s)),2)}, states)}, utterances)
-  return ("\t" + states[0].color + "-" + states[0].shape +
-        "\t" + states[1].color + "-" + states[1].shape +
-        "\t" + states[2].color + "-" + states[2].shape + "\n" +
-  utterances[0] + "\t" + LLMatrix[0][0] +
-        "\t" + "\t" + LLMatrix[0][1] +
-        "\t" + "\t" + LLMatrix[0][2] + "\n" +
-  utterances[1] + "\t" + LLMatrix[1][0] +
-        "\t" + "\t" + LLMatrix[1][1] +
-        "\t" + "\t" + LLMatrix[1][2] + "\n" +
-  utterances[2] + "\t" + LLMatrix[2][0] +
-        "\t" + "\t" + LLMatrix[2][1] +
-        "\t" + "\t" + LLMatrix[2][2] + "\n" +
-  utterances[3] + "\t" + LLMatrix[3][0] +
-        "\t" + "\t" + LLMatrix[3][1] +
-        "\t" + "\t" + LLMatrix[3][2])
-}
-///
 
 // set of states (here: objects of reference)
-var states = [{shape: "square", color: "blue"},
-              {shape: "circle", color: "blue"},
-              {shape: "square", color: "green"}]
+var states = ["blue_circle", "green_square", "blue_square"]
 
 // set of utterances
 var utterances = ["blue","green","square","circle"]
@@ -92,9 +66,7 @@ var objectPrior = function() {
 
 // meaning function to interpret the utterances
 var meaning = function(utterance, obj){
-  (utterance === "blue" || utterance === "green") ? utterance === obj.color :
-  (utterance === "circle" || utterance === "square") ? utterance === obj.shape :
-  true
+  _.includes(obj, utterance)
 }
 
 // literal listener
@@ -224,77 +196,33 @@ var pragmaticListener = function(utterance){
 Let's explore what happens when we put all of the previous agent models together.
 
 ~~~~
-// Frank and Goodman (2012) RSA model
 
+// print function 'condProb2Table' for conditional probability tables
 ///fold:
-// print methods
-var mfRound = function(number, integers){
-  Math.round(number*Math.pow(10,integers))/Math.pow(10,integers);
+var condProb2Table = function(condProbFct, row_names, col_names, precision){
+  var matrix = map(function(row) {
+    map(function(col) {
+      _.round(Math.exp(condProbFct(row).score(col)),precision)}, 
+        col_names)}, 
+                   row_names)
+  var max_length_col = _.max(map(function(c) {c.length}, col_names))
+  var max_length_row = _.max(map(function(r) {r.length}, row_names))
+  var header = _.repeat(" ", max_length_row + 2)+ col_names.join("  ") + "\n"
+  var row = mapIndexed(function(i,r) { _.padEnd(r, max_length_row, " ") + "  " + 
+                       mapIndexed(function(j,c) {
+                          _.padEnd(matrix[i][j], c.length+2," ")}, 
+                                  col_names).join("") + "\n" }, 
+                           row_names).join("")
+  return header + row
 }
-//ugly print function for whole matrix literal listener
-var print_literalListener = function(){
-  var LLMatrix = map(function(u) {map(function(s) {mfRound(Math.exp(literalListener(u).score(s)),2)}, states)}, utterances)
-  return ("\t" + states[0].color + "-" + states[0].shape +
-        "\t" + states[1].color + "-" + states[1].shape +
-        "\t" + states[2].color + "-" + states[2].shape + "\n" +
-  utterances[0] + "\t" + LLMatrix[0][0] +
-        "\t" + "\t" + LLMatrix[0][1] +
-        "\t" + "\t" + LLMatrix[0][2] + "\n" +
-  utterances[1] + "\t" + LLMatrix[1][0] +
-        "\t" + "\t" + LLMatrix[1][1] +
-        "\t" + "\t" + LLMatrix[1][2] + "\n" +
-  utterances[2] + "\t" + LLMatrix[2][0] +
-        "\t" + "\t" + LLMatrix[2][1] +
-        "\t" + "\t" + LLMatrix[2][2] + "\n" +
-  utterances[3] + "\t" + LLMatrix[3][0] +
-        "\t" + "\t" + LLMatrix[3][1] +
-        "\t" + "\t" + LLMatrix[3][2])
-}
-//ugly print function for whole matrix pragmatic speaker
-var print_speaker = function(){
-  var LLMatrix = map(function(s) {map(function(u) {mfRound(Math.exp(speaker(s).score(u)),2)}, utterances)}, states)
-  return ("\t" + "\t" + utterances[0]  +
-        "\t" + "\t" + utterances[1] +
-        "\t" + "\t" + utterances[2] +
-        "\t" + "\t" + utterances[3] + "\n" +
-  states[0].color + "-" + states[0].shape + "\t" + LLMatrix[0][0] +
-        "\t" + "\t" + LLMatrix[0][1] +
-        "\t" + "\t" + LLMatrix[0][2] +
-        "\t" + "\t" + LLMatrix[0][3] + "\n" +
-  states[1].color + "-" + states[1].shape + "\t" + LLMatrix[1][0] +
-        "\t" + "\t" + LLMatrix[1][1] +
-        "\t" + "\t" + LLMatrix[1][2] +
-        "\t" + "\t" + LLMatrix[1][3] + "\n" +
-  states[2].color + "-" + states[2].shape + "\t" + LLMatrix[2][0] +
-        "\t" + "\t" + LLMatrix[2][1] +
-        "\t" + "\t" + LLMatrix[2][2] +
-        "\t" + "\t" + LLMatrix[2][3])
-}
-//ugly print function for whole matrix pragmatic listener
-var print_pragmaticListener = function(){
-  var LLMatrix = map(function(u) {map(function(s) {mfRound(Math.exp(pragmaticListener(u).score(s)),2)}, states)}, utterances)
-  return ("\t" + states[0].color + "-" + states[0].shape +
-        "\t" + states[1].color + "-" + states[1].shape +
-        "\t" + states[2].color + "-" + states[2].shape + "\n" +
-  utterances[0] + "\t" + LLMatrix[0][0] +
-        "\t" + "\t" + LLMatrix[0][1] +
-        "\t" + "\t" + LLMatrix[0][2] + "\n" +
-  utterances[1] + "\t" + LLMatrix[1][0] +
-        "\t" + "\t" + LLMatrix[1][1] +
-        "\t" + "\t" + LLMatrix[1][2] + "\n" +
-  utterances[2] + "\t" + LLMatrix[2][0] +
-        "\t" + "\t" + LLMatrix[2][1] +
-        "\t" + "\t" + LLMatrix[2][2] + "\n" +
-  utterances[3] + "\t" + LLMatrix[3][0] +
-        "\t" + "\t" + LLMatrix[3][1] +
-        "\t" + "\t" + LLMatrix[3][2])
-}
+
 ///
 
+
+// Frank and Goodman (2012) RSA model
+
 // set of states (here: objects of reference)
-var states = [{shape: "square", color: "blue"},
-              {shape: "circle", color: "blue"},
-              {shape: "square", color: "green"}]
+var states = ["blue_circle", "green_square", "blue_square"]
 
 // set of utterances
 var utterances = ["blue","green","square","circle"]
@@ -306,9 +234,7 @@ var objectPrior = function() {
 
 // meaning function to interpret the utterances
 var meaning = function(utterance, obj){
-  (utterance === "blue" || utterance === "green") ? utterance === obj.color :
-  (utterance === "circle" || utterance === "square") ? utterance === obj.shape :
-  true
+  _.includes(obj, utterance)
 }
 
 // literal listener
@@ -341,17 +267,19 @@ var pragmaticListener = function(utterance){
   }})
 }
 
-// full probability tables
-// display("literal listener's interpretation")
-// display(print_literalListener())
-// display(" ")
-// display("speaker's utterance distribution:")
-// display(print_speaker())
-// display(" ")
-// display("pragmatic listener's interpretation:")
-// display(print_pragmaticListener())
+// uncomment the following lines for complete probability tables
+
+// display("literal listener")
+// display(condProb2Table(literalListener, utterances, states, 2))
+// display("")
+// display("speaker")
+// display(condProb2Table(speaker, states, utterances, 2))
+// display("")
+// display("pragmatic listener")
+// display(condProb2Table(pragmaticListener, utterances, states, 2))
 
 viz.table(pragmaticListener("blue"))
+
 ~~~~
 
 > **Exercises:**
