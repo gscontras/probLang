@@ -549,7 +549,7 @@ var goalPrior = function() {
 // Speaker optimality parameter
 var alpha = 3
 
-// Check if interpreted categroy is identical to utterance
+// Check if interpreted category is identical to utterance
 var literalInterpretation = function(utterance, category) {
   utterance === category ? true : false
 }
