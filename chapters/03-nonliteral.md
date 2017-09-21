@@ -106,7 +106,7 @@ viz.table(Infer({model: pricePrior}))
 
 ~~~~
 
-> **Exercise:** Use `Infer()` to visualize the joint distribution on price and valence.
+> **Exercise:** Use `Infer()` to visualize the joint distribution on price and valence. (Hint: You'll want to run inference over a function that returns an object like the following: `{price: aPrice, valence: aValence}`.)
 
 Putting it all together, the Literal Listener updates these prior belief distributions by conditioning on the literal meaning of the utterance. The Question Under Discussion determines which kind of distribution (e.g., price or affect or both) will be returned.
 
