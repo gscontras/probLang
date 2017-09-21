@@ -198,7 +198,7 @@ This enriched literal listener does a joint inference about the price and the va
 var speaker = function(qudValue, qud) {
   return Infer({model: function(){
     var utterance = utterancePrior()
-    factor(alpha * literalListener(utterance, qud).score(qValue))
+    factor(alpha * literalListener(utterance, qud).score(qudValue))
     return utterance
   }
 })};
@@ -394,12 +394,10 @@ By capturing the extreme (im)probability of kettle prices, together with the fle
 The same machinery---actively reasoning about the QUD---has been used to capture other cases of non-literal language. [Kao and Goodman (2015)](http://cocolab.stanford.edu/papers/KaoEtAl2015-Cogsci.pdf) use this process to model ironic language, utterances whose intended meanings are opposite in polarity to the literal meaning. For example, if we are standing outside on a beautiful day and I tell you the weather is "terrible," you're unlikely to conclude that I intend to be taken literally. Instead, you will probably interpret the utterance ironically and conclude that I intended the opposite of what I uttered, namely that the weather is good and I'm happy about it. The following model implements this reasoning process by formalizing three possible conversational goals: communicating about the true state, communicating about the speaker's valence (i.e., whether they feel positively or negatively toward the state), and communicating about the speaker's arousal (i.e., how strongly they feel about the state).
 
 ~~~~
-// There are three possible states the weather could be in: terrible, ok, or amazing
+// There are three possible states the weather could be in: terrible, okay, or amazing
 var states = ['terrible', 'ok', 'amazing']
 
-// Since we are in California, the prior over these states are the following.
-// Once could also imagine this being the prior in a certain context, e.g. when it's clearly
-// sunny and nice out.
+// Since the authors are in California, the prior over these states privileges okay and amazing weather.
 var statePrior = function() {
   categorical([0.01, 0.5, 0.5], states)
 }
@@ -414,7 +412,7 @@ var valencePrior = function(state) {
   true
 }
 
-// Define arousals. Assuming arousal is binary, but could model as continuous.
+// Define binary arousals (could model as continuous).
 var arousals = ["low", "high"]
 
 // Define goals and goal priors. Could want to communicate state of the world,    
@@ -441,7 +439,7 @@ var arousalPrior = function(state) {
   true
 }
 
-// Literal interpretation is just when utterance equals state
+// Literal interpretation is just whether utterance equals state
 var literalInterpretation = function(utterance, state) {
   utterance === state ? true : false
 }
@@ -602,4 +600,4 @@ viz.table(pragmaticListener("whale"))
 
 ~~~~
 
-All of the models we have considered so far operate at the level of full utterances, with conversational participants reasoning about propositions. In the [next chapter](03-ambiguity.html), we begin to look at what it would take to model reasoning about sub-propositional meaning-bearing elements within the RSA framework.
+All of the models we have considered so far operate at the level of full utterances, with conversational participants reasoning about propositions. In the [next chapter](04-ambiguity.html), we begin to look at what it would take to model reasoning about sub-propositional meaning-bearing elements within the RSA framework.
