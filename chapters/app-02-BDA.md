@@ -829,12 +829,36 @@ The fault lies in our model code. We assumed that the literal listener uses the 
 
 #### Model comparison
 
+Model criticism, using visual posterior predicitive checks, clearly suggest that one model is better than the other. Still, this is not yet a quantitative measure of relative model quality. It would be ideal to have a clear and intuitively interpretable criterion for model comparison in terms of the **rational beliefs** a researcher should adopt about which model is likely, given the observed data. This is exactly how we started this chapter --- calculating the posterior probability $$P(M_1 \mid D)$$ of a model $$M_1$$ when there are only two models at hand. In the more general case, we are aware that there are many more conceivable models, some of which might be much better at handling the data, even if we are (currently) unable to specify these models. (We may be aware of the principal possibility of a better theory that would explain some puzzling data, even if we are (currently) unable to conceive of it. Usually, this feeling beseeches us when, even for the best currently known theory $$M$$, the data is still surprising, as made apparent by model criticism.) In order to avoid quantifying our beliefs about all conceivable models (including a quantification of our beliefs in models that we are unaware of), the standard approach to Bayesian model comparison looks at only two candidate models. In that case, we can easily compute the posterior model odds as a product of the prior model odds and a quantity called the **Bayes factor**:
+
+$$ \underbrace{\frac{P(M_1 \mid D)}{P(M_2 \mid D)}}_{\text{posterior odds}} =   \underbrace{\frac{P(M_1)}{P(M_2)}}_{\text{prior odds}} \ \underbrace{\frac{P(D \mid M_1)}{P(D \mid M_2)}}_{\text{Bayes factor}} $$
+
+> **Exercises:**
+
+> 1. Show that the equation above follows straightforwardly from a simple application of Bayes rule to the terms $$P(M_i \mid D)$$.
+
+Posterior model odds are subjective in the sense that they depend on a researcher's prior beliefs about the models to compare. Bayes factors do not depend on prior beliefs about models (but they still contain a subjective component; see below). Bayes factors quantify how likely the observed data was from each model's point of view, before the data was observed. This is highly intuitive, and at the heart of many formalizations of **observational evidence** in philosophy of science: data $$D$$ is evidence in favor of model $$M_1$$ over $$M_2$$ if $$D$$ is more likely to happen under $$M_1$$ than under $$M_2$$; if $$D$$ is rather what $$M_1$$ would predict than $$M_2$$.
+
+The Bayes factor in favor of $$M_1$$ quantifies how much prior odds should change in light of the data. Bayes factors bigger than 10 are usually considered noteworthy evidence in favor of a model. But even with Bayes factors of 100 in favor of $$M_1$$ might still belief that $$M_2$$ is more likely, namely if she started out with a very strong belief in $$M_2$$, e.g., from previous belief conditioning on empirical observations.
+
+Computing Bayes factors is difficult for complex models. The reason is that we would need the **marginal likelihood** of each model, which is exactly the quantity we tried to avoid in parameter estimation (e.g., by using MCMC techniques):
+
+$$ P(D \mid M_i) = \int P(\theta \mid M_i) \ P(D \mid \theta, M_i) \ \text{d}\theta$$ 
+
+For simple models the marginal likelihood can be approximated reasonably well by naive Monte Carlo sampling. (A model is "simple" in this context, if it has few parameters and/or the priors over parameters put almost all non-negligible probability mass on regions of high likelihood of the data.) Naive Monte Carlo sampling approximates the above integral by taking repeated samples from the prior, computing the likelihood of the data for each sample and then taking the average:
+
+$$P(D \mid M_i) \approx \frac{1}{n} \sum^{n}_{\theta_j \sim P(\theta \mid M_i)} P(D \mid \theta_j, M_i)$$
+
+The following code implements naive Monte Carlo (feedforward) sampling to estimate a model's marginal likelihood for the comparison between two variants of the RSA model: one "uniform" variant in which the literal listener uses uniform priors over states/referents, and one "salience" variant where the literal listener uses the empirically measured salience priors --- exactly the models that we looked at previously in the section on model criticism.
+
+
 ~~~~
 
 ////////////////
 // OBSERVED DATA
 ////////////////
 
+///fold:
 var salience_priors = {
   blue_circle:   71,  // object "blue circle" was selected 71 times
   green_square: 139,
@@ -851,11 +875,13 @@ var comp_data = {
   blue:   {blue_circle: 65, green_square:   0, blue_square: 115},
   square: {blue_circle:  0, green_square: 117, blue_square:  62}
 }
+///
 
 ////////////
 // RSA MODEL
 ////////////
 
+///fold:
 // set of states (here: objects of reference)
 var states = ["blue_circle", "green_square", "blue_square"]
 
@@ -905,11 +931,14 @@ var pragmaticListener = function(utterance, alpha, c, variant){
     return obj
   }})
 }
+///
 
 ///////////////////
 // Model Comparison
 ///////////////////
 
+// compute the likelihood of a model variant 
+// (uniform vs. salience priors in the literal listener)
 var LH = function(variant){
 
   // priors over parameters of interest
@@ -953,7 +982,7 @@ var marginal_likelihood_bad = expectation(
     samples: n_samples,
     model: function() {LH("flat")}}))
 
-display("Bayes Factor estimate by naive forward sampling: ")
+display("Bayes Factor estimate by naive forward sampling:")
 marginal_likelihood_good / marginal_likelihood_bad
 
 ~~~~
@@ -962,3 +991,6 @@ marginal_likelihood_good / marginal_likelihood_bad
 
 > 1. What does this numerical result mean? Which model is better? Is this strong or weak evidence in favor of one model?
 > 2. Execute this code two or three times and compare the results. The estimate of the Bayes Factor is not stable. Does this imprecision matter?
+> 3. Bayes factors depend on the priors over parameters. Change the priors over the cost parameter to allow only positive cost terms (a bias against color terms, in favor of shape terms) but with a wider range, e.g., sample $$c$$ from a uniform distribution with support from 0 to 4. Does this change the outcome of model comparison? (Hint: it might be easier to see a different if you output the Bayes factor in favor of the "bad" model.)
+
+Efficient approximation of marginal likelihoods and Bayes factors is an important area of active research. A short overview of different methods for computing Bayes factors is [here](http://michael-franke.github.io/statistics,/modeling/2017/07/07/BF_computation.html).
