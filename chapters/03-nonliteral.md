@@ -104,16 +104,9 @@ var valencePrior = function(price) {
 display("marginal distribution on prices")
 viz.table(Infer({model: pricePrior}))
 
-display("joint distribution on price and valence")
-viz(Infer({
-  model: function(){
-    var price = pricePrior();
-    var valence = valencePrior(price);
-    var state = {price, valence}
-    return state
-  }
-}))
 ~~~~
+
+> **Exercise:** Use `Infer()` to visualize the joint distribution on price and valence.
 
 Putting it all together, the Literal Listener updates these prior belief distributions by conditioning on the literal meaning of the utterance. The Question Under Discussion determines which kind of distribution (e.g., price or affect or both) will be returned.
 
