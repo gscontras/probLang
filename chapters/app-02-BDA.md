@@ -980,7 +980,7 @@ var marginal_likelihood_bad = expectation(
   Infer({
     method: "forward",
     samples: n_samples,
-    model: function() {LH("flat")}}))
+    model: function() {LH("salience")}}))
 
 display("Bayes Factor estimate by naive forward sampling:")
 marginal_likelihood_good / marginal_likelihood_bad
