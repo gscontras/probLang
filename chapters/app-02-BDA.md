@@ -24,7 +24,7 @@ Consider the vanilla RSA model from [Chapter 1](01-introduction.html) once more.
 <center>Fig. 1: Example referential communication scenario from Frank and Goodman. Speakers choose a single word, <i>u</i>, to signal an object, <i>s</i>.</center>
 
 
-The vanilla RSA model defines a literal and a pragmatic listener rule, both of which map utterances $$u \in U$$ to probability distributions over states/objects $$s \in S$$: 
+The vanilla RSA model defines a literal and a pragmatic listener rule, both of which map utterances $$u \in U$$ to probability distributions over states/objects $$s \in S$$:
 
 $$P_{L_{0,1}} \colon U \rightarrow \Delta(S)$$
 
@@ -108,9 +108,9 @@ The remaining terms are of the form $$P(D \mid M)$$ and refer to the **likelihoo
 ~~~~
 var total_observations = 180
 var observed_successes = 115
-var LH_literalLister = Math.exp(Binomial({n: total_observations, 
+var LH_literalLister = Math.exp(Binomial({n: total_observations,
                                           p: 0.5}).score(observed_successes))
-var LH_pragmatLister = Math.exp(Binomial({n: total_observations, 
+var LH_pragmatLister = Math.exp(Binomial({n: total_observations,
                                           p: 0.6}).score(observed_successes))
 var posterior_literalListener = LH_literalLister /
     (LH_literalLister + LH_pragmatLister)
@@ -282,7 +282,7 @@ viz(posterior_samples)
 > 5. Add the commented-out `factor` statement back in and inspect the result. Try to see that Bayesian posterior inference over parameters is a mixture of prior and likelihood terms.
 > 6. What do you think will happen when we increase or decrease the number of observations while keeping the ratio of total observations to observed counts constant (like in a previous exercise)? Try it!
 
-Let us take stock. The last example showed how to do data-driven Bayesian inference of a model parameter. **Bayesian parameter estimation** tells us what we should rationally believe about the values of parameters, given the observed data and the postulated model. The model in question here contains both the prior and the likelihood function; Bayesian inference depends on the prior over parameters. We can take flat, so-called **uninformative priors** if we are mainly agnostic in the beginning and simply interested in the shape of the likelihood surface. If parameters are meaningful and if we have knowledge (from previous experiments or other sources), this knowledge can (and some say: should) be fed into the priors and so become part of the modeller's hypothesis of the data-generating process. 
+Let us take stock. The last example showed how to do data-driven Bayesian inference of a model parameter. **Bayesian parameter estimation** tells us what we should rationally believe about the values of parameters, given the observed data and the postulated model. The model in question here contains both the prior and the likelihood function; Bayesian inference depends on the prior over parameters. We can take flat, so-called **uninformative priors** if we are mainly agnostic in the beginning and simply interested in the shape of the likelihood surface. If parameters are meaningful and if we have knowledge (from previous experiments or other sources), this knowledge can (and some say: should) be fed into the priors and so become part of the modeller's hypothesis of the data-generating process.
 
 #### Full example
 
@@ -323,8 +323,8 @@ var salience_priors = {
 
 // prior over world states
 var objectPrior = function() {
-  categorical({ps: _.values(salience_priors), // empirical data 
-               vs: _.keys(salience_priors)}) 
+  categorical({ps: _.values(salience_priors), // empirical data
+               vs: _.keys(salience_priors)})
 }
 
 Infer({model: objectPrior})           
@@ -363,16 +363,16 @@ The full model, including empirically measured salience priors and cost terms, i
 var condProb2Table = function(condProbFct, row_names, col_names, precision){
   var matrix = map(function(row) {
     map(function(col) {
-      _.round(Math.exp(condProbFct(row).score(col)),precision)}, 
-        col_names)}, 
+      _.round(Math.exp(condProbFct(row).score(col)),precision)},
+        col_names)},
                    row_names)
   var max_length_col = _.max(map(function(c) {c.length}, col_names))
   var max_length_row = _.max(map(function(r) {r.length}, row_names))
   var header = _.repeat(" ", max_length_row + 2)+ col_names.join("  ") + "\n"
-  var row = mapIndexed(function(i,r) { _.padEnd(r, max_length_row, " ") + "  " + 
+  var row = mapIndexed(function(i,r) { _.padEnd(r, max_length_row, " ") + "  " +
                        mapIndexed(function(j,c) {
-                          _.padEnd(matrix[i][j], c.length+2," ")}, 
-                                  col_names).join("") + "\n" }, 
+                          _.padEnd(matrix[i][j], c.length+2," ")},
+                                  col_names).join("") + "\n" },
                            row_names).join("")
   return header + row
 }
@@ -414,8 +414,8 @@ var utterances = ["blue","circle","green","square"]
 
 // prior over world states
 var objectPrior = function() {
-  categorical({ps: _.values(salience_priors), // empirical data 
-               vs: _.keys(salience_priors)}) 
+  categorical({ps: _.values(salience_priors), // empirical data
+               vs: _.keys(salience_priors)})
 }
 
 // meaning function to interpret the utterances
@@ -476,12 +476,12 @@ display(condProb2Table(literalListener, utterances, states,2))
 > **Exercises:**
 
 > 1. Look at the changes to `objectPrior`, call the `literalListener` function for various utterances and make sure that you understand why you see the results that you see.
-> 2. Look at the speaker's interpretation of "blue". Use cost `c = 0` first and then modify the costs to inspect how they change the speaker's utterance choice probabilities.
+> 2. Look at the speaker's utterance productions for the "blue_square". Use cost `c = 0` first and then modify the costs to inspect how they change the speaker's utterance choice probabilities.
 > 3. Test how different cost values affect the pragmatic listener's interpretation.
 
 #### Parameter estimation for full data set
 
-The current model has two parameters, optimality $$\alpha$$ and an utterance cost $$c$$ that differentiates shape from color terms. The latter is theoretically interesting: does the observed data lead us to believe that $$c$$ should be substantially different from zero? 
+The current model has two parameters, optimality $$\alpha$$ and an utterance cost $$c$$ that differentiates shape from color terms. The latter is theoretically interesting: does the observed data lead us to believe that $$c$$ should be substantially different from zero?
 
 ~~~~
 
@@ -522,8 +522,8 @@ var utterances = ["blue","circle","green","square"]
 
 // prior over world states
 var objectPrior = function() {
-  categorical({ps: _.values(salience_priors), // empirical data 
-               vs: states}) 
+  categorical({ps: _.values(salience_priors), // empirical data
+               vs: states})
 }
 
 // meaning function to interpret the utterances
@@ -570,19 +570,19 @@ var pragmaticListener = function(utterance, alpha, c){
 ////////////////
 
 var dataAnalysis = function(){
-  
+
   // priors over parameters of interest
-  
+
   var alpha = uniform({a:0, b:10})
   var c = uniform({a:-4, b:4})
 
   // speaker production part
-  
+
   map(function(s){ // anonymous call to "map" around "observe" -> think: for-loop
-    
+
     var speaker_predictions = speaker(s, alpha, c)
     var speaker_data = prod_data[s]
-    
+
     var utt_probs = map(function(u){
       return Math.exp(speaker_predictions.score(u))
     }, _.keys(speaker_data))
@@ -590,15 +590,15 @@ var dataAnalysis = function(){
     var utt_count = map(function(u){
       return speaker_data[u]
     }, _.keys(speaker_data))
-    
-    observe(Multinomial({n: sum(utt_count), 
-                         ps: utt_probs}), 
+
+    observe(Multinomial({n: sum(utt_count),
+                         ps: utt_probs}),
             utt_count)
 
     }, states)
- 
+
   // listener comprehension part
-  
+
   map(function(u){ // anonymous call to "map" around "observe" -> think: for-loop
 
     var listener_predictions = pragmaticListener(u, alpha, c)
@@ -612,12 +612,12 @@ var dataAnalysis = function(){
       return listener_data[s]
     }, _.keys(listener_data))
 
-    observe(Multinomial({n: sum(int_count), 
-                         ps: int_probs}), 
+    observe(Multinomial({n: sum(int_count),
+                         ps: int_probs}),
             int_count)
 
   }, _.keys(comp_data))
- 
+
   return {alpha: alpha, costs: c}
 }
 
@@ -689,8 +689,8 @@ var utterances = ["blue","circle","green","square"]
 
 // prior over world states
 var objectPrior = function() {
-  categorical({ps: _.values(salience_priors), // empirical data 
-               vs: states}) 
+  categorical({ps: _.values(salience_priors), // empirical data
+               vs: states})
 }
 
 // meaning function to interpret the utterances
@@ -738,19 +738,19 @@ var pragmaticListener = function(utterance, alpha, c){
 ////////////////
 
 var posterior_predictive = function(){
-  
+
   // priors over parameters of interest
-  
+
   var alpha = uniform({a:0, b:10})
   var c = uniform({a:-0.4, b:0.4})
 
   // speaker production part
-  
+
   var PP_speaker = map(function(s){
-    
+
     var speaker_predictions = speaker(s, alpha, c)
     var speaker_data = prod_data[s]
-    
+
     var utt_probs = map(function(u){
       return Math.exp(speaker_predictions.score(u))
     }, _.keys(speaker_data))
@@ -758,17 +758,17 @@ var posterior_predictive = function(){
     var utt_count = map(function(u){
       return speaker_data[u]
     }, _.keys(speaker_data))
-    
-    observe(Multinomial({n: sum(utt_count), 
-                         ps: utt_probs}), 
+
+    observe(Multinomial({n: sum(utt_count),
+                         ps: utt_probs}),
             utt_count)
-    
+
     return multinomial({n: sum(utt_count), ps: utt_probs})
-    
+
     }, states)
- 
+
   // listener comprehension part
-  
+
   var PP_listener = map(function(u){
 
     var listener_predictions = pragmaticListener(u, alpha, c)
@@ -782,14 +782,14 @@ var posterior_predictive = function(){
       return listener_data[s]
     }, _.keys(listener_data))
 
-    observe(Multinomial({n: sum(int_count), 
-                         ps: int_probs}), 
+    observe(Multinomial({n: sum(int_count),
+                         ps: int_probs}),
             int_count)
 
     return multinomial({n: sum(int_count), ps: int_probs})
 
   }, _.keys(comp_data))
- 
+
   return {PP_speaker, PP_listener, alpha, c}
 }
 
@@ -801,7 +801,7 @@ var postPredSamples = Infer({
 
 display("Some (badly formatted) samples from the posterior predictive distribution of the speaker data.")
 
-display(mapIndexed(function(i,x) {postPredSamples.support()[i]["PP_speaker"]}, 
+display(mapIndexed(function(i,x) {postPredSamples.support()[i]["PP_speaker"]},
   postPredSamples.support()).join("\n"))
 
 ~~~~
@@ -843,7 +843,7 @@ The Bayes factor in favor of $$M_1$$ quantifies how much prior odds should chang
 
 Computing Bayes factors is difficult for complex models. The reason is that we would need the **marginal likelihood** of each model, which is exactly the quantity we tried to avoid in parameter estimation (e.g., by using MCMC techniques):
 
-$$ P(D \mid M_i) = \int P(\theta \mid M_i) \ P(D \mid \theta, M_i) \ \text{d}\theta$$ 
+$$ P(D \mid M_i) = \int P(\theta \mid M_i) \ P(D \mid \theta, M_i) \ \text{d}\theta$$
 
 For simple models the marginal likelihood can be approximated reasonably well by naive Monte Carlo sampling. (A model is "simple" in this context, if it has few parameters and/or the priors over parameters put almost all non-negligible probability mass on regions of high likelihood of the data.) Naive Monte Carlo sampling approximates the above integral by taking repeated samples from the prior, computing the likelihood of the data for each sample and then taking the average:
 
@@ -937,7 +937,7 @@ var pragmaticListener = function(utterance, alpha, c, variant){
 // Model Comparison
 ///////////////////
 
-// compute the likelihood of a model variant 
+// compute the likelihood of a model variant
 // (uniform vs. salience priors in the literal listener)
 var LH = function(variant){
 
