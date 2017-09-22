@@ -52,11 +52,31 @@ Then we can use the RSA core to resolve a more precise meaning in context.
 
 ### A pragmatic model of generic language
 
-The model takes the generic $$[\![\text{K has F}]\!]$$ to mean the prevalence of property F within kind K (i.e., $$P(F \mid K)$$) is above some threshold (cf. Cohen 1999). Quantifiers can be described as conditions on prevalence: $$[\![\text{some}]\!] := P(F \mid K) > 0 $$, $$[\![\text{all}]\!] := P(F \mid K) = 1$$. But for the generic, no fixed value of the threshold would suffice. Instead, we leave the threshold underspecified in the semantics ($$\theta \sim \text{Uniform}(0, 1)$$) and infer it in context.
+The model takes the generic $$[\![\text{K has F}]\!]$$ to mean the prevalence of property F within kind K is above some threshold: $$P(F \mid K) > \theta$$ (cf., Cohen 1999).
+But for the generic, no fixed value of the $$\theta$$ would suffice.
+Instead, we leave the threshold underspecified in the semantics ($$\theta \sim \text{Uniform}(0, 1)$$) and infer it in context.
 
-Context here takes the form of the listener's and speaker's shared beliefs about the property in question. The shape of this distribution affects the listener's interpretation, because the threshold must be calibrated to make utterances truthful and informative. The shape of this distribution varies significantly among different properties (e.g., *lays eggs*, *carries malaria*), and may be the result of a deeper conceptual model of the world.
+In RSA, we could write this as the following:
 
-First, let's try to understand the prior.
+~~~~
+var pragmaticListener = function(utterance) {
+  Infer({model: function(){
+    var x = sample(xPrior)
+    var theta = uniform(0, 1)
+    var S1 = speaker1(x, theta)
+    observe(S1, utterance)
+    return x
+  }})
+}
+~~~~
+
+Here, we have a uniform prior over `theta`.
+What is `x` though (and what is the `xPrior`)?
+Given that we've posited that the semantics of the generic are about the prevalence $$P(F \mid K)$$ (i.e., the `meaning()` function in the `literalListener` conditions on `x > theta`) then what the listener updates her beliefs about is  the prevalence $$P(F \mid K)$$.
+So `x` is prevalence.
+
+The listener samples `x` from some prior `xPrior`, which is a prior distribution over the prevalence of the feature.
+Let's try to understand that.
 
 ### Prior model
 
@@ -173,11 +193,11 @@ var priorModel = function(params){
   }})
 }
 
-// e.g. "Has Wings"
+// e.g. "Lays eggs"
 viz(priorModel({
   phi: 0.3,
-  g: 0.99, // how prevalent under the stable cause
-  d: 10    // the inverse-variance of the stable cause
+  g: 0.5, // how prevalent under the stable cause
+  d: 10   // the inverse-variance of the stable cause
 }))
 ~~~~
 
@@ -211,7 +231,7 @@ var DiscreteBeta = cache(function(g, d){
   var probs = map(betaPDF, bins);
   return Categorical({vs: bins, ps: probs})
 })
-///
+
 var priorModel = function(params){
   Infer({model: function(){
 
@@ -222,28 +242,44 @@ var priorModel = function(params){
       sample(StableDistribution) :
       sample(UnstableDistribution)
 
-    return {x}
+    return x
 
   }})
 }
 ///
-
-var utterances = ["generic", "silence"];
-
-var thresholdPrior = function() { return uniformDraw(thresholdBins) };
-var utterancePrior = function() { return uniformDraw(utterances) };
-
 var meaning = function(utterance, x, threshold) {
   return (utterance == 'generic') ? x > threshold : true
 }
+var thresholdPrior = function() { return uniformDraw(thresholdBins) };
+var theta = thresholdPrior()
 
-var threshold = thresholdPrior()
+display("theta = " + theta)
+var statePrior = priorModel({
+  phi: 0.3,
+  g: 0.5, // how prevalent under the stable cause
+  d: 10   // the inverse-variance of the stable cause
+})
 
-print(threshold)
-meaning("generic", 0.5, threshold)
+display("prevalence prior")
+viz(statePrior)
+
+var literalListener = cache(function(utterance, threshold) {
+  Infer({model: function(){
+    var x = sample(statePrior)
+    var m = meaning(utterance, x, threshold)
+    condition(m)
+    return x
+  }})
+})
+
+display("literal listener posterior, given a threshold of " + theta)
+literalListener("generic", theta)
 ~~~~
 
-Since we have a prior and a meaning function, we are ready to implement RSA. For the speaker utterances, we use only the alternative of staying silent. Staying silent is a null utterance that has no information content. The inclusion of the null utterance turns the generic into a speech-act, and is useful for evaluating the meaning of an utterance without competition of alternatives.
+Run the code multiple times. Each time it samples a new threshold and passes it to the literal listener.
+How do decide upon a threshold? We can use the `pragmaticListener` in RSA to decide what threshold a speaker would use.
+
+For the speaker utterances, we use only the alternative of staying silent. Staying silent is a null utterance that has no information content. The inclusion of the null utterance turns the generic into a speech-act, and is useful for evaluating the meaning of an utterance without competition of alternatives.
 
 ~~~~
 ///fold:
