@@ -34,8 +34,21 @@ Generic language (e.g., *Swans are white.*) is a simple and ubiquitous way to co
 
 Indeed, it appears that any truth conditions stated in terms of how common the property is within the kind violates intuitions. Consider the birds: for a bird, being female practically implies you will lay eggs (the properties are present in the same proportion), yet we say things like *Birds lay eggs* and we do not say things like *Birds are female*.
 
-reft:tessler2016manuscript propose that the core meaning of a generic statement is simple (i.e., a threshold function), but underspecified (listener has uncertainty about $$\theta$$), and that general principles of communication may be used to resolve precise meaning in context. In particular, they developed a model that describes pragmatic reasoning about the degree of prevalence required to assert the generic.
+~~~~
+var theta = 0.49
+var generic = function(x){ x > theta }
+var number_of_birds_that_lay_eggs = 0.5;
+var number_of_birds_that_are_female = 0.5;
+var number_of_mosquitos_that_carry_malaria = 0.02;
 
+display("Birds lay eggs is true ? " + generic(number_of_birds_that_lay_eggs))
+display("Birds are female is true ? " + generic(number_of_birds_that_are_female))
+display("Mosquitos carry malaria is true ? " + generic(number_of_mosquitos_that_carry_malaria))
+''
+~~~~
+
+reft:tessler2016manuscript propose that the core meaning of a generic statement is in fact a threshold as in `generic` above, but underspecified (listener has uncertainty about `theta`).
+Then we can use the RSA core to resolve a more precise meaning in context.
 
 ### A pragmatic model of generic language
 
@@ -47,7 +60,53 @@ First, let's try to understand the prior.
 
 ### Prior model
 
-If speakers and listeners believe that some kinds have a causal mechanism that *stably* gives rise to the property, while others do not, then we would expect the prior to be structured as a mixture distribution (cf., Griffiths & Tenenbaum, 2005).
+Think of your favorite kind of animal.
+Got one in mind?
+What percentage of that kind of animal *is female*?
+Probably roughly 50%, regardless of the kind of animal you thought of.
+What percentage of that kind of animal *lays eggs*?
+Well, it probably depends on the kind of animal you thought. If you thought of a falcon, then roughly 50% (recall, only the females lay eggs).
+But if you thought of a bear, then 0% of them lay eggs.
+
+We can conceive of the prior distribution over the prevalence of a feature with a kind $$P(F\mid K)$$ as a distribution over kinds $$P(K)$$ and then the prevalence of the feature within the kind.
+
+~~~~
+var allKinds = [
+  {kind: "dog", family: "mammal"},
+  {kind: "falcon", family: "bird"},
+  {kind: "cat", family: "mammal"},
+  {kind: "gorilla", family: "mammal"},
+  {kind: "robin", family: "bird"},
+  {kind: "alligator", family: "reptile"},
+  {kind: "giraffe", family: "mammal"},
+]
+
+var kindPrior = function(){
+  uniformDraw(allKinds)
+}
+
+var prevalencePrior = Infer({model:
+  function(){
+    var k = kindPrior()
+    var prevalence =
+        k.family == "bird" ? 0.5 :  // half of birds lay eggs
+        k.family == "reptile" ? 0.2 : // i'm not really sure if reptiles lay eggs
+        0 // no other thing lays eggs;
+
+    return prevalence
+  }
+})
+
+prevalencePrior
+~~~~
+
+> *Exercise*: What if you didn't know that exactly 50% of birds lay eggs? Generalize the above code to sample the prevalence of laying eggs for birds, reptiles, etc.. from a distribution. (Hint: The [Beta distribution](http://docs.webppl.org/en/master/distributions.html#Beta) is a distribution over numbers between 0 and 1.)
+
+#### A generalization of the prior model
+
+In the above model, we encoded the fact that people have knowledge about different types of categories (e.g., reptiles, mammals) and that this knowledge should give rise to different beliefs about the prevalence of the feature for a given kind.
+More generally, if speakers and listeners believe that some kinds have a causal mechanism that *stably* gives rise to the property, while others do not, then we would expect the prior to be structured as a mixture distribution (cf., Griffiths & Tenenbaum, 2005).
+
 For convenience, let us denote the relevant probability $$P(F \mid K)$$ as $$x$$.
 The categories that have a stable causal mechanism produce the feature with some probability $$x_{stable}$$.
 The categories that do not have a stable causal mechanism produce the feature with some probability $$x_{transient}$$ (perhaps this unstable mechanism is an external, environmental cause).
