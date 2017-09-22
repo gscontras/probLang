@@ -51,7 +51,7 @@ If speakers and listeners believe that some kinds have a causal mechanism that *
 For convenience, let us denote the relevant probability $$P(F \mid K)$$ as $$x$$.
 The categories that have a stable causal mechanism produce the feature with some probability $$x_{stable}$$.
 The categories that do not have a stable causal mechanism produce the feature with some probability $$x_{transient}$$ (perhaps this unstable mechanism is an external, environmental cause).
-We would expect $$x_{transient}$$ to be small (even zero), as certain features are completely absent in many features (e.g., the number of lions that lay eggs).
+We would expect $$x_{transient}$$ to be small (even zero), as certain features are completely absent in many categories (e.g., the number of lions that lay eggs).
 $$x_{stable}$$, on the other hand, could be large, giving rise to features that are often common in a kind (e.g., *has four legs*), but might also be substantially less than 1 for features that are non-universal in a category (e.g., *has brown fur*).
 
 We formalize this idea by drawing $$x_{stable}$$ and $$x_{transient}$$ from Beta distributions (which has support between 0 - 1; thus samples from a Beta are numbers between 0 - 1 i.e., probabilities) with different parameters.
@@ -59,12 +59,12 @@ We fix the distribution for the transient cause: $$ x_{transient} \sim Beta(0.01
 (Here we use the mean--concentration parameterization of the Beta distribution rather than the canonical pseudocount parameterization. The first parameter is the mean of the distribution while the second is the concentration --- or inverse-variance --- of the distribution.)
 
 What we plausibly can vary between contexts is the distribution for $$x_{stable} \sim Beta(\gamma, \delta)$$.
-We also can vary how prevalent is each component or sub-distribution, by a parameter $$\phi$$.
+We also can vary how prevalent each component or sub-distribution is, by a parameter $$\phi$$.
 
 Thus, the prior over $$x$$ is a mixture distribution:
 
 $$
-x \sim \phi \cdot \text{Beta}(\gamma, \delta) + (1 - \phi) \cdot \text{Beta}(1, 100)
+x \sim \phi \cdot \text{Beta}(\gamma, \delta) + (1 - \phi) \cdot \text{Beta}(0.01, 100)
 $$
 
 where $$\gamma$$ is the mean of the stable cause distribution and $$\delta$$ is the "concentration" (or, inverse-variance) of this distribution. $$\delta$$ is high for properties that present in almost every kind in exactly the same proportion (e.g. "is female"). It is lower when there is more uncertainty about exactly how many within a kind are expected to have the property.
@@ -125,7 +125,7 @@ viz(priorModel({
 > **Exercises:**
 
 > 1. What does this picture represent? If you drew a sample from this distribution, what would that correspond to?
-> 2. Try to construct priors for other properties. Some possibilities include: lays eggs, are female, carry malaria, attack swimmers, are full-grown. Or choose your favorite property.
+> 2. Try to think up a property for which the three parameters above are not able to give even a remotely plausible distribution. (If you succeed, let us know; the idea is that this parameterization is sufficient to capture---in approximation---any case of relevance.)
 
 ### Generics model
 
@@ -278,7 +278,7 @@ viz(listenerPosterior)
 > 2. Test the pragmatic listener's interpretations of *Wugs lay eggs*.
 > 3. Test the pragmatic listener's interpretations of *Wugs are female*.
 
-So we have a model that can interpret generic language (with a very simple semantics). We can now imagine a speaker who thinks about this type of listener, and decides if a generic utterance is a good thing to say. Speaker models are interpreted as models of utterance production, or endorsement (reft:DegenGoodman2014Cogsci). If we specify the alternative utterance to be a *null* utterance (or, *silence*), we model the choice between uttering the generic (i.e., endorsing its truth) or nothing at all (i.e., not endorsing its truth). (Note: You could also think about truth judgments with the alternative of saying the negation, e.g., it's not the case that Ks have F. Model behavior is very similar using that alternative in this case.)
+So we have a model that can interpret generic language (with a very simple semantics). We can now imagine a speaker who thinks about this type of listener, and decides if a generic utterance is a good thing to say. Speaker models are interpreted as models of utterance production, or endorsement (reft:DegenGoodman2014Cogsci; reft:Franke2014). If we specify the alternative utterance to be a *null* utterance (or, *silence*), we model the choice between uttering the generic (i.e., endorsing its truth) or nothing at all (i.e., not endorsing its truth). (Note: You could also think about truth judgments with the alternative of saying the negation, e.g., it's not the case that Ks have F. Model behavior is very similar using that alternative in this case.)
 
 ~~~~
 ///...
@@ -713,4 +713,5 @@ viz.auto(speaker2("glippet", "are tall"))
 References:
 
 - Cite:tessler2016manuscript
+- Cite:Franke2014
 - Cite:DegenGoodman2014Cogsci
