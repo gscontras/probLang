@@ -488,7 +488,7 @@ viz.table(pragmaticListener("terrible"))
 
 ~~~~
 
-#### Application 3: Methaphor
+#### Application 3: Metaphor
 
 In yet another application, reft:kaoetal2014metaphor use a QUD manipulation to model metaphor, perhaps the most flagrant case of non-literal language use. If I call John a whale, you're unlikely to infer that he's an aquatic mammal. However, you probably will infer that John has qualities characteristic of whales (e.g., size, grace, majesty, etc.). The following model implements this reasoning process by aligning utterances (e.g., "whale", "person") with stereotypical features, then introducing uncertainty about which feature is currently the topic of conversation.
 
