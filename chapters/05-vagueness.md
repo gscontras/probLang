@@ -12,7 +12,7 @@ Sometimes our words themselves are imprecise, vague, and heavily dependent on co
 #### Application 1: Gradable adjectives and vagueness resolution
 
 
-reft:lassitergoodman2013 propose we parameterize the meaning function for sentences containing gradable adjectives so that their interpretations are underspecified. This interpretation-fixing parameter, the gradable threshold value *theta* (i.e., a degree), is something that conversational participants can use their prior knowledge to actively reason about and set. As with the ambiguity-resolving variable above, *theta* gets lifted to the level of the pragmatic listener, who jointly infers the gradable threshold (e.g., the point at which elements of the relevant domain count as expensive) and the true state (e.g., the indicated element's price). 
+reft:lassitergoodman2013 propose we parameterize the meaning function for sentences containing gradable adjectives so that their interpretations are underspecified. This interpretation-fixing parameter, the gradable threshold value *theta* (i.e., a degree), is something that conversational participants can use their prior knowledge to actively reason about and set. As with the ambiguity-resolving variable in the previous chapter, *theta* gets lifted to the level of the pragmatic listener, who jointly infers the gradable threshold (e.g., the point at which elements of the relevant domain count as expensive) and the true state (e.g., the indicated element's price). 
 
 The model depends crucially on our prior knowledge of the world state. Let's start with a toy prior for the prices of books.
 
@@ -329,7 +329,7 @@ viz.density(marginalize(expensiveSweater, "theta"));
 
 Implicit in the adjectives model from reft:lassitergoodman2013 is an awareness of the relevant comparison class: expensive for a watch vs. for a sweater. But what if we don't know what the relevant comparison class is? Take the adjective *tall*: if I tell you John is a basketball player and he is tall, you probably infer that the comparison class is the superordinate category of all people. Similarly, if I tell you that John is a gymnast and tall, you probably infer that he is short compared to all people. But if I tell you that John is a soccer player and tall/short, you might instead infer that John is tall/short just for the subordinate category of soccer players. In an attempt to formalize the reasoning that goes into this inference, [Tessler et al. (2017)](http://stanford.edu/~mtessler/papers/Tessler2017-cogsci-submitted.pdf) augment the basic adjectives model to include uncertainty about the relevant comparison class: superordinate (e.g., compared to all people) or subordinate (e.g., compared to gymnasts or soccer players or basketball players).
 
-This reasoning depends crucially on our prior knowledge about the relevant categories. To model this knowledge, we'll need to intelligent simulate various categories: the heights of all people, the heights of gymnasts, the heights of soccer players, and the heights of basketball players.
+This reasoning depends crucially on our prior knowledge about the relevant categories. To model this knowledge, we'll need to intelligently simulate various categories: the heights of all people, the heights of gymnasts, the heights of soccer players, and the heights of basketball players.
 
 ~~~~
 // helper function
@@ -472,8 +472,7 @@ var literalListener = cache(
       var utterance =  u.split("_")[0], explicitCC =  u.split("_")[1]
       // if the comparison class is explicit in the utterance, use that
       // otherwise, use whatever the pragmaticListener model passes in
-      var cc = explicitCC == "null" ?  comparisonClass :
-      explicitCC == "silence" ? comparisonClass : explicitCC
+      var cc = explicitCC == "null" ? comparisonClass : explicitCC
 
       var state = sample(generateStatePrior(cc === "super" ? superordinate : subordinate));
       var m = meaning(utterance, state, threshold);
