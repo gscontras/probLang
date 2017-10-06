@@ -319,7 +319,7 @@ viz.density(marginalize(expensiveSweater, "theta"));
 
 > **Exercises:** 
 
-> 1. Vizualize the various state priors.
+> 1. Visualize the various state priors.
 > 2. Check $$L_1$$'s behavior for coffee makers and headphones and laptops.
 > 3. Add an $$S_2$$ layer to the model and check its predictions.
 
