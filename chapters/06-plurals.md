@@ -502,6 +502,8 @@ var speakerBelief = cache(function(state,speakerKnows) {
 
 > **Exercise:** Try out the `speakerBelief` function---how does it work?
 
+The full model includes this belief manipulation so that the pragmatic listener takes into account the speaker's knowledge state while interpreting the speaker's utterance.
+
 ~~~~
 ///fold: 
 
