@@ -457,7 +457,50 @@ viz.bar(L1predictions)
 
 **Exercise:** Generate predictions from the $$S_1$$ speaker.
 
-Finally, we add in a speaker knowledge manipulation: the speaker either has full access to the individual weights in the world state (i.e., `knowledge == true`), or the speaker only has access to the total weight of the world state (i.e., `knowledge == false`).
+Finally, we add in a speaker knowledge manipulation: the speaker either has full access to the individual weights in the world state (i.e., `knowledge == true`), or the speaker only has access to the total weight of the world state (i.e., `knowledge == false`). On the basis of this knowledge, the speaker makes an observation of the world state, and generates a belief distribution of the states that could have led to the observation.
+
+~~~~
+
+
+// check array identity
+var arraysEqual = function(a1,a2) {
+  return JSON.stringify(a1)==JSON.stringify(a2);
+}
+
+// possible object weights
+var objects = [2,3,4];
+var objectPrior = function() {
+  uniformDraw(objects);
+}
+
+var numberObjects = 3
+
+// build states with n many objects
+var statePrior = function(nObjLeft,stateSoFar) {
+  var stateSoFar = stateSoFar == undefined ? [] : stateSoFar
+  if (nObjLeft == 0) {
+    return stateSoFar
+  } else {
+    var newObj = objectPrior()
+    var newState = stateSoFar.concat([newObj])
+    return statePrior(nObjLeft - 1,newState)
+  }
+}
+
+var speakerBelief = cache(function(state,speakerKnows) {
+  return Infer({model: function(){
+    var obs = function(s) {
+      return speakerKnows ? s : sum(s) 
+    }
+    var bState = statePrior(numberObjects)
+    condition(arraysEqual(obs(bState),obs(state)))
+    return bState
+  }})
+})
+
+~~~~
+
+> **Exercise:** Try out the `speakerBelief` function---how does it work?
 
 ~~~~
 ///fold: 
@@ -648,7 +691,4 @@ var L1predictions = map(function(stim) {
 viz.bar(L1predictions, {groupBy: 'knowledge'})
 ~~~~
 
-> **Exercises:** 
-
-> 1. Try out the `speakerBelief` function---how does it work?
-> 2. Add an $$S_2$$ layer to the model.
+> **Exercise:**  Add an $$S_2$$ layer to the model.
