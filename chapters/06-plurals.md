@@ -366,9 +366,9 @@ var pluralPredication = function(collectiveNoise) {
   var collThetaPrior = function(){return uniformDraw([2,3,4,5,6,7,8,9,10,11,12])};
 
   // noise variance
-  var noiseVariance = collectiveNoise == "no" ? 0.01 :
-  collectiveNoise == "low" ? 1 :
-  collectiveNoise == "mid" ? 2 : 3
+  var noiseVariance = collectiveNoise == "0-no" ? 0.01 :
+  collectiveNoise == "1-low" ? 1 :
+  collectiveNoise == "2-mid" ? 2 : 3
 
   var utterances = [
     "null",
@@ -438,10 +438,10 @@ var pluralPredication = function(collectiveNoise) {
 }
 
 var conditions = [
-  {noise : "no"},
-  {noise : "low"},
-  {noise : "mid"},
-  {noise : "high"},
+  {noise : "0-no"},
+  {noise : "1-low"},
+  {noise : "2-mid"},
+  {noise : "3-high"},
 ]
 
 var L1predictions = map(function(stim) {
@@ -537,9 +537,9 @@ var pluralPredication = function( collectiveNoise,
   var collThetaPrior = function(){return uniformDraw([2,3,4,5,6,7,8,9,10,11,12])};
 
   // noise variance
-  var noiseVariance = collectiveNoise == "no" ? 0.01 :
-  collectiveNoise == "low" ? 1 :
-  collectiveNoise == "mid" ? 2 : 3
+  var noiseVariance = collectiveNoise == "0-no" ? 0.01 :
+  collectiveNoise == "1-low" ? 1 :
+  collectiveNoise == "2-mid" ? 2 : 3
 
   var utterances = [
     "null",
@@ -626,14 +626,14 @@ var pluralPredication = function( collectiveNoise,
 }
 
 var conditions = [
-  {noise : "no", knowledge : true},
-  {noise : "no", knowledge : false},
-  {noise : "low", knowledge : true},
-  {noise : "low", knowledge : false},
-  {noise : "mid", knowledge : true},
-  {noise : "mid", knowledge : false},
-  {noise : "high", knowledge : true},
-  {noise : "high", knowledge : false},
+  {noise : "0-no", knowledge : true},
+  {noise : "0-no", knowledge : false},
+  {noise : "1-low", knowledge : true},
+  {noise : "1-low", knowledge : false},
+  {noise : "2-mid", knowledge : true},
+  {noise : "2-mid", knowledge : false},
+  {noise : "3-high", knowledge : true},
+  {noise : "3-high", knowledge : false},
 ]
 
 var L1predictions = map(function(stim) {
