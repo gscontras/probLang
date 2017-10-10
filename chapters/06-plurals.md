@@ -101,7 +101,7 @@ var meaning = function(utt,state,distTheta,collTheta,isCollective) {
 
 > **Exercise:** Try out the meaning function on some utterances.
 
-This model was designed to account for the possible noise in our estimation of collective properties. For example, when talking about the collective height of a plurality, our estimate of the collective property will depend on the physical arrangement of that property (i.e., how the objects are stacked); a listener might encounter the objects in a different arrangement that the speaker did, introducing noise in the estimation of the collective property. To model this noise, we parameterize the `collectiveInterpretation` so that as noise increases our estimate of the collective property departs from the actual value.
+This model was designed to account for the possible noise in our estimation of collective properties. For example, when talking about the collective height of a plurality, our estimate of the collective property will depend on the physical arrangement of that property (i.e., how the objects are stacked); a listener might encounter the objects in a different arrangement that the speaker did, introducing noise in the estimation of the collective property. To model this noise, we parameterize the `collectiveInterpretation` so that as noise increases our estimate of the collective property departs from the actual value. The implementation of noise depends crucially on the [error function](https://en.wikipedia.org/wiki/Error_function), which we use to convert the difference between the collective property and the collective threshold into the probability that the collective property exceeds that threshold.
 
 ~~~~
 // error function
@@ -152,6 +152,120 @@ var meaning = function(utt,state,distTheta,collTheta,isCollective,noise) {
   distInterpretation(state,distTheta)
 }
 ~~~~
+
+The literal listener uses this meaning function to update beliefs about the world. In the following code box, we wrap the RSA model in a function that runs `literalListener` as a function of the noise in the collective interpretation.
+
+~~~~
+///fold: 
+
+// helper functions
+
+// error function
+var erf = function(x) {
+  var a1 =  0.254829592;
+  var a2 = -0.284496736;
+  var a3 =  1.421413741;
+  var a4 = -1.453152027;
+  var a5 =  1.061405429;
+  var p  =  0.3275911;
+  var sign = x < 0 ? -1 : 1
+  var z = Math.abs(x);
+  var t = 1.0/(1.0 + p*z);
+  var y = 1.0 - (((((a5*t + a4)*t) + a3)*t + a2)*t + a1)*t*Math.exp(-z*z);
+  var answer = sign*y
+  return answer
+}
+
+///
+
+// wrapper for plural predication model, a function of noise
+var pluralPredication = function(collectiveNoise) {
+
+  // possible object weights
+  var objects = [2,3,4];
+  var objectPrior = function() {
+    uniformDraw(objects);
+  }
+
+  var numberObjects = 3
+
+  // build states with n many objects
+  var statePrior = function(nObjLeft,stateSoFar) {
+    var stateSoFar = stateSoFar == undefined ? [] : stateSoFar
+    if (nObjLeft == 0) {
+      return stateSoFar
+    } else {
+      var newObj = objectPrior()
+      var newState = stateSoFar.concat([newObj])
+      return statePrior(nObjLeft - 1,newState)
+    }
+  }
+
+  // threshold priors
+  var distThetaPrior = function(){return objectPrior()};  
+  var collThetaPrior = function(){return uniformDraw([2,3,4,5,6,7,8,9,10,11,12])};
+
+  // noise variance
+  var noiseVariance = collectiveNoise == "no" ? 0.01 :
+  collectiveNoise == "low" ? 1 :
+  collectiveNoise == "mid" ? 2 : 3
+
+  var utterances = [
+    "null",
+    "heavy",
+    "each-heavy",
+    "together-heavy"
+  ];
+
+  // costs: null < ambiguous < unambiguous 
+  var utterancePrior = function() {
+    return categorical([3,2,1,1],utterances)
+  };
+
+  // x > theta interpretations
+  var collInterpretation = function(state, collTheta,noise) {
+    var weight = 1 - (0.5 * (1 + erf((collTheta - sum(state)) / 
+                                     (noise * Math.sqrt(2)))))
+    return flip(weight)
+  }
+
+  var distInterpretation = function(state, distTheta) {
+    return all(function(x){x >= distTheta}, state)
+  }
+
+  // meaning function
+  var meaning = function(utt,state,distTheta,collTheta,isCollective,noise) {
+    return  utt == "null" ? true :
+    utt == "each-heavy" ? distInterpretation(state,distTheta) :
+    utt == "together-heavy" ? collInterpretation(state,collTheta,noise) :
+    isCollective ? collInterpretation(state,collTheta,noise) :
+    distInterpretation(state,distTheta)
+  }
+
+
+  var literal = cache(function(utterance,distThetaPos,collThetaPos,isCollective) {
+    return Infer({model: function(){
+      var state = statePrior(numberObjects);
+      var noise = noiseVariance
+      condition(meaning(utterance,state,distThetaPos,collThetaPos,isCollective,noise));
+      return state;
+    }})
+  });
+
+  // check predictions for the "heavy" utterance
+  // with a distributive threshold of 3,
+  // a collective threshold of 8, and
+  // a collective interpretation
+  return literal("heavy",3,8,true)
+
+}
+
+viz.hist(pluralPredication("no"))
+
+
+~~~~
+
+**Exercise:** Check the predictions for the other values for `collectiveNoise`.
 
 The full model combines all of these ingredients in the RSA framework, with recursive reasoning about the likely state of the world:
 
@@ -231,9 +345,9 @@ var pluralPredication = function(collectiveNoise) {
   var collThetaPrior = function(){return uniformDraw([2,3,4,5,6,7,8,9,10,11,12])};
 
   // noise variance
-  var noiseVariance = collectiveNoise == "0-no" ? 0.01 :
-  collectiveNoise == "1-low" ? 1 :
-  collectiveNoise == "2-mid" ? 2 : 3
+  var noiseVariance = collectiveNoise == "no" ? 0.01 :
+  collectiveNoise == "low" ? 1 :
+  collectiveNoise == "mid" ? 2 : 3
 
   var utterances = [
     "null",
@@ -303,10 +417,10 @@ var pluralPredication = function(collectiveNoise) {
 }
 
 var conditions = [
-  {noise : "0-no"},
-  {noise : "1-low"},
-  {noise : "2-mid"},
-  {noise : "3-high"},
+  {noise : "no"},
+  {noise : "low"},
+  {noise : "mid"},
+  {noise : "high"},
 ]
 
 var L1predictions = map(function(stim) {
@@ -402,9 +516,9 @@ var pluralPredication = function( collectiveNoise,
   var collThetaPrior = function(){return uniformDraw([2,3,4,5,6,7,8,9,10,11,12])};
 
   // noise variance
-  var noiseVariance = collectiveNoise == "0-no" ? 0.01 :
-  collectiveNoise == "1-low" ? 1 :
-  collectiveNoise == "2-mid" ? 2 : 3
+  var noiseVariance = collectiveNoise == "no" ? 0.01 :
+  collectiveNoise == "low" ? 1 :
+  collectiveNoise == "mid" ? 2 : 3
 
   var utterances = [
     "null",
@@ -491,14 +605,14 @@ var pluralPredication = function( collectiveNoise,
 }
 
 var conditions = [
-  {noise : "0-no", knowledge : true},
-  {noise : "0-no", knowledge : false},
-  {noise : "1-low", knowledge : true},
-  {noise : "1-low", knowledge : false},
-  {noise : "2-mid", knowledge : true},
-  {noise : "2-mid", knowledge : false},
-  {noise : "3-high", knowledge : true},
-  {noise : "3-high", knowledge : false},
+  {noise : "no", knowledge : true},
+  {noise : "no", knowledge : false},
+  {noise : "low", knowledge : true},
+  {noise : "low", knowledge : false},
+  {noise : "mid", knowledge : true},
+  {noise : "mid", knowledge : false},
+  {noise : "high", knowledge : true},
+  {noise : "high", knowledge : false},
 ]
 
 var L1predictions = map(function(stim) {
