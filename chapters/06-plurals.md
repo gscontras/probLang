@@ -243,11 +243,11 @@ var pluralPredication = function(collectiveNoise) {
   }
 
 
-  var literal = cache(function(utterance,distThetaPos,collThetaPos,isCollective) {
+  var literal = cache(function(utterance,distTheta,collTheta,isCollective) {
     return Infer({model: function(){
       var state = statePrior(numberObjects);
       var noise = noiseVariance
-      condition(meaning(utterance,state,distThetaPos,collThetaPos,isCollective,noise));
+      condition(meaning(utterance,state,distTheta,collTheta,isCollective,noise));
       return state;
     }})
   });
@@ -266,6 +266,27 @@ viz.hist(pluralPredication("no"))
 ~~~~
 
 **Exercise:** Check the predictions for the other values for `collectiveNoise`.
+
+You might have guessed that we are dealing with a lifted-variable variant of RSA: the various interpretation parameters (i.e., `distTheta`, `collTheta`, and `isCollective`) get resolved at the level of the pragmatic listener:
+
+~~~~
+var listener = cache(function(utterance) {
+  return Infer({model: function(){
+    var state = statePrior(numberObjects);
+    var isCollective = flip(0.8) // collective interpretation baserate
+    var distTheta = distThetaPrior();
+    var collTheta = collThetaPrior();
+    factor(alpha * 
+           speaker(state,distTheta,collTheta,isCollective).score(utterance) 
+          );
+    return {coll: isCollective, state: state}
+  }});
+});
+
+~~~~
+
+**Exercise:** Copy the code from the literal listener code box above, add in a `speaker` layer, and generate predictions from the pragmatic `listener`.
+
 
 The full model combines all of these ingredients in the RSA framework, with recursive reasoning about the likely state of the world:
 
@@ -392,10 +413,10 @@ var pluralPredication = function(collectiveNoise) {
     }})
   });
 
-  var speaker = cache(function(state,distThetaPos,collThetaPos,isCollective) {
+  var speaker = cache(function(state,distTheta,collTheta,isCollective) {
     return Infer({model: function(){
       var utterance = utterancePrior()
-      factor(literal(utterance,distThetaPos,collThetaPos,isCollective).score(state))
+      factor(literal(utterance,distTheta,collTheta,isCollective).score(state))
       return utterance
     }})
   });
@@ -404,10 +425,10 @@ var pluralPredication = function(collectiveNoise) {
     return Infer({model: function(){
       var state = statePrior(numberObjects);
       var isCollective = flip(0.8)
-      var distThetaPos = distThetaPrior();
-      var collThetaPos = collThetaPrior();
+      var distTheta = distThetaPrior();
+      var collTheta = collThetaPrior();
       factor(alpha * 
-             speaker(state,distThetaPos,collThetaPos,isCollective).score(utterance) 
+             speaker(state,distTheta,collTheta,isCollective).score(utterance) 
             );
       return {coll: isCollective, state: state}
     }});
