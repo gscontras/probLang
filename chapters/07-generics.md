@@ -34,24 +34,103 @@ Generic language (e.g., *Swans are white.*) is a simple and ubiquitous way to co
 
 Indeed, it appears that any truth conditions stated in terms of how common the property is within the kind violates intuitions. Consider the birds: for a bird, being female practically implies you will lay eggs (the properties are present in the same proportion), yet we say things like *Birds lay eggs* and we do not say things like *Birds are female*.
 
-reft:tessler2016manuscript propose that the core meaning of a generic statement is simple (i.e., a threshold function), but underspecified (listener has uncertainty about $$\theta$$), and that general principles of communication may be used to resolve precise meaning in context. In particular, they developed a model that describes pragmatic reasoning about the degree of prevalence required to assert the generic.
+~~~~
+var theta = 0.49
+var generic = function(x){ x > theta }
+var number_of_birds_that_lay_eggs = 0.5;
+var number_of_birds_that_are_female = 0.5;
+var number_of_mosquitos_that_carry_malaria = 0.02;
 
+display("Birds lay eggs is true ? " + generic(number_of_birds_that_lay_eggs))
+display("Birds are female is true ? " + generic(number_of_birds_that_are_female))
+display("Mosquitos carry malaria is true ? " + generic(number_of_mosquitos_that_carry_malaria))
+''
+~~~~
+
+reft:tessler2016manuscript propose that the core meaning of a generic statement is in fact a threshold as in `generic` above, but underspecified (listener has uncertainty about `theta`).
+Then we can use the RSA core to resolve a more precise meaning in context.
 
 ### A pragmatic model of generic language
 
-The model takes the generic $$[\![\text{K has F}]\!]$$ to mean the prevalence of property F within kind K (i.e., $$P(F \mid K)$$) is above some threshold (cf. Cohen 1999). Quantifiers can be described as conditions on prevalence: $$[\![\text{some}]\!] := P(F \mid K) > 0 $$, $$[\![\text{all}]\!] := P(F \mid K) = 1$$. But for the generic, no fixed value of the threshold would suffice. Instead, we leave the threshold underspecified in the semantics ($$\theta \sim \text{Uniform}(0, 1)$$) and infer it in context.
+The model takes the generic $$[\![\text{K has F}]\!]$$ to mean the prevalence of property F within kind K is above some threshold: $$P(F \mid K) > \theta$$ (cf., Cohen 1999).
+But for the generic, no fixed value of the $$\theta$$ would suffice.
+Instead, we leave the threshold underspecified in the semantics ($$\theta \sim \text{Uniform}(0, 1)$$) and infer it in context.
 
-Context here takes the form of the listener's and speaker's shared beliefs about the property in question. The shape of this distribution affects the listener's interpretation, because the threshold must be calibrated to make utterances truthful and informative. The shape of this distribution varies significantly among different properties (e.g., *lays eggs*, *carries malaria*), and may be the result of a deeper conceptual model of the world.
+In RSA, we could write this as the following:
 
-First, let's try to understand the prior.
+~~~~
+var pragmaticListener = function(utterance) {
+  Infer({model: function(){
+    var x = sample(xPrior)
+    var theta = uniform(0, 1)
+    var S1 = speaker1(x, theta)
+    observe(S1, utterance)
+    return x
+  }})
+}
+~~~~
+
+Here, we have a uniform prior over `theta`.
+What is `x` though (and what is the `xPrior`)?
+Given that we've posited that the semantics of the generic are about the prevalence $$P(F \mid K)$$ (i.e., the `meaning()` function in the `literalListener` conditions on `x > theta`) then what the listener updates her beliefs about is  the prevalence $$P(F \mid K)$$.
+So `x` is prevalence.
+
+The listener samples `x` from some prior `xPrior`, which is a prior distribution over the prevalence of the feature.
+Let's try to understand that.
 
 ### Prior model
 
-If speakers and listeners believe that some kinds have a causal mechanism that *stably* gives rise to the property, while others do not, then we would expect the prior to be structured as a mixture distribution (cf., Griffiths & Tenenbaum, 2005).
+Think of your favorite kind of animal.
+Got one in mind?
+What percentage of that kind of animal *is female*?
+Probably roughly 50%, regardless of the kind of animal you thought of.
+What percentage of that kind of animal *lays eggs*?
+Well, it probably depends on the kind of animal you thought. If you thought of a falcon, then roughly 50% (recall, only the females lay eggs).
+But if you thought of a bear, then 0% of them lay eggs.
+
+We can conceive of the prior distribution over the prevalence of a feature with a kind $$P(F\mid K)$$ as a distribution over kinds $$P(K)$$ and then the prevalence of the feature within the kind.
+
+~~~~
+var allKinds = [
+  {kind: "dog", family: "mammal"},
+  {kind: "falcon", family: "bird"},
+  {kind: "cat", family: "mammal"},
+  {kind: "gorilla", family: "mammal"},
+  {kind: "robin", family: "bird"},
+  {kind: "alligator", family: "reptile"},
+  {kind: "giraffe", family: "mammal"},
+]
+
+var kindPrior = function(){
+  uniformDraw(allKinds)
+}
+
+var prevalencePrior = Infer({model:
+  function(){
+    var k = kindPrior()
+    var prevalence =
+        k.family == "bird" ? 0.5 :  // half of birds lay eggs
+        k.family == "reptile" ? 0.2 : // i'm not really sure if reptiles lay eggs
+        0 // no other thing lays eggs;
+
+    return prevalence
+  }
+})
+
+prevalencePrior
+~~~~
+
+> *Exercise*: What if you didn't know that exactly 50% of birds lay eggs? Generalize the above code to sample the prevalence of laying eggs for birds, reptiles, etc.. from a distribution. (Hint: The [Beta distribution](http://docs.webppl.org/en/master/distributions.html#Beta) is a distribution over numbers between 0 and 1.)
+
+#### A generalization of the prior model
+
+In the above model, we encoded the fact that people have knowledge about different types of categories (e.g., reptiles, mammals) and that this knowledge should give rise to different beliefs about the prevalence of the feature for a given kind.
+More generally, if speakers and listeners believe that some kinds have a causal mechanism that *stably* gives rise to the property, while others do not, then we would expect the prior to be structured as a mixture distribution (cf., Griffiths & Tenenbaum, 2005).
+
 For convenience, let us denote the relevant probability $$P(F \mid K)$$ as $$x$$.
 The categories that have a stable causal mechanism produce the feature with some probability $$x_{stable}$$.
 The categories that do not have a stable causal mechanism produce the feature with some probability $$x_{transient}$$ (perhaps this unstable mechanism is an external, environmental cause).
-We would expect $$x_{transient}$$ to be small (even zero), as certain features are completely absent in many features (e.g., the number of lions that lay eggs).
+We would expect $$x_{transient}$$ to be small (even zero), as certain features are completely absent in many categories (e.g., the number of lions that lay eggs).
 $$x_{stable}$$, on the other hand, could be large, giving rise to features that are often common in a kind (e.g., *has four legs*), but might also be substantially less than 1 for features that are non-universal in a category (e.g., *has brown fur*).
 
 We formalize this idea by drawing $$x_{stable}$$ and $$x_{transient}$$ from Beta distributions (which has support between 0 - 1; thus samples from a Beta are numbers between 0 - 1 i.e., probabilities) with different parameters.
@@ -59,12 +138,12 @@ We fix the distribution for the transient cause: $$ x_{transient} \sim Beta(0.01
 (Here we use the mean--concentration parameterization of the Beta distribution rather than the canonical pseudocount parameterization. The first parameter is the mean of the distribution while the second is the concentration --- or inverse-variance --- of the distribution.)
 
 What we plausibly can vary between contexts is the distribution for $$x_{stable} \sim Beta(\gamma, \delta)$$.
-We also can vary how prevalent is each component or sub-distribution, by a parameter $$\phi$$.
+We also can vary how prevalent each component or sub-distribution is, by a parameter $$\phi$$.
 
 Thus, the prior over $$x$$ is a mixture distribution:
 
 $$
-x \sim \phi \cdot \text{Beta}(\gamma, \delta) + (1 - \phi) \cdot \text{Beta}(1, 100)
+x \sim \phi \cdot \text{Beta}(\gamma, \delta) + (1 - \phi) \cdot \text{Beta}(0.01, 100)
 $$
 
 where $$\gamma$$ is the mean of the stable cause distribution and $$\delta$$ is the "concentration" (or, inverse-variance) of this distribution. $$\delta$$ is high for properties that present in almost every kind in exactly the same proportion (e.g. "is female"). It is lower when there is more uncertainty about exactly how many within a kind are expected to have the property.
@@ -114,18 +193,18 @@ var priorModel = function(params){
   }})
 }
 
-// e.g. "Has Wings"
+// e.g. "Lays eggs"
 viz(priorModel({
   phi: 0.3,
-  g: 0.99, // how prevalent under the stable cause
-  d: 10    // the inverse-variance of the stable cause
+  g: 0.5, // how prevalent under the stable cause
+  d: 10   // the inverse-variance of the stable cause
 }))
 ~~~~
 
 > **Exercises:**
 
 > 1. What does this picture represent? If you drew a sample from this distribution, what would that correspond to?
-> 2. Try to construct priors for other properties. Some possibilities include: lays eggs, are female, carry malaria, attack swimmers, are full-grown. Or choose your favorite property.
+> 2. Try to think up a property for which the three parameters above are not able to give even a remotely plausible distribution. (If you succeed, let us know; the idea is that this parameterization is sufficient to capture---in approximation---any case of relevance.)
 
 ### Generics model
 
@@ -152,7 +231,7 @@ var DiscreteBeta = cache(function(g, d){
   var probs = map(betaPDF, bins);
   return Categorical({vs: bins, ps: probs})
 })
-///
+
 var priorModel = function(params){
   Infer({model: function(){
 
@@ -163,28 +242,44 @@ var priorModel = function(params){
       sample(StableDistribution) :
       sample(UnstableDistribution)
 
-    return {x}
+    return x
 
   }})
 }
 ///
-
-var utterances = ["generic", "silence"];
-
-var thresholdPrior = function() { return uniformDraw(thresholdBins) };
-var utterancePrior = function() { return uniformDraw(utterances) };
-
 var meaning = function(utterance, x, threshold) {
   return (utterance == 'generic') ? x > threshold : true
 }
+var thresholdPrior = function() { return uniformDraw(thresholdBins) };
+var theta = thresholdPrior()
 
-var threshold = thresholdPrior()
+display("theta = " + theta)
+var statePrior = priorModel({
+  phi: 0.3,
+  g: 0.5, // how prevalent under the stable cause
+  d: 10   // the inverse-variance of the stable cause
+})
 
-print(threshold)
-meaning("generic", 0.5, threshold)
+display("prevalence prior")
+viz(statePrior)
+
+var literalListener = cache(function(utterance, threshold) {
+  Infer({model: function(){
+    var x = sample(statePrior)
+    var m = meaning(utterance, x, threshold)
+    condition(m)
+    return x
+  }})
+})
+
+display("literal listener posterior, given a threshold of " + theta)
+literalListener("generic", theta)
 ~~~~
 
-Since we have a prior and a meaning function, we are ready to implement RSA. For the speaker utterances, we use only the alternative of staying silent. Staying silent is a null utterance that has no information content. The inclusion of the null utterance turns the generic into a speech-act, and is useful for evaluating the meaning of an utterance without competition of alternatives.
+Run the code multiple times. Each time it samples a new threshold and passes it to the literal listener.
+How do decide upon a threshold? We can use the `pragmaticListener` in RSA to decide what threshold a speaker would use.
+
+For the speaker utterances, we use only the alternative of staying silent. Staying silent is a null utterance that has no information content. The inclusion of the null utterance turns the generic into a speech-act, and is useful for evaluating the meaning of an utterance without competition of alternatives.
 
 ~~~~
 ///fold:
@@ -278,7 +373,7 @@ viz(listenerPosterior)
 > 2. Test the pragmatic listener's interpretations of *Wugs lay eggs*.
 > 3. Test the pragmatic listener's interpretations of *Wugs are female*.
 
-So we have a model that can interpret generic language (with a very simple semantics). We can now imagine a speaker who thinks about this type of listener, and decides if a generic utterance is a good thing to say. Speaker models are interpreted as models of utterance production, or endorsement (reft:DegenGoodman2014Cogsci). If we specify the alternative utterance to be a *null* utterance (or, *silence*), we model the choice between uttering the generic (i.e., endorsing its truth) or nothing at all (i.e., not endorsing its truth). (Note: You could also think about truth judgments with the alternative of saying the negation, e.g., it's not the case that Ks have F. Model behavior is very similar using that alternative in this case.)
+So we have a model that can interpret generic language (with a very simple semantics). We can now imagine a speaker who thinks about this type of listener, and decides if a generic utterance is a good thing to say. Speaker models are interpreted as models of utterance production, or endorsement (reft:DegenGoodman2014Cogsci; reft:Franke2014). If we specify the alternative utterance to be a *null* utterance (or, *silence*), we model the choice between uttering the generic (i.e., endorsing its truth) or nothing at all (i.e., not endorsing its truth). (Note: You could also think about truth judgments with the alternative of saying the negation, e.g., it's not the case that Ks have F. Model behavior is very similar using that alternative in this case.)
 
 ~~~~
 ///...
@@ -713,4 +808,5 @@ viz.auto(speaker2("glippet", "are tall"))
 References:
 
 - Cite:tessler2016manuscript
+- Cite:Franke2014
 - Cite:DegenGoodman2014Cogsci
