@@ -38,7 +38,7 @@ var utterancePrior = function() {
   return uniformDraw(['all', 'some', 'none']);
 };
 
-// meaning funtion to interpret the utterances
+// meaning function to interpret the utterances
 var literalMeanings = {
   all: function(state) { return state === 3; },
   some: function(state) { return state > 0; },
@@ -50,13 +50,13 @@ var meaning = literalMeanings[utt]; // get its meaning
 [utt, meaning(3)] // apply meaning to state = 3
 ~~~~
 
-With this knowledge about the communication scenario---crucially, the availability of the "all" alternative utterance---a pragmatic listener is able to infer from the "some" utterance that the "all" utterance describes an unlikely state. In other words, the pragmatic listener strengthens "some" via scalar implicature.
+> **Exercise:** Interpret the output of the above code box. (Run several times.)
 
-Technical note: Below, `cache` is used to save the results of the various Bayesian inferences being performed. This is used for computational efficiency when dealing with nested inferences.
+Putting state priors and semantics together, we can implement the behavior of the literal listener. If state priors are uniform, the literal listener will interpret messages by assigning probability 0 to each state of which the observed message is false, and the same uniform probability to each true state. Verify this with the following code.
 
 ~~~~
-// Here is the code from the basic scalar implicature model
-
+// code for state prior and semantics as before
+///fold:
 // possible states of the world
 var statePrior = function() {
   return uniformDraw([0, 1, 2, 3])
@@ -67,7 +67,94 @@ var utterancePrior = function() {
   return uniformDraw(['all', 'some', 'none']);
 };
 
-// meaning funtion to interpret the utterances
+// meaning function to interpret the utterances
+var literalMeanings = {
+  all: function(state) { return state === 3; },
+  some: function(state) { return state > 0; },
+  none: function(state) { return state === 0; }
+};
+///
+
+// literal listener
+var literalListener = function(utt) {
+  return Infer({model: function(){
+    var state = statePrior()
+    var meaning = literalMeanings[utt]
+    condition(meaning(state))
+    return state
+  }}
+)}
+
+display("literal listener's interpretation of 'some':")
+viz(literalListener("some"))
+~~~~
+
+Let us then look at the speaker's behavior. Intuitively put, in the vanilla RSA model the speaker will never choose a false message and prefers to send one true message over another, if the former has a small extension than the latter (see [appendix](app-01-utilities.html)). Verify this with the following code.
+
+~~~~
+// code for state prior, semantics and literal listener as before
+///fold:
+// possible states of the world
+var statePrior = function() {
+  return uniformDraw([0, 1, 2, 3])
+};
+
+// possible utterances
+var utterancePrior = function() {
+  return uniformDraw(['all', 'some', 'none']);
+};
+
+// meaning function to interpret the utterances
+var literalMeanings = {
+  all: function(state) { return state === 3; },
+  some: function(state) { return state > 0; },
+  none: function(state) { return state === 0; }
+};
+
+// literal listener
+var literalListener = function(utt) {
+  return Infer({model: function(){
+    var state = statePrior()
+    var meaning = literalMeanings[utt]
+    condition(meaning(state))
+    return state
+  }}
+)}
+///
+
+// set speaker optimality
+var alpha = 1
+
+// pragmatic speaker
+var speaker = function(state) {
+  return Infer({model: function(){
+    var utt = utterancePrior()
+    factor(alpha * literalListener(utt).score(state))
+    return utt
+  }})
+}
+
+display("speaker's production probabilities for state 3:")
+viz(speaker(3))
+
+~~~~
+
+With this knowledge about the communication scenario---crucially, the availability of the "all" alternative utterance---a pragmatic listener is able to infer from the "some" utterance that a state in which the speaker would not have used the "all" utterance is more likely than one in which she would. We can verify this with the following complete code of a vanilla RSA model for scalar implicatures.
+
+Technical note: Below, `cache` is used to save the results of the various Bayesian inferences being performed. This is used for computational efficiency when dealing with nested inferences.
+
+~~~~
+// possible states of the world
+var statePrior = function() {
+  return uniformDraw([0, 1, 2, 3])
+};
+
+// possible utterances
+var utterancePrior = function() {
+  return uniformDraw(['all', 'some', 'none']);
+};
+
+// meaning function to interpret the utterances
 var literalMeanings = {
   all: function(state) { return state === 3; },
   some: function(state) { return state > 0; },
@@ -105,7 +192,7 @@ var pragmaticListener = cache(function(utt) {
   }})
 });
 
-print("pragmatic listener's interpretation of 'some':")
+display("pragmatic listener's interpretation of 'some':")
 viz(pragmaticListener('some'));
 
 ~~~~
