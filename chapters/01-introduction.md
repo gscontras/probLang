@@ -97,7 +97,7 @@ Speech acts are actions; thus, the speaker is modeled as a rational (Bayesian) a
 
 In the code box below you'll see a generic *approximately rational* agent model. Note that in this model, `agent` uses `factor` (other related functions are `condition` and `observe`, as documented [here](http://webppl.readthedocs.io/en/dev/inference/conditioning.html); for general information on conditioning see [probmods.org](http://probmods.org/chapters/03-conditioning.html)). In rough terms, what happens is this. Each `factor` statement interacts with a call to `Infer` by incrementing a so-called log-score, the logarithm of the probability of the argument to be evaluated. For example, when `Infer` considers the probabilities of the three actions in the example below (by enumeration, its default method), it first calculates a log-score for each action (e.g., by evaluating `factor` statement and the fact that each action is a draw from a uniform distribution), and then computes normalized probabilities from these. In effect, the function `agent` therefore computes the distribution:
 
-$$P(a_i) = \frac{\exp(\alpha \cdot \text{Util}(a_i)}{\sum_{j} \exp(\alpha \cdot \text{Util}(a_j))}$$
+$$P(a_i) = \frac{\exp(\alpha \cdot \text{Util}(a_i))}{\sum_{j} \exp(\alpha \cdot \text{Util}(a_j))}$$
 
 ~~~~
 // define possible actions

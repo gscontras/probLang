@@ -16,7 +16,7 @@ According to this definition, utterance $$u$$ is good for agent $$S_1$$ who know
 
 It is possible to make the relation with other formulations of Gricean Quantity from theoretical linguistics even more clear. If the set of states $$S$$ is finite and the literal listener's prior beliefs are uniform, i.e., if $$P(s) = P(s')$$ for all $$s$$ and $$s'$$, then whenever $$u'$$ and $$u$$ are both true in $$s$$, we get 
 
-$$U_{S_1}(u;s) > U_{S_1}(u';s) \ \ \ \ \text{iff} \ \ \ \ |[\![u]\!]| > |[\![u']\!]| \,.$$ 
+$$U_{S_1}(u;s) > U_{S_1}(u';s) \ \ \ \ \text{iff} \ \ \ \ |[\![u]\!]| < |[\![u']\!]| \,.$$ 
 
 In words, the speaker prefers one true message $$u$$ over another true message $$u'$$, all else equal, iff $$u$$ is logically stronger than $$u'$$ (in the sense that $$u$$ rules out more possible states). ($$u$$ and $$u'$$ can still be logically independent; this is not a requirement that $$u$$ ought to imply $$u'$$.)
 
