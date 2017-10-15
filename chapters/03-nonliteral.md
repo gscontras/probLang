@@ -6,6 +6,23 @@ description: "Non-literal language"
 
 ### Chapter 3: Non-literal language
 
+<!--   
+
+[change log; MF]
+
+- typo in first speaker function hyperbole model
+- added exercise at the end of hyperbole model
+- line breaks for in irony model (to fit code boxes)
+- changed unnormalized priors for categorical distributions to integers
+  in irony model (to prevent impression that these are mistakes)
+- simplified 'literalInterpretation' in irony model
+  ("utterance === state ? true : false" > "utterance === state")
+- changed unnormalized priors for categorical distributions to integers
+  in metaphor model (to prevent impression that these are mistakes)
+- included comment about empirical measurement of feature priors
+- simplified 'literalInterpretation' in metaphor model
+-->
+
 <!--   - Building the literal interpretations
   - Compositional mechanisms and semantic types
     - Functional Application; Predicate Modification
@@ -205,7 +222,7 @@ This enriched literal listener does a joint inference about the price and the va
 var speaker = function(qudValue, qud) {
   return Infer({model: function(){
     var utterance = utterancePrior()
-    factor(alpha * literalListener(utterance, qud).score(qValue))
+    factor(alpha * literalListener(utterance, qud).score(qudValue))
     return utterance
   }
 })};
@@ -393,6 +410,7 @@ viz(listenerPosterior)
 > 1. In the second code box, we looked at the joint *prior* distribution over price and valence. Compare the results of that with the listener interpretation of "10000". What is similar? What is different?
 > 2. Try the `pragmaticListener` with the other possible utterances.
 > 3. Check the predictions of the `speaker` for the `approxPriceValence` QUD.
+> 4. Look at the marginal distributions for "price" and "valence" of the pragmatic listener after hearing "10,000". Do you find these intuitive? If not, how could the model possibly be amended to make it more intuitive?
 
 By capturing the extreme (im)probability of kettle prices, together with the flexibility introduced by shifting communicative goals, the model is able to derive the inference that a speaker who comments on a "$10,000 kettle" likely intends to communicate that the kettle price was upsetting. The model thus captures some of the most flexible uses of language: what we mean when our utterances are literally false.
 
@@ -401,19 +419,23 @@ By capturing the extreme (im)probability of kettle prices, together with the fle
 The same machinery---actively reasoning about the QUD---has been used to capture other cases of non-literal language. [Kao and Goodman (2015)](http://cocolab.stanford.edu/papers/KaoEtAl2015-Cogsci.pdf) use this process to model ironic language, utterances whose intended meanings are opposite in polarity to the literal meaning. For example, if we are standing outside on a beautiful day and I tell you the weather is "terrible," you're unlikely to conclude that I intend to be taken literally. Instead, you will probably interpret the utterance ironically and conclude that I intended the opposite of what I uttered, namely that the weather is good and I'm happy about it. The following model implements this reasoning process by formalizing three possible conversational goals: communicating about the true state, communicating about the speaker's valence (i.e., whether they feel positively or negatively toward the state), and communicating about the speaker's arousal (i.e., how strongly they feel about the state).
 
 ~~~~
-// There are three possible states the weather could be in: terrible, ok, or amazing
+// There are three possible states the weather could be in: 
+// terrible, ok, or amazing
 var states = ['terrible', 'ok', 'amazing']
 
-// Since we are in California, the prior over these states are the following.
-// Once could also imagine this being the prior in a certain context, e.g. when it's clearly
+// Since we are in California, the prior over these states
+// are the following. Once could also imagine this being 
+// the prior in a certain context, e.g. when it's clearly
 // sunny and nice out.
 var statePrior = function() {
-  categorical([0.01, 0.5, 0.5], states)
+  categorical([1, 50, 50], states)
 }
 
-// Valence prior defined in terms of negative valence. If the current state
-// is terrible, it's extremely likely that the valence associted is negative.
-// If it's ok, then the valence could be negative or positive with equal probability.
+// Valence prior defined in terms of negative valence. 
+// If the current state is terrible, it's extremely likely
+// that the valence associated is negative. If it's ok, then 
+// the valence could be negative or positive with equal 
+// probability.
 var valencePrior = function(state) {
   state === "terrible" ? flip(0.99) ? -1 : 1 :
   state === "ok" ? flip(0.5) ? -1 : 1 :
@@ -429,7 +451,7 @@ var arousals = ["low", "high"]
 var goals = ["goalState", "goalValence", "goalArousal"]
 
 var goalPrior = function() {
-  categorical([0.1, 0.1, 0.1], goals)
+  categorical([1, 1, 1], goals)
 }
 
 // Assume possible utterances are identical to possible states
@@ -450,10 +472,11 @@ var arousalPrior = function(state) {
 
 // Literal interpretation is just when utterance equals state
 var literalInterpretation = function(utterance, state) {
-  utterance === state ? true : false
+  utterance === state
 }
 
-// A speaker's goal is satisfied if the listener infers the correct and relevant information.
+// A speaker's goal is satisfied if the listener infers the correct 
+// and relevant information.
 var goalState = function(goal, state, valence, arousal) {
   goal === "goalState" ? state :
   goal === "goalValence" ? valence :
@@ -476,7 +499,11 @@ var literalListener = function(utterance, goal) {
 var speaker = function(state, valence, arousal, goal) {
   Infer({model: function(){
     var utterance = utterancePrior()
-    factor(1 * literalListener(utterance, goal).score(goalState(goal, state, valence, arousal)))
+    factor(1 * literalListener(utterance, 
+                    goal).score(goalState(goal, 
+                                          state, 
+                                          valence, 
+                                          arousal)))
     return utterance
   }})
 }
@@ -516,7 +543,7 @@ var utterances = ["whale", "person"]
 
 // The utterances are equally costly.
 var utterancePrior = function() {
-  categorical([0.1, 0.1], utterances)
+  categorical([1,1], utterances)
 }
 
 // The features of John being considered are "large", "graceful",
@@ -532,6 +559,8 @@ var featureSets = [
   {large : 0, graceful : 0, majestic : 0}
 ]
 
+\\ information about feature priors (probabilistic world knowledge)
+\\ obtained by an experimental study (see paper)
 var featureSetPrior = function(category) {
   category === "whale" ? categorical([0.30592786494628, 0.138078454222818,
                                       0.179114768847673, 0.13098781834847,
@@ -552,7 +581,7 @@ var goals = ["large", "graceful", "majestic"]
 // Prior probability of speaker's goal is set to uniform but can
 // change with context/QUD.
 var goalPrior = function() {
-  categorical([0.33, 0.33, 0.33], goals)
+  categorical([1,1,1], goals)
 }
 
 // Speaker optimality parameter
@@ -560,7 +589,7 @@ var alpha = 3
 
 // Check if interpreted categroy is identical to utterance
 var literalInterpretation = function(utterance, category) {
-  utterance === category ? true : false
+  utterance === category
 }
 
 // Check if goal is satisfied
