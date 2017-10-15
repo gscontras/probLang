@@ -251,7 +251,7 @@ var sampleApple = function(){
 
 // state builder
 var statePrior = function() {
-  return repeat(3, sampleApple)
+  return repeat(totalStates, sampleApple)
 }
 
 // speaker belief functions ////
