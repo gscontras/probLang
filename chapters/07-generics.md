@@ -175,7 +175,6 @@ var structuredPriorModel = function(params){
 ///
 
 var alpha_1 = 5;
-var alpha_2 = 1;
 
 var utterances = ["generic", "silence"];
 
