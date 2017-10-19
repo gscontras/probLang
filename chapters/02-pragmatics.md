@@ -208,171 +208,75 @@ viz(pragmaticListener('some'));
 
 #### Application 2: Scalar implicature and speaker knowledge
 
-##### Setting the scene
-
-Capturing scalar implicature within the RSA framework might not induce waves of excitement. However, by implementing implicature-calculation within a formal model of communication, we can also capture its interactions with other pragmatic factors. Goodman and Stuhlmüller (2013) explored what happens when the speaker possibly only has partial knowledge about the state of the world. Below, we explore this model, taking into account the listener's beliefs about the speaker's epistemic state: whether or not the speaker has full or partial knowledge about the state of the world.
-
-In many traditional approaches to scalar implicature calculation, the listener's reasoning from an utterance containting *some* to the conclusion that "some but not all" proceeds along the following lines (e.g., what Geurts calls the **standard recipe** ):
-
-1. the speaker used *some*
-2. one reason why the speaker did not use *all* instead is that she does not know whether it is true
-3. the speaker is assumed epistemically competent (i.e., she knows whether it is "all" or "some but not all") [**Competence Assumption**] 
-4. so, she knows that the *all* sentence is actually false
-5. if the speaker knows it, it must be true (by veridicality of knowledge)
-
-Crucially, the standard recipe requires the Competence Assumption to derive a scalar implicature reading. Without the competence assumption, we only derive the *weak epistemic implicature*: that the speaker does not know that *all* is true.
-
-From a probabilistic perspective, this is way to simple. Probabilistic modeling, aided by probabilistic programming tools, lets us explore a richer and more intuitive picture. In this picture, the listener may have probabilistic beliefs about the degree to which the speaker is in possession of the relevant facts. Hearing an utterance may dynamically change these beliefs. This is because the listener tries to infer the most likely epistemic state conditional on the obsersed utterance, given whatever representation of the utterance context he has. If a particular utterance is more likely to be observed by a well-informed speaker, then the listener might infer that the speaker is likely more knowledgable than initially assumed.
-
+Capturing scalar implicature within the RSA framework might not induce waves of excitement. However, by implementing implicature-calculation within a formal model of communication, we can also capture its interactions with other pragmatic factors. Goodman and Stuhlmüller (2013) explored what happens when the speaker only has partial knowledge about the state of the world (Fig. 1). Below, we explore this model, taking into account the listener's knowledge about the speaker's epistemic state: whether or not the speaker has full or partial knowledge about the state of the world.
 
 <img src="../images/scalar.png" alt="Fig. 3: Example communication scenario from Goodman and Stuhmüller." style="width: 500px;"/>
 <center>Fig. 1: Example communication scenario from Goodman and Stuhmüller: How will the listener interpret the speaker’s utterance? How will this change if she knows that he can see only two of the objects?.</center>
 
-reft:GoodmanStuhlmuller2013Impl explore a concrete scenario where such complex epistemic inferences can be studied systematically (Fig. 1 above). Suppose there are $$n$$ apples in total of which $$0 \le s \le n$$ are red. The speaker knows $$n$$ (as does the listener) but the speaker might only observe some of the apples' colors. Concretely, the speaker might only have access to $$0 \le a \le n$$ apples, of which she observes $$0 \le o \le a$$ to be red. If she communicates her observation with a statement like "Some of the apples are red," then, the listener makes a **joint inference** of the true world state $$s$$, the access $$a$$ and the observation $$o$$:
+In the extended Scalar Implicature model, the pragmatic listener infers the true state of the world not only on the basis of the observed utterance, but also the speaker's epistemic access $$a$$.
 
-$$P_{L_{1}}(s, a, o \mid u) \propto P_{S_{1}}(u\mid a, o) \cdot P(s,a,o)$$
+$$P_{L_{1}}(s\mid u, a) \propto P_{S_{1}}(u\mid s, a) \cdot P(s)$$
 
 ~~~~
 // pragmatic listener
-var pragmaticListener = function(utt) {
+var pragmaticListener = cache(function(access, utt) {
   return Infer({model: function(){
     var state = statePrior()
-    var access = uniformDraw(_.range(total_apples + 1 ))
-    var observed = uniformDraw(_.range(total_apples + 1))
-    factor(Math.log(hypergeometricPMF(observed, total_apples,
-                                      state, access)))
-    observe(speaker(access, observed), utt)
-    return {state, access, observed}
+    observe(speaker(state, access), utt)
+    return numTrue(state)
   }})
-}
+});
 ~~~~
-
-##### Modeling beliefs after partial observations
-
-What does a speaker believe about the world state $$s$$ after, say, having access to $$a = 2$$ out of $$n = 3$$ apples and seeing that $$o = 1$$ the accessed apples is red? - This depends on the speakers prior beliefs about how likely red apples are in general. Let us assume that these prior beliefs are given by a binomial distribution with a fixed base rate of redness: intuitively put, each apple has a chance `base_rate` of being red; how many red apples do we expect given that we have `total_apples`?
-
-~~~~
-// total number of apples (known by speaker and listener)
-var total_apples = 3
-
-// red apple base rate
-var base_rate_red = 0.8
-
-// state = how many apples of 'total_apples' are red?
-var statePrior = function() {
-  binomial({p: base_rate_red, n: total_apples})
-}
-~~~~
-
-A world state `state` (a single sample from the `statePrior`) gives the true, actual number of red apples. If the world state was known to the speaker, his beliefs for any pair of access `access` to apples and observations `observed` of red apples are given by a socalled [Hypergeometric distribution](https://en.wikipedia.org/wiki/Hypergeometric_distribution). The Hypergeometric distribution gives the probability of retrieving `observe` red balls when drawing `access` balls without replacement from an urn with `total_apples` balls in total of which `state` are red. (This distribution is not implemented in WebPPL, so we implement its probability mass function by hand.)
-
-~~~~
-
-var fact = function(x) {
-  if (x < 0) {return "input to factorial function must be non-negative"}
-  return x == 0 ? 1 : x * fact(x-1)
-}
-
-var binom = function(a, b) {
-  var numerator = fact(a)
-  var denominator = fact(a-b) *  fact(b)
-  return numerator / denominator
-}
-
-// urn contains N balls of which K are black
-// and N-K are white; we draw n balls at random
-// without replacement; what's the probability
-// of obtaining k black balls?
-var hypergeometricPMF = function(k,N,K,n) {
-  k > Math.min(n, K) ? 0 :
-  k < n+K-N ? 0 :       
-  binom(K,k) * binom(N-K, n-k) / binom(N,n)
-}
-
-var hypergeometricSample = function(N,K,n) {
-  var support = _.range(N+1) // possible values 0, ..., N
-  var PMF = map(function(k) {hypergeometricPMF(k,N,K,n)}, support)
-  categorical({vs: support, ps: PMF })    
-}
-
-var total_apples = 3, state = 2, access = 1;
-viz(repeat(1000, function() {hypergeometricSample(total_apples, state, access)}))
-
-~~~~
-
-The prior over states and the hypergeometric distribution must be combined to give the speaker's beliefs about world state $$s$$ given access $$a$$ and observation $$o$$, using Bayes rule (and knowledge of the total number of apples $$n$$):
-
-$$P_S(s \mid a, o) \propto \text{Hypergeometric}(o \mid s, a, n) \ \text{Binomial}(s \mid \text{baserate}) $$
-
-~~~~
-
-// code for hypergeometric 
-///fold:
-var fact = function(x) {
-  if (x < 0) {return "input to factorial function must be non-negative"}
-  return x == 0 ? 1 : x * fact(x-1)
-}
-
-var binom = function(a, b) {
-  var numerator = fact(a)
-  var denominator = fact(a-b) *  fact(b)
-  return numerator / denominator
-}
-
-// urn contains N balls of which K are black
-// and N-K are white; we draw n balls at random
-// without replacement; what's the probability
-// of obtaining k black balls?
-var hypergeometricPMF = function(k,N,K,n) {
-  k > Math.min(n, K) ? 0 :
-  k < n+K-N ? 0 :       
-  binom(K,k) * binom(N-K, n-k) / binom(N,n)
-}
-
-var hypergeometricSample = function(N,K,n) {
-  var support = _.range(N+1) // possible values 0, ..., N
-  var PMF = map(function(k) {hypergeometricPMF(k,N,K,n)}, support)
-  categorical({vs: support, ps: PMF })    
-}
-///
-
-// total number of apples (known by speaker and listener)
-var total_apples = 3
-
-// red apple base rate
-var base_rate_red = 0.8
-
-// state = how many apples of 'total_apples' are red?
-var statePrior = function() {
-  binomial({p: base_rate_red, n: total_apples})
-}
-
-var belief = cache(function(access, observed){
-  Infer({model: function() {
-    var state = statePrior()
-    var hyperg_sample = hypergeometricSample(total_apples,
-                         state,
-                         access)
-    condition(hyperg_sample == observed)
-    return state
-  }}) 
-})
-
-viz(belief(2,1))
-~~~~
-
-
-> **Exercise:** 
-
-> 1. See what happens when you change the red apple base rate.
-> 2. See what happens when you increase the number of total apples.
-> 3. See what happens when you give the speaker more access and different numbers of observed red apples.
-
-##### Speaker production model 
 
 We have to enrich the speaker model: first the speaker makes an observation $$o$$ of the true state $$s$$ with access $$a$$. On the basis of the observation and access, the speaker infers the true state.
 
+~~~~
+///fold:
+// tally up the state
+var numTrue = function(state) {
+  var fun = function(x) {
+    x ? 1 : 0
+  }
+  return sum(map(fun,state))
+}
+///
 
+// red apple base rate
+var totalStates = 3
+var base_rate = 0.8
+
+var sampleApple = function(){
+  return flip(base_rate)
+};
+
+// state builder
+var statePrior = function() {
+  return repeat(totalStates, sampleApple)
+}
+
+// speaker belief functions ////
+// what to believe about a single apple
+var beliefSingle = function(actualSingleApple, accessSingle) {
+  return accessSingle ? actualSingleApple : sampleApple()
+}
+// what to believe about the set of apples
+var belief = function(state, access) {
+  return map2(beliefSingle, state, access);
+}
+
+print("1000 runs of the speaker's belief function:")
+
+viz(repeat(1000, function() {
+  numTrue(
+    belief(
+      [true, true, true],
+      [true, true, false]
+      )
+    )
+}))
+~~~~
+
+> **Exercise:** See what happens when you change the red apple base rate.
 
 The speaker then chooses an utterance $$u$$ to communicate the true state $$s$$ that likely generated the observation $$o$$ that the speaker made with access $$a$$.
 
