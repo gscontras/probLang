@@ -219,7 +219,7 @@ var pragmaticListener = cache(function(utterance) {
     var state = statePrior()
     var scope = scopePrior()
     var QUD = QUDPrior()
-    observe(speaker(scope,state,QUD),utterance)
+    observe(speaker(scope, state, QUD), utterance)
     return {state: state,
             scope: scope}
   }})
