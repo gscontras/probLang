@@ -18,14 +18,30 @@ It is possible to make the relation with other formulations of Gricean Quantity 
 
 $$U_{S_1}(u;s) > U_{S_1}(u';s) \ \ \ \ \mathrm{iff} \ \ \ \ \text{$u$ is true of fewer states than $u'$.} $$ 
 
-
-
 In other words, the speaker prefers one true message $$u$$ over another true message $$u'$$, all else equal, iff $$u$$ is logically stronger than $$u'$$ (in the sense that $$u$$ rules out more possible states). ($$u$$ and $$u'$$ can still be logically independent; this is not a requirement that $$u$$ ought to imply $$u'$$.)
 
 The above definition of utilities uses information theoretic surprisal to implement a probabilistic version of (something like) a Gricean Quantity Maxim. The surprisal-based notion can also be derived in a different way, which is interesting to look at because it justifies the choice of utility function in more complex models (such as in the second model of [chapter II](02-pragmatics.html)). If the speaker knows the true world state $$s^*$$, she has a degenerate probabilistic belief about world states $$P_{S_1} \in \Delta(S)$$ which assigns probability 1 to the true $$s^*$$ and 0 to any other world state. After an utterance $$u$$, the literal listener also has a probability distribution over world states $$P_{L_0} \in \Delta(S)$$. One way of thinking about what happens in cooperative discourse that maximizes relevant information flow is that the speaker tries to choose utterances $$u$$ such that the listener's beliefs (after hearing an utterance) is maximally similar to the belief of the speaker. In other words, speakers choose to say things that assimilate the listener's belief state to their own as much as possible. A notion of divergence between probability distributions is the Kullback-Leibler divergence. A defintion of utility in terms of minimization of KL-divergence derives the original suprisal-based definition, if the speaker's beliefs are degenerate:
 
-$$U_{S_1}(P_{S_1}, P_{L_0}) = - \text{KL}(P_{S_1} \mid P_{L_0} )$$
+$$U_{S_1}(P_{S_1}, P_{L_0}) = - \text{KL}(P_{S_1} \mid\mid P_{L_0} )$$
 
-$$  = - \sum_{s'} P_S_1(s) \ \log \frac{P_{S_1}(s)}{P_{L_0}(s)}    $$
+$$= - \sum_{s'} P_{S_1}(s) \ \log \frac{P_{S_1}(s)}{P_{L_0}(s)}$$
 
 $$ = - \log\frac{1}{P_{L_0}(s^*)} = \log P_{L_0}(s^*) $$
+
+
+In the second model of [chapter II](02-pragmatics.html) the speaker did not know the true world state $$s^*$$ but only had probabilistic beliefs $$P_{S_1}(s \mid O)$$ based on some possibly partial observation $$O$$. A definition of utilities as negative Kullback-Leibler divergence derives the same utterance choice probabilities as assumed in [chapter II](02-pragmatics.html). Starting from KL-based utilities we get choice probabilities like this:
+
+$$P_{S_{1}}(u \mid o, a) \propto \exp(\alpha \ - \text{KL}(P_{S_1}(\cdot \mid O) \mid\mid P_{L_0}(\cdot \mid u) )$$
+
+Expanding the definition of KL-divergence:
+
+$$P_{S_{1}}(u \mid o, a) \propto \exp \left(\alpha \ - \sum_{s} P_{S_1}(s \mid O) \ \log \frac{P_{S_1}(s \mid O)}{P_{L_0}(s \mid u)} \right)$$
+
+which is equivalent to
+
+$$exp \left ( \alpha \ \left( \sum_{s} P_{S_1}(s \mid O) \ \log P_{L_0}(s \mid u) -  \sum_{s} P_{S_1}(s \mid O) \ \log P_{S_1}(s \mid O)\right ) \right )$$
+
+The last summand is just the entropy of $$P_{S_1}(\cdot \mid O)$$, which is a constant and so cancels out under normalization in the soft-max choice rule. We end up with:
+
+$$P_{S_{1}}(u \mid o, a) \propto \exp(\alpha \ \mathbb{E}_{P(s \mid O)} \log P_{L_0}(s \mid u))$$
+
