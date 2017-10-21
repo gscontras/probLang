@@ -304,7 +304,7 @@ viz.density(marginalize(expensiveSweater, "theta"));
 
 Implicit in the adjectives model from reft:lassitergoodman2013 is an awareness of the relevant comparison class: expensive for a watch vs. for a sweater. But what if we don't know what the relevant comparison class is? Take the adjective *tall*: if I tell you John is a basketball player and he is tall, you probably infer that the comparison class is the superordinate category of all people. Similarly, if I tell you that John is a gymnast and tall, you probably infer that he is short compared to all people. But if I tell you that John is a soccer player and tall/short, you might instead infer that John is tall/short just for the subordinate category of soccer players. In an attempt to formalize the reasoning that goes into this inference, [Tessler et al. (2017)](http://stanford.edu/~mtessler/papers/Tessler2017-cogsci-submitted.pdf) augment the basic adjectives model to include uncertainty about the relevant comparison class: superordinate (e.g., compared to all people) or subordinate (e.g., compared to gymnasts or soccer players or basketball players).
 
-This reasoning depends crucially on our prior knowledge about the relevant categories. To model this knowledge, we'll need to intelligent simulate various categories: the heights of all people, the heights of gymnasts, the heights of soccer players, and the heights of basketball players.
+This reasoning depends crucially on our prior knowledge about the relevant categories. To model this knowledge, we'll need to intelligently simulate various categories: the heights of all people, the heights of gymnasts, the heights of soccer players, and the heights of basketball players.
 
 ~~~~
 // helper function
@@ -333,11 +333,13 @@ var stateProbs = cache(function(stateParams){
 // generate a statePrior using the possible heights and their probabilities
 var generateStatePrior = cache(function(stateParams) {
   return Infer({
-    model: function(){ return categorical({vs: stateVals, ps: stateProbs(stateParams)}) }
+    model: function(){ 
+      return categorical({vs: stateVals, ps: stateProbs(stateParams)}) 
+    }
   })
 });
 
-// information about the suberordinate category priors
+// information about the subordinate category priors
 var subParams = {
   low: {mu: -1, sigma: 0.5}, // gymnast heights
   middle: {mu: 0, sigma: 0.5}, // soccer player heights
@@ -394,7 +396,9 @@ var stateProbs = cache(function(stateParams){
 // generate a statePrior using the possible heights and their probabilities
 var generateStatePrior = cache(function(stateParams) {
   return Infer({
-    model: function(){ return categorical({vs: stateVals, ps: stateProbs(stateParams)}) }
+    model: function(){ 
+      return categorical({vs: stateVals, ps: stateProbs(stateParams)}) 
+    }
   })
 });
 
@@ -405,13 +409,13 @@ var subParams = {
   high: {mu: 1, sigma: 0.5} // basketball player heights
 }
 
-
 // generate the uniform threshold prior
 var thresholdBins = cache(function(form, stateSupport){
   return map(function(x){
     return form == "positive" ? x - (1/(binParam*2)) : x + (1/(binParam*2));
   }, sort(stateSupport))
 })
+
 var thresholdPrior = cache(function(form, stateSupport){
   return Infer({
     model: function() { return uniformDraw(thresholdBins(form, stateSupport)) }
@@ -449,8 +453,8 @@ var literalListener = cache(
       // otherwise, use whatever the pragmaticListener model passes in
       var cc = explicitCC == "null" ?  comparisonClass :
       explicitCC == "silence" ? comparisonClass : explicitCC
-
-      var state = sample(generateStatePrior(cc === "super" ? superordinate : subordinate));
+      var state = sample(generateStatePrior(cc === "super" ? 
+         superordinate : subordinate));
       var m = meaning(utterance, state, threshold);
       condition(m);
       return state;
@@ -462,7 +466,8 @@ var speaker1 = cache(
   function(state, threshold, comparisonClass, form, subordinate) {
     Infer({model: function(){
       var utterance = uniformDraw(utterances[form]);
-      var L0 = literalListener(utterance, threshold, comparisonClass, subordinate);
+      var L0 = literalListener(utterance, threshold, 
+                               comparisonClass, subordinate);
       factor( alpha * L0.score(state) );
       return utterance;
     }})
