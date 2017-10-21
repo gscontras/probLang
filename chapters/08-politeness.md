@@ -28,13 +28,13 @@ Brown and Levinson (1987) recast the notion of a cooperative speaker as one who 
 The usual speaker utility from RSA is a surprisal-based, epistemic utility:
 
 $$
-U_{epistemic}(w; s) = \ln(P_{L_0}(s \mid w))
+U_{\text{epistemic}}(u; s) = \log(P_{L_0}(s \mid u))
 $$
 
-Social utility can be defined as the expected subjective utility of the state the listener would infer given the utterance $$w$$:
+Social utility can be defined as the expected subjective utility of the state the listener would infer given the utterance $$u$$:
 
 $$
-U_{social}(w; s) = \mathbb{E}_{P_{L_0}(s \mid w)}[V(s)]
+U_{\text{social}}(u; s) = \mathbb{E}_{P_{L_0}(s' \mid u)}[V(s')]
 $$
 
 where $$V$$ is a value function that maps states to subjective utility values---this captures the affective consequences for the listener of being in state $$s$$.
@@ -42,11 +42,11 @@ where $$V$$ is a value function that maps states to subjective utility values---
 Speaker utility is then a mixture of these components:
 
 $$
-U(w; s; \phi) = \phi \cdot U_{epistemic} + (1 - \phi) \cdot U_{social}
+U(w; s; \phi) = \phi \cdot U_{\text{epistemic}}(u;s) + (1 - \phi) \cdot U_{\text{social}}(u;s)
 $$
 
 Note that at this point, we do not differentiate state value to the listener from state value to the speaker, though in many situations these could in principle be different.
-Also at this point, we do not allow for *deception* or *meanness*, which would be exact opposite of epistemic and social utilities, respectively --- though this could very naturally be incorporated. (In reft:yoonetal2016, they do investigate *meanness* by having independent weights on the two utilities. For simplicity, we adopt the notation of reft:yoonetal2017, in which they describe utility as a simpler mixture-model.)
+Also at this point, we do not allow for *deception* or *meanness*, which would be the exact opposite of epistemic and social utilities, respectively --- though this could very naturally be incorporated. (In reft:yoonetal2016, they do investigate *meanness* by having independent weights on the two utilities. For simplicity, we adopt the notation of reft:yoonetal2017, in which they describe utility as a simpler mixture-model.)
 
   <!-- [Yoon et al. 2017](http://langcog.stanford.edu/papers_new/yoon-2017-cogsci.pdf) -->
 
@@ -56,7 +56,7 @@ In WebPPL, this looks like the following:
 var utility = {
   epistemic: literalListener.score(state),
   social: expectation(literalListener, valueFunction)
-};
+}
 var speakerUtility = phi * utility.epistemic + (1 - phi) * utility.social
 ~~~~
 
@@ -74,7 +74,7 @@ Below, the speaker thinks the cake deserves 3 out of 5 hearts.
 <center>Figure 1: Politeness case study.</center>
 
 At the same time, these states of the world also have some inherent subjective value: 5 hearts is better than 3 hearts.
-`phi` governs how much the speaker seeks to communicate information about the state vs. make the listener believe she is a highly valued state.
+`phi` governs how much the speaker seeks to communicate information about the state vs. make the listener believe she is in a highly valued state.
 
 ~~~~
 var states = [1,2,3,4,5]
@@ -93,45 +93,40 @@ var literalSemantics = {
 // by flipping a coin with the literalSemantics weight
 // ... state - 1 because of 0-indexing
 var meaning = function(utterance, state){
-  return flip(literalSemantics[utterance][state - 1]);
-};
+  return flip(literalSemantics[utterance][state - 1])
+}
 
 // value function scales social utility by a parameter lambda
 var lambda = 1.25 // value taken from MAP estimate from Yoon, Tessler, et al. 2016
 var valueFunction = function(s){
   return lambda * s
-};
+}
 
 // literal listener
 var listener0 = function(utterance) {
   Infer({model: function(){
-    var state = uniformDraw(states);
-    var m = meaning(utterance, state);
-    condition(m);
-    return state;
+    var state = uniformDraw(states)
+    var m = meaning(utterance, state)
+    condition(m)
+    return state
   }})
-};
+}
 
 var alpha = 10; // MAP estimate from Yoon, Tessler, et al. 2016
 var speaker1 = function(state, phi) {
   Infer({model: function(){
-
-    var utterance = uniformDraw(utterances);
-    var L0_posterior = listener0(utterance);
-
+    var utterance = uniformDraw(utterances)
+    var L0_posterior = listener0(utterance)
     var utility = {
       epistemic: L0_posterior.score(state),
       social: expectation(L0_posterior, valueFunction)
-    };
-
+    }
     var speakerUtility = phi * utility.epistemic +
                         (1 - phi) * utility.social
-
     factor(alpha * speakerUtility)
-
-    return {utterance};
+    return {utterance}
   }})
-};
+}
 
 speaker1(1, 0.99)
 ~~~~
@@ -166,56 +161,47 @@ var literalSemantics = {
 // ... state - 1 because of 0-indexing
 var meaning = function(utterance, state){
   return flip(literalSemantics[utterance][state - 1]);
-};
+}
 
 // value function scales social utility by a parameter lambda
 var lambda = 1.25 // value taken from MAP estimate from Yoon, Tessler, et al. 2016
 var valueFunction = function(s){
   return lambda * s
-};
+}
 
 // literal listener
 var listener0 = cache(function(utterance) {
   Infer({model: function(){
-    var state = uniformDraw(states);
-    var m = meaning(utterance, state);
-    condition(m);
-    return state;
+    var state = uniformDraw(states)
+    var m = meaning(utterance, state)
+    condition(m)
+    return state
   }})
-});
+})
 
 var alpha = 10; // MAP estimate from Yoon, Tessler, et al. 2016
 var speaker1 = cache(function(state, phi) {
   Infer({model: function(){
-
     var utterance = uniformDraw(utterances);
     var L0_posterior = listener0(utterance);
-
     var utility = {
       epistemic: L0_posterior.score(state),
       social: expectation(L0_posterior, valueFunction)
-    };
-
+    }
     var speakerUtility = phi * utility.epistemic +
                         (1 - phi) * utility.social
-
-    factor(alpha * speakerUtility);
-
-    return utterance;
+    factor(alpha * speakerUtility)
+    return utterance
   }})
-});
+})
 ///
 var pragmaticListener = function(utterance) {
   Infer({model: function(){
-
     var state = uniformDraw(states)
     var phi = uniformDraw([0.1, 0.3, 0.5, 0.7, 0.9])
     var S1 = speaker1(state, phi)
-
     observe(S1, utterance)
-
     return { state, phi }
-
   }})
 }
 
@@ -235,26 +221,24 @@ Above, we have a listener who hears that they did "good" and infers how well the
 > **Exercises**:
 
 > 1. Examine the marginal posteriors on `state`. Does this make sense? Compare it to what the `literalListener` would believe upon hearing the same utterance.
-> 2. Examine the marginal posterior on `phi`. Does this make sense? What utterance would make the `pragmaticListener` infer something different about `phi`? Test your knowledge by running that utterance through the `pragmaticListener`?
+> 2. Examine the marginal posterior on `phi`. Does this make sense? What utterance would make the `pragmaticListener` infer something different about `phi`? Test your knowledge by running that utterance through the `pragmaticListener`.
 > 3. In Yoon, Tessler, et al. (2016), the authors ran an experiment testing participants' intuitions as to the kind of speaker they were dealing with (i.e., inferred `phi`). Modify `pragmaticListener` so that she knows the speaker (a) wants the listener to feel good, (b) wants to convey information to the listener, and (c) both, and test the models on the utterance "good".
 > 4. The authors also ran an experiment testing participants' intuitions if they knew what state of the world they were in. Modify `pragmaticListener` so that she knows what state of the world she is in. Come up with your own interesting situations (i.e., choose a state and an utterance) and show the model predictions. Are the predictions in accord with your intuitions? Why or why not?
 
 
 ### Politeness with indirect speech acts
 
-Above, we modeled the case study of **white lies**, utterances which are convey misleading information for purposes of politeness. There are other ways to be polite, however. Speakers may deliberately be **indirect** for considerations of politeness. Consider a listener who just gave an objectively terrible presentation. They look fragile as they come to you for your feedback. You tell them "It wasn't amazing."
+Above, we modeled the case study of **white lies**, utterances which convey misleading information for purposes of politeness. There are other ways to be polite, however. Speakers may deliberately be **indirect** for considerations of politeness. Consider a listener who just gave an objectively terrible presentation. They look fragile as they come to you for your feedback. You tell them "It wasn't amazing."
 
-Why would somebody produce such an indirect speech act? If the speaker wanted to actually be nice, they would say "It was fine." or "It was great." If the speaker wanted to actually convey information, they would say "It was terrible." reft:yoonetal2017 hypothesize that speakers produce indirect speech acts in order to *appear* to care both about conveying information and saving the listener's face. Can we elaborate the model above to account for politeness by being indirect? First, we will have to consider a speaker model, who produces utterances that can be understand as polite.
+Why would somebody produce such an indirect speech act? If the speaker wanted to actually be nice, they would say "It was fine." or "It was great." If the speaker wanted to actually convey information, they would say "It was terrible." reft:yoonetal2017 hypothesize that speakers produce indirect speech acts in order to *appear* to care both about conveying information and saving the listener's face. Can we elaborate the model above to account for politeness by being indirect? First, we will have to consider a speaker model, who produces utterances that can be understood as polite.
 
 ~~~~
 var speaker2 = function(state, phi) {
   Infer({model: function(){
-
     var utterance = sample(utterancePrior)
     var L1 = pragmaticListener(utterance)
     factor(alpha2 * L1.score({state, phi}))
     return utterance
-
   }})
 }
 ~~~~
@@ -269,14 +253,14 @@ To look at *indirectness*, we will add utterances with **negation**, which are i
 // helper function split utterances at "_" to find negation
 var isNegation = function(utt){
   return (utt.split("_")[0] == "not")
-};
+}
 
 var reshapeUtt = function(utt){
   return {
     negation: (utt.split("_")[0] == "not") ? "not": "",
     adjective: utt.split("_")[1]
   }
-};
+}
 
 // helper function to round
 var round = function(x){
@@ -287,11 +271,11 @@ var round = function(x){
 var utterances = [
   "yes_terrible","yes_bad","yes_okay","yes_good","yes_amazing",
   "not_terrible","not_bad","not_okay","not_good","not_amazing"
-];
+]
 
 // utterance costs (negative utterance more expensive)
-var cost_yes = 0;
-var cost_neg = 1;
+var cost_yes = 0
+var cost_neg = 1
 
 var uttCosts = map(function(u) {
   return isNegation(u) ? Math.exp(-cost_neg) : Math.exp(-cost_yes)
@@ -303,7 +287,7 @@ var utterancePrior = Infer({model: function(){
     vs: utterances,
     ps: uttCosts
   })
-}});
+}})
 
 // taken from literal semantics expt
 var literalSemantics = {
@@ -317,20 +301,20 @@ var literalSemantics = {
   "yes_good": [0.008, 0.0408, 0.8279, 0.9914, 0.993],
   "yes_okay": [0.0078, 0.286, 0.9619, 0.7776, 0.6122],
   "yes_terrible": [0.9593, 0.5217, 0.0753, 0.008, 0.044]
-};
+}
 
 var meaning = function(words, state){
   return flip(literalSemantics[words][state - 1]);
-};
+}
 
 // value function scales social utility by a parameter lambda
 var lambda = 1.25 // value taken from MAP estimate from Yoon, Tessler, et al. 2016
 var valueFunction = function(s){
   return lambda * s
-};
+}
 
 // possible states of the world (cf. Yelp reviews)
-var states = [1,2,3,4,5];
+var states = [1,2,3,4,5]
 
 // info for epistemic vs. social utility prior;
 // 1 corresponds to fully favoring epistemic utility
@@ -354,38 +338,34 @@ var speaker1 = cache(function(state, phi) {
     var utility = {
       epistemic: L0_posterior.score(state),
       social: expectation(L0_posterior, valueFunction)
-    };
+    }
     var speakerUtility = phi * utility.epistemic +
                         (1 - phi) * utility.social
     factor(alpha * speakerUtility)
-    return utterance;
+    return utterance
   }})
-});
+})
 ///
 
 // pragmatic listener
 // infers the state and the speaker's goals (i.e., phi)
 var pragmaticListener = cache(function(utterance) {
   Infer({model: function(){
-
     var state = uniformDraw(states)
     var phi = uniformDraw(weightBins)
     var S1 = speaker1(state, phi)
     observe(S1, utterance)
     return { state, phi }
-
   }})
-}, 10000);
+}, 10000)
 
-var alpha2 = 1;
+var alpha2 = 1
 var speaker2 = function(state, phi) {
   Infer({model: function(){
-
     var utterance = sample(utterancePrior)
     var L1 = pragmaticListener(utterance)
     factor(alpha2 * L1.score({state, phi}))
     return reshapeUtt(utterance)
-
   }})
 }
 
@@ -405,6 +385,6 @@ viz(s2_both)
 > **Exercises**:
 
 > 1. What does the pragmatic listener infer when she hears "not amazing"? How does the pragmatic listener interpret the other "indirect" utterances?
-> 2. Write a purely informative `speaker2`, who only cares about conveying the "state", but knows that the pragmatic listener will reason about both phi and state. Does it make different predictions from the model defined above?
-> 3. Write a purely self-presentational `speaker2`, who only cares about conveying "phi", but knows that the pragmatic listener will reason about both phi and state. Does it make different predictions from the model defined above?
+> 2. Write a purely informative `speaker2`, who only cares about conveying `state`, but knows that the pragmatic listener will reason about both `phi` and `state`. Does it make different predictions from the model defined above?
+> 3. Write a purely self-presentational `speaker2`, who only cares about conveying `phi`, but knows that the pragmatic listener will reason about both `phi` and `state`. Does it make different predictions from the model defined above?
 > 4. Write an alternative `speaker2` who, like `speaker1`, is *actually* both kind and informative (as opposed to the self-presentational speaker model above).  Does it make different predictions from the model defined above?
