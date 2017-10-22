@@ -42,7 +42,7 @@ where $$V$$ is a value function that maps states to subjective utility values---
 Speaker utility is then a mixture of these components:
 
 $$
-U(w; s; \phi) = \phi \cdot U_{\text{epistemic}}(u;s) + (1 - \phi) \cdot U_{\text{social}}(u;s)
+U(u; s; \phi) = \phi \cdot U_{\text{epistemic}}(u;s) + (1 - \phi) \cdot U_{\text{social}}(u;s)
 $$
 
 Note that at this point, we do not differentiate state value to the listener from state value to the speaker, though in many situations these could in principle be different.
