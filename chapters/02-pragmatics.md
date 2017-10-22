@@ -21,7 +21,7 @@ Assume a world with three apples; zero, one, two, or three of those apples may b
 // possible states of the world
 var statePrior = function() {
   return uniformDraw([0, 1, 2, 3])
-};
+}
 statePrior() // sample a state
 ~~~~
 
@@ -35,18 +35,18 @@ Next, assume that speakers may describe the current state of the world in one of
 ~~~~
 // possible utterances
 var utterancePrior = function() {
-  return uniformDraw(['all', 'some', 'none']);
-};
+  return uniformDraw(['all', 'some', 'none'])
+}
 
 // meaning function to interpret the utterances
 var literalMeanings = {
   all: function(state) { return state === 3; },
   some: function(state) { return state > 0; },
   none: function(state) { return state === 0; }
-};
+}
 
-var utt = utterancePrior(); // sample an utterance
-var meaning = literalMeanings[utt]; // get its meaning
+var utt = utterancePrior() // sample an utterance
+var meaning = literalMeanings[utt] // get its meaning
 [utt, meaning(3)] // apply meaning to state = 3
 ~~~~
 
@@ -89,7 +89,7 @@ display("literal listener's interpretation of 'some':")
 viz(literalListener("some"))
 ~~~~
 
-Let us then look at the speaker's behavior. Intuitively put, in the vanilla RSA model the speaker will never choose a false message and prefers to send one true message over another, if the former has a small extension than the latter (see [appendix](app-01-utilities.html)). Verify this with the following code.
+Let us then look at the speaker's behavior. Intuitively put, in the vanilla RSA model the speaker will never choose a false message and prefers to send one true message over another, if the former has a smaller extension than the latter (see [appendix](app-01-utilities.html)). Verify this with the following code.
 
 ~~~~
 // code for state prior, semantics and literal listener as before
@@ -97,19 +97,19 @@ Let us then look at the speaker's behavior. Intuitively put, in the vanilla RSA 
 // possible states of the world
 var statePrior = function() {
   return uniformDraw([0, 1, 2, 3])
-};
+}
 
 // possible utterances
 var utterancePrior = function() {
-  return uniformDraw(['all', 'some', 'none']);
-};
+  return uniformDraw(['all', 'some', 'none'])
+}
 
 // meaning function to interpret the utterances
 var literalMeanings = {
   all: function(state) { return state === 3; },
   some: function(state) { return state > 0; },
   none: function(state) { return state === 0; }
-};
+}
 
 // literal listener
 var literalListener = function(utt) {
@@ -147,19 +147,19 @@ Technical note: Below, `cache` is used to save the results of the various Bayesi
 // possible states of the world
 var statePrior = function() {
   return uniformDraw([0, 1, 2, 3])
-};
+}
 
 // possible utterances
 var utterancePrior = function() {
-  return uniformDraw(['all', 'some', 'none']);
-};
+  return uniformDraw(['all', 'some', 'none'])
+}
 
 // meaning function to interpret the utterances
 var literalMeanings = {
   all: function(state) { return state === 3; },
   some: function(state) { return state > 0; },
   none: function(state) { return state === 0; }
-};
+}
 
 // literal listener
 var literalListener = cache(function(utt) {
@@ -169,7 +169,7 @@ var literalListener = cache(function(utt) {
     condition(meaning(state))
     return state
   }})
-});
+})
 
 // set speaker optimality
 var alpha = 1
@@ -181,7 +181,7 @@ var speaker = cache(function(state) {
     factor(alpha * literalListener(utt).score(state))
     return utt
   }})
-});
+})
 
 // pragmatic listener
 var pragmaticListener = cache(function(utt) {
@@ -190,10 +190,10 @@ var pragmaticListener = cache(function(utt) {
     observe(speaker(state),utt)
     return state
   }})
-});
+})
 
 display("pragmatic listener's interpretation of 'some':")
-viz(pragmaticListener('some'));
+viz(pragmaticListener('some'))
 
 ~~~~
 
@@ -210,9 +210,9 @@ viz(pragmaticListener('some'));
 
 ##### Setting the scene
 
-Capturing scalar implicature within the RSA framework might not induce waves of excitement. However, by implementing implicature-calculation within a formal model of communication, we can also capture its interactions with other pragmatic factors. Goodman and Stuhlmüller (2013) explored what happens when the speaker possibly only has partial knowledge about the state of the world. Below, we explore this model, taking into account the listener's beliefs about the speaker's beliefs about the world, and the way these higher-order listener beliefs may change when hearing an utterance.
+Capturing scalar implicature within the RSA framework might not induce waves of excitement. However, by implementing implicature-calculation within a formal model of communication, we can also capture its interactions with other pragmatic factors. reft:GoodmanStuhlmuller2013Impl explored what happens when the speaker possibly only has partial knowledge about the state of the world. Below, we explore this model, taking into account the listener's beliefs about the speaker's beliefs about the world, and the way these higher-order listener beliefs may change when hearing an utterance.
 
-Many traditional approaches to scalar implicature calculation follow what Geurts calls the **standard recipe**:
+Many traditional approaches to scalar implicature calculation follow what reft:Geurts2010:Quantity-Implic calls the **standard recipe**:
 
 1. the speaker used *some*
 2. one reason why the speaker did not use *all* instead is that she does not know whether it is true
@@ -222,7 +222,7 @@ Many traditional approaches to scalar implicature calculation follow what Geurts
 
 Crucially, the standard recipe requires the Competence Assumption to derive a strong scalar implicature about the way the world is. Without the competence assumption, we only derive the *weak epistemic implicature*: that the speaker does not know that *all* is true.
 
-From a probabilistic perspective, this is way too simple. Probabilistic modeling, aided by probabilistic programming tools, lets us explore a richer and more intuitive picture. In this picture, the listener may have probabilistic beliefs about the degree to which the speaker is in possession of the relevant facts. While these gradient prior beliefs of the listener about the speaker's likely competence matter to the interpretation of an utterance, hearing an utterance may also dynamically change these beliefs. This is because the listener tries to infer the most likely epistemic state conditional on the obsersed utterance, given whatever representation of the utterance context he has. If a particular utterance is more likely to be observed by a well-informed speaker, then the listener might infer that the speaker is likely more knowledgable than initially assumed.
+From a probabilistic perspective, this is way too simple. Probabilistic modeling, aided by probabilistic programming tools, lets us explore a richer and more intuitive picture. In this picture, the listener may have probabilistic beliefs about the degree to which the speaker is in possession of the relevant facts. While these gradient prior beliefs of the listener about the speaker's likely competence matter to the interpretation of an utterance, hearing an utterance may also dynamically change these beliefs.
 
 <img src="../images/scalar.png" alt="Fig. 3: Example communication scenario from Goodman and Stuhmüller." style="width: 500px;"/>
 <center>Fig. 1: Example communication scenario from Goodman and Stuhmüller: How will the listener interpret the speaker’s utterance? How will this change if she knows that he can see only two of the objects? What does the listener infer from an utterance about the likely number of apples the speaker has seen the color of?</center>
@@ -248,7 +248,7 @@ var pragmaticListener = function(utt) {
 
 ##### Modeling beliefs after partial observations
 
-What does a speaker believe about the world state $$s$$ after, say, having access to $$a = 2$$ out of $$n = 3$$ apples and seeing that $$o = 1$$ of the accessed apples is red? - This depends on the speaker's prior beliefs about how likely red apples are in general. Let us assume that these prior beliefs are given by a binomial distribution with a fixed base rate of redness: intuitively put, each apple has a chance `base_rate` of being red; how many red apples do we expect given that we have `total_apples`?
+What does a speaker believe about the world state $$s$$ after, say, having access to $$a$$ out of $$n$$ apples and seeing that $$o$$ of the accessed apples are red? - This depends on the speaker's prior beliefs about how likely red apples are in general. Let us assume that these prior beliefs are given by a binomial distribution with a fixed base rate of redness: intuitively put, each apple has a chance `base_rate` of being red; how many red apples do we expect given that we have `total_apples`?
 
 ~~~~
 // total number of apples (known by speaker and listener)
@@ -267,7 +267,7 @@ viz(Infer({model: statePrior, method: "forward", samples: 5000}))
 
 > Exercise: Play around with `total_apples` and `base_rate_red` to get good intuitions about the state prior for different parameters. (For which values of `total_apples` and `base_rate_red` would you better take more samples for a more precise visualization?)
 
-A world state `state` (a single sample from the `statePrior`) gives the true, actual number of red apples. If the world state was known to the speaker, his beliefs for any pair of access `access` to apples and observations `observed` of red apples are given by a socalled [Hypergeometric distribution](https://en.wikipedia.org/wiki/Hypergeometric_distribution). The Hypergeometric distribution gives the probability of retrieving `observe` red balls when drawing `access` balls without replacement from an urn which contains `total_apples` balls in total of which `state` are red. (This distribution is not implemented in WebPPL, so we implement its probability mass function by hand.)
+A world state `state` (a single sample from the `statePrior`) gives the true, actual number of red apples. If the world state was known to the speaker, his beliefs for any pair of access `access` to apples and observations `observed` of red apples are given by a so-called [Hypergeometric distribution](https://en.wikipedia.org/wiki/Hypergeometric_distribution). The Hypergeometric distribution gives the probability of retrieving `observed` red balls when drawing `access` balls without replacement from an urn which contains `total_apples` balls in total of which `state` are red. (This distribution is not implemented in WebPPL, so we implement its probability mass function by hand.)
 
 ~~~~
 
@@ -306,7 +306,7 @@ viz(Infer({model: function() {hypergeometricSample(total_apples, state, access)}
 
 The prior over states and the hypergeometric distribution combine to give the speaker's beliefs about world state $$s$$ given access $$a$$ and observation $$o$$, using Bayes rule (and knowledge of the total number of apples $$n$$):
 
-$$P_{S_1}(s \mid a, o) \propto \text{Hypergeometric}(o \mid s, a, n) \ \text{Binomial}(s \mid \text{baserate}) $$
+$$P_{S_1}(s \mid a, o) \propto \text{Hypergeometric}(o \mid s, a, n) \ \text{Binomial}(s \mid \text{baserate, n}) $$
 
 ~~~~
 
@@ -374,9 +374,13 @@ viz(belief(2,1))
 
 ##### Speaker production model 
 
-Given potential uncertainty about the world state $$s$$, the speaker's probabilistic production rule has to be generalized. It is now no longer a function of the true $$s$$ (because it might not be known) but of the epistemic state of the speaker more generally. In the case at hand, the speaker's epistemic state $$P_{S_{1}}(\cdot \mid o,a) \in \Delta(S)$$ is given by access $$a$$, observation $$o$$ and the rational belief model introduced previously. reft:GoodmanStuhlmuller2013Impl give a straightforward extension of the speaker choice rule from the vanilla RSA model discussed in [chapter I](01-introduction.html). The speaker chooses an utterance based on the **expected utility**, given her belief state $$P_{S_{1}}(\cdot \mid o,a)$$.
+Given potential uncertainty about the world state $$s$$, the speaker's probabilistic production rule has to be generalized. It is now no longer a function of the true $$s$$ (because it might not be known) but of the epistemic state of the speaker more generally. In the case at hand, the speaker's epistemic state $$P_{S_{1}}(\cdot \mid o,a) \in \Delta(S)$$ is given by access $$a$$, observation $$o$$ and the rational belief model introduced previously. reft:GoodmanStuhlmuller2013Impl give a straightforward extension of the speaker choice rule from the vanilla RSA model discussed in [chapter I](01-introduction.html). The speaker chooses an utterance based on the **expected utility**, given her belief state $$P_{S_{1}}(\cdot \mid o,a)$$:
 
 $$P_{S_{1}}(u \mid o, a) \propto \exp(\alpha \ \mathbb{E}_{P(s \mid o, a)}[U(u; s)])$$
+
+The speaker's utility function remains unchanged, so that utterances are chosen to minimize cost and maximize informativity.
+
+$$U_{S_{1}}(u; s) = log(L_{0}(s\mid u)) - C(u)$$
 
 ~~~~
 // expected utilities
@@ -400,13 +404,9 @@ var speaker = function(access, observed) {
 }
 ~~~~
 
-The speaker's utility function remains unchanged, such that utterances are chosen to minimize cost and maximize informativity.
-
-$$U_{S_{1}}(u; s) = log(L_{0}(s\mid u)) - C(u)$$
-
 An equivalently motivation for this speaker model is that the speaker chooses an utterance with the goal of minimizing the (Kullback-Leibler) divergence between her belief state $$P_{S_{1}}(\cdot \mid o,a)$$ and that of the literal listener $$P_{L_0}(\cdot \mid u)$$. Details are in [appendix chapter I](app-01-utilities.html).
 
-There is one important bit to notice about this definition. In the vanilla RSA model of the previous chapter, the speaker will never say anything false. The present conservative extension makes it so that an uncertain speaker will never use an utterance whose truth the speaker is not absolutely convinced of. In other words, as long as $$P_{S_{1}}(\cdot \mid o,a)$$ puts positive probability on a state $$s$$ for which utterance $$u$$ is false, the speaker will *never* use it. This is because $$\log P_{L_0}(s \mid u)$$ is negative infinity if $$u$$ is false of $$s$$ and so the expected utility (which is a weighted sum) will be negative infinity as well, unless $$P_{S_{1}}(s \mid o,a) = 0$$. As a consequence, we need to make sure in the model that the speaker always has something true to say for all pairs of $$a$$ and $$o$$. We do this by including a "null utterance", which is like saying nothing. (See also [chapter V](05-vagueness.html) for a similar use of a "null utterance".) 
+There is one important bit to notice about this definition. In the vanilla RSA model of the previous chapter, the speaker will never say anything false. The present conservative extension makes it so that an uncertain speaker will never use an utterance whose truth the speaker is not absolutely convinced of. In other words, as long as $$P_{S_{1}}(\cdot \mid o,a)$$ puts positive probability on a state $$s$$ for which utterance $$u$$ is false, the speaker will *never* use $$u$$ in epistemic state $$\langle o, a \rangle$$. This is because $$\log P_{L_0}(s \mid u)$$ is negative infinity if $$u$$ is false of $$s$$ and so the expected utility (which is a weighted sum) will be negative infinity as well, unless $$P_{S_{1}}(s \mid o,a) = 0$$. As a consequence, we need to make sure in the model that the speaker always has something true to say for all pairs of $$a$$ and $$o$$. We do this by including a "null utterance", which is like saying nothing. (See also [chapter V](05-vagueness.html) and reft:PottsLassiter2016:Embedded-implic for a similar use of a "null utterance".) 
 
 Adding a set of utterances, an utterance prior and the literal listener, we obtain a full speaker model.
 
@@ -653,7 +653,7 @@ viz(pragmaticListener("some", 2))
 
 ###### Joint inference of world state, access and observation
 
-If the pragmatic listener does not know the number $$a$$ of apples that the speaker saw, the listener can nevertheless infer likely values for $$a$$, given an utterance. In fact, the listener can make a joint inference of $$s$$, $$a$$ and $$o$$, all of which are unknown to him, but all of which conspire to feed into the speaker's utterance probabilities. The posterior inference of $$a$$ is particularly interesting because it is a probabilistic inference of the speaker's competence, mediated by what the speaker said.
+If the pragmatic listener does not know the number $$a$$ of apples that the speaker saw, the listener can nevertheless infer likely values for $$a$$, given an utterance. In fact, the listener can make a joint inference of $$s$$, $$a$$ and $$o$$, all of which are unknown to him, but all of which feed into the speaker's utterance probabilities. The posterior inference of $$a$$ is particularly interesting because it is a probabilistic inference of the speaker's competence, mediated by what the speaker said.
 
 ~~~~
 // red apple base rate
