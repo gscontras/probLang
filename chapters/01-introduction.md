@@ -57,7 +57,7 @@ The literal listener rule can be written as follows:
 var states = ["blue_circle", "green_square", "blue_square"]
 
 // set of utterances
-var utterances = ["blue","green","square","circle"]
+var utterances = ["blue", "green", "square", "circle"]
 
 // prior over world states
 var objectPrior = function() {
@@ -225,7 +225,7 @@ var condProb2Table = function(condProbFct, row_names, col_names, precision){
 var states = ["blue_circle", "green_square", "blue_square"]
 
 // set of utterances
-var utterances = ["blue","green","square","circle"]
+var utterances = ["blue", "green", "square", "circle"]
 
 // prior over world states
 var objectPrior = function() {
