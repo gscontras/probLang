@@ -775,11 +775,9 @@ var pragmaticListener = cache(function(utt) {
     factor(Math.log(hypergeometricPMF(observed, total_apples,
                                       state, access)))
     observe(speaker(access, observed), utt)
-    return {state}
+    return {state, access, observed}
   }})
 });
-
-viz(pragmaticListener("some"))
 
 var pl = pragmaticListener("some")
 display("Marginal beliefs about the true world state:")
