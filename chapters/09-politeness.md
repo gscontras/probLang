@@ -4,7 +4,7 @@ title: Social reasoning about social reasoning
 description: "Politeness"
 ---
 
-### Chapter 8: Politeness
+### Chapter 9: Politeness
 
 When using language, speakers aim to get listeners to believe the things that they believe.
 But sometimes, we don't want listeners to know *exactly* how we feel.

@@ -4,7 +4,7 @@ title: Summary and outlook
 description: "Questions about RSA"
 ---
 
-### Chapter 9: Closing remarks
+### Chapter 10: Closing remarks
 
 *Authors: Judith Degen, Gregory Scontras, and Michael Henry Tessler*
 
