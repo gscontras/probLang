@@ -10,6 +10,9 @@ description: "Lexical uncertainty"
 
 How can we capture what looks like an embedded implicature in "some or all of the apples are red"? The lexical uncertainty model of reft:bergenetal2016 derives this inference by assuming uncertainty at the level of atomic utterances (i.e., at the level of "some" and "all").
 
+
+First we need possible worlds (i.e., the number of red apples), together with knowledge states. These knowledge states correspond to the worlds compatible with whatever observations have been made.
+
 ~~~~
 ///fold:
 var powerset = function(set){
@@ -38,6 +41,8 @@ var knowledge_state_prior = function(){
 ~~~~
 
 >> **Exercise:** Visualize the `world` and `knowledge_state` priors.
+
+Next, we need some utterances to use to describe the world. We include atomic utterances (e.g., "some", "all"), as well as complex utterances formed via disjunction (e.g., "some or all").
 
 ~~~~
 ///fold:
@@ -85,6 +90,8 @@ var utterance_prior = cache(function(){
 ~~~~
 
 >> **Exercise:** Visualize the `utterance_prior`.
+
+Next, we need a way of interpreting our utterances. We start by defining a basic semantics for our atomic utterances, then considering all possible refinements (i.e., logical strengthenings) of the base semantics.
 
 ~~~~
 ///fold:
@@ -164,6 +171,8 @@ var get_possible_refinements = function(utterances){
 ~~~~
 
 >>**Exercise:** What are the possible refinements of the `base_utterances`?
+
+Our meaning function evaluates the truth of an utterance with respect to a specific `refinement` of its semantics; which refinement is considered will get determined by the pragmatic listener.
 
 ~~~~
 ///fold:
@@ -324,6 +333,8 @@ var refinements = sample_refinements()
 display(refinements)
 utterance_meaning(utterance,refinements,3)
 ~~~~
+
+Now we can define the base of RSA reasoning: the literal listener $$L_0$$. $$L_0$$ takes in an `utterance` and the relevant meaning `refinements` and returns a joint distribution of knowledge states and worlds compatible with the refined semantics.
 
 ~~~~
 ///fold:
@@ -502,6 +513,8 @@ var literal_listener = cache(function(utterance,refinements) {
 
 >> **Exercise:** Generate predictions from the literal listener by first sampling an `utterance` and some `refinements`, then feeding these variables into the `literal_listener` function.
 
+To continue the RSA recursion, we'll need a speaker who reasons about the literal listener. This reasoning depends crucially on the `speaker_utility` function, which evaluates the probability that the `listener` will arrive at the correct `knowledge_state`.
+
 ~~~~
 // speaker utility function
 var speaker_utility = function(knowledge_state,listener){
@@ -511,6 +524,8 @@ var speaker_utility = function(knowledge_state,listener){
   return (1/knowledge_state.length)*sum(scores)
 }
 ~~~~
+
+With `speaker_utility` defined, now we can implement the $$S_1$$ speaker, who observes some `knowledge_state` and chooses an utterance to communicate that `knowledge_state` to the `literal_listener`; this choice happens with respect to a specific set of meaning `refinements`, which is a lifted variable that will get resolved by the pragmatic listener.
 
 ~~~~
 ///fold:
@@ -706,6 +721,8 @@ var speaker1 = cache(function(knowledge_state,refinements){
 ~~~~
 
 >> **Exercise:** Sample a `knowledge_state` and some `refinements` and use them to generate predictions from `speaker1`.
+
+The pragmatic listener, $$L_1$$, interprets an `utterance` to resolve the state of the `world` by reasoning about how `speaker1` would have generated that utterance.
 
 ~~~~
 ///fold:
@@ -915,6 +932,8 @@ listener1(['some'])
 ~~~~
 
 >> **Exercise:** Try `listener1` on the other utterances, including "some or all".
+
+To get the full effect of the embedded inference, we'll need to increase the depth of reasoning by increasing the levels of recursion.
 
 ~~~~
 ///fold:
