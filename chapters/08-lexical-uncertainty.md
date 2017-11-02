@@ -40,7 +40,7 @@ var knowledge_state_prior = function(){
 }
 ~~~~
 
->> **Exercise:** Visualize the `world` and `knowledge_state` priors.
+> **Exercise:** Visualize the `world` and `knowledge_state` priors.
 
 Next, we need some utterances to use to describe the world. We include atomic utterances (e.g., "some", "all"), as well as complex utterances formed via disjunction (e.g., "some or all").
 
@@ -89,7 +89,7 @@ var utterance_prior = cache(function(){
   }})})
 ~~~~
 
->> **Exercise:** Visualize the `utterance_prior`.
+> **Exercise:** Visualize the `utterance_prior`.
 
 Next, we need a way of interpreting our utterances. We start by defining a basic semantics for our atomic utterances, then considering all possible refinements (i.e., logical strengthenings) of the base semantics.
 
@@ -170,7 +170,7 @@ var get_possible_refinements = function(utterances){
 }
 ~~~~
 
->>**Exercise:** What are the possible refinements of the `base_utterances`?
+>**Exercise:** What are the possible refinements of the `base_utterances`?
 
 Our meaning function evaluates the truth of an utterance with respect to a specific `refinement` of its semantics; which refinement is considered will get determined by the pragmatic listener.
 
@@ -511,7 +511,7 @@ var literal_listener = cache(function(utterance,refinements) {
 })
 ~~~~
 
->> **Exercise:** Generate predictions from the literal listener by first sampling an `utterance` and some `refinements`, then feeding these variables into the `literal_listener` function.
+> **Exercise:** Generate predictions from the literal listener by first sampling an `utterance` and some `refinements`, then feeding these variables into the `literal_listener` function.
 
 To continue the RSA recursion, we'll need a speaker who reasons about the literal listener. This reasoning depends crucially on the `speaker_utility` function, which evaluates the probability that the `listener` will arrive at the correct `knowledge_state`.
 
@@ -720,7 +720,7 @@ var speaker1 = cache(function(knowledge_state,refinements){
          }})})
 ~~~~
 
->> **Exercise:** Sample a `knowledge_state` and some `refinements` and use them to generate predictions from `speaker1`.
+> **Exercise:** Sample a `knowledge_state` and some `refinements` and use them to generate predictions from `speaker1`.
 
 The pragmatic listener, $$L_1$$, interprets an `utterance` to resolve the state of the `world` by reasoning about how `speaker1` would have generated that utterance.
 
@@ -931,7 +931,7 @@ var listener1 = cache(function(utterance){
 listener1(['some'])
 ~~~~
 
->> **Exercise:** Try `listener1` on the other utterances, including "some or all".
+> **Exercise:** Try `listener1` on the other utterances, including "some or all".
 
 To get the full effect of the embedded inference, we'll need to increase the depth of reasoning by increasing the levels of recursion.
 
@@ -1280,4 +1280,7 @@ map(function(x){display('')
                 display(listener8(x))},utterances)
 ~~~~
 
->> **Exercise:** Check the behavior of the intermediate listener levels.
+> **Exercises:** 
+
+> 1. Check the behavior of the intermediate listener levels.
+> 2. See what happens when you add in additional atomic utterances.
