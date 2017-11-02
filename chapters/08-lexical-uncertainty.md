@@ -60,7 +60,7 @@ var powerset = function(set){
 // possible atomic utterances
 var base_utterances = ['some','most','all']
 
-// generate all possible pairs utterances,
+// generate all possible utterances,
 // including a null utterance, atomic utterances, 
 // and all pairs (i.e., disjunctions) of atomic utterances
 var utterances = ['null'].concat(
@@ -1139,6 +1139,7 @@ var listener1 = cache(function(utterance){
            return [knowledge_state, world]
          }})})
 
+///fold:
 var speaker2 = cache(function(knowledge_state){
   Infer({method:'enumerate',
          model (){
@@ -1252,6 +1253,7 @@ var listener7 = cache(function(utterance){
            factor(speaker.score(utterance))
            return [knowledge_state,world]
          }})})
+///         
 
 var speaker8 = cache(function(knowledge_state){
   Infer({method:'enumerate',
