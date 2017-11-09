@@ -79,7 +79,6 @@ At the same time, these states of the world also have some inherent subjective v
 We start with a literal listener whose task is to interpret value judgments (e.g., "terrible," "okay," "amazing") according to their literal semantics.
 
 ~~~~
-~~~~
 var states = [1,2,3,4,5]
 var utterances = ["terrible","bad","okay","good","amazing"]
 
