@@ -991,6 +991,6 @@ marginal_likelihood_good / marginal_likelihood_bad
 
 > 1. What does this numerical result mean? Which model is better? Is this strong or weak evidence in favor of one model?
 > 2. Execute this code two or three times and compare the results. The estimate of the Bayes Factor is not stable. Does this imprecision matter?
-> 3. Bayes factors depend on the priors over parameters. Change the priors over the cost parameter to allow only positive cost terms (a bias against color terms, in favor of shape terms) but with a wider range, e.g., sample $$c$$ from a uniform distribution with support from 0 to 4. Does this change the outcome of model comparison? (Hint: it might be easier to see a different if you output the Bayes factor in favor of the "bad" model.)
+> 3. Bayes factors depend on the priors over parameters. Change the priors over the cost parameter to allow only positive cost terms (a bias against color terms, in favor of shape terms) but with a wider range, e.g., sample $$c$$ from a uniform distribution with support from 0 to 0.4. Does this change the outcome of model comparison? (Hint: it might be easier to see a difference if you output the Bayes factor in favor of the "bad" model.)
 
 Efficient approximation of marginal likelihoods and Bayes factors is an important area of active research. A short overview of different methods for computing Bayes factors is [here](http://michael-franke.github.io/statistics,/modeling/2017/07/07/BF_computation.html).
