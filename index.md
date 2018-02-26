@@ -49,7 +49,7 @@ G. Scontras and M. H. Tessler (2017). *Probabilistic language understanding: An 
 
 ## Useful resources
 
-- [Probabilistic Models of Cognition](https://probmods.org): An introduction to computational cognitive science and the probabilistic programming language WebPPL
+- [Probabilistic Models of Cognition](http://probmods.org): An introduction to computational cognitive science and the probabilistic programming language WebPPL
 - [The Design and Implementation of Probabilistic Programming Languages](http://dippl.org): An introduction to probabilistic programming languages, WebPPL in particular
 - [Modeling Agents with Probabilistic Programs](http://agentmodels.org): An introduction to formal models of rational agents using WebPPL
 - [Pragmatic language interpretation as probabilistic inference](http://langcog.stanford.edu/papers_new/goodman-2016-underrev.pdf): A recent review of the RSA framework targeted at cognitive scientists

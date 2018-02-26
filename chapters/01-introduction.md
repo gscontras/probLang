@@ -36,7 +36,7 @@ $$U = \{ \text{"square"}, \text{"circle"}, \text{"green"}, \text{"blue"}  \}$$
 
 contains the four properties from which the speaker can choose.
 
-A vanilla RSA model for this scenario consists of three recursively layered, conditoinal probability rules for speaker production and listener interpretation. These rules are summarized in Fig. 2 and will be examine one-by-one in detail below. The overal idea is that a **pragmatic speaker** $$S_{1}$$ chooses a word $$u$$ to best signal an object $$s$$ to a **literal listener** $$L_{0}$$, who interprets $$u$$ as true and weighs in the prior probability of objects in the scenario (i.e., an object’s salience, $$P(s)$$). The **pragmatic listener** $$L_{1}$$ reasons about the speaker’s reasoning, and interprets $$u$$ accordingly, using Bayes rule. By formalizing the contributions of salience and efficiency, the RSA framework provides an information-theoretic definition of informativeness in pragmatic inference.  
+A vanilla RSA model for this scenario consists of three recursively layered, conditoinal probability rules for speaker production and listener interpretation. These rules are summarized in Fig. 2 and will be examined one-by-one in detail below. The overal idea is that a **pragmatic speaker** $$S_{1}$$ chooses a word $$u$$ to best signal an object $$s$$ to a **literal listener** $$L_{0}$$, who interprets $$u$$ as true and weighs in the prior probability of objects in the scenario (i.e., an object’s salience, $$P(s)$$). The **pragmatic listener** $$L_{1}$$ reasons about the speaker’s reasoning, and interprets $$u$$ accordingly, using Bayes rule. By formalizing the contributions of salience and efficiency, the RSA framework provides an information-theoretic definition of informativeness in pragmatic inference.  
 
 <img src="../images/rsa_schema.png" alt="Fig. 1: Graphical representation of the Bayesian RSA model." style="width: 400px;"/>
 <center>Fig. 2: Bayesian RSA schema.</center>
@@ -54,14 +54,19 @@ The literal listener rule can be written as follows:
 ~~~~
 
 // set of states (here: objects of reference)
-var states = ["blue_circle", "green_square", "blue_square"]
+// we represent objects as JavaScript objects to demarcate them from utterances
+// internally we treat objects as strings nonetheless
+var objects = [{color: "blue", shape: "square", string: "blue square"},
+               {color: "blue", shape: "circle", string: "blue circle"},
+               {color: "green", shape: "square", string: "green square"}]
 
 // set of utterances
 var utterances = ["blue", "green", "square", "circle"]
 
 // prior over world states
 var objectPrior = function() {
-  uniformDraw(states)
+  var obj = uniformDraw(objects)
+  return obj.string 
 }
 
 // meaning function to interpret the utterances
@@ -95,7 +100,7 @@ Speech acts are actions; thus, the speaker is modeled as a rational (Bayesian) a
 
 #### Bayesian decision-making
 
-In the code box below you'll see a generic *approximately rational* agent model. Note that in this model, `agent` uses `factor` (other related functions are `condition` and `observe`, as documented [here](http://webppl.readthedocs.io/en/dev/inference/conditioning.html); for general information on conditioning see [probmods.org](http://probmods.org/chapters/03-conditioning.html)). In rough terms, what happens is this. Each `factor` statement interacts with a call to `Infer` by incrementing a so-called log-score, the logarithm of the probability of the argument to be evaluated. For example, when `Infer` considers the probabilities of the three actions in the example below (by enumeration, its default method), it first calculates a log-score for each action (e.g., by evaluating `factor` statement and the fact that each action is a draw from a uniform distribution), and then computes normalized probabilities from these. In effect, the function `agent` therefore computes the distribution:
+In the code box below you'll see a generic *approximately rational* agent model. Note that in this model, `agent` uses `factor` (other related functions are `condition` and `observe`, as documented [here](http://webppl.readthedocs.io/en/dev/inference/conditioning.html); for general information on conditioning see [probmods.org](http://probmods.org/chapters/03-conditioning.html)). In rough terms, what happens is this. Each `factor` statement interacts with a call to `Infer` by incrementing a so-called log-score, the logarithm of the probability of the argument to be evaluated. For example, when `Infer` considers the probabilities of the three actions in the example below (by enumeration, its default method), it first calculates a log-score for each action (e.g., by evaluating the `factor` statement and considering the fact that each action is a draw from a uniform distribution), and then computes normalized probabilities from these. In effect, the function `agent` therefore computes the distribution:
 
 $$P(a_i) = \frac{\exp(\alpha \cdot \text{Util}(a_i))}{\sum_{j} \exp(\alpha \cdot \text{Util}(a_j))}$$
 
@@ -132,7 +137,7 @@ viz(agent);
 > **Exercises:**
 
 > 1. Check to make sure `utility()` returns the correct value for `a3`.
-> 2. Explore what happens when you change the agent's optimality.
+> 2. Explore what happens when you change the actor's optimality parameter.
 > 3. Explore what happens when you change the utilities.
 
 #### A Rational Speech Actor
@@ -153,8 +158,6 @@ With this utility function in mind, $$S_{1}$$ computes the probability of an utt
 <!-- <center>The pragmatic speaker: P<sub>S<sub>1</sub></sub>(u|s) ∝ exp(αU<sub>S<sub>1</sub></sub>(u;s))</center> -->
 
 $$P_{S_{1}}(u\mid s) \propto exp(\alpha U_{S_{1}}(u; s))$$
-
-The following code assumes that all utterances are equally costly.
 
 ~~~~
 // pragmatic speaker
@@ -222,14 +225,19 @@ var condProb2Table = function(condProbFct, row_names, col_names, precision){
 // Frank and Goodman (2012) RSA model
 
 // set of states (here: objects of reference)
-var states = ["blue_circle", "green_square", "blue_square"]
+// we represent objects as JavaScript objects to demarcate them from utterances
+// internally we treat objects as strings nonetheless
+var objects = [{color: "blue", shape: "square", string: "blue square"},
+               {color: "blue", shape: "circle", string: "blue circle"},
+               {color: "green", shape: "square", string: "green square"}]
 
 // set of utterances
 var utterances = ["blue", "green", "square", "circle"]
 
 // prior over world states
 var objectPrior = function() {
-  uniformDraw(states)
+  var obj = uniformDraw(objects)
+  return obj.string 
 }
 
 // meaning function to interpret the utterances
@@ -267,18 +275,20 @@ var pragmaticListener = function(utterance){
   }})
 }
 
-// uncomment the following lines for complete probability tables
+viz.table(pragmaticListener("blue"))
 
+// uncomment the following lines for complete probability tables
+// var object_strings = map(function(obj) {return obj.string}, objects)
 // display("literal listener")
-// display(condProb2Table(literalListener, utterances, states, 2))
+// display(condProb2Table(literalListener, utterances, object_strings, 4))
 // display("")
 // display("speaker")
-// display(condProb2Table(speaker, states, utterances, 2))
+// display(condProb2Table(speaker, object_strings, utterances, 2))
 // display("")
 // display("pragmatic listener")
-// display(condProb2Table(pragmaticListener, utterances, states, 2))
+// display(condProb2Table(pragmaticListener, utterances, object_strings, 2))
 
-viz.table(pragmaticListener("blue"))
+
 
 ~~~~
 

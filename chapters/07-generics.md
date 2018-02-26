@@ -728,16 +728,21 @@ var scalePrior = function(property){
 var statePrior = function(probs){ return categorical(probs, stateBins) }
 var thresholdPrior = function() { return uniformDraw(thresholdBins) }
 
+<<<<<<< HEAD
 var utterancePrior = function(scale) {
   var utterances = scale == "height" ?
+=======
+var utterancePrior = function(property) {
+  var utterances = property == "height" ? 
+>>>>>>> upstream/gh-pages
       ["tall", "null"] :
-      ["generic", "null"]
+  ["generic", "null"]
   return uniformDraw(utterances)
 }
 
-var meaning = function(utt, state, threshold) {
-  return utt == "generic" ? state > threshold :
-  utt == "tall" ? state > threshold :
+var meaning = function(utterance, state, threshold) {
+  return utterance == "generic" ? state > threshold :
+  utterance == "tall" ? state > threshold :
   true
 }
 
@@ -750,9 +755,9 @@ var literalListener = cache(function(utterance, threshold, stateProbs) {
   })
 })
 
-var speaker1 = cache(function(state, threshold, stateProbs, predicate) {
+var speaker1 = cache(function(state, threshold, stateProbs, property) {
   Infer({method: "enumerate"}, function(){
-    var utterance = utterancePrior(predicate)
+    var utterance = utterancePrior(property)
     var L0 = literalListener(utterance, threshold, stateProbs)
     factor(alpha_1 * L0.score(state))
     return utterance
@@ -760,49 +765,71 @@ var speaker1 = cache(function(state, threshold, stateProbs, predicate) {
   })
 })
 
-var pragmaticListener = cache(function(utterance, scale, world) {
+var pragmaticListener = cache(function(utterance, property, world) {
   Infer({method: "enumerate"}, function(){
+<<<<<<< HEAD
     var stateProbs = scale == "height" ?
         scalePrior(scale) :
     prevalencePrior(scale, world)
+=======
+    var stateProbs = property == "height" ? 
+        scalePrior(property) : 
+    prevalencePrior(property, world)
+>>>>>>> upstream/gh-pages
     var state = statePrior(stateProbs)
     var threshold = thresholdPrior()
-    var S1 = speaker1(state, threshold, stateProbs, scale)
+    var S1 = speaker1(state, threshold, stateProbs, property)
     observe(S1, utterance)
     return state
   })
 })
 
-var worldWithTallness = map(function(thing){
+var worldWithTallness = map(function(individual){
   var tallDistribution = Infer({method: "enumerate"}, function(){
     var utterance = utterancePrior("height")
-    factor(pragmaticListener(utterance, "height").score(thing.height))
+    factor(pragmaticListener(utterance, "height").score(individual.height))
     return utterance
   })
+<<<<<<< HEAD
   return _.extend(thing,
+=======
+  return _.extend(individual, 
+>>>>>>> upstream/gh-pages
                   {tall: Math.exp(tallDistribution.score("tall"))})
 }, theWorld)
 
-var speaker2 = function(k, f){
+var speaker2 = function(kind, predicate){
   Infer({method: "enumerate"}, function(){
-    var property = f.split(' ')[1]
+    var property = predicate.split(' ')[1]
     var degree = propertyDegrees[property]
+<<<<<<< HEAD
     var world = _.isNumber(theWorld[0][degree]) ?
         worldWithTallness :
     theWorld
     var prev = prevalence(world, k, property)
+=======
+    var world = _.isNumber(theWorld[0][degree]) ? 
+        worldWithTallness : theWorld
+    var prev = prevalence(world, kind, property)
+>>>>>>> upstream/gh-pages
     var utterance = utterancePrior(property)
 
     var L1 = pragmaticListener(utterance, property, world)
     factor(2*L1.score(prev))
 
+<<<<<<< HEAD
     return utterance=="generic" ?
       k + "s " + f :
+=======
+    return utterance=="generic" ? 
+      kind + "s " + predicate :
+>>>>>>> upstream/gh-pages
     "don't think so"
   })
 }
 
 viz.auto(speaker2("glippet", "are tall"))
+
 ~~~~
 
 References:

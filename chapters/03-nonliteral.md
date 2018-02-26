@@ -62,6 +62,23 @@ display("full state = " + stringify(fullState))
 var valenceQudFn = qudFns["valence"]
 var valenceQudVal = valenceQudFn(fullState)
 display("valence QUD value = " + stringify(valenceQudVal))
+<<<<<<< HEAD
+
+var priceQudFn = qudFns["price"]
+var priceQudVal = priceQudFn(fullState)
+display("price QUD value = " + stringify(priceQudVal))
+
+var priceValenceQudFn = qudFns["priceValence"]
+var priceValenceQudVal = priceValenceQudFn(fullState)
+display("priceValence QUD value = " + stringify(priceValenceQudVal))
+
+var approxPriceQudFn = qudFns["approxPrice"]
+var approxPriceQudVal = approxPriceQudFn(fullState)
+display("approxPrice QUD value = " + stringify(approxPriceQudVal))
+~~~~
+
+Accurately modeling world knowledge is key to getting appropriate inferences from the world. Kao et al. achieve this using **prior elicitation**, an empirical methodology for gathering precise quantitative information about interlocutors' relevant world knowledge. They do this to estimate the prior knowledge people carry about the price of an object (in this case, an *electric kettle*), as well as the probability of getting upset (i.e., experiencing a negatively-valenced affect) in response to a given price.
+=======
 
 var priceQudFn = qudFns["price"]
 var priceQudVal = priceQudFn(fullState)
@@ -120,6 +137,51 @@ var valencePrior = function(price) {
 
 display("marginal distribution on prices")
 viz.table(Infer({model: pricePrior}))
+>>>>>>> upstream/gh-pages
+
+~~~~
+// Prior probability of kettle prices (taken from human experiments)
+var pricePrior = function() {
+  return categorical({
+    vs: [
+      50, 51,
+      500, 501,
+      1000, 1001,
+      5000, 5001,
+      10000, 10001
+    ],
+    ps: [
+      0.4205, 0.3865,
+      0.0533, 0.0538,
+      0.0223, 0.0211,
+      0.0112, 0.0111,
+      0.0083, 0.0120
+    ]
+  })
+};
+
+// Probability that given a price state, the speaker thinks it's too
+// expensive (taken from human experiments)
+var valencePrior = function(price) {
+  var probs = {
+    50 : 0.3173,
+    51 : 0.3173,
+    500 : 0.7920,
+    501 : 0.7920,
+    1000 : 0.8933,
+    1001 : 0.8933,
+    5000 : 0.9524,
+    5001 : 0.9524,
+    10000 : 0.9864,
+    10001 : 0.9864
+  }
+  var tf = flip(probs[price]);
+  return tf
+};
+
+<<<<<<< HEAD
+display("marginal distribution on prices")
+viz.table(Infer({model: pricePrior}))
 
 display("joint distribution on price and valence")
 viz(Infer({
@@ -132,6 +194,10 @@ viz(Infer({
 }))
 ~~~~
 
+=======
+> **Exercise:** Use `Infer()` to visualize the joint distribution on price and valence. (Hint: You'll want to run inference over a function that returns an object like the following: `{price: aPrice, valence: aValence}`.)
+
+>>>>>>> upstream/gh-pages
 Putting it all together, the Literal Listener updates these prior belief distributions by conditioning on the literal meaning of the utterance. The Question Under Discussion determines which kind of distribution (e.g., price or affect or both) will be returned.
 
 ~~~~
@@ -410,7 +476,10 @@ viz(listenerPosterior)
 > 1. In the second code box, we looked at the joint *prior* distribution over price and valence. Compare the results of that with the listener interpretation of "10000". What is similar? What is different?
 > 2. Try the `pragmaticListener` with the other possible utterances.
 > 3. Check the predictions of the `speaker` for the `approxPriceValence` QUD.
+<<<<<<< HEAD
 > 4. Look at the marginal distributions for "price" and "valence" of the pragmatic listener after hearing "10,000". Do you find these intuitive? If not, how could the model possibly be amended to make it more intuitive?
+=======
+>>>>>>> upstream/gh-pages
 
 By capturing the extreme (im)probability of kettle prices, together with the flexibility introduced by shifting communicative goals, the model is able to derive the inference that a speaker who comments on a "$10,000 kettle" likely intends to communicate that the kettle price was upsetting. The model thus captures some of the most flexible uses of language: what we mean when our utterances are literally false.
 
@@ -419,6 +488,7 @@ By capturing the extreme (im)probability of kettle prices, together with the fle
 The same machinery---actively reasoning about the QUD---has been used to capture other cases of non-literal language. [Kao and Goodman (2015)](http://cocolab.stanford.edu/papers/KaoEtAl2015-Cogsci.pdf) use this process to model ironic language, utterances whose intended meanings are opposite in polarity to the literal meaning. For example, if we are standing outside on a beautiful day and I tell you the weather is "terrible," you're unlikely to conclude that I intend to be taken literally. Instead, you will probably interpret the utterance ironically and conclude that I intended the opposite of what I uttered, namely that the weather is good and I'm happy about it. The following model implements this reasoning process by formalizing three possible conversational goals: communicating about the true state, communicating about the speaker's valence (i.e., whether they feel positively or negatively toward the state), and communicating about the speaker's arousal (i.e., how strongly they feel about the state).
 
 ~~~~
+<<<<<<< HEAD
 // There are three possible states the weather could be in: 
 // terrible, ok, or amazing
 var states = ['terrible', 'ok', 'amazing']
@@ -427,6 +497,12 @@ var states = ['terrible', 'ok', 'amazing']
 // are the following. Once could also imagine this being 
 // the prior in a certain context, e.g. when it's clearly
 // sunny and nice out.
+=======
+// There are three possible states the weather could be in: terrible, okay, or amazing
+var states = ['terrible', 'ok', 'amazing']
+
+// Since the authors are in California, the prior over these states privileges okay and amazing weather.
+>>>>>>> upstream/gh-pages
 var statePrior = function() {
   categorical([1, 50, 50], states)
 }
@@ -443,7 +519,7 @@ var valencePrior = function(state) {
   true
 }
 
-// Define arousals. Assuming arousal is binary, but could model as continuous.
+// Define binary arousals (could model as continuous).
 var arousals = ["low", "high"]
 
 // Define goals and goal priors. Could want to communicate state of the world,    
@@ -470,13 +546,21 @@ var arousalPrior = function(state) {
   true
 }
 
+<<<<<<< HEAD
 // Literal interpretation is just when utterance equals state
+=======
+// Literal interpretation is just whether utterance equals state
+>>>>>>> upstream/gh-pages
 var literalInterpretation = function(utterance, state) {
   utterance === state
 }
 
+<<<<<<< HEAD
 // A speaker's goal is satisfied if the listener infers the correct 
 // and relevant information.
+=======
+// A speaker's goal is satisfied if the listener infers the correct and relevant information.
+>>>>>>> upstream/gh-pages
 var goalState = function(goal, state, valence, arousal) {
   goal === "goalState" ? state :
   goal === "goalValence" ? valence :
@@ -524,7 +608,7 @@ viz.table(pragmaticListener("terrible"))
 
 ~~~~
 
-#### Application 3: Methaphor
+#### Application 3: Metaphor
 
 In yet another application, reft:kaoetal2014metaphor use a QUD manipulation to model metaphor, perhaps the most flagrant case of non-literal language use. If I call John a whale, you're unlikely to infer that he's an aquatic mammal. However, you probably will infer that John has qualities characteristic of whales (e.g., size, grace, majesty, etc.). The following model implements this reasoning process by aligning utterances (e.g., "whale", "person") with stereotypical features, then introducing uncertainty about which feature is currently the topic of conversation.
 
@@ -587,7 +671,7 @@ var goalPrior = function() {
 // Speaker optimality parameter
 var alpha = 3
 
-// Check if interpreted categroy is identical to utterance
+// Check if interpreted category is identical to utterance
 var literalInterpretation = function(utterance, category) {
   utterance === category
 }
@@ -638,4 +722,8 @@ viz.table(pragmaticListener("whale"))
 
 ~~~~
 
+<<<<<<< HEAD
 All of the models we have considered so far operate at the level of full utterances, with conversational participants reasoning about propositions. In the [next chapter](03-ambiguity.html), we begin to look at what it would take to model reasoning about sub-propositional meaning-bearing elements within the RSA framework.
+=======
+All of the models we have considered so far operate at the level of full utterances, with conversational participants reasoning about propositions. In the [next chapter](04-ambiguity.html), we begin to look at what it would take to model reasoning about sub-propositional meaning-bearing elements within the RSA framework.
+>>>>>>> upstream/gh-pages

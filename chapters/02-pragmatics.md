@@ -202,8 +202,13 @@ viz(pragmaticListener('some'))
 > 1. Explore what happens if you make the speaker *less* optimal.
 > 2. Subtract one of the utterances. What changed?
 > 3. Add a new utterance. What changed?
+<<<<<<< HEAD
 > 4. Check what would happen if 'some' literally meant some-but-not-all.
 > 5. Change the relative prior probabilities of the various states.
+=======
+> 4. Check what would happen if 'some' literally meant some-but-not-all (hint: use `!=` to assert that two values are not equal).
+> 5. Change the relative probabilities of the various states and see what happens to model predictions.
+>>>>>>> upstream/gh-pages
 
 
 #### Application 2: Scalar implicature and speaker knowledge
@@ -227,7 +232,11 @@ From a probabilistic perspective, this is way too simple. Probabilistic modeling
 <img src="../images/scalar.png" alt="Fig. 3: Example communication scenario from Goodman and Stuhmüller." style="width: 500px;"/>
 <center>Fig. 1: Example communication scenario from Goodman and Stuhmüller: How will the listener interpret the speaker’s utterance? How will this change if she knows that he can see only two of the objects? What does the listener infer from an utterance about the likely number of apples the speaker has seen the color of?</center>
 
+<<<<<<< HEAD
 reft:GoodmanStuhlmuller2013Impl explore a concrete scenario where such complex epistemic inferences can be studied systematically (Fig. 1 above). Suppose there are $$n$$ apples in total of which $$0 \le s \le n$$ are red. The speaker knows $$n$$ (as does the listener) but the speaker might only observe some of the apples' colors. Concretely, the speaker might only have access to $$0 \le a \le n$$ apples, of which she observes $$0 \le o \le a$$ to be red. If she communicates her observation with a statement like "Some of the apples are red", the listener performs a **joint inference** of the true world state $$s$$, the access $$a$$ and the observation $$o$$:
+=======
+In the extended Scalar Implicature model, the pragmatic listener infers the true state of the world not only on the basis of the observed utterance, but also the speaker's epistemic access $$a$$.
+>>>>>>> upstream/gh-pages
 
 $$P_{L_{1}}(s, a, o \mid u) \propto P_{S_{1}}(u\mid a, o) \cdot P(s,a,o)$$
 
