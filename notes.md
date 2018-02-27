@@ -55,7 +55,8 @@ spin-off of this "easier" speaker choice rule
 
 # ToDo MF
 
-- write general introduction chapter 
+- write general introduction chapter
+- renumber chapters and fix references
 - add appendix chapter on soft-max
 
 # ToDo General
