@@ -5,7 +5,7 @@ description: "BDA for the RSA reference game model"
 toc: true
 ---
 
-### Appendix chapter 2: Bayesian data analysis for the RSA reference game model
+### Appendix chapter 03: Bayesian data analysis for the RSA reference game model
 
 *Author: Michael Franke*
 

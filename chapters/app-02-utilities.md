@@ -4,7 +4,7 @@ title: More on speaker utility
 description: "Derivation of suprisal-based utilities from KL-divergence"
 ---
 
-### Appendix chapter 01: More on the speaker's utility function
+### Appendix chapter 02: More on the speaker's utility function
 
 *Author: Michael Franke*
 
