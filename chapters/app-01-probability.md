@@ -110,3 +110,4 @@ viz.table(Infer({method: "enumerate",
 			 
 ~~~~
 
+> **Exercise:** Implement Bayesian reasoning for the 2-box problem in WebPPL. Jones has two boxes. One contains two gold coins, the other one gold and one silver coin. Jones selects a random box and picks a random coin from it. He shows you a gold coin. What is the probability that the other coin in the box from which Jones presented the gold coin to you is also gold?
