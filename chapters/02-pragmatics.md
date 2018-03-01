@@ -216,8 +216,8 @@ Capturing scalar implicature within the RSA framework might not induce waves of 
 
 Suppose a speaker says: "Some of the apples are red." If you know that there are 3 apples in total, but that the speaker has only observed two of them, how likely do you think it is that 0, 1, 2 or 3 of the apples are red? - This is the question that reft:GoodmanStuhlmuller2013Impl address (Fig. 1 below).
 
-<img src="../images/scalar.png" alt="Fig. 3: Example communication scenario from Goodman and Stuhmüller." style="width: 500px;"/>
-<center>Fig. 1: Example communication scenario from Goodman and Stuhmüller: How will the listener interpret the speaker’s utterance? How will this change if she knows that he can see only two of the objects?</center>
+<img src="../images/scalar.png" alt="Fig. 3: Example communication scenario from Goodman and Stuhlmüller." style="width: 500px;"/>
+<center>Fig. 1: Example communication scenario from Goodman and Stuhlmüller: How will the listener interpret the speaker’s utterance? How will this change if she knows that he can see only two of the objects?</center>
 
 Towards an implementation, let's introduce some terminology and some notation. The **total number** of apples is $$n$$ of which $$0 \le s \le n$$ are red. We call $$s$$ the **state** of the world. The speaker knows $$n$$ (as does the listener) but the speaker might not know the true state $$s$$, because she might only observe some of the apples' colors. Concretely, the speaker might only have **access** to $$0 \le a \le n$$ apples, of which the number of red apples **observed** by the speaker is $$0 \le o \le a$$. The model of reft:GoodmanStuhlmuller2013Impl assumes that the listener knows $$o$$. We will first look at this model, and then generalize to the case where the listener must also infer $$o$$ from the speaker's utterance.
 
