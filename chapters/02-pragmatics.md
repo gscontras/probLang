@@ -47,7 +47,7 @@ var literalMeanings = {
 
 var utt = utterancePrior() // sample an utterance
 var meaning = literalMeanings[utt] // get its meaning
-[utt, meaning(3)] // apply meaning to state = 3
+display([utt, meaning(3)]) // apply meaning to state = 3
 ~~~~
 
 > **Exercise:** Interpret the output of the above code box. (Run several times.)
