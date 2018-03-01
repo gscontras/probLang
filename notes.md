@@ -39,9 +39,9 @@
       an implementation of the simpler model that is now in the first version in this chapter
       (just like before)
 - changed explanations and formulas also in the old (simpler model) part, so as to make
-everything a bit more self-contained and, most importantly, less false
+  everything a bit more self-contained and, most importantly, less false 
 - added a discussion question (last one in section 2) to pay attention to the conceptual
-spin-off of this "easier" speaker choice rule
+  spin-off of this "easier" speaker choice rule 
 
 # Chapter 3
 
@@ -52,6 +52,21 @@ spin-off of this "easier" speaker choice rule
 
 - why utterance priors and not costs? paper uses the latter;
 
+
+# Chapter 8/9 politeness
+
+## what changed
+
+- both MH and Greg have made changes in parallel; Greg's were mostly typos and aesthetic fixes;
+  Greg split introduction of literal listener and speaker;
+  MH changed code etc.
+- I kept all changes made in a maximally conservative merge;
+
+
+# Appendix
+
+- added new appendix chapter 01: introduction to Bayes etc.
+- renamed later appendix chapters
 
 # ToDo MF
 
