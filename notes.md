@@ -1,3 +1,13 @@
+# General stuff
+
+## what changed
+
+- added three appendix chapters
+- changed layout/functionality to recognize and display appendix chapters
+- updated libraries to the most recent KaTeX-versions
+- added references in bib file
+
+
 # Chapter 1
 
 ## what changed?
@@ -9,8 +19,8 @@
 
 ## open issues
 
-- is the reference to stochastic lambda-calculus still adequate for webPPL, which is not purely
-  functional? would we want to exclude non-functional probabilistic programming tools, like
+- is the reference to stochastic lambda-calculus adequate for webPPL (is it purely
+  functional?) would we want to exclude non-functional probabilistic programming tools, like
   pyro (?), with this formulation?
 - text says that literal listener uses salience priors, but that's *not* how the original
   science paper formalized it; and it gives *bad* empirical predictions (Appendix; Qing &
@@ -45,13 +55,24 @@
 
 # Chapter 3
 
+- conservative merge of changes from both sides
+
+# Chapter 4
 
 # Chapter 5
 
 ## open issues
 
-- why utterance priors and not costs? paper uses the latter;
+- why utterance priors and not costs? paper uses the latter
 
+# Chapter 6
+
+# Chapter 7 
+
+# Chapter 8 ::: NEW ::: lexical uncertainty
+
+- new chapter from upstream fork (Greg) on lexical uncertainty
+- no further changes
 
 # Chapter 8/9 politeness
 
