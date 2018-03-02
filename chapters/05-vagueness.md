@@ -4,11 +4,6 @@ title: Fixing free parameters
 description: "Vagueness"
 ---
 
-<!--
-- empirical data not yet published?!?
-- why use utterance prior if publications used costs ==> NOT equivalent!
--->
-
 ### Chapter 5: Vagueness
 
 Sometimes our words themselves are imprecise, vague, and heavily dependent on context to fix their interpretations. Compositionality assumes semantic atoms with invariant meanings; context-dependent word interpretations pose a serious challenge to compositionality. Take the case of gradable adjectives: "expensive for a sweater" means something quite different from "expensive for a laptop." What, then, do we make of the contribution from the word "expensive"? Semanticists settle on the least common denominator: a threshold semantics by which the adjective asserts that holders of the relevant property surpass some point on the relevant scale (i.e., *expensive* means more expensive than *d* for some contextually-determined degree of price *d*). Whereas semanticists punt on the mechanism by which context fixes these aspects of meaning, the RSA framework is well-suited to meet the challenge.
@@ -17,11 +12,7 @@ Sometimes our words themselves are imprecise, vague, and heavily dependent on co
 #### Application 1: Gradable adjectives and vagueness resolution
 
 
-<<<<<<< HEAD
 Lassiter & Goodman propose we parameterize the meaning function for sentences containing gradable adjectives so that their interpretations are underspecified (reft:lassitergoodman2013, reft:LassiterGoodman2015:Adjectival-vagu). This interpretation-fixing parameter, the gradable threshold value $$\theta$$ (i.e., a degree), is something that conversational participants can use their prior knowledge to actively reason about and set. As with the ambiguity-resolving variable in the [previous chapter](04-ambiguity.html), $$\theta$$ gets lifted to the level of the pragmatic listener, who jointly infers the gradable threshold (e.g., the point at which elements of the relevant domain count as expensive) and the true state (e.g., the indicated element's price). 
-=======
-reft:lassitergoodman2013 propose we parameterize the meaning function for sentences containing gradable adjectives so that their interpretations are underspecified. This interpretation-fixing parameter, the gradable threshold value *theta* (i.e., a degree), is something that conversational participants can use their prior knowledge to actively reason about and set. As with the ambiguity-resolving variable in the previous chapter, *theta* gets lifted to the level of the pragmatic listener, who jointly infers the gradable threshold (e.g., the point at which elements of the relevant domain count as expensive) and the true state (e.g., the indicated element's price). 
->>>>>>> upstream/gh-pages
 
 The model depends crucially on our prior knowledge of the world state. Let's start with a toy prior for the prices of books.
 
@@ -455,16 +446,10 @@ var literalListener = cache(
       var utterance =  u.split("_")[0], explicitCC =  u.split("_")[1]
       // if the comparison class is explicit in the utterance, use that
       // otherwise, use whatever the pragmaticListener model passes in
-<<<<<<< HEAD
       var cc = explicitCC == "null" ?  comparisonClass :
-      explicitCC == "silence" ? comparisonClass : explicitCC
+               explicitCC == "silence" ? comparisonClass : explicitCC
       var state = sample(generateStatePrior(cc === "super" ? 
          superordinate : subordinate));
-=======
-      var cc = explicitCC == "null" ? comparisonClass : explicitCC
-
-      var state = sample(generateStatePrior(cc === "super" ? superordinate : subordinate));
->>>>>>> upstream/gh-pages
       var m = meaning(utterance, state, threshold);
       condition(m);
       return state;

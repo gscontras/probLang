@@ -6,29 +6,6 @@ description: "Non-literal language"
 
 ### Chapter 3: Non-literal language
 
-<!--   
-
-[change log; MF]
-
-- typo in first speaker function hyperbole model
-- added exercise at the end of hyperbole model
-- line breaks for in irony model (to fit code boxes)
-- changed unnormalized priors for categorical distributions to integers
-  in irony model (to prevent impression that these are mistakes)
-- simplified 'literalInterpretation' in irony model
-  ("utterance === state ? true : false" > "utterance === state")
-- changed unnormalized priors for categorical distributions to integers
-  in metaphor model (to prevent impression that these are mistakes)
-- included comment about empirical measurement of feature priors
-- simplified 'literalInterpretation' in metaphor model
--->
-
-<!--   - Building the literal interpretations
-  - Compositional mechanisms and semantic types
-    - Functional Application; Predicate Modification
-  - The compositional semantics example from DIPPL -->
-
-
 The models we have so far considered strengthen the literal interpretations of our utterances: from "blue" to "blue circle" and from "some" to "some-but-not-all." Now, we consider what happens when we use utterances that are *literally* false. As we'll see, the strategy of strengthening interpretations by narrowing the set of worlds that our utterances describe will no longer serve to capture our meanings. Our secret ingredient will be the uncertainty conversational participants experience about the topic of conversation: the literal semantics will have different impacts depending on what the conversation is about.
 
 #### Application 1: Hyperbole and the Question Under Discussion

@@ -720,7 +720,7 @@ var prevalencePrior = function(property, world){
   return makeHistogram(p)
 }
 
-var scalePrior = function(property){
+var propertyPrior = function(property){
   var p = _.map(theWorld, property)
   return makeHistogram(p)
 }
@@ -728,13 +728,8 @@ var scalePrior = function(property){
 var statePrior = function(probs){ return categorical(probs, stateBins) }
 var thresholdPrior = function() { return uniformDraw(thresholdBins) }
 
-<<<<<<< HEAD
-var utterancePrior = function(scale) {
-  var utterances = scale == "height" ?
-=======
 var utterancePrior = function(property) {
-  var utterances = property == "height" ? 
->>>>>>> upstream/gh-pages
+  var utterances = property == "height" ?
       ["tall", "null"] :
   ["generic", "null"]
   return uniformDraw(utterances)
@@ -767,15 +762,9 @@ var speaker1 = cache(function(state, threshold, stateProbs, property) {
 
 var pragmaticListener = cache(function(utterance, property, world) {
   Infer({method: "enumerate"}, function(){
-<<<<<<< HEAD
-    var stateProbs = scale == "height" ?
-        scalePrior(scale) :
-    prevalencePrior(scale, world)
-=======
-    var stateProbs = property == "height" ? 
-        scalePrior(property) : 
+    var stateProbs = property == "height" ?
+        propertyPrior(property) :
     prevalencePrior(property, world)
->>>>>>> upstream/gh-pages
     var state = statePrior(stateProbs)
     var threshold = thresholdPrior()
     var S1 = speaker1(state, threshold, stateProbs, property)
@@ -790,11 +779,7 @@ var worldWithTallness = map(function(individual){
     factor(pragmaticListener(utterance, "height").score(individual.height))
     return utterance
   })
-<<<<<<< HEAD
-  return _.extend(thing,
-=======
-  return _.extend(individual, 
->>>>>>> upstream/gh-pages
+  return _.extend(individual,
                   {tall: Math.exp(tallDistribution.score("tall"))})
 }, theWorld)
 
@@ -802,29 +787,17 @@ var speaker2 = function(kind, predicate){
   Infer({method: "enumerate"}, function(){
     var property = predicate.split(' ')[1]
     var degree = propertyDegrees[property]
-<<<<<<< HEAD
-    var world = _.isNumber(theWorld[0][degree]) ?
-        worldWithTallness :
-    theWorld
-    var prev = prevalence(world, k, property)
-=======
     var world = _.isNumber(theWorld[0][degree]) ? 
         worldWithTallness : theWorld
     var prev = prevalence(world, kind, property)
->>>>>>> upstream/gh-pages
     var utterance = utterancePrior(property)
 
     var L1 = pragmaticListener(utterance, property, world)
     factor(2*L1.score(prev))
 
-<<<<<<< HEAD
-    return utterance=="generic" ?
-      k + "s " + f :
-=======
     return utterance=="generic" ? 
       kind + "s " + predicate :
->>>>>>> upstream/gh-pages
-    "don't think so"
+     "don't think so"
   })
 }
 

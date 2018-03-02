@@ -57,17 +57,45 @@
 
 - conservative merge of changes from both sides
 
+## what I changed
+
+- typo in first speaker function hyperbole model
+- added exercise at the end of hyperbole model
+- line breaks in irony model (to fit code boxes)
+- changed unnormalized priors for categorical distributions to integers
+  in irony model (to prevent impression that these are mistakes)
+- simplified 'literalInterpretation' in irony model
+  ("utterance === state ? true : false" > "utterance === state")
+- changed unnormalized priors for categorical distributions to integers
+  in metaphor model (to prevent impression that these are mistakes)
+- included comment about empirical measurement of feature priors
+- simplified 'literalInterpretation' in metaphor model
+
 # Chapter 4
+
+- minor conservative merge
+- I mostly only polished the code (white spaces etc.)
 
 # Chapter 5
 
+## what changed
+
+- only conservative merge of minor fixes
+
 ## open issues
 
+- has the empirical prior data been published anywhere? - reference?
 - why utterance priors and not costs? paper uses the latter
 
 # Chapter 6
 
-# Chapter 7 
+- no changes in fork at all
+
+# Chapter 7
+
+- merged changes in both versions
+- MH had changed prose and code
+- GS made minor changes to code (e.g., more explicit naming of variables)
 
 # Chapter 8 ::: NEW ::: lexical uncertainty
 
@@ -76,13 +104,10 @@
 
 # Chapter 8/9 politeness
 
-## what changed
-
 - both MH and Greg have made changes in parallel; Greg's were mostly typos and aesthetic fixes;
   Greg split introduction of literal listener and speaker;
   MH changed code etc.
 - I kept all changes made in a maximally conservative merge;
-
 
 # Appendix
 
