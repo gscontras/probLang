@@ -113,6 +113,11 @@
 
 - added new appendix chapter 01: introduction to Bayes etc.
 - renamed later appendix chapters
+- added new draft chapter on quantifier production and approximate number sense
+   - this could perhaps be intergrated in to the main text
+   - the added value of this chapter is that it makes for a less contrived application of
+     quantifier reasoning (bigger, fuzzier) and that it includes a non-language cognitive
+     modeling component
 
 # ToDo MF
 
