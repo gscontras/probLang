@@ -7,6 +7,7 @@
 - updated libraries to the most recent KaTeX-versions
 - added references in bib file
 - added a template to insert figures that avoids type-overhead and ensures uniform layout
+- all exercises in a visually set-off box
 
 
 # Chapter 1
@@ -128,7 +129,6 @@
 
 # ToDo General
 
-- make exercise environments a box?
 - uniform use of pronouns for speakers and hearers: gender neutral "they"?
 - math notation for product "\cdot", "\times" or nothing at all? spacing between factors?
 - check uniform use of level of headings (number of "#"-s)
