@@ -23,8 +23,12 @@ The Rational Speech Act (RSA) framework views communication as recursive reasoni
 
 To make this more intelligible, let's consider a concrete example and a vanilla version of an RSA model. In its initial formulation, reft:frankgoodman2012 use the basic RSA framework to model referent choice in efficient communication. Let us suppose that there are only three objects that speaker and listener want to talk about, as in Fig. 1.
 
-<img src="../images/rsa_scene.png" alt="Fig. 1: Example referential communication scenario from Frank & Goodman (2012). Speakers choose a single word, $$u$$, to signal an object, $$s$$." style="width: 400px;"/>
-<center>Fig. 1: Example referential communication scenario from Frank and Goodman. Speakers choose a single word, <i>u</i>, to signal an object, <i>s</i>.</center>
+{% include figure.html 
+width="400px" 
+file="../images/rsa_scene.png" 
+caption="Fig. 1: Example referential communication scenario from Frank and Goodman. Speakers
+choose a single word, <i>u</i>, to signal an object, <i>s</i>." 
+%}
 
 In a **reference game** a speaker wants to refer to one of the given objects. To simplify, we assume that the speaker may only choose one property (see below) with which to do so. In the example of Fig. 1 the **set of world states**
 
@@ -38,8 +42,11 @@ contains the four properties from which the speaker can choose.
 
 A vanilla RSA model for this scenario consists of three recursively layered, conditoinal probability rules for speaker production and listener interpretation. These rules are summarized in Fig. 2 and will be examined one-by-one in detail below. The overal idea is that a **pragmatic speaker** $$S_{1}$$ chooses a word $$u$$ to best signal an object $$s$$ to a **literal listener** $$L_{0}$$, who interprets $$u$$ as true and weighs in the prior probability of objects in the scenario (i.e., an object’s salience, $$P(s)$$). The **pragmatic listener** $$L_{1}$$ reasons about the speaker’s reasoning, and interprets $$u$$ accordingly, using Bayes rule. By formalizing the contributions of salience and efficiency, the RSA framework provides an information-theoretic definition of informativeness in pragmatic inference.  
 
-<img src="../images/rsa_schema.png" alt="Fig. 1: Graphical representation of the Bayesian RSA model." style="width: 400px;"/>
-<center>Fig. 2: Bayesian RSA schema.</center>
+{% include figure.html 
+width="400px" 
+file="../images/rsa_schema.png" 
+caption="Fig. 2: Schema of RSA reasoning hierarchy." 
+%}
 
 ### Literal listeners
 
@@ -281,7 +288,8 @@ var pragmaticListener = function(utterance){
 
 viz.table(pragmaticListener("blue"))
 
-// uncomment the following lines for complete probability tables
+// unfold the following lines to see complete probability tables
+///fold: 
 // var object_strings = map(function(obj) {return obj.string}, objects)
 // display("literal listener")
 // display(condProb2Table(literalListener, utterances, object_strings, 4))
@@ -291,7 +299,7 @@ viz.table(pragmaticListener("blue"))
 // display("")
 // display("pragmatic listener")
 // display(condProb2Table(pragmaticListener, utterances, object_strings, 2))
-
+///
 
 
 ~~~~
