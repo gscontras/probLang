@@ -127,12 +127,13 @@
 - renumber chapters and fix references
 - add appendix chapter on soft-max
 
-# ToDo General
+# ToDo General (some possibilities)
 
 - uniform use of pronouns for speakers and hearers: gender neutral "they"?
 - math notation for product "\cdot", "\times" or nothing at all? spacing between factors?
 - check uniform use of level of headings (number of "#"-s)
 - make subsections in each chapter linkable? include small chapter-scope ToC at the beginning
   of each chapter?
+- open links in new tabs so no code changes are lost (student suggestion)
   
 
