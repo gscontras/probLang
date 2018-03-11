@@ -170,7 +170,7 @@ var get_possible_refinements = function(utterances){
 }
 ~~~~
 
->**Exercise:** What are the possible refinements of the `base_utterances`?
+> **Exercise:** What are the possible refinements of the `base_utterances`?
 
 Our meaning function evaluates the truth of an utterance with respect to a specific `refinement` of its semantics; which refinement is considered will get determined by the pragmatic listener.
 
@@ -1281,6 +1281,5 @@ map(function(x){display('')
 ~~~~
 
 > **Exercises:** 
-
 > 1. Check the behavior of the intermediate listener levels.
 > 2. See what happens when you add in additional atomic utterances.

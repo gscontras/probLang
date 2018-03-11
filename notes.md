@@ -6,6 +6,7 @@
 - changed layout/functionality to recognize and display appendix chapters
 - updated libraries to the most recent KaTeX-versions
 - added references in bib file
+- added a template to insert figures that avoids type-overhead and ensures uniform layout
 
 
 # Chapter 1
@@ -130,3 +131,8 @@
 - make exercise environments a box?
 - uniform use of pronouns for speakers and hearers: gender neutral "they"?
 - math notation for product "\cdot", "\times" or nothing at all? spacing between factors?
+- check uniform use of level of headings (number of "#"-s)
+- make subsections in each chapter linkable? include small chapter-scope ToC at the beginning
+  of each chapter?
+  
+

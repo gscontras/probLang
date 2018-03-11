@@ -73,8 +73,12 @@ Performance on the task maps to a scale ranging from 1 to 5 hearts (shown below;
 These are the states of the world that the speaker can be informative with respect to.
 Below, the speaker thinks the cake deserves 3 out of 5 hearts.
 
-<img src="../images/yoon-hearts.jpeg" alt="Fig. 1: Politeness case study" style="width: 400px;"/>
-<center>Figure 1: Politeness case study.</center>
+{% include figure.html 
+file="../images/yoon-hearts.jpeg" 
+caption="Politeness case study" 
+number = "1"
+width="400px" 
+%}
 
 At the same time, these states of the world also have some inherent subjective value: 5 hearts is better than 3 hearts.
 `phi` governs how much the speaker seeks to communicate information about the state vs. make
@@ -177,7 +181,6 @@ speaker1(1, 0.99)
 ~~~~
 
 > **Exercises**:
-
 > 1. Describe the kind of speaker assumed by the above function call (`speaker(1, 0.99)`)?
 > 2. Change the call to the speaker to make it so that it only cares about making the listener feel good.
 > 3. Change the call to the speaker to make it so that it cares about both making the listener feel good and conveying information.
@@ -264,7 +267,6 @@ viz.density(marginalize(listenerPosterior, "phi"))
 Above, we have a listener who hears that they did "good" and infers how well they actually did, as well as how much the speaker values honesty vs. kindness.
 
 > **Exercises**:
-
 > 1. Examine the marginal posteriors on `state`. Does this make sense? Compare it to what the `literalListener` would believe upon hearing the same utterance.
 > 2. Examine the marginal posterior on `phi`. Does this make sense? What different utterance would make the `pragmaticListener` infer something different about `phi`? Test your knowledge by running that utterance through the `pragmaticListener`.
 > 3. In Yoon, Tessler, et al. (2016), the authors ran an experiment testing participants' intuitions as to the kind of speaker they were dealing with (i.e., inferred `phi`). Modify `pragmaticListener` so that she knows the speaker (a) wants the listener to feel good, (b) wants to convey information to the listener, and (c) both, and test the models on the utterance "good".
@@ -428,7 +430,6 @@ viz(s2_both)
 ~~~~
 
 > **Exercises**:
-
 > 1. What does the pragmatic listener infer when she hears "not amazing"? How does the pragmatic listener interpret the other "indirect" utterances?
 > 2. Write a purely informative `speaker2`, who only cares about conveying `state`, but knows that the pragmatic listener will reason about both `phi` and `state`. Does it make different predictions from the model defined above?
 > 3. Write a purely self-presentational `speaker2`, who only cares about conveying `phi`, but knows that the pragmatic listener will reason about both `phi` and `state`. Does it make different predictions from the model defined above?

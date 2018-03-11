@@ -216,8 +216,12 @@ Capturing scalar implicature within the RSA framework might not induce waves of 
 
 Suppose a speaker says: "Some of the apples are red." If you know that there are 3 apples in total, but that the speaker has only observed two of them, how likely do you think it is that 0, 1, 2 or 3 of the apples are red? - This is the question that reft:GoodmanStuhlmuller2013Impl address (Fig. 1 below).
 
-<img src="../images/scalar.png" alt="Fig. 3: Example communication scenario from Goodman and Stuhlmüller." style="width: 500px;"/>
-<center>Fig. 1: Example communication scenario from Goodman and Stuhlmüller: How will the listener interpret the speaker’s utterance? How will this change if she knows that he can see only two of the objects?</center>
+{% include figure.html 
+file="../images/scalar.png" 
+caption="Example communication scenario from Goodman and Stuhlmüller: How will the listener interpret the speaker’s utterance? How will this change if she knows that he can see only two of the objects?" 
+number = "1"
+width="500px" 
+%}
 
 Towards an implementation, let's introduce some terminology and some notation. The **total number** of apples is $$n$$ of which $$0 \le s \le n$$ are red. We call $$s$$ the **state** of the world. The speaker knows $$n$$ (as does the listener) but the speaker might not know the true state $$s$$, because she might only observe some of the apples' colors. Concretely, the speaker might only have **access** to $$0 \le a \le n$$ apples, of which the number of red apples **observed** by the speaker is $$0 \le o \le a$$. The model of reft:GoodmanStuhlmuller2013Impl assumes that the listener knows $$o$$. We will first look at this model, and then generalize to the case where the listener must also infer $$o$$ from the speaker's utterance.
 
@@ -395,8 +399,7 @@ viz.auto(pragmaticListener([true,true,false],'some'))
 
 ~~~~
 
-> **Exercise:** 
-
+> **Exercises:** 
 > 1. Check the predictions for the other possible knowledge states.
 > 2. Compare the full-access predictions with the predictions from the simpler scalar implicature model above. Why are the predictions of the two models different? How can you get the model predictions to converge? (Hint: first try to align the predictions of the simpler model with those of the knowledge model, then try aligning the predictions of the knowledge model with those fo the simpler model.)
 > 3. Notice that the listener assigns some positive probability to the true state being 0, even when it is shared knowledge that the speaker saw 2 apples and said "some". Why is this puzzling? (Think about the Gricean Maxim of Quality demanding that speakers not say what they lack sufficient evidence for!) Look at the speaker choice function implemented here and explain why this is happening.
@@ -563,8 +566,7 @@ viz(belief(2,1))
 ~~~~
 
 
-> **Exercise:** 
-
+> **Exercises:** 
 > 1. See what happens when you change the red apple base rate.
 > 2. See what happens when you increase the number of total apples.
 > 3. See what happens when you give the speaker more access and different numbers of observed red apples.
@@ -707,8 +709,7 @@ var speaker = cache(function(access, observed) {
 viz(speaker(2,1))
 ~~~
 
-> Exercises
-
+> **Exercises:**
 > 1. Test the speaker model for different parameter values. Also change `total_apples` and `base_rate_red`.
 > 2. When does the speaker use the "null" utterance?
 
@@ -849,8 +850,7 @@ display("Marginal beliefs about how many apples the speaker observed to be red:"
 viz(marginalize(pl, 'observed'))
 ~~~~
 
-> Exercises.
-
+> **Exercises:**
 > 1. How would you describe the result of the code above? Does the pragmatic listener draw a scalar implicature from "some" to "some but not all"?
 > 2. Does the pragmatic listener, after hearing "some", increase or decrease his belief in the speaker's competence?
 > 3. What does the pragmatic listener infer about the speaker's competence when he hears "all" or "none"?

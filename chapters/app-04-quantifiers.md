@@ -23,9 +23,12 @@ Concretely, the model presented here extends the first model from [Chapter 2](02
 - a module for speakers' uncertain perception/representation of cardinality (inspired by work on the Approximate Number System)
 
 
-
-<img src="../images/320_dots.png" alt="Fig. 1: Example stimulus for a dot display. This display has 320 red circles out of 432 in total. Which quantifier would you use to describe it?" style="width: 400px;"/>
-<center>Fig. 1: Example stimulus for a dot display. This display has 320 red circles out of 432 in total. Which quantifier would you use to describe it?</center>
+{% include figure.html 
+file="../images/320_dots.png" 
+caption="Example stimulus for a dot display. This display has 320 red circles out of 432 in total. Which quantifier would you use to describe it?" 
+number = "1"
+width="400px" 
+%}
 
 ##### Eliciting quantifiers experimentally
 

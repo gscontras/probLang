@@ -181,7 +181,6 @@ var literalListener = cache(function(utterance, qud) {
 ~~~~
 
 > **Exercises:**
-
 > 1. Suppose the literal listener hears the kettle costs `10000` dollars with the `"priceValence"` QUD. What does it infer?
 > 2. Test out other QUDs. What aspects of interpretation does the literal listener capture? What aspects does it not capture?
 > 3. Create a new QUD function and try it out with "the kettle costs `10000` dollars".
@@ -376,7 +375,6 @@ viz(listenerPosterior)
 ~~~~
 
 > **Exercises:**
-
 > 1. In the second code box, we looked at the joint *prior* distribution over price and valence. Compare the results of that with the listener interpretation of "10000". What is similar? What is different?
 > 2. Try the `pragmaticListener` with the other possible utterances.
 > 3. Check the predictions of the `speaker` for the `approxPriceValence` QUD.

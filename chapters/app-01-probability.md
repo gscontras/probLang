@@ -16,16 +16,24 @@ Many people believe that the chance that the other side of the card is blue is .
 
 This is faulty reasoning. It looks only at the base rate of sides. It fails to take into account the **observation-generating process**, i.e., the way in which Jones manipulates his cards and "generates an observation" for you. For the 3-cards problem, the observation-generating process can be visualized as in Fig. 1.
 
-<img src="../images/3-card-problem_process.png" alt="Fig. 1: The observation-generating process for the 3-card problem. Jones selects a random card, then chooses a random side of it" style="width: 400px;"/>
-<center>Fig. 1: The observation-generating process for the 3-card problem. Jones selects a random card, then chooses a random side of it.</center>
+{% include figure.html 
+file="../images/3-card-problem_process.png" 
+caption="The observation-generating process for the 3-card problem. Jones selects a random card, then chooses a random side of it." 
+number = "1"
+width="500px" 
+%}
 
 The process tree in Fig. 1 also shows the probabilities with which events happen at each choice point during the observation-generating process. Each card is selected with equal probability $$\frac{1}{3}$$. The probability of showing a blue side is 1 for the blue-blue card, .5 for the blue-red card, and 0 for the red-red card. The leaves of the tree show the probabilities, obtained by multiplying all probabilities along the branches, of all 6 traversal of the tree (including the logically impossible ones, which naturally receive a probability of 0). 
 
 If we combine our knowledge of the observation-generating process in Fig. 1 with the observation that the side shown was blue, we should eliminate the outcomes that are incompatible with it, as shown in Fig. 2. What remains are the probabilities assigned to branches that are compatible with our observation. But they do not sum to 1. If we therefore renormalize (here: division by .5), we end up believing that it is twice as likely for the side which we have not observed to be blue as well. The reason is because the blue-blue card is twice as likely to have generated what we observed than the blue-red card is.
 
 
-<img src="../images/3-card-problem_elimination.png" alt="Fig. 2: The observation-generating process for the 3-card problem after eliminating outcomes incompatible with the observation 'blue'." style="width: 400px;"/>
-<center>Fig. 2: The observation-generating process for the 3-card problem after eliminating outcomes incompatible with the observation "blue".</center>
+{% include figure.html 
+file="../images/3-card-problem_elimination.png" 
+caption="The observation-generating process for the 3-card problem after eliminating outcomes incompatible with the observation 'blue'." 
+number = "2"
+width="500px" 
+%}
 
 The latter reasoning is actually an instance of Bayes rule. For our purposes, we can think of Bayes rule as a normatively correct way of forming (subjective) beliefs about which causes have likely generated an observed effect, i.e., a way of reasoning probabilistically and defeasibly about likely explanations for what has happened. In probabilistic pragmatics we will use Bayes rule to capture the listener's attempt of recovering what a speaker may have had in mind when she made a particular utterance. In other words, probabilistic pragmatics treats pragmatic interpretation as probabilistic 
 inference to the best explanation of what worldly states of affairs, mental states and contextual factors would have caused the speaker to act in the manner observed.
@@ -41,7 +49,7 @@ Consider the example of a 2-dimensional probability table. It gives probabilitie
 |                    | brown            | blue         |    green     |
 |:-------------------|:----------------:|:------------:|:------------:|
 | **black**	 		 |	   .4		   |	 .02		  |	 .01
-| **brown**			 |		.1		   |	.3		  |	  .1
+| **blond**			 |		.1		   |	.3		  |	  .1
 | **red**            |      .01       |     .01      |  .05
 
 Formally, we have $$X = H \times E$$ with $$H = \{ \text{black}, \text{blond}, \text{red} \}$$ and $$E = \{ \text{brown}, \text{blue}, \text{green} \}$$. The probability of meeting a person with black hair and green eyes would accordingly be $$P(\langle \text{black}, \text{green} \rangle) = .01$$.

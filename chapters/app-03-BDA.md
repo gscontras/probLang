@@ -20,9 +20,12 @@ WebPPL allows us to conveniently specify even complex probabilistic cognitive mo
 
 Consider the vanilla RSA model from [Chapter 1](01-introduction.html) once more. The model is intended to explain data from reference games, such as pictured in Fig. 1.
 
-<img src="../images/rsa_scene.png" alt="Fig. 1: Example referential communication scenario from Frank & Goodman (2012). Speakers choose a single word, $$u$$, to signal an object, $$s$$." style="width: 400px;"/>
-<center>Fig. 1: Example referential communication scenario from Frank and Goodman. Speakers choose a single word, <i>u</i>, to signal an object, <i>s</i>.</center>
-
+{% include figure.html 
+file="../images/rsa_scene.png" 
+caption="Example referential communication scenario from Frank & Goodman (2012). Speakers choose a single word, <i>u</i>, to signal an object, <i>s</i>." 
+number = "1"
+width="400px" 
+%}
 
 The vanilla RSA model defines a literal and a pragmatic listener rule, both of which map utterances $$u \in U$$ to probability distributions over states/objects $$s \in S$$:
 
@@ -119,7 +122,6 @@ display(posterior_literalListener)
 ~~~~
 
 > **Exercises:**
-
 > 1. What is the probability $$P(M_{L_1} \mid D)$$ of the pragmatic listener model given the data?
 > 2. How much more likely is the pragmatic listener model than the literal listener model, given the data?
 > 3. Play around with different values for `observed_successes`. For which of these will the literal listener model be more likely?
@@ -186,7 +188,6 @@ viz.table(pragmaticListener("blue", 1)) // we now need to supply alpha here
 ~~~~
 
 > **Exercises:**
-
 > 1. Check that $$\alpha \rightarrow 0$$ gives predictions identical to the literal listener's rule.
 > 2. What happens if we feed in $$\alpha = 0$$? Why is this happening?
 
@@ -274,7 +275,6 @@ viz(posterior_samples)
 ~~~~
 
 > **Exercises:**
-
 > 1. Looking at the density plot that results from this computation, which region of $$\alpha$$ values is most likely given the data?
 > 2. Are the special cases of $$\alpha = 1$$ and $$\alpha = 0$$ competitive, or are they very clearly much worse than the "best values"?
 > 3. Bayesian posterior inference depends on the specification of a prior over parameters. The above code originally uses a uniform prior over $$\alpha$$: `var alpha = uniform({a:0, b:10})`. Adapt the code above to retrieve samples just from the prior by commenting out the `factor` statement.
@@ -288,7 +288,6 @@ Let us take stock. The last example showed how to do data-driven Bayesian infere
 
 The previous example only contained a single condition from the experiments reported by reft:QingFranke2013:Variations-on-a. The full data set additionally contains data for (conditions equivalent to) a listener observing the utterance "square" in contexts like Fig. 1, and also the number of times participants chose particular properties. In other words, the data collected contains both (speaker) production and (listener) comprehension data. Following reft:frankgoodman2012, there was also a salience prior condition, which was like a listener condition but where participants were told that the observed word was unintelligible. reft:frankgoodman2012 used data from this condition to feed into the `objectPrior` of the RSA model (we will enlarge on this below). Here is the full data from reft:QingFranke2013:Variations-on-a and a reminder of what the visual display looked like:
 
-<img src="../images/rsa_scene.png" alt="Fig. 1: Example referential communication scenario from Frank & Goodman (2012). Speakers choose a single word, $$u$$, to signal an object, $$s$$." style="width: 400px;"/>
 
 ~~~~
 
@@ -474,7 +473,6 @@ display(condProb2Table(literalListener, utterances, states,2))
 ~~~~
 
 > **Exercises:**
-
 > 1. Look at the changes to `objectPrior`, call the `literalListener` function for various utterances and make sure that you understand why you see the results that you see.
 > 2. Look at the speaker's utterance productions for the "blue_square". Use cost `c = 0` first and then modify the costs to inspect how they change the speaker's utterance choice probabilities.
 > 3. Test how different cost values affect the pragmatic listener's interpretation.
@@ -633,7 +631,6 @@ viz.marginals(parameter_estimation)
 ~~~~
 
 > **Exercises:**
-
 > 1. Based on the density plot of the marginal distribution of the cost parameter, would you conclude that value `c = 0` is credible?
 
 ### Model criticism
@@ -823,9 +820,7 @@ The fault lies in our model code. We assumed that the literal listener uses the 
 <center>Fig. 4: Posterior predictive checks for listener model.</center>
 
 
-> **Exercises:**
-
-> 1. Look at the code for the RSA model in the last code box. (You may have to unfold it.) Locate and correct the "mistake", i.e., implement a version in which the literal listener uses a uniform prior over states, while the pragmatic listener uses the empirically measured salience prior. (You can check your solution by comparing the code for the [bad model](../code/01_BDA_RSA_PPC_badModel.r) with that for the [good model](../code/02_BDA_RSA_PPC_goodModel.r).)
+> **Exercise:** Look at the code for the RSA model in the last code box. (You may have to unfold it.) Locate and correct the "mistake", i.e., implement a version in which the literal listener uses a uniform prior over states, while the pragmatic listener uses the empirically measured salience prior. (You can check your solution by comparing the code for the [bad model](../code/01_BDA_RSA_PPC_badModel.r) with that for the [good model](../code/02_BDA_RSA_PPC_goodModel.r).)
 
 #### Model comparison
 
@@ -833,9 +828,7 @@ Model criticism, using visual posterior predicitive checks, clearly suggest that
 
 $$ \underbrace{\frac{P(M_1 \mid D)}{P(M_2 \mid D)}}_{\text{posterior odds}} =   \underbrace{\frac{P(M_1)}{P(M_2)}}_{\text{prior odds}} \ \underbrace{\frac{P(D \mid M_1)}{P(D \mid M_2)}}_{\text{Bayes factor}} $$
 
-> **Exercises:**
-
-> 1. Show that the equation above follows straightforwardly from a simple application of Bayes rule to the terms $$P(M_i \mid D)$$.
+> **Exercise:** Show that the equation above follows straightforwardly from a simple application of Bayes rule to the terms $$P(M_i \mid D)$$.
 
 Posterior model odds are subjective in the sense that they depend on a researcher's prior beliefs about the models to compare. Bayes factors do not depend on prior beliefs about models (but they still contain a subjective component; see below). Bayes factors quantify how likely the observed data was from each model's point of view, before the data was observed. This is highly intuitive, and at the heart of many formalizations of **observational evidence** in philosophy of science: data $$D$$ is evidence in favor of model $$M_1$$ over $$M_2$$ if $$D$$ is more likely to happen under $$M_1$$ than under $$M_2$$; if $$D$$ is rather what $$M_1$$ would predict than $$M_2$$.
 
@@ -988,7 +981,6 @@ marginal_likelihood_good / marginal_likelihood_bad
 ~~~~
 
 > **Exercises:**
-
 > 1. What does this numerical result mean? Which model is better? Is this strong or weak evidence in favor of one model?
 > 2. Execute this code two or three times and compare the results. The estimate of the Bayes Factor is not stable. Does this imprecision matter?
 > 3. Bayes factors depend on the priors over parameters. Change the priors over the cost parameter to allow only positive cost terms (a bias against color terms, in favor of shape terms) but with a wider range, e.g., sample $$c$$ from a uniform distribution with support from 0 to 0.4. Does this change the outcome of model comparison? (Hint: it might be easier to see a difference if you output the Bayes factor in favor of the "bad" model.)

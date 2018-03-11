@@ -26,7 +26,7 @@ var meaningFn = literalMeanings["generic"]
 meaningFn(0.6, 0.5)
 ~~~~
 
-> *Exercise*: Try out the different meaning functions with different inputs to make sure you understand threshold-semantics. What should `theta` be?
+> **Exercise**: Try out the different meaning functions with different inputs to make sure you understand threshold-semantics. What should `theta` be?
 
 ### The logical problem
 
@@ -120,7 +120,7 @@ var prevalencePrior = Infer({model:
 prevalencePrior
 ~~~~
 
-> *Exercise*: What if you didn't know that exactly 50% of birds lay eggs? Generalize the above code to sample the prevalence of laying eggs for birds, reptiles, etc.. from a distribution. (Hint: The [Beta distribution](http://docs.webppl.org/en/master/distributions.html#Beta) is a distribution over numbers between 0 and 1.)
+> **Exercise**: What if you didn't know that exactly 50% of birds lay eggs? Generalize the above code to sample the prevalence of laying eggs for birds, reptiles, etc.. from a distribution. (Hint: The [Beta distribution](http://docs.webppl.org/en/master/distributions.html#Beta) is a distribution over numbers between 0 and 1.)
 
 #### A generalization of the prior model
 
@@ -202,7 +202,6 @@ viz(priorModel({
 ~~~~
 
 > **Exercises:**
-
 > 1. What does this picture represent? If you drew a sample from this distribution, what would that correspond to?
 > 2. Try to think up a property for which the three parameters above are not able to give even a remotely plausible distribution. (If you succeed, let us know; the idea is that this parameterization is sufficient to capture---in approximation---any case of relevance.)
 
@@ -368,7 +367,6 @@ viz(listenerPosterior)
 ~~~~
 
 > **Exercises:**
->
 > 1. Test the pragmatic listener's interpretations of *Wugs carry malaria*.
 > 2. Test the pragmatic listener's interpretations of *Wugs lay eggs*.
 > 3. Test the pragmatic listener's interpretations of *Wugs are female*.
@@ -503,7 +501,6 @@ viz(speaker2(target_x, prior))
 ~~~~
 
 > **Exercises:**
-
 > 1. Test *Birds lay eggs* vs. *Birds are female*. (Technical note: Due to the discretization of the state space, `target_x` must take odd-numbered values such as 0.03, 0.05, 0.09, ... )
 > 2. Come up with other generic sentences. Hypothesize what the prior might be, and what the prevalence might be, and test the model on it.
 

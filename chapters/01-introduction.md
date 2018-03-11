@@ -6,12 +6,6 @@ description: "An introduction to language understanding as Bayesian inference"
 
 ### Chapter 1: Language understanding as Bayesian inference
 
-<!--   - Gricean pragmatics, probability theory, and utility functions
-  - The basic Rational Speech-Acts framework
-  - Background knowledge in language understanding -->
-
-
-<!-- One of the most remarkable aspects of natural language is its compositionality: speakers generate arbitrarily complex meanings by stitching together their smaller, meaning-bearing parts. The compositional nature of language has served as the bedrock of semantic (indeed, linguistic) theory since its modern inception; \cite{montague1973} builds this principle into the bones of his semantics, demonstrating with his fragment how meaning gets constructed from a lexicon and some rules of composition. Since then, compositionality has continued to guide semantic inquiry: what are the meaning of the parts, and what is the nature of the mechanism that composes them? Put differently, what are the representations of the language we use, and what is the nature of the computational system that manipulates them? -->
 
 Much work in formal, compositional semantics follows the tradition of positing systematic but inflexible theories of meaning. However, in practice, the meaning we derive from language is heavily dependent on nearly all aspects of context, both linguistic and situational. To formally explain these nuanced aspects of meaning and better understand the compositional mechanism that delivers them, recent work in formal pragmatics recognizes semantics not as one of the final steps in meaning calculation, but rather as one of the first. Within the Bayesian Rational Speech Act framework refp:frankgoodman2012, speakers and listeners reason about each other's reasoning about the literal interpretation of utterances. The resulting interpretation necessarily depends on the literal interpretation of an utterance, but is not necessarily wholly determined by it. This move --- reasoning about likely interpretations --- provides ready explanations for complex phenomena ranging from metaphor refp:kaoetal2014metaphor and hyperbole refp:kaoetal2014 to the specification of thresholds in degree semantics refp:lassitergoodman2013.
 
@@ -24,10 +18,11 @@ The Rational Speech Act (RSA) framework views communication as recursive reasoni
 To make this more intelligible, let's consider a concrete example and a vanilla version of an RSA model. In its initial formulation, reft:frankgoodman2012 use the basic RSA framework to model referent choice in efficient communication. Let us suppose that there are only three objects that speaker and listener want to talk about, as in Fig. 1.
 
 {% include figure.html 
-width="400px" 
 file="../images/rsa_scene.png" 
-caption="Fig. 1: Example referential communication scenario from Frank and Goodman. Speakers
+caption="Example referential communication scenario from Frank and Goodman. Speakers
 choose a single word, <i>u</i>, to signal an object, <i>s</i>." 
+number = "1"
+width="400px" 
 %}
 
 In a **reference game** a speaker wants to refer to one of the given objects. To simplify, we assume that the speaker may only choose one property (see below) with which to do so. In the example of Fig. 1 the **set of world states**
@@ -43,9 +38,10 @@ contains the four properties from which the speaker can choose.
 A vanilla RSA model for this scenario consists of three recursively layered, conditoinal probability rules for speaker production and listener interpretation. These rules are summarized in Fig. 2 and will be examined one-by-one in detail below. The overal idea is that a **pragmatic speaker** $$S_{1}$$ chooses a word $$u$$ to best signal an object $$s$$ to a **literal listener** $$L_{0}$$, who interprets $$u$$ as true and weighs in the prior probability of objects in the scenario (i.e., an object’s salience, $$P(s)$$). The **pragmatic listener** $$L_{1}$$ reasons about the speaker’s reasoning, and interprets $$u$$ accordingly, using Bayes rule. By formalizing the contributions of salience and efficiency, the RSA framework provides an information-theoretic definition of informativeness in pragmatic inference.  
 
 {% include figure.html 
-width="400px" 
 file="../images/rsa_schema.png" 
-caption="Fig. 2: Schema of RSA reasoning hierarchy." 
+caption="Schema of RSA reasoning hierarchy." 
+width="400px" 
+number = "2"
 %}
 
 ### Literal listeners
@@ -94,14 +90,15 @@ var literalListener = function(utterance){
 viz.table(literalListener("blue"))
 ~~~~
 
-> **Exercises:**
 
+> **Exercises:**
 > 1. In the model above, `objectPrior()` returns a sample from a `uniformDraw` over the
 >    possible objects of reference. What happens when the listener's beliefs are not uniform
 >    over the possible objects of reference (e.g., the "green square" is very salient)? (Hint:
 >    use a `categorical` distribution by calling `categorical({ps: [list_of_probabilities], vs:
 >    objects})`. More information about WebPPL's built-in distributions and their parameterizations can be found in the [documentation](http://webppl.readthedocs.io/en/master/distributions.html).).
 > 2. Call `viz.hist(literalListener("blue"))`, one of WebPPL's visualization functions. Try vizualizing the model output differently (hint: [WebPPL-viz](http://probmods.github.io/webppl-viz/) documents the various visualization options).
+
 
 Fantastic! We now have a way of integrating a listener's prior beliefs about the world with the truth functional meaning of an utterance.
 
@@ -146,7 +143,6 @@ viz(agent);
 ~~~~
 
 > **Exercises:**
-
 > 1. Check to make sure `utility()` returns the correct value for `a3`.
 > 2. Explore what happens when you change the actor's optimality parameter.
 > 3. Explore what happens when you change the utilities.
@@ -162,7 +158,8 @@ $$U_{S_{1}}(u; s) = log(L_{0}(s\mid u)) - C(u)$$
 
 (In WebPPL, $$log(L_{0}(s\mid u))$$ can be accessed via `literalListener(u).score(s)`.)
 
-> **Exercise:** Return to the first code box and find $$log(L_{0}(s\mid u))$$ for the utterance "blue" and each of the three possible reference objects.
+> **Exercise:** 
+> Return to the first code box and find $$log(L_{0}(s\mid u))$$ for the utterance "blue" and each of the three possible reference objects.
 
 With this utility function in mind, $$S_{1}$$ computes the probability of an utterance $$u$$ given some state $$s$$ in proportion to the speaker’s utility function $$U_{S_{1}}$$. The term $$\alpha > 0$$ controls the speaker’s optimality, that is, the speaker’s rationality in choosing utterances.
 
@@ -305,7 +302,6 @@ viz.table(pragmaticListener("blue"))
 ~~~~
 
 > **Exercises:**
-
 > 1. Explore what happens if you make the speaker *more* optimal.
 > 2. Add another object to the scenario.
 > 3. Add a new multi-word utterance.

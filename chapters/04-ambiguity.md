@@ -149,7 +149,6 @@ viz.marginals(posterior)
 ~~~~
 
 > **Exercises:**
-
 > 1. The pragmatic listener believes the `inverse` interpretation is more likely. Why?
 > 2. Add some more utterances and check what happens to the interpretation of the ambiguous utterance.
 
@@ -232,7 +231,6 @@ viz.marginals(posterior)
 ~~~~
 
 > **Exercises:** 
-
 > 1. What does the pragmatic listener infer about the QUD? Does this match your own intuitions? If not, how can you more closely align the model's predictions with your own?
 > 2. Try adding a `none red?` QUD. What does this addition do to $$L_1$$'s inference about the state? Why?
 
