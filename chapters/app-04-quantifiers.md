@@ -8,8 +8,6 @@ description: "Speaker choice of quantifiers for situations where perception of c
 
 *Author: Michael Franke*
 
-reft:frankgoodman2012
-
 ##### Quantifiers and focal ranges
 
 [Chapter 2](02-pragmatics.html) introduced a model for reasoning about the meaning of quantifiers in order to study scalar implicature, the phenomenon that from an utterance of *some* we can often infer that *some but not all* is likely. This, however, is not the only kind of pragmatic enrichment that affects the meaning of quantifiers. Suppose Alex says that she owns some of the Stones' studio albums on vinyl. You know that the Stones released a total of 25 studio albums. How many LPs do you think Alex owns?
@@ -360,5 +358,5 @@ viz.density(pragmaticListener("some"))
 
 > **Exercises**:
 > 1. Inspect the speaker's choice of utterance for states 0, 432, 216 and 320 (the last one is instantiated in Fig. 1). Compare them to the choice of the speaker predicted by the previous model without ANS component. Do you find the new predictions more or less intuitive?
-> 2. Use `viz.density()` to visualize the pragmatic listener's interpretation of *some*, *few* and *many*. In what way does this model (not) account for imprecise focal ranges?
+> 2. Use `viz.density()` and `viz` to visualize the pragmatic listener's interpretation of *some*, *few* and *many*. In what way does this model (not) account for imprecise focal ranges?
 > 3. What is the role of the Weber fraction for the pragmatic model? What happens if *w* goes up, for example?
