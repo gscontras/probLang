@@ -84,11 +84,6 @@
 
 - only conservative merge of minor fixes
 
-## open issues
-
-- has the empirical prior data been published anywhere? - reference?
-- why utterance priors and not costs? paper uses the latter
-
 # Chapter 6
 
 - no changes in fork at all

@@ -30,7 +30,7 @@ var qudFns = {
   priceValence : function(state) {
     return { price: state.price, valence: state.valence }
   },
-  approxPrice : function(state) {return { price: approx(state.price) } },
+  approxPrice : function(state) {return { price: approx(state.price) } }
 }
 
 var fullState = { price: 51, valence: true }
