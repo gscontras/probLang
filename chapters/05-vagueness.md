@@ -50,7 +50,7 @@ var thetaPrior = function() {
 
 > **Exercise:** Visualize the `thetaPrior`.
 
-We introduce two possible utterances: saying that a book is *expensive*, or saying nothing at all (a "null utterance"). The semantics of the *expensive* utterance checks the relevant item's price against the price cutoff. The "null utterance" is true everywhere and it is assumed to be less likely than uttering *expensive* a priori. (In the relevant publications, Lassiter & Goodman model biases between *expensive* and the "null utterance" as costs, not as prior differences. While the results of either modeling choice are largely the same for our practical purposes, these are not in general identical models. (To see this, think about what happens for optimality parameter $$\alpha = 0$$)).
+We introduce two possible utterances: saying that a book is *expensive*, or saying nothing at all (a "null utterance"). The semantics of the *expensive* utterance checks the relevant item's price against the price cutoff. The "null utterance" is true everywhere and it is assumed to be less likely than uttering *expensive* a priori. (The relevant publications (reft:lassitergoodman2013, reft:LassiterGoodman2015:Adjectival-vagu) treat biases between *expensive* and the "null utterance" as costs, not as prior differences. While the results of either modeling choice are largely the same for our practical purposes, these are not in general identical models. (To see this, think about what happens for optimality parameter $$\alpha = 0$$)).
 
 ~~~~
 var book = {
