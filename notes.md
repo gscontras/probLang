@@ -109,6 +109,7 @@
 # Appendix
 
 - added new appendix chapter 01: introduction to Bayes etc.
+- added new appendix chapter 03: more on costs and utterance priors
 - renamed later appendix chapters
 - added new draft chapter on quantifier production and approximate number sense
    - this could perhaps be intergrated in to the main text
