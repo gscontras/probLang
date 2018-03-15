@@ -10,7 +10,7 @@ description: "Derivation of suprisal-based utilities from KL-divergence"
 
 The main text of [Chapter 1](01-introduction.html) introduced the utility function for the pragmatic speaker as:
 
-$$U_{S_{1}}(u; s) = log(L_{0}(s\mid u)) - C(u)\,.$$
+$$U_{S_{1}}(u; s) = \log L_{0}(s\mid u) - C(u)\,.$$
 
 According to this definition, utterance $$u$$ is good for agent $$S_1$$ who knows that the true world state is $$s$$ to the extent that $$u$$ has _low_ costs $$C(u)$$ and to the extent that the literal listener assigns a _high_ probability to $$s$$ after updating with $$u$$. Since the literal listener updates his prior beliefs with the semantic meaning of $$u$$, the latter makes it so that any utterance $$u'$$ which is not true of $$s$$ will receive the lowest possible utility: negative infinitiy. Combined with a softmax-choice rule (on the assumption that for each $$s$$ there is at least one true utterance), this effectively implements Grice's **Maxim of Quality** which requires speakers not to say anything false refp:Grice1975:Logic-and-Conve. (Later chapters will show how this strong Truth-Only Regime can be untied by reasoning about other utility structures, in the form of flexible Questions Under Discussion.) Furthermore, if there are two messages $$u'$$ and $$u$$ both of which are true in $$s$$, then $$u$$ will be preferred over $$u'$$ whenever $$u$$ makes the true world state $$s$$ more likely after literal interpretation. This effectively implements Grice's **Maxim of Quantity** which requires speakers to strive towards maximimization of the (relevant) information conveyed by their utterances.
 

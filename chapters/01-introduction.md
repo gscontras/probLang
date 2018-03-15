@@ -151,21 +151,26 @@ viz(agent);
 
 In language understanding, the utility of an utterance is how well it communicates the state of the world $$s$$ to a listener. So, the speaker $$S_{1}$$ chooses utterances $$u$$ to communicate the state $$s$$ to the hypothesized literal listener $$L_{0}$$. Another way to think about this: $$S_{1}$$ wants to minimize the effort $$L_{0}$$ would need to arrive at $$s$$ from $$u$$, all while being efficient at communicating. $$S_{1}$$ thus seeks to minimize the surprisal of $$s$$ given $$u$$ for the literal listener $$L_{0}$$, while bearing in mind the utterance cost, $$C(u)$$. (This trade-off between efficacy and efficiency is not trivial: speakers could always use minimal ambiguity, but unambiguous utterances tend toward the unwieldy, and, very often, unnecessary. We will see this tension play out later in the course.)
 
-Speakers act in accordance with the speaker’s utility function $$U_{S_{1}}$$: utterances are more useful at communicating about some state as surprisal and utterance cost decrease. (See the [apendix](app-02-utilities.html) for more on speaker utilities.)
+Speakers act in accordance with the speaker’s utility function $$U_{S_{1}}$$: utterances are more useful at communicating about some state as surprisal and utterance cost decrease. (See the [Appendix Chapter 2](app-02-utilities.html) for more on speaker utilities.)
 
 
-$$U_{S_{1}}(u; s) = log(L_{0}(s\mid u)) - C(u)$$
+$$U_{S_{1}}(u; s) = \log L_{0}(s\mid u) - C(u)$$
 
-(In WebPPL, $$log(L_{0}(s\mid u))$$ can be accessed via `literalListener(u).score(s)`.)
+(In WebPPL, $$\log L_{0}(s\mid u)$$ can be accessed via `literalListener(u).score(s)`.)
 
 > **Exercise:** 
-> Return to the first code box and find $$log(L_{0}(s\mid u))$$ for the utterance "blue" and each of the three possible reference objects.
+> Return to the first code box and find $$\log L_{0}(s\mid u)$$ for the utterance "blue" and each of the three possible reference objects.
 
-With this utility function in mind, $$S_{1}$$ computes the probability of an utterance $$u$$ given some state $$s$$ in proportion to the speaker’s utility function $$U_{S_{1}}$$. The term $$\alpha > 0$$ controls the speaker’s optimality, that is, the speaker’s rationality in choosing utterances.
+With this utility function in mind, $$S_{1}$$ computes the probability of an utterance $$u$$ given some state $$s$$ in proportion to the speaker’s utility function $$U_{S_{1}}$$. The term $$\alpha > 0$$ controls the speaker’s optimality, that is, the speaker’s rationality in choosing utterances. We define:
 
-<!-- <center>The pragmatic speaker: P<sub>S<sub>1</sub></sub>(u|s) ∝ exp(αU<sub>S<sub>1</sub></sub>(u;s))</center> -->
+$$P_{S_{1}}(u\mid s) \propto \exp(\alpha U_{S_{1}}(u; s))\,,$$
 
-$$P_{S_{1}}(u\mid s) \propto exp(\alpha U_{S_{1}}(u; s))$$
+which expands to:
+
+$$P_{S_1}(u \mid s) \propto \exp(\alpha (\log L_{0}(s\mid u) - C(u)))\,.$$
+
+In the following all utterances are equally costly ($$C(u) = C(u')$$ for all
+$$u, u'$$) so that we can calculate the speaker's choice probabilities as follows (see [Appendix Chapter 3](app-03-costs.html) for more on message costs and how to implement them):
 
 ~~~~
 // pragmatic speaker
