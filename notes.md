@@ -126,6 +126,7 @@
 
 # ToDo MF
 
+- check use of expectation in Chapter 2 last model
 - write general introduction chapter
 - finish conclusion chapter
 - renumber chapters and fix references
