@@ -64,11 +64,20 @@ Thus far, little attention has been paid to an exploration of the **tradeoff** b
 
 In general, we believe that connecting the black box $$\alpha$$ to the psychological literature on memory, attention, and cognitive control is a worthy enterprise. It may also turn out that resource limitations must be modeled in other ways; but thus far, capturing them in the above terms appears to be sufficient. Doing so also has the advantage of not having to assume any particular **mechanism** for resource allocation, allowing for a more direct focus on the pragmatic reasoning process itself. 
 
-Here, another question that commonly arises is whether the assumed reasoning process is **too sophisticated**. The claims that are typically made is that language users are not capable of deep recursive reasoning, or that it is much too complicated to integrate so many different pieces of information in real time. If one were to interpret these models as models of the online reasoning process, then it would be an empirical question whether this reasoning process is too complicated to be executed online during conversation. However, since its original conception, RSA modelers have been careful to point out that the models are intended to provide a **computational-level analysis** of the language use problem that agents face ([Marr, 1982](https://mitpress.mit.edu/books/vision-0)), rather than specifying the mechanism by which they solve that problem. One should not take, say, each level of recursion as an actual reasoning step. If one wanted to interpret these models as online processing models, one would need to formulate **linking hypotheses** between model output and measures of online processing. One should avoid making pronouncements about presumed processing difficulty simply on the basis of architectural considerations of these models without such linking hypotheses. However, with these hypotheses in hand, we can test the question of whether reifying any model component as a psychological mechanism is useful for explaining online processing phenomena.
+Here, another question that commonly arises is whether the assumed reasoning process is **too sophisticated**. The claims that are typically made is that language users are not capable of deep recursive reasoning, or that it is much too complicated to integrate so many different pieces of information in real time. For example, Bayesian inference can quickly become computationally intractable and this would undermine the idea that language users perform actual and precise large scale Bayesian inference online. If one were to interpret these models as models of the online reasoning process, then it would be an empirical question whether any particular model's suggested reasoning process is too complicated to be executed online during conversation. Alternatively, it is conceivable that language users do not implement precise Bayesian inference but rather use more resource-friendly computations that approximate Bayesian inference, e.g., by sampling, just like a probabilistic programming language like WebPPL would do too refp:VulGoodman2014.
 
-#### 2. Testing the models
+However, since its original conception, RSA modelers have been careful to point out that the models are intended to provide a **computational-level analysis** of the language use problem that agents face ([Marr, 1982](https://mitpress.mit.edu/books/vision-0)), rather than specifying the mechanism by which they solve that problem. One should not take, say, each level of recursion as an actual reasoning step. If one wanted to interpret these models as online processing models, one would need to formulate **linking hypotheses** between model output and measures of online processing. One should avoid making pronouncements about presumed processing difficulty simply on the basis of architectural considerations of these models without such linking hypotheses. However, with these hypotheses in hand, we can test the question of whether reifying any model component as a psychological mechanism is useful for explaining online processing phenomena.
 
-##### How do we test the predictions of these models?
+#### 2. Testing, criticizing or supplementing models
+
+##### How do we test the predictions of a model?
+
+Testing the predictions of RSA models can happen in several ways. Which way is appropriate depends on the larger argumentative goal in which the model is used. The important thing to stress is that **models are tools**. Models can be used to make conceptual arguments; they can be used to make quantitative predictions about the outcome of a particular psychological experiment or any other empirical phenomenon (such as corpus frequencies); and much else.
+
+If we use a model to make a conceptual argument, the model may simply serve as a fully spelled out instance of a precise thought experiment that gives us a simple proof-of-concept, for example, that such-and-such assumptions are compatible with each other and lead to such-and-such results when combined. The model for scalar implicature calculation for cases where the speaker is possibly uncertain about the true world state from [Chapter 2](https://michael-franke.github.io/probLang/chapters/02-pragmatics.html), for example, could serve the purpose of showing that it is possible to combine a structured model of speaker uncertainty with RSA-style pragmatic reasoning, for one, and, for another, that the results match our general qualitative linguistic intuitions about how assumptions about speaker knowledge affect language interpretation. In order to test a model which is intended as a tool on this conceptual/qualitative level, we do what any theoretical linguist would do, namely consider whether there are clear intuitions about the phenomenon in question that the model cannot capture.
+
+If we relate model predictions to empirical data, testing a model gets a much more precise sense. A strong advantage of formalizing models as a (probabilistic) computer program is that we embed the model itself as an explanatory component of a statistical analysis. [Appendix Chapter 4](https://michael-franke.github.io/probLang/chapters/app-04-BDA.html) spells out an example of how an RSA model can be used in Bayesian Data analysis, where we can (i) draw inferences about model parameters of interest, (ii) use statistical methods for criticizing the model (i.e., looking where exactly the model's predictions are good, and where they are bad), and (iii) compare different models using quantitative measures, such as the strength of evidence empirical data provides in favor of one model over another.
+
 
 ##### When do we need to empirically measure the prior (vs. assume a uniform prior)? What are different ways of estimating the prior?
 
@@ -76,12 +85,12 @@ Here, another question that commonly arises is whether the assumed reasoning pro
 
 ##### Let's say we want to do philosophy of science on RSA: to what extent are we worried that you can make RSA "do anything"? (RSA as a methodological tool vs. RSA as a theory of language use and interpretation)
 
-##### Bayesian inference is intractable in the limit -- why are we not worried about this?
-
 
 #### 3. Extending the models
 
 ##### How do we extend RSA to language learning?
+
+##### How does RSA relate to conventionalization, language change and language evolution? E.g., can we show that something like RSA reasoning could evolve? Or, can we integrate RSA reasoning models in models of language change/evolution?
 
 ##### How do we add syntax or more rich language structure? How should one do compositionality (especially for soft semantics)?
    
@@ -92,4 +101,6 @@ Here, another question that commonly arises is whether the assumed reasoning pro
 ##### To what extent should we be interested in formulating / is it feasible to formulate a unified utterance cost function? 
 
 ##### In what ways can interlocutor-specific knowledge be incorporated (hierarchical models)?
+
+##### Can RSA models make predictions about empirical measure related to online processing of linguistic material?
 
