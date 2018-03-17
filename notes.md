@@ -142,6 +142,9 @@
 - make subsections in each chapter linkable? include small chapter-scope ToC at the beginning
   of each chapter?
   - open links in new tabs so no code changes are lost (student suggestion)
-- make solutions to exercises available
+- make solutions to exercises available (student suggestion)
+- top-level conceptual question: how to model speaker choice under uncertainty (sampling
+  vs. rational EU) ::: different models for different situations ::: whether agents are aware
+  of their uncertainty and/or whether they can compute several parallel speaker models
   
 
