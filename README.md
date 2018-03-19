@@ -1,5 +1,3 @@
-# Temporary fork of:
-
 ## Probabilistic language understanding: An introduction to the Rational Speech Act framework
 ### By: Gregory Scontras, Michael Henry Tessler, and Michael Franke
 
