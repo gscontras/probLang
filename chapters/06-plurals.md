@@ -265,7 +265,7 @@ viz.hist(pluralPredication("no"))
 
 ~~~~
 
-**Exercise:** Check the predictions for the other values for `collectiveNoise`.
+> **Exercise:** Check the predictions for the other values for `collectiveNoise`.
 
 You might have guessed that we are dealing with a lifted-variable variant of RSA: the various interpretation parameters (i.e., `distTheta`, `collTheta`, and `isCollective`) get resolved at the level of the pragmatic listener:
 
@@ -285,7 +285,7 @@ var listener = cache(function(utterance) {
 
 ~~~~
 
-**Exercise:** Copy the code from the literal listener code box above, add in a `speaker` layer, and generate predictions from the pragmatic `listener`.
+> **Exercise:** Copy the code from the literal listener code box above, add in a `speaker` layer, and generate predictions from the pragmatic `listener`.
 
 
 The full model combines all of these ingredients in the RSA framework, with recursive reasoning about the likely state of the world:
@@ -455,7 +455,7 @@ var L1predictions = map(function(stim) {
 viz.bar(L1predictions)
 ~~~~
 
-**Exercise:** Generate predictions from the $$S_1$$ speaker.
+> **Exercise:** Generate predictions from the $$S_1$$ speaker.
 
 Finally, we add in a speaker knowledge manipulation: the speaker either has full access to the individual weights in the world state (i.e., `knowledge == true`), or the speaker only has access to the total weight of the world state (i.e., `knowledge == false`). On the basis of this knowledge, the speaker makes an observation of the world state, and generates a belief distribution of the states that could have led to the observation.
 

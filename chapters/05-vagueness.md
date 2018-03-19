@@ -12,7 +12,7 @@ Sometimes our words themselves are imprecise, vague, and heavily dependent on co
 #### Application 1: Gradable adjectives and vagueness resolution
 
 
-reft:lassitergoodman2013 propose we parameterize the meaning function for sentences containing gradable adjectives so that their interpretations are underspecified. This interpretation-fixing parameter, the gradable threshold value *theta* (i.e., a degree), is something that conversational participants can use their prior knowledge to actively reason about and set. As with the ambiguity-resolving variable in the previous chapter, *theta* gets lifted to the level of the pragmatic listener, who jointly infers the gradable threshold (e.g., the point at which elements of the relevant domain count as expensive) and the true state (e.g., the indicated element's price). 
+Lassiter & Goodman propose we parameterize the meaning function for sentences containing gradable adjectives so that their interpretations are underspecified (reft:lassitergoodman2013, reft:LassiterGoodman2015:Adjectival-vagu). This interpretation-fixing parameter, the gradable threshold value $$\theta$$ (i.e., a degree), is something that conversational participants can use their prior knowledge to actively reason about and set. As with the ambiguity-resolving variable in the [previous chapter](04-ambiguity.html), $$\theta$$ gets lifted to the level of the pragmatic listener, who jointly infers the gradable threshold (e.g., the point at which elements of the relevant domain count as expensive) and the true state (e.g., the indicated element's price). 
 
 The model depends crucially on our prior knowledge of the world state. Let's start with a toy prior for the prices of books.
 
@@ -30,7 +30,7 @@ var statePrior = function() {
 
 > **Exercise:** Visualize the `statePrior`.   
 
-Next, we create a prior for the degree threshold *theta*. Since we're talking about *expensive* books, *theta* will be the price cutoff to count as expensive. But we want to be able to use *expensive* to describe anything with a price, so we'll set the `thetaPrior` to be uniform over the possible prices in our world.
+Next, we create a prior for the degree threshold $$\theta$$. Since we're talking about *expensive* books, $$\theta$$ will be the price cutoff to count as expensive. But we want to be able to use *expensive* to describe anything with a price, so we'll set the `thetaPrior` to be uniform over the possible prices in our world.
 
 ~~~~
 var book = {
@@ -50,7 +50,7 @@ var thetaPrior = function() {
 
 > **Exercise:** Visualize the `thetaPrior`.
 
-We introduce two possible utterances: saying that a book is *expensive*, or saying nothing at all. The semantics of the *expensive* utterance checks the relevant item's price against the price cutoff.
+We introduce two possible utterances: saying that a book is *expensive*, or saying nothing at all (a "null utterance"). The semantics of the *expensive* utterance checks the relevant item's price against the price cutoff. The "null utterance" is true everywhere and it is assumed to be less likely than uttering *expensive* a priori. (The relevant publications (reft:lassitergoodman2013, reft:LassiterGoodman2015:Adjectival-vagu) treat biases between *expensive* and the "null utterance" as costs, not as prior differences. While the results of either modeling choice are largely the same for our practical purposes, these are not in general identical models. (To see this, think about what happens for optimality parameter $$\alpha = 0$$)).
 
 ~~~~
 var book = {
@@ -77,19 +77,13 @@ var utterancePrior = function() {
 };
 
 var meaning = function(utterance, price, theta) {
-  if (utterance == "expensive") {
-    return price >= theta;
-  } else {
-    return true;
-  }
+  utterance == "expensive" ? price >= theta : true;
 };
 
 var literalListener = cache(function(utterance, theta) {
   return Infer({method: "enumerate"}, function() {
     var price = statePrior();
-
     condition(meaning(utterance, price, theta))
-
     return price;
   })
 })
@@ -122,7 +116,7 @@ var thetaPrior = function() {
     return uniformDraw(book.prices);
 };
 
-var alpha = 1; // rationality parameter
+var alpha = 1; // optimality parameter
 
 var utterances = ["expensive", ""];
 var cost = {
@@ -135,19 +129,13 @@ var utterancePrior = function() {
 };
 
 var meaning = function(utterance, price, theta) {
-  if (utterance == "expensive") {
-    return price >= theta;
-  } else {
-    return true;
-  }
+  utterance == "expensive" ? price >= theta : true;
 };
 
 var literalListener = cache(function(utterance, theta) {
   return Infer({method: "enumerate"}, function() {
     var price = statePrior();
-
     condition(meaning(utterance, price, theta))
-
     return price;
   });
 });
@@ -155,9 +143,7 @@ var literalListener = cache(function(utterance, theta) {
 var speaker = cache(function(price, theta) {
   return Infer({method: "enumerate"}, function() {
     var utterance = utterancePrior();
-
     factor( alpha * literalListener(utterance, theta).score(price) );
-
     return utterance;
   });
 });
@@ -178,11 +164,10 @@ viz.auto(marginalize(expensiveBook, "theta"));
 ~~~~
 
 > **Exercises:** 
-
 > 1. What happens when you make the `"expensive"` utterance more costly? Why?
 > 2. Try altering the `statePrior` and see what happens to $$L_1$$'s inference.
 
-In the actual model, rather than assuming prior knowledge (e.g., knowledge about domain-specific prices), Lassiter and Goodman measure it, then feed these measurements into the model as facts about the world. Doing so allows the model to make actual predictions about the behavior we expect to observe from listeners.
+For a better model, rather than assuming prior knowledge (e.g., knowledge about domain-specific prices), we can measure it, then feed these measurements into the model as facts about the world. Doing so allows the model to make actual predictions about the behavior we expect to observe from listeners. Here, we draw on data measuring prior knowledge that was gathered by Lassiter & Goodman (unpublished work).
 
 ~~~~
 ///fold:
@@ -223,13 +208,10 @@ var data = {
 };
 
 var prior = function(item) {
-
   // midpoint of bin shown to participants
   var prices = data[item].prices;
-
   // average responses from participants, normalizing by item
   var probabilities = data[item].probabilities;
-
   return function() {
     return categorical(probabilities, prices);
   };
@@ -238,18 +220,15 @@ var prior = function(item) {
 var theta_prior = function(item) {
   // midpoint of bin shown to participants
   var prices = data[item].prices;
-
   var bin_width = prices[1] - prices[0];
-
   var thetas = map(function(x) {return x - bin_width/2;}, prices);
-
   return function() {
     return uniformDraw(thetas);
   };
 };
 ///
 
-var alpha = 1; // rationality parameter
+var alpha = 1; // optimality parameter
 
 var utterances = ["expensive", ""];
 var cost = {
@@ -262,32 +241,22 @@ var utterancePrior = function() {
 };
 
 var meaning = function(utterance, price, theta) {
-  if (utterance == "expensive") {
-    return price >= theta;
-  } else {
-    return true;
-  }
+  utterance == "expensive" ? price >= theta : true;
 };
 
 var literalListener = cache(function(utterance, theta, item) {
   return Infer({method: "enumerate"}, function() {
     var pricePrior = prior(item);
     var price = pricePrior()
-
     condition(meaning(utterance, price, theta))
-
     return price;
   });
 });
 
 var speaker = cache(function(price, theta, item) {
-
   return Infer({method: "enumerate"}, function() {
-
     var utterance = utterancePrior();
-    
     factor( alpha * literalListener(utterance, theta, item).score(price) );
-
     return utterance;
   });
 });
@@ -318,7 +287,6 @@ viz.density(marginalize(expensiveSweater, "theta"));
 ~~~~
 
 > **Exercises:** 
-
 > 1. Visualize the various state priors.
 > 2. Check $$L_1$$'s behavior for coffee makers and headphones and laptops.
 > 3. Add an $$S_2$$ layer to the model and check its predictions.
@@ -358,11 +326,13 @@ var stateProbs = cache(function(stateParams){
 // generate a statePrior using the possible heights and their probabilities
 var generateStatePrior = cache(function(stateParams) {
   return Infer({
-    model: function(){ return categorical({vs: stateVals, ps: stateProbs(stateParams)}) }
+    model: function(){ 
+      return categorical({vs: stateVals, ps: stateProbs(stateParams)}) 
+    }
   })
 });
 
-// information about the suberordinate category priors
+// information about the subordinate category priors
 var subParams = {
   low: {mu: -1, sigma: 0.5}, // gymnast heights
   middle: {mu: 0, sigma: 0.5}, // soccer player heights
@@ -419,7 +389,9 @@ var stateProbs = cache(function(stateParams){
 // generate a statePrior using the possible heights and their probabilities
 var generateStatePrior = cache(function(stateParams) {
   return Infer({
-    model: function(){ return categorical({vs: stateVals, ps: stateProbs(stateParams)}) }
+    model: function(){ 
+      return categorical({vs: stateVals, ps: stateProbs(stateParams)}) 
+    }
   })
 });
 
@@ -430,13 +402,13 @@ var subParams = {
   high: {mu: 1, sigma: 0.5} // basketball player heights
 }
 
-
 // generate the uniform threshold prior
 var thresholdBins = cache(function(form, stateSupport){
   return map(function(x){
     return form == "positive" ? x - (1/(binParam*2)) : x + (1/(binParam*2));
   }, sort(stateSupport))
 })
+
 var thresholdPrior = cache(function(form, stateSupport){
   return Infer({
     model: function() { return uniformDraw(thresholdBins(form, stateSupport)) }
@@ -472,9 +444,10 @@ var literalListener = cache(
       var utterance =  u.split("_")[0], explicitCC =  u.split("_")[1]
       // if the comparison class is explicit in the utterance, use that
       // otherwise, use whatever the pragmaticListener model passes in
-      var cc = explicitCC == "null" ? comparisonClass : explicitCC
-
-      var state = sample(generateStatePrior(cc === "super" ? superordinate : subordinate));
+      var cc = explicitCC == "null" ?  comparisonClass :
+               explicitCC == "silence" ? comparisonClass : explicitCC
+      var state = sample(generateStatePrior(cc === "super" ? 
+         superordinate : subordinate));
       var m = meaning(utterance, state, threshold);
       condition(m);
       return state;
@@ -486,7 +459,8 @@ var speaker1 = cache(
   function(state, threshold, comparisonClass, form, subordinate) {
     Infer({model: function(){
       var utterance = uniformDraw(utterances[form]);
-      var L0 = literalListener(utterance, threshold, comparisonClass, subordinate);
+      var L0 = literalListener(utterance, threshold, 
+                               comparisonClass, subordinate);
       factor( alpha * L0.score(state) );
       return utterance;
     }})

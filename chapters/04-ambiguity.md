@@ -26,17 +26,17 @@ Quantifier scope ambiguities have stood at the heart of linguistic inquiry for n
 	- surface scope: ∀ > ¬; paraphrase: "none"
 	- inverse scope: ¬ > ∀; paraphrease: "not all"
 
-Rather than modeling the relative scoping of operators directly in the semantic composition, we can capture the possible meanings of these sentences---and, crucially, the active reasoning of speakers and listeners *about* these possible meanings---by assuming that the meaning of the utterance is evalatuated relative to a scope interpretation parameter (surface vs. inverse). The meaning function thus takes an utterance, a world state, and an interpretation parameter `scope` (i.e., which interpretation the ambiguous utterance receives); it returns a truth value.
+Rather than modeling the relative scoping of operators directly in the semantic composition, we can capture the possible meanings of these sentences---and, crucially, the active reasoning of speakers and listeners *about* these possible meanings---by assuming that the meaning of the utterance is evaluated relative to a scope interpretation parameter (surface vs. inverse). The meaning function thus takes an utterance, a world state, and an interpretation parameter `scope` (i.e., which interpretation the ambiguous utterance receives); it returns a truth value.
 
 ~~~~
 // possible world states: how many apples are red
-var states = [0,1,2,3];
+var states = [0,1,2,3]
 var statePrior = function() {
-  uniformDraw(states);
+  uniformDraw(states)
 }
 
 // possible utterances: saying nothing or asserting the ambiguous utterance
-var utterances = ["null","every-not"];
+var utterances = ["null","every-not"]
 
 // possible scopes
 var scopePrior = function(){ 
@@ -48,8 +48,8 @@ var meaning = function(utterance, state, scope) {
   return utterance == "every-not" ? 
     scope == "surface" ? state == 0 :
   state < 3 : 
-  true;
-};
+  true
+}
 
 meaning("every-not", 1, "surface")
 
@@ -61,11 +61,11 @@ The literal listener $$L_0$$ has prior uncertainty about the true state, *s*, an
 // Literal listener (L0)
 var literalListener = cache(function(utterance, scope) {
   Infer({model: function(){
-    var state = statePrior();
-    condition(meaning(utterance,state,scope));
-    return state;
-  }});
-});
+    var state = statePrior()
+    condition(meaning(utterance,state,scope))
+    return state
+  }})
+})
 ~~~~
 
 The interpretation variable (`scope`) is lifted, so that it will be actively reasoned about by the pragmatic listener. The pragmatic listener resolves the interpretation of an ambiguous utterance (determining what the speaker likely intended) while inferring the true state of the world:
@@ -89,17 +89,16 @@ The full model puts all of these pieces together:
 // Here is the code for the quantifier scope model
 
 // possible utterances
-var utterances = ["null","every-not"];
+var utterances = ["null","every-not"]
 
 var utterancePrior = function() {
   uniformDraw(utterances)
 }
 
-
 // possible world states
 var states = [0,1,2,3];
 var statePrior = function() {
-  uniformDraw(states);
+  uniformDraw(states)
 }
 
 // possible scopes
@@ -112,45 +111,44 @@ var meaning = function(utterance, state, scope) {
   return utterance == "every-not" ? 
     scope == "surface" ? state == 0 :
   state < 3 : 
-  true;
-};
+  true
+}
 
 // Literal listener (L0)
 var literalListener = cache(function(utterance,scope) {
   return Infer({model: function(){
-    var state = statePrior();
-    condition(meaning(utterance,state,scope));
-    return state;
-  }});
-});
+    var state = statePrior()
+    condition(meaning(utterance,state,scope))
+    return state
+  }})
+})
 
 // Speaker (S)
 var speaker = cache(function(scope,state) {
   return Infer({model: function(){
-    var utterance = utterancePrior();
-    observe(literalListener(utterance,scope),state);
-    return utterance;
-  }});
-});
+    var utterance = utterancePrior()
+    observe(literalListener(utterance,scope),state)
+    return utterance
+  }})
+})
 
 // Pragmatic listener (L1)
 var pragmaticListener = cache(function(utterance) {
   return Infer({model: function(){
-    var state = statePrior();
-    var scope = scopePrior();
-    observe(speaker(scope,state),utterance);
+    var state = statePrior()
+    var scope = scopePrior()
+    observe(speaker(scope,state),utterance)
     return {state: state,
             scope: scope}
-  }});
-});
+  }})
+})
 
 var posterior = pragmaticListener("every-not")
-viz.marginals(posterior);
+viz.marginals(posterior)
 
 ~~~~
 
 > **Exercises:**
-
 > 1. The pragmatic listener believes the `inverse` interpretation is more likely. Why?
 > 2. Add some more utterances and check what happens to the interpretation of the ambiguous utterance.
 
@@ -160,17 +158,16 @@ As in the non-literal language models from the previous chapter, here we can add
 // Here is the code for the QUD quantifier scope model
 
 // possible utterances
-var utterances = ["null","every-not"];
+var utterances = ["null","every-not"]
 
 var utterancePrior = function() {
   uniformDraw(utterances)
 }
 
-
 // possible world states
-var states = [0,1,2,3];
+var states = [0,1,2,3]
 var statePrior = function() {
-  uniformDraw(states);
+  uniformDraw(states)
 }
 
 // possible scopes
@@ -183,58 +180,57 @@ var meaning = function(utterance, state, scope) {
   return utterance == "every-not" ? 
     scope == "surface" ? state == 0 :
   state < 3 : 
-  true;
-};
+  true
+}
 
 // QUDs
-var QUDs = ["how many?","all red?"];
+var QUDs = ["how many?","all red?"]
 var QUDPrior = function() {
-  uniformDraw(QUDs);
+  uniformDraw(QUDs)
 }
-var QUDFun = function(QUD,state) {
+var QUDFun = function(QUD, state) {
   return QUD == "all red?" ? state == 3 :
-  state;
+  state
 };
 
 // Literal listener (L0)
-var literalListener = cache(function(utterance,scope,QUD) {
+var literalListener = cache(function(utterance, scope, QUD) {
   Infer({model: function(){
-    var state = statePrior();
+    var state = statePrior()
     var qState = QUDFun(QUD,state)
-    condition(meaning(utterance,state,scope));
-    return qState;
+    condition(meaning(utterance, state, scope))
+    return qState
   }});
 });
 
 // Speaker (S)
-var speaker = cache(function(scope,state,QUD) {
+var speaker = cache(function(scope, state, QUD) {
   Infer({model: function(){
-    var utterance = utterancePrior();
-    var qState = QUDFun(QUD,state);
-    observe(literalListener(utterance,scope,QUD),qState);
-    return utterance;
-  }});
-});
+    var utterance = utterancePrior()
+    var qState = QUDFun(QUD, state)
+    observe(literalListener(utterance, scope, QUD), qState)
+    return utterance
+  }})
+})
 
 // Pragmatic listener (L1)
 var pragmaticListener = cache(function(utterance) {
   Infer({model: function(){
-    var state = statePrior();
-    var scope = scopePrior();
-    var QUD = QUDPrior();
-    observe(speaker(scope,state,QUD),utterance);
+    var state = statePrior()
+    var scope = scopePrior()
+    var QUD = QUDPrior()
+    observe(speaker(scope, state, QUD), utterance)
     return {state: state,
             scope: scope}
-  }});
-});
+  }})
+})
 
 var posterior = pragmaticListener("every-not")
-viz.marginals(posterior);
+viz.marginals(posterior)
 
 ~~~~
 
 > **Exercises:** 
-
 > 1. What does the pragmatic listener infer about the QUD? Does this match your own intuitions? If not, how can you more closely align the model's predictions with your own?
 > 2. Try adding a `none red?` QUD. What does this addition do to $$L_1$$'s inference about the state? Why?
 
