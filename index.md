@@ -47,7 +47,7 @@ The present course serves to demonstrate that this semantic leveling is unnecess
 
 ## Citation
 
-G. Scontras, M. Franke, and M. H. Tessler (2018). *Probabilistic language understanding: An introduction to the Rational Speech Act framework*. Retrieved <span class="date"></span> from https://gscontras.github.io/probLang/
+G. Scontras,  M. H. Tessler, and M. Franke (2018). *Probabilistic language understanding: An introduction to the Rational Speech Act framework*. Retrieved <span class="date"></span> from https://gscontras.github.io/probLang/
 
 ## Useful resources
 
