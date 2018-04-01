@@ -31,7 +31,7 @@ $$S = \{\text{blue-square}, \text{blue-circle}, \text{green-square}\}$$
 
 contains the three objects given. The **set of utterances**
 
-$$U = \{ \text{"square"}, \text{"circle"}, \text{"green"}, \text{"blue"}  \}$$
+$$U = \{ \text{``square"}, \text{``circle"}, \text{``green"}, \text{``blue"}  \}$$
 
 contains the four properties from which the speaker can choose.
 
