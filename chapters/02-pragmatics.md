@@ -27,7 +27,7 @@ statePrior() // sample a state
 
 > **Exercises:**
 > 1. Try visualizing `statePrior()` by drawing many samples and plotting the output (hint: you'll need to use the `repeat()` function, which has a strange syntax that is documented [here](http://webppl.readthedocs.io/en/master/functions/arrays.html#repeat)).
-> 2. Try visualizing `statePrior()` by wrapping it in `Infer` (à la our $$L_0$$ model) and using `{method: "forward", samples: 1000}`.
+> 2. Try visualizing `statePrior()` by wrapping it in `Infer` (à la our $$L_0$$ model).
 
 Next, assume that speakers may describe the current state of the world in one of three ways:
 
@@ -88,7 +88,7 @@ display("literal listener's interpretation of 'some':")
 viz(literalListener("some"))
 ~~~~
 
-Let us then look at the speaker's behavior. Intuitively put, in the vanilla RSA model the speaker will never choose a false message and prefers to send one true message over another, if the former has a smaller extension than the latter (see [appendix](app-02-utilities.html)). Verify this with the following code.
+Next, let's have a look at the speaker's behavior. Intuitively put, in the vanilla RSA model the speaker will never choose a false message; the speaker chooses among the true utterances by prioritizing those with the strongest meaning (see [appendix](app-02-utilities.html)). Verify this with the following code.
 
 ~~~~
 // code for state prior, semantics and literal listener as before
@@ -138,9 +138,7 @@ viz(speaker(3))
 
 ~~~~
 
-With this knowledge about the communication scenario---crucially, the availability of the "all" alternative utterance---a pragmatic listener is able to infer from the "some" utterance that a state in which the speaker would not have used the "all" utterance is more likely than one in which she would. We can verify this with the following complete code of a vanilla RSA model for scalar implicatures.
-
-Technical note: Below, `cache` is used to save the results of the various Bayesian inferences being performed. This is used for computational efficiency when dealing with nested inferences.
+With this knowledge about the communication scenario---crucially, the availability of the "all" alternative utterance---a pragmatic listener is able to infer from the "some" utterance that a state in which the speaker would not have used the "all" utterance is more likely than one in which she would. We can verify this with the following complete code of a vanilla RSA model for scalar implicatures. (Technical note: Below, `cache` is used to save the results of the various Bayesian inferences being performed. This is used for computational efficiency when dealing with nested inferences.)
 
 ~~~~
 // possible states of the world
@@ -212,7 +210,7 @@ Capturing scalar implicature within the RSA framework might not induce waves of 
 
 ##### Setting the scene
 
-Suppose a speaker says: "Some of the apples are red." If you know that there are 3 apples in total, but that the speaker has only observed two of them, how likely do you think it is that 0, 1, 2 or 3 of the apples are red? - This is the question that reft:GoodmanStuhlmuller2013Impl address (Fig. 1 below).
+Suppose a speaker says: "Some of the apples are red." If you know that there are 3 apples in total, but that the speaker has only observed two of them, how likely do you think it is that 0, 1, 2 or 3 of the apples are red? This is the question that reft:GoodmanStuhlmuller2013Impl address (Fig. 1 below).
 
 {% include figure.html 
 file="../images/scalar.png" 
@@ -290,13 +288,13 @@ viz.auto(repeat(1000,function() {
 
 > **Exercise:** See what happens when you change the red apple base rate.
 
-Given potential uncertainty about the world state $$s$$, the speaker's probabilistic production rule has to be adapted from the simpler formulation in [Chapter I](01-introduction.html). It is now no longer a function of the true $$s$$ (because it might not be known) but of the epistemic state of the speaker more generally. In the case at hand, the speaker's epistemic state $$P_{S_{1}}(\cdot \mid o,a) \in \Delta(S)$$ is given by access $$a$$, observation $$o$$, as in the belief model implemented just above.
+Given potential uncertainty about the world state $$s$$, the speaker's probabilistic production rule has to be adapted from the simpler formulation in [Chapter I](01-introduction.html). It is now no longer a function of the true $$s$$ (because it might not be known) but of the epistemic state of the speaker more generally. In the case at hand, the speaker's epistemic state $$P_{S_{1}}(\cdot \mid o,a) \in \Delta(S)$$ is given by access $$a$$ and observation $$o$$, as in the belief model implemented just above.
 
 Even if the speaker is uncertain about the state $$s$$ after some partial observation $$o$$ and $$a$$, she would still seek to choose an utterance that maximizes information flow. There are several ways in which we can combine speaker uncertainty (in the form of a probability distribution over $$s$$) and the speaker's utility function, which remains unchanged from what we had before, so that utterances are chosen to minimize cost and maximize informativity:
 
 $$U_{S_{1}}(u; s) = log(L_{0}(s\mid u)) - C(u)$$
 
-The model implemented by reft:GoodmanStuhlmuller2013Impl assumes that the speaker samples a state $$s$$ from her belief distribution and then samples an utterance based on the usual soft-maximization of informativity for that sampled state $$s$$. The formulation of this choice rule looks cumbersome in mathematical notation but is particularly easy to implement. (Another variant that conservatively extends the vanilla RSA model's assumption of rational agency is implemented in the next section. - See also discussion in exercises below.)
+The model implemented by reft:GoodmanStuhlmuller2013Impl assumes that the speaker samples a state $$s$$ from her belief distribution and then samples an utterance based on the usual soft-maximization of informativity for that sampled state $$s$$. The formulation of this choice rule looks cumbersome in mathematical notation but is particularly easy to implement. (Another variant that conservatively extends the vanilla RSA model's assumption of rational agency is implemented in the next section. See also the discussion in the exercises below.)
 
 $$P_{S_{1}}(u\mid o, a) \propto  \sum_s P_{S_{1}}(s\mid o, a) \  exp(\alpha[U(u; s)])$$
 
@@ -399,7 +397,7 @@ viz.auto(pragmaticListener([true,true,false],'some'))
 
 > **Exercises:** 
 > 1. Check the predictions for the other possible knowledge states.
-> 2. Compare the full-access predictions with the predictions from the simpler scalar implicature model above. Why are the predictions of the two models different? How can you get the model predictions to converge? (Hint: first try to align the predictions of the simpler model with those of the knowledge model, then try aligning the predictions of the knowledge model with those fo the simpler model.)
+> 2. Compare the full-access predictions with the predictions from the simpler scalar implicature model above. Why are the predictions of the two models different? How can you get the model predictions to converge? (Hint: first try to align the predictions of the simpler model with those of the knowledge model, then try aligning the predictions of the knowledge model with those of the simpler model.)
 > 3. Notice that the listener assigns some positive probability to the true state being 0, even when it is shared knowledge that the speaker saw 2 apples and said "some". Why is this puzzling? (Think about the Gricean Maxim of Quality demanding that speakers not say what they lack sufficient evidence for!) Look at the speaker choice function implemented here and explain why this is happening.
 
 We have seen how the RSA framework can implement the mechanism whereby utterance interpretations are strengthened. Through an interaction between what was said, what could have been said, and what all of those things literally mean, the model delivers scalar implicature. And by taking into account awareness of the speaker's knowledge, the model successfully *blocks* implicatures in those cases where listeners are unlikely to access them. 
