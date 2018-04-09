@@ -26,7 +26,6 @@ statePrior() // sample a state
 ~~~~
 
 > **Exercises:**
-
 > 1. Try visualizing `statePrior()` by drawing many samples and plotting the output (hint: you'll need to use the `repeat()` function, which has a strange syntax that is documented [here](http://webppl.readthedocs.io/en/master/functions/arrays.html#repeat)).
 > 2. Try visualizing `statePrior()` by wrapping it in `Infer` (à la our $$L_0$$ model) and using `{method: "forward", samples: 1000}`.
 
@@ -198,7 +197,6 @@ viz(pragmaticListener('some'))
 ~~~~
 
 > **Exercises:**
-
 > 1. Explore what happens if you make the speaker *less* optimal.
 > 2. Subtract one of the utterances. What changed?
 > 3. Add a new utterance. What changed?
