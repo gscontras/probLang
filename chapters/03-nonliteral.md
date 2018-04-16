@@ -182,7 +182,7 @@ var literalListener = cache(function(utterance, qud) {
 > 2. Test out other QUDs. What aspects of interpretation does the literal listener capture? What aspects does it not capture?
 > 3. Create a new QUD function and try it out with "the kettle costs `10000` dollars".
 
-This enriched literal listener does a joint inference about the price and the valence but assumes a particular QUD by which to interpret the utterance. Similarly, the speaker chooses an utterance to convey a particular value of the QUD to the literal listener:
+This enriched literal listener performs joint inference about the price and the valence but assumes a particular QUD by which to interpret the utterance. Similarly, the speaker chooses an utterance to convey a particular value of the QUD to the literal listener:
 
 ~~~~
 var speaker = function(qudValue, qud) {
