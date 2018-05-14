@@ -61,21 +61,21 @@ In RSA, we could write this as the following:
 ~~~~
 var pragmaticListener = function(utterance) {
   Infer({model: function(){
-    var x = sample(xPrior)
+    var prevalence = sample(prevalencePrior)
     var theta = uniform(0, 1)
-    var S1 = speaker1(x, theta)
+    var S1 = speaker1(prevalence, theta)
     observe(S1, utterance)
-    return x
+    return prevalence
   }})
 }
 ~~~~
 
 Here, we have a uniform prior over `theta`.
-What is `x` though (and what is the `xPrior`)?
-Given that we've posited that the semantics of the generic are about the prevalence $$P(F \mid K)$$ (i.e., the `meaning()` function in the `literalListener` conditions on `x > theta`) then what the listener updates her beliefs about is  the prevalence $$P(F \mid K)$$.
-So `x` is prevalence.
+What is `prevalence` though (and what is the `prevalencePrior`)?
+Given that we've posited that the semantics of the generic are about the prevalence $$P(F \mid K)$$ (i.e., the `meaning()` function in the `literalListener` conditions on `prevalence > theta`) then what the listener updates her beliefs about is  the prevalence $$P(F \mid K)$$.
+<!-- So `x` is prevalence. -->
 
-The listener samples `x` from some prior `xPrior`, which is a prior distribution over the prevalence of the feature.
+The listener samples `prevalence` from some prior `prevalencePrior`, which is a prior distribution over the prevalence of the feature.
 Let's try to understand that.
 
 ### Prior model
@@ -120,7 +120,9 @@ var prevalencePrior = Infer({model:
 prevalencePrior
 ~~~~
 
-> **Exercise**: What if you didn't know that exactly 50% of birds lay eggs? Generalize the above code to sample the prevalence of laying eggs for birds, reptiles, etc.. from a distribution. (Hint: The [Beta distribution](http://docs.webppl.org/en/master/distributions.html#Beta) is a distribution over numbers between 0 and 1.)
+> **Exercise**: What if you didn't know that exactly 50% of birds lay eggs? Generalize the above code to sample the prevalence of laying eggs for birds, reptiles, etc. from a distribution. 
+
+<!-- (Hint: The [Beta distribution](http://docs.webppl.org/en/master/distributions.html#Beta) is a distribution over numbers between 0 and 1.) -->
 
 #### A generalization of the prior model
 
@@ -155,7 +157,6 @@ where $$\gamma$$ is the mean of the stable cause distribution and $$\delta$$ is 
 These two components of the prior can be probed from human intuitions through two questions:
 
 > We just discovered an animal on a far away island called a fep.
-
 > 1. How likely is it that there is a *fep* that has wings? ($$\rightarrow \phi$$)
 > 2. Suppose there is a fep that has wings, what % of feps do you think have wings? ($$\rightarrow \gamma; \rightarrow \delta$$)
 
@@ -181,23 +182,27 @@ var DiscreteBeta = cache(function(g, d){
 var priorModel = function(params){
   Infer({model: function(){
 
-    var StableDistribution = DiscreteBeta(params.g, params.d)
+    var potential = params["potential"]
+    var g = params["prevalenceWhenPresent"]
+    var d = params["concentationWhenPresent"]
+
+    var StableDistribution = DiscreteBeta(g, d)
     var UnstableDistribution = DiscreteBeta(0.01, 100)
 
-    var x = flip(params.phi) ?
+    var prevalence = flip(potential) ?
       sample(StableDistribution) :
       sample(UnstableDistribution)
 
-    return {x}
+    return {prevalence}
 
   }})
 }
 
 // e.g. "Lays eggs"
 viz(priorModel({
-  phi: 0.3,
-  g: 0.5, // how prevalent under the stable cause
-  d: 10   // the inverse-variance of the stable cause
+  potential: 0.3,
+  prevalenceWhenPresent: 0.5, // how prevalent under the stable cause
+  concentrationWhenPresent: 10   // the inverse-variance of the stable cause
 }))
 ~~~~
 
@@ -237,26 +242,26 @@ var priorModel = function(params){
     var StableDistribution = DiscreteBeta(params.g, params.d)
     var UnstableDistribution = DiscreteBeta(0.01, 100)
 
-    var x = flip(params.phi) ?
+    var prevalence = flip(params.phi) ?
       sample(StableDistribution) :
       sample(UnstableDistribution)
 
-    return x
+    return prevalence
 
   }})
 }
 ///
-var meaning = function(utterance, x, threshold) {
-  return (utterance == 'generic') ? x > threshold : true
+var meaning = function(utterance, prevalence, threshold) {
+  return (utterance == 'generic') ? prevalence > threshold : true
 }
 var thresholdPrior = function() { return uniformDraw(thresholdBins) };
 var theta = thresholdPrior()
 
 display("theta = " + theta)
 var statePrior = priorModel({
-  phi: 0.3,
-  g: 0.5, // how prevalent under the stable cause
-  d: 10   // the inverse-variance of the stable cause
+  potential: 0.3,
+  prevalenceWhenPresent: 0.5, // how prevalent under the stable cause
+  concentrationWhenPresent: 10   // the inverse-variance of the stable cause
 })
 
 display("prevalence prior")
@@ -264,10 +269,10 @@ viz(statePrior)
 
 var literalListener = cache(function(utterance, threshold) {
   Infer({model: function(){
-    var x = sample(statePrior)
-    var m = meaning(utterance, x, threshold)
+    var prevalence = sample(statePrior)
+    var m = meaning(utterance, prevalence, threshold)
     condition(m)
-    return x
+    return prevalence
   }})
 })
 
@@ -307,11 +312,11 @@ var priorModel = function(params){
 
     var StableDistribution = DiscreteBeta(params.g, params.d)
     var UnstableDistribution = DiscreteBeta(0.01, 100)
-    var x = flip(params.phi) ?
+    var prevalence = flip(params.phi) ?
       sample(StableDistribution) :
       sample(UnstableDistribution)
 
-    return x
+    return prevalence
   }})
 }
 ///
@@ -323,42 +328,42 @@ var utterances = ["generic", "silence"];
 var thresholdPrior = function() { return uniformDraw(thresholdBins) };
 var utterancePrior = function() { return uniformDraw(utterances) }
 
-var meaning = function(utterance, x, threshold) {
-  return (utterance == 'generic') ? x > threshold : true
+var meaning = function(utterance, prevalence, threshold) {
+  return (utterance == 'generic') ? prevalence > threshold : true
 }
 
 var literalListener = cache(function(utterance, threshold, statePrior) {
   Infer({model: function(){
-    var x = sample(statePrior)
-    var m = meaning(utterance, x, threshold)
+    var prevalence = sample(statePrior)
+    var m = meaning(utterance, prevalence, threshold)
     condition(m)
-    return x
+    return prevalence
   }})
 })
 
-var speaker1 = cache(function(x, threshold, statePrior) {
+var speaker1 = cache(function(prevalence, threshold, statePrior) {
   Infer({model: function(){
     var utterance = utterancePrior()
     var L0 = literalListener(utterance, threshold, statePrior)
-    factor( alpha_1 * L0.score(x) )
+    factor( alpha_1 * L0.score(prevalence) )
     return utterance
   }})
 })
 
 var pragmaticListener = function(utterance, statePrior) {
   Infer({model: function(){
-    var x = sample(statePrior)
+    var prevalence = sample(statePrior)
     var threshold = thresholdPrior()
-    var S1 = speaker1(x, threshold, statePrior)
+    var S1 = speaker1(prevalence, threshold, statePrior)
     observe(S1, utterance)
-    return {x}
+    return {prevalence}
   }})
 }
 
 var prior = priorModel({
-  phi: 0.3,
-  g: 0.99,
-  d: 10
+  potential: 0.3,
+  prevalenceWhenPresent: 0.99,
+  concentrationWhenPresent: 10
 })
 
 var listenerPosterior = pragmaticListener("generic", prior)
@@ -376,12 +381,12 @@ So we have a model that can interpret generic language (with a very simple seman
 ~~~~
 ///...
 
-var speaker1 = function(state, threshold) {
+var speaker1 = function(prevalence, threshold) {
   Infer({model: function(){
     var utterance = utterancePrior()
 
     var L0 = literalListener(utterance, threshold)
-    factor( alpha_1 * L0.score(state) )
+    factor( alpha_1 * L0.score(prevalence) )
 
     return utterance
   }})
@@ -389,12 +394,12 @@ var speaker1 = function(state, threshold) {
 
 ///...
 
-var speaker2 = function(state){
+var speaker2 = function(prevalence){
   Infer({model: function(){
     var utterance = utterancePrior()
 
     var L1 = pragmaticListener(utterance);  
-    factor( alpha_2 * L1.score(state) )
+    factor( alpha_2 * L1.score(prevalence) )
 
     return utterance
   }})
@@ -430,11 +435,11 @@ var priorModel = function(params){
 
     var StableDistribution = DiscreteBeta(params.g, params.d)
     var UnstableDistribution = DiscreteBeta(0.01, 100)
-    var x = flip(params.phi) ?
+    var prevalence = flip(params.phi) ?
         sample(StableDistribution) :
     sample(UnstableDistribution)
 
-    return x
+    return prevalence
   }})
 }
 ///
@@ -446,58 +451,58 @@ var utterances = ["generic", "silence"];
 var thresholdPrior = function() { return uniformDraw(thresholdBins) };
 var utterancePrior = function() { return uniformDraw(utterances) }
 
-var meaning = function(utterance, x, threshold) {
-  return (utterance == 'generic') ? x > threshold : true
+var meaning = function(utterance, prevalence, threshold) {
+  return (utterance == 'generic') ? prevalence > threshold : true
 }
 
 var literalListener = cache(function(utterance, threshold, statePrior) {
   Infer({model: function(){
-    var x = sample(statePrior)
-    var m = meaning(utterance, x, threshold)
+    var prevalence = sample(statePrior)
+    var m = meaning(utterance, prevalence, threshold)
     condition(m)
-    return x
+    return prevalence
   }})
 })
 
-var speaker1 = cache(function(x, threshold, statePrior) {
+var speaker1 = cache(function(prevalence, threshold, statePrior) {
   Infer({model: function(){
     var utterance = utterancePrior()
     var L0 = literalListener(utterance, threshold, statePrior)
-    factor( alpha_1 * L0.score(x) )
+    factor( alpha_1 * L0.score(prevalence) )
     return utterance
   }})
 })
 
 var pragmaticListener = function(utterance, statePrior) {
   Infer({model: function(){
-    var x = sample(statePrior)
+    var prevalence = sample(statePrior)
     var threshold = thresholdPrior()
-    var S1 = speaker1(x, threshold, statePrior)
+    var S1 = speaker1(prevalence, threshold, statePrior)
     observe(S1, utterance)
-    return x
+    return prevalence
   }})
 }
 
-var speaker2 = function(x, statePrior){
+var speaker2 = function(prevalence, statePrior){
   Infer({model: function(){
     var utterance = utterancePrior();
     var L1 = pragmaticListener(utterance, statePrior);
-    factor( alpha_2 * L1.score(x) )
+    factor( alpha_2 * L1.score(prevalence) )
     return utterance
   }})
 }
 
-var target_x = 0.03
+var target_prevalence = 0.03
 
 var prior = priorModel({
-  phi: 0.01,
-  g: 0.01,
-  d: 5
+  potential: 0.01,
+  prevalenceWhenPresent: 0.01,
+  concentrationWhenPresent: 5
 })
 
 viz.density(prior)
 
-viz(speaker2(target_x, prior))
+viz(speaker2(target_prevalence, prior))
 ~~~~
 
 > **Exercises:**
