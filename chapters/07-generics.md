@@ -184,7 +184,7 @@ var priorModel = function(params){
 
     var potential = params["potential"]
     var g = params["prevalenceWhenPresent"]
-    var d = params["concentationWhenPresent"]
+    var d = params["concentrationWhenPresent"]
 
     var StableDistribution = DiscreteBeta(g, d)
     var UnstableDistribution = DiscreteBeta(0.01, 100)
@@ -239,10 +239,14 @@ var DiscreteBeta = cache(function(g, d){
 var priorModel = function(params){
   Infer({model: function(){
 
-    var StableDistribution = DiscreteBeta(params.g, params.d)
+    var potential = params["potential"]
+    var g = params["prevalenceWhenPresent"]
+    var d = params["concentrationWhenPresent"]
+
+    var StableDistribution = DiscreteBeta(g, d)
     var UnstableDistribution = DiscreteBeta(0.01, 100)
 
-    var prevalence = flip(params.phi) ?
+    var prevalence = flip(potential) ?
       sample(StableDistribution) :
       sample(UnstableDistribution)
 
@@ -310,9 +314,14 @@ var DiscreteBeta = cache(function(g, d){
 var priorModel = function(params){
   Infer({model: function(){
 
-    var StableDistribution = DiscreteBeta(params.g, params.d)
+    var potential = params["potential"]
+    var g = params["prevalenceWhenPresent"]
+    var d = params["concentrationWhenPresent"]
+
+    var StableDistribution = DiscreteBeta(g, d)
     var UnstableDistribution = DiscreteBeta(0.01, 100)
-    var prevalence = flip(params.phi) ?
+
+    var prevalence = flip(potential) ?
       sample(StableDistribution) :
       sample(UnstableDistribution)
 
@@ -433,9 +442,14 @@ var DiscreteBeta = cache(function(g, d){
 var priorModel = function(params){
   Infer({model: function(){
 
-    var StableDistribution = DiscreteBeta(params.g, params.d)
+    var potential = params["potential"]
+    var g = params["prevalenceWhenPresent"]
+    var d = params["concentrationWhenPresent"]
+
+    var StableDistribution = DiscreteBeta(g, d)
     var UnstableDistribution = DiscreteBeta(0.01, 100)
-    var prevalence = flip(params.phi) ?
+
+    var prevalence = flip(potential) ?
         sample(StableDistribution) :
     sample(UnstableDistribution)
 
