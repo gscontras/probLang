@@ -296,7 +296,9 @@ $$U_{S_{1}}(u; s) = log(L_{0}(s\mid u)) - C(u)$$
 
 The model implemented by reft:GoodmanStuhlmuller2013Impl assumes that the speaker samples a state $$s$$ from her belief distribution and then samples an utterance based on the usual soft-maximization of informativity for that sampled state $$s$$. The formulation of this choice rule looks cumbersome in mathematical notation but is particularly easy to implement. (Another variant that conservatively extends the vanilla RSA model's assumption of rational agency is implemented in the next section. See also the discussion in the exercises below.)
 
-$$P_{S_{1}}(u\mid o, a) \propto  \sum_s P_{S_{1}}(s\mid o, a) \  exp(\alpha[U(u; s)])$$
+$$P_{S_{1}}(u\mid o, a) \propto P_{S_{1}}(s\mid o, a) \ P_{S_{1}}(u \mid s)$$
+
+$$P_{S_{1}}(u \mid s) \propto  exp(\alpha[U(u; s)])$$
 
 ~~~~
 // pragmatic speaker
