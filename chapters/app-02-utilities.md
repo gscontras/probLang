@@ -31,11 +31,11 @@ $$ = - \log\frac{1}{P_{L_0}(s^*)} = \log P_{L_0}(s^*) $$
 
 In the second model of [chapter II](02-pragmatics.html) the speaker did not know the true world state $$s^*$$ but only had probabilistic beliefs $$P_{S_1}(s \mid O)$$ based on some possibly partial observation $$O$$. A definition of utilities as negative Kullback-Leibler divergence derives the same utterance choice probabilities as assumed in [chapter II](02-pragmatics.html). Starting from KL-based utilities we get choice probabilities like this:
 
-$$P_{S_{1}}(u \mid o, a) \propto \exp(\alpha \ - \text{KL}(P_{S_1}(\cdot \mid O) \mid\mid P_{L_0}(\cdot \mid u) )$$
+$$P_{S_{1}}(u \mid O) \propto \exp(\alpha \ - \text{KL}(P_{S_1}(\cdot \mid O) \mid\mid P_{L_0}(\cdot \mid u) )$$
 
 Expanding the definition of KL-divergence:
 
-$$P_{S_{1}}(u \mid o, a) \propto \exp \left(\alpha \ - \sum_{s} P_{S_1}(s \mid O) \ \log \frac{P_{S_1}(s \mid O)}{P_{L_0}(s \mid u)} \right)$$
+$$P_{S_{1}}(u \mid O) \propto \exp \left(\alpha \ - \sum_{s} P_{S_1}(s \mid O) \ \log \frac{P_{S_1}(s \mid O)}{P_{L_0}(s \mid u)} \right)$$
 
 which is equivalent to
 
@@ -43,5 +43,5 @@ $$exp \left ( \alpha \ \left( \sum_{s} P_{S_1}(s \mid O) \ \log P_{L_0}(s \mid u
 
 The last summand is just the entropy of $$P_{S_1}(\cdot \mid O)$$, which is a constant and so cancels out under normalization in the soft-max choice rule. We end up with:
 
-$$P_{S_{1}}(u \mid o, a) \propto \exp(\alpha \ \mathbb{E}_{P(s \mid O)} \log P_{L_0}(s \mid u))$$
+$$P_{S_{1}}(u \mid O) \propto \exp(\alpha \ \mathbb{E}_{P(s \mid O)} \log P_{L_0}(s \mid u))$$
 
