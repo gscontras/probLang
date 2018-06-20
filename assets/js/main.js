@@ -154,7 +154,7 @@ function format_refp(citation) {
 }
 
 
-$.get("/probLang/bibliography.bib", function (bibtext) {
+$.get("/bibliography.bib", function (bibtext) {
     $(function () {
         var bibs = doParse(bibtext);
         $.each(
