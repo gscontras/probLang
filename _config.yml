@@ -1,7 +1,7 @@
 # Site settings
 
 title: Probabilistic language understanding
-baseurl: "/probLang"
+# baseurl: "/probLang"
 url: "http://gscontras.github.io/probLang"
 
 # Build settings
