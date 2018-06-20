@@ -96,7 +96,7 @@ viz.table(literalListener("blue"))
 >    possible objects of reference. What happens when the listener's beliefs are not uniform
 >    over the possible objects of reference (e.g., the "green square" is very salient)? (Hint:
 >    use a `categorical` distribution by calling `categorical({ps: [list_of_probabilities], vs:
->    objects})`. More information about WebPPL's built-in distributions and their parameterizations can be found in the [documentation](http://webppl.readthedocs.io/en/master/distributions.html).).
+>    objects})`. More information about WebPPL's built-in distributions and their parameterizations can be found in the [documentation](http://webppl.readthedocs.io/en/master/distributions.html).)
 > 2. Call `viz.hist(literalListener("blue"))`, one of WebPPL's visualization functions. Try vizualizing the model output differently (hint: [WebPPL-viz](http://probmods.github.io/webppl-viz/) documents the various visualization options).
 
 
