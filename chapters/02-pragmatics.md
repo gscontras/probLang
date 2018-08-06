@@ -272,8 +272,8 @@ var statePrior = function() {
 
 // speaker belief function
 var belief = function(actualState, access) {
-  var fun = function(access,state) {
-    return access ? state : uniformDraw(statePrior())
+  var fun = function(access_val,state_val) {
+    return access_val ? state_val : uniformDraw(statePrior())
   }
   return map2(fun, access, actualState);
 }
@@ -340,8 +340,8 @@ var statePrior = function() {
 
 // speaker belief function
 var belief = function(actualState, access) {
-  var fun = function(access,state) {
-    return access ? state : uniformDraw(statePrior())
+  var fun = function(access_val,state_val) {
+    return access_val ? state_val : uniformDraw(statePrior())
   }
   return map2(fun, access, actualState);
 }
