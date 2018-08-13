@@ -443,7 +443,7 @@ var pragmaticListener = function(utt) {
 }
 ~~~~
 
-This formulation of the pragmatic listener differs in two respects from the previous. First, the pragmatic listener also has a (possibly uncertain) prior belief about $$a$$, which we can think of as prior knowledge of the likely extent of the speaker's competence. Second, the new formulation also refers to a hypergeometric distribution, which we use as a more general way of representing the speaker's (possibly partial) beliefs.
+This formulation of the pragmatic listener differs in two respects from the previous. First, the pragmatic listener also has a (possibly uncertain) prior belief about $$a$$, which we can think of as prior knowledge of the likely extent of the speaker's competence. Second, the new formulation also refers to a [hypergeometric distribution](https://en.wikipedia.org/wiki/Hypergeometric_distribution), which we use as a more general way of representing the speaker's (possibly partial) beliefs.
 
 Here is how to understand the speaker belief model in terms of a hypergeometric distribution. We first look at the speaker's prior beliefs about $$s$$: what does a speaker believe about the world state $$s$$ after, say, having access to $$a$$ out of $$n$$ apples and seeing that $$o$$ of the accessed apples are red? These beliefs are given by a binomial distribution with a fixed base rate of redness: intuitively put, each apple has a chance `base_rate` of being red; how many red apples do we expect given that we have $$n$$ apples in total?
 
