@@ -37,20 +37,20 @@ var fullState = { price: 51, valence: true }
 display("full state = " + stringify(fullState))
 
 var valenceQudFn = qudFns["valence"]
-var valenceQudVal = valenceQudFn(fullState)
-display("valence QUD value = " + stringify(valenceQudVal))
+var valenceQudAnswer = valenceQudFn(fullState)
+display("valence QUD answer = " + stringify(valenceQudAnswer))
 
 var priceQudFn = qudFns["price"]
-var priceQudVal = priceQudFn(fullState)
-display("price QUD value = " + stringify(priceQudVal))
+var priceQudAnswer = priceQudFn(fullState)
+display("price QUD answer = " + stringify(priceQudAnswer))
 
 var priceValenceQudFn = qudFns["priceValence"]
-var priceValenceQudVal = priceValenceQudFn(fullState)
-display("priceValence QUD value = " + stringify(priceValenceQudVal))
+var priceValenceQudAnswer = priceValenceQudFn(fullState)
+display("priceValence QUD answer = " + stringify(priceValenceQudAnswer))
 
 var approxPriceQudFn = qudFns["approxPrice"]
-var approxPriceQudVal = approxPriceQudFn(fullState)
-display("approxPrice QUD value = " + stringify(approxPriceQudVal))
+var approxPriceQudAnswer = approxPriceQudFn(fullState)
+display("approxPrice QUD answer = " + stringify(approxPriceQudAnswer))
 ~~~~
 
 Accurately modeling world knowledge is key to getting appropriate inferences from the world. Kao et al. achieve this using **prior elicitation**, an empirical methodology for gathering precise quantitative information about interlocutors' relevant world knowledge. They do this to estimate the prior knowledge people carry about the price of an object (in this case, an *electric kettle*), as well as the probability of getting upset (i.e., experiencing a negatively-valenced affect) in response to a given price.
@@ -182,13 +182,13 @@ var literalListener = cache(function(utterance, qud) {
 > 2. Test out other QUDs. What aspects of interpretation does the literal listener capture? What aspects does it not capture?
 > 3. Create a new QUD function and try it out with "the kettle costs `10000` dollars".
 
-This enriched literal listener performs joint inference about the price and the valence but assumes a particular QUD by which to interpret the utterance. Similarly, the speaker chooses an utterance to convey a particular value of the QUD to the literal listener:
+This enriched literal listener performs joint inference about the price and the valence but assumes a particular QUD by which to interpret the utterance. Similarly, the speaker chooses an utterance to convey a particular answer of the QUD to the literal listener:
 
 ~~~~
-var speaker = function(qudValue, qud) {
+var speaker = function(qudAnswer, qud) {
   return Infer({model: function(){
     var utterance = utterancePrior()
-    factor(alpha * literalListener(utterance, qud).score(qudValue))
+    factor(alpha * literalListener(utterance, qud).score(qudAnswer))
     return utterance
   }
 })}
@@ -204,8 +204,8 @@ var pragmaticListener = function(utterance) {
     var fullState = {price, valence}
     var qud = qudPrior()
     var qudFn = qudFns[qud]
-    var qudValue = qudFn(price, valence)
-    observe( speaker(qudValue, qud), utterance)
+    var qudAnswer = qudFn(price, valence)
+    observe( speaker(qudAnswer, qud), utterance)
     return fullState
   }
 })}
@@ -313,7 +313,7 @@ var utterancePrior = function() {
   categorical({ vs: utterances, ps: utteranceProbs })
 }
 
-// Literal listener, infers the qud value assuming the utterance is
+// Literal listener, infers the qud answer assuming the utterance is
 // true of the state
 var literalListener = cache(function(utterance, qud) {
   return Infer({model: function(){
@@ -329,11 +329,11 @@ var literalListener = cache(function(utterance, qud) {
 // set speaker optimality
 var alpha = 1
 
-// Speaker, chooses an utterance to convey a particular value of the qud
-var speaker = cache(function(qudValue, qud) {
+// Speaker, chooses an utterance to convey a particular answer of the qud
+var speaker = cache(function(qudAnswer, qud) {
   return Infer({model: function(){
     var utterance = utterancePrior()
-    factor(alpha*literalListener(utterance,qud).score(qudValue))
+    factor(alpha*literalListener(utterance,qud).score(qudAnswer))
     return utterance
   }
 })})
@@ -348,8 +348,8 @@ var pragmaticListener = cache(function(utterance) {
     ////////////////////////
     var fullState = {price, valence}
     var qudFn = qudFns[qud]
-    var qudValue = qudFn(fullState)
-    observe(speaker(qudValue, qud), utterance)
+    var qudAnswer = qudFn(fullState)
+    observe(speaker(qudAnswer, qud), utterance)
     return fullState
   }
 })})
