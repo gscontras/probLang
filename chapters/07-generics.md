@@ -48,23 +48,22 @@ display("Mosquitos carry malaria is true ? " + generic(number_of_mosquitos_that_
 ~~~~
 
 reft:tessler2016manuscript propose that the core meaning of a generic statement is in fact a threshold as in `generic` above, but underspecified (listener has uncertainty about `theta`).
-Then we can use the RSA core to resolve a more precise meaning in context.
+Then we can use a Bayesian model to resolve a more precise meaning in context.
 
-### A pragmatic model of generic language
+### Bayesian generic language interpretation
 
 The model takes the generic $$[\![\text{K has F}]\!]$$ to mean the prevalence of property F within kind K is above some threshold: $$P(F \mid K) > \theta$$ (cf., Cohen 1999).
 But for the generic, no fixed value of the $$\theta$$ would suffice.
 Instead, we leave the threshold underspecified in the semantics ($$\theta \sim \text{Uniform}(0, 1)$$) and infer it in context.
 
-In RSA, we could write this as the following:
+We could write this as the following:
 
 ~~~~
-var pragmaticListener = function(utterance) {
+var listener = function(utterance) {
   Infer({model: function(){
     var prevalence = sample(prevalencePrior)
     var theta = uniform(0, 1)
-    var S1 = speaker1(prevalence, theta)
-    observe(S1, utterance)
+    condition( prevalence > theta)
     return prevalence
   }})
 }
@@ -72,7 +71,7 @@ var pragmaticListener = function(utterance) {
 
 Here, we have a uniform prior over `theta`.
 What is `prevalence` though (and what is the `prevalencePrior`)?
-Given that we've posited that the semantics of the generic are about the prevalence $$P(F \mid K)$$ (i.e., the `meaning()` function in the `literalListener` conditions on `prevalence > theta`) then what the listener updates her beliefs about is  the prevalence $$P(F \mid K)$$.
+Given that we've posited that the semantics of the generic are about the prevalence $$P(F \mid K)$$ (i.e., the `meaning()` function in the `literalListener` conditions on `prevalence > theta`) then what the listener updates her beliefs about is the prevalence $$P(F \mid K)$$.
 <!-- So `x` is prevalence. -->
 
 The listener samples `prevalence` from some prior `prevalencePrior`, which is a prior distribution over the prevalence of the feature.
@@ -210,9 +209,9 @@ viz(priorModel({
 > 1. What does this picture represent? If you drew a sample from this distribution, what would that correspond to?
 > 2. Try to think up a property for which the three parameters above are not able to give even a remotely plausible distribution. (If you succeed, let us know; the idea is that this parameterization is sufficient to capture---in approximation---any case of relevance.)
 
-### Generics model
+## Generic interpretation model
 
-The model assumes a simple (the simplest?) meaning for a generic statement: a threshold on the probability.
+The model assumes a simple (the simplest?) meaning for a generic statement: a threshold on the probability (prevalence).
 
 ~~~~
 ///fold:
@@ -259,9 +258,7 @@ var meaning = function(utterance, prevalence, threshold) {
   return (utterance == 'generic') ? prevalence > threshold : true
 }
 var thresholdPrior = function() { return uniformDraw(thresholdBins) };
-var theta = thresholdPrior()
 
-display("theta = " + theta)
 var statePrior = priorModel({
   potential: 0.3,
   prevalenceWhenPresent: 0.5, // how prevalent under the stable cause
@@ -271,151 +268,27 @@ var statePrior = priorModel({
 display("prevalence prior")
 viz(statePrior)
 
-var literalListener = cache(function(utterance, threshold) {
-  Infer({model: function(){
-    var prevalence = sample(statePrior)
-    var m = meaning(utterance, prevalence, threshold)
-    condition(m)
-    return prevalence
-  }})
-})
-
-display("literal listener posterior, given a threshold of " + theta)
-literalListener("generic", theta)
-~~~~
-
-Run the code multiple times. Each time it samples a new threshold and passes it to the literal listener.
-How do decide upon a threshold? We can use the `pragmaticListener` in RSA to decide what threshold a speaker would use.
-
-For the speaker utterances, we use only the alternative of staying silent. Staying silent is a null utterance that has no information content. The inclusion of the null utterance turns the generic into a speech-act, and is useful for evaluating the meaning of an utterance without competition of alternatives.
-
-~~~~
-///fold:
-// discretized range between 0 - 1
-var bins = map(function(x){
-  _.round(x, 2);
-},  _.range(0.01, 1, 0.02));
-
-var thresholdBins = map2(function(x,y){
-  var d = (y - x)/ 2;
-  return x + d
-}, bins.slice(0, bins.length - 1), bins.slice(1, bins.length))
-
-// function returns a discretized Beta distribution
-var DiscreteBeta = cache(function(g, d){
-  var a =  g * d, b = (1-g) * d;
-  var betaPDF = function(x){
-    return Math.pow(x, a-1)*Math.pow((1-x), b-1)
-  }
-  var probs = map(betaPDF, bins);
-  return Categorical({vs: bins, ps: probs})
-})
-
-var priorModel = function(params){
-  Infer({model: function(){
-
-    var potential = params["potential"]
-    var g = params["prevalenceWhenPresent"]
-    var d = params["concentrationWhenPresent"]
-
-    var StableDistribution = DiscreteBeta(g, d)
-    var UnstableDistribution = DiscreteBeta(0.01, 100)
-
-    var prevalence = flip(potential) ?
-      sample(StableDistribution) :
-      sample(UnstableDistribution)
-
-    return prevalence
-  }})
-}
-///
-
-var alpha_1 = 5;
-
-var utterances = ["generic", "silence"];
-
-var thresholdPrior = function() { return uniformDraw(thresholdBins) };
-var utterancePrior = function() { return uniformDraw(utterances) }
-
-var meaning = function(utterance, prevalence, threshold) {
-  return (utterance == 'generic') ? prevalence > threshold : true
-}
-
-var literalListener = cache(function(utterance, threshold, statePrior) {
-  Infer({model: function(){
-    var prevalence = sample(statePrior)
-    var m = meaning(utterance, prevalence, threshold)
-    condition(m)
-    return prevalence
-  }})
-})
-
-var speaker1 = cache(function(prevalence, threshold, statePrior) {
-  Infer({model: function(){
-    var utterance = utterancePrior()
-    var L0 = literalListener(utterance, threshold, statePrior)
-    factor( alpha_1 * L0.score(prevalence) )
-    return utterance
-  }})
-})
-
-var pragmaticListener = function(utterance, statePrior) {
+var listener = cache(function(utterance) {
   Infer({model: function(){
     var prevalence = sample(statePrior)
     var threshold = thresholdPrior()
-    var S1 = speaker1(prevalence, threshold, statePrior)
-    observe(S1, utterance)
-    return {prevalence}
+    var m = meaning(utterance, prevalence, threshold)
+    condition(m)
+    return prevalence
   }})
-}
-
-var prior = priorModel({
-  potential: 0.3,
-  prevalenceWhenPresent: 0.99,
-  concentrationWhenPresent: 10
 })
 
-var listenerPosterior = pragmaticListener("generic", prior)
-
-viz(listenerPosterior)
+display("listener posterior")
+listener("generic", theta)
 ~~~~
+
 
 > **Exercises:**
-> 1. Test the pragmatic listener's interpretations of *Wugs carry malaria*.
-> 2. Test the pragmatic listener's interpretations of *Wugs lay eggs*.
-> 3. Test the pragmatic listener's interpretations of *Wugs are female*.
+> 1. Come up with parameters for the prior that represent the *carries malaria* distribution. Test the  listener's interpretation of a generic (*Wugs carry malaria*).
+> 1. Come up with parameters for the prior that represent the *lays eggs* distribution. Test the listener's interpretation of a generic (*Wugs lay eggs*).
+> 1. Come up with parameters for the prior that represent the *are female* distribution. Test the listener's interpretation of a generic (*Wugs are female*).
 
 So we have a model that can interpret generic language (with a very simple semantics). We can now imagine a speaker who thinks about this type of listener, and decides if a generic utterance is a good thing to say. Speaker models are interpreted as models of utterance production, or endorsement (reft:DegenGoodman2014Cogsci; reft:Franke2014). If we specify the alternative utterance to be a *null* utterance (or, *silence*), we model the choice between uttering the generic (i.e., endorsing its truth) or nothing at all (i.e., not endorsing its truth). (Note: You could also think about truth judgments with the alternative of saying the negation, e.g., it's not the case that Ks have F. Model behavior is very similar using that alternative in this case.)
-
-~~~~
-///...
-
-var speaker1 = function(prevalence, threshold) {
-  Infer({model: function(){
-    var utterance = utterancePrior()
-
-    var L0 = literalListener(utterance, threshold)
-    factor( alpha_1 * L0.score(prevalence) )
-
-    return utterance
-  }})
-}
-
-///...
-
-var speaker2 = function(prevalence){
-  Infer({model: function(){
-    var utterance = utterancePrior()
-
-    var L1 = pragmaticListener(utterance);  
-    factor( alpha_2 * L1.score(prevalence) )
-
-    return utterance
-  }})
-}
-~~~~
-
-Let's add speaker2 into the full model.
 
 ~~~~
 ///fold:
@@ -469,39 +342,22 @@ var meaning = function(utterance, prevalence, threshold) {
   return (utterance == 'generic') ? prevalence > threshold : true
 }
 
-var literalListener = cache(function(utterance, threshold, statePrior) {
+
+var listener = function(utterance, statePrior) {
   Infer({model: function(){
     var prevalence = sample(statePrior)
+    var threshold = thresholdPrior()
     var m = meaning(utterance, prevalence, threshold)
     condition(m)
     return prevalence
   }})
-})
-
-var speaker1 = cache(function(prevalence, threshold, statePrior) {
-  Infer({model: function(){
-    var utterance = utterancePrior()
-    var L0 = literalListener(utterance, threshold, statePrior)
-    factor( alpha_1 * L0.score(prevalence) )
-    return utterance
-  }})
-})
-
-var pragmaticListener = function(utterance, statePrior) {
-  Infer({model: function(){
-    var prevalence = sample(statePrior)
-    var threshold = thresholdPrior()
-    var S1 = speaker1(prevalence, threshold, statePrior)
-    observe(S1, utterance)
-    return prevalence
-  }})
 }
 
-var speaker2 = function(prevalence, statePrior){
+var speaker = function(prevalence, statePrior){
   Infer({model: function(){
     var utterance = utterancePrior();
-    var L1 = pragmaticListener(utterance, statePrior);
-    factor( alpha_2 * L1.score(prevalence) )
+    var L = listener(utterance, statePrior);
+    factor( alpha * L.score(prevalence) )
     return utterance
   }})
 }
@@ -516,7 +372,7 @@ var prior = priorModel({
 
 viz.density(prior)
 
-viz(speaker2(target_prevalence, prior))
+viz(speaker(target_prevalence, prior))
 ~~~~
 
 > **Exercises:**
