@@ -279,7 +279,7 @@ var listener = cache(function(utterance) {
 })
 
 display("listener posterior")
-listener("generic", theta)
+listener("generic")
 ~~~~
 
 
@@ -331,8 +331,7 @@ var priorModel = function(params){
 }
 ///
 
-var alpha_1 = 5;
-var alpha_2 = 1;
+var alpha = 2;
 var utterances = ["generic", "silence"];
 
 var thresholdPrior = function() { return uniformDraw(thresholdBins) };
