@@ -285,7 +285,7 @@ var listener = cache(function(utterance) {
 
 ~~~~
 
-> **Exercise:** Copy the code from the literal listener code box above, add in a `speaker` layer, and generate predictions from the pragmatic `listener`.
+<!-- > **Exercise:** Copy the code from the literal listener code box above, add in a `speaker` layer, and generate predictions from the pragmatic `listener`. -->
 
 
 The full model combines all of these ingredients in the RSA framework, with recursive reasoning about the likely state of the world:
