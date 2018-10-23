@@ -51,7 +51,7 @@ display([utt, meaning(3)]) // apply meaning to state = 3
 
 > **Exercise:** Interpret the output of the above code box. (Run several times.)
 
-Putting state priors and semantics together, we can implement the behavior of the literal listener. If state priors are uniform, the literal listener will interpret messages by assigning probability 0 to each state of which the observed message is false, and the same uniform probability to each true state. Verify this with the following code.
+Putting state priors and semantics together, we can implement the behavior of the literal listener. If state priors are uniform, the literal listener will interpret messages by assigning probability 0 to each state where the observed message is false, and the same uniform probability to each true state.
 
 ~~~~
 // code for state prior and semantics as before
@@ -88,7 +88,7 @@ display("literal listener's interpretation of 'some':")
 viz(literalListener("some"))
 ~~~~
 
-Next, let's have a look at the speaker's behavior. Intuitively put, in the vanilla RSA model the speaker will never choose a false message; the speaker chooses among the true utterances by prioritizing those with the strongest meaning (see [appendix](app-02-utilities.html)). Verify this with the following code.
+Next, let's have a look at the speaker's behavior. Intuitively put, in the vanilla RSA model, the speaker will never choose a false message; the speaker chooses among the true utterances by prioritizing those with the strongest meaning (see [Appendix Chapter 2](app-02-utilities.html)). You can verify this behavior with the following code.
 
 ~~~~
 // code for state prior, semantics and literal listener as before
@@ -138,7 +138,7 @@ viz(speaker(3))
 
 ~~~~
 
-With this knowledge about the communication scenario---crucially, the availability of the "all" alternative utterance---a pragmatic listener is able to infer from the "some" utterance that a state in which the speaker would not have used the "all" utterance is more likely than one in which she would. We can verify this with the following complete code of a vanilla RSA model for scalar implicatures. (Technical note: Below, `cache` is used to save the results of the various Bayesian inferences being performed. This is used for computational efficiency when dealing with nested inferences.)
+With this knowledge about the communication scenario---crucially, the availability of the "all" alternative utterance---a pragmatic listener is able to infer from the "some" utterance that a state in which the speaker would not have used the "all" utterance is more likely than one in which she would. The following code---a complete vanilla RSA model for scalar implicatures---implements the pragmatic listener. (Technical note: Below, `cache` is used to save the results of the various Bayesian inferences being performed, which increases computational efficiency when dealing with nested inferences.)
 
 ~~~~
 // possible states of the world
@@ -219,7 +219,7 @@ number = "1"
 width="500px" 
 %}
 
-Towards an implementation, let's introduce some terminology and some notation. The **total number** of apples is $$n$$ of which $$0 \le s \le n$$ are red. We call $$s$$ the **state** of the world. The speaker knows $$n$$ (as does the listener) but the speaker might not know the true state $$s$$, because she might only observe some of the apples' colors. Concretely, the speaker might only have **access** to $$0 \le a \le n$$ apples, of which the number of red apples **observed** by the speaker is $$0 \le o \le a$$. The model of reft:GoodmanStuhlmuller2013Impl assumes that the listener knows $$a$$. We will first look at this model, and then generalize to the case where the listener must also infer $$a$$ from the speaker's utterance.
+Towards an implementation, let's introduce some terminology and some notation. The **total number** of apples is $$n$$, of which $$0 \le s \le n$$ are red. We call $$s$$ the **state** of the world. The speaker knows $$n$$ (as does the listener) but the speaker might not know the true state $$s$$, because she might only observe some of the apples' colors. Concretely, the speaker might only have **access** to $$0 \le a \le n$$ apples, of which the number of red apples **observed** by the speaker is $$0 \le o \le a$$. The model of reft:GoodmanStuhlmuller2013Impl assumes that the listener knows $$a$$. We will first look at this model, and then generalize to the case where the listener must also infer $$a$$ from the speaker's utterance.
 
 ##### The extended Scalar Implicature model 
 
@@ -400,7 +400,7 @@ viz.auto(pragmaticListener([true,true,false],'some'))
 > **Exercises:** 
 > 1. Check the predictions for the other possible knowledge states.
 > 2. Compare the full-access predictions with the predictions from the simpler scalar implicature model above. Why are the predictions of the two models different? How can you get the model predictions to converge? (Hint: first try to align the predictions of the simpler model with those of the knowledge model, then try aligning the predictions of the knowledge model with those of the simpler model.)
-> 3. Notice that the listener assigns some positive probability to the true state being 0, even when it is shared knowledge that the speaker saw 2 apples and said "some". Why is this puzzling? (Think about the Gricean Maxim of Quality demanding that speakers not say what they lack sufficient evidence for!) Look at the speaker choice function implemented here and explain why this is happening.
+> 3. Notice that the listener assigns some positive probability to the true state being 0, even when it is shared knowledge that the speaker saw 2 apples and said "some". Why is this puzzling? (Think about the Gricean Maxim of Quality demanding that speakers not say what they lack sufficient evidence for.) Look at the speaker choice function implemented above and explain why this behavior takes place.
 
 We have seen how the RSA framework can implement the mechanism whereby utterance interpretations are strengthened. Through an interaction between what was said, what could have been said, and what all of those things literally mean, the model delivers scalar implicature. And by taking into account awareness of the speaker's knowledge, the model successfully *blocks* implicatures in those cases where listeners are unlikely to access them. 
 

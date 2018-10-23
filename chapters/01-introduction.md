@@ -15,7 +15,7 @@ The probabilistic pragmatics approach leverages the tools of structured probabil
 
 The Rational Speech Act (RSA) framework views communication as recursive reasoning between a speaker and a listener. The listener interprets the speaker’s utterance by reasoning about a cooperative speaker trying to inform a naive listener about some state of affairs. Using Bayesian inference, the listener reasons about what the state of the world is likely to be given that a speaker produced some utterance, knowing that the speaker is reasoning about how a listener is most likely to interpret that utterance. Thus, we have (at least) three levels of inference. At the top, the sophisticated, **pragmatic listener**, $$L_{1}$$, reasons about the **pragmatic speaker**, $$S_{1}$$, and infers the state of the world $$s$$ given that the speaker chose to produce the utterance $$u$$. The speaker chooses $$u$$ by maximizing the probability that a naive, **literal listener**, $$L_{0}$$, would correctly infer the state of the world $$s$$ given the literal meaning of $$u$$.
 
-To make this architecture more intelligible, let's consider a concrete example and a vanilla version of an RSA model. In its initial formulation, reft:frankgoodman2012 use the basic RSA framework to model referent choice in efficient communication. Let us suppose that there are only three objects that speaker and listener want to talk about, as in Fig. 1.
+To make this architecture more intelligible, let's consider a concrete example and a vanilla version of an RSA model. In its initial formulation, reft:frankgoodman2012 use the basic RSA framework to model referent choice in efficient communication. Let us suppose that there are only three objects that the speaker and listener want to talk about, as in Fig. 1.
 
 {% include figure.html 
 file="../images/rsa_scene.png" 
@@ -35,7 +35,7 @@ $$U = \{ \text{``square"}, \text{``circle"}, \text{``green"}, \text{``blue"}  \}
 
 contains the four properties from which the speaker can choose.
 
-A vanilla RSA model for this scenario consists of three recursively layered, conditional probability rules for speaker production and listener interpretation. These rules are summarized in Fig. 2 and will be examined one-by-one in detail below. The overal idea is that a **pragmatic speaker** $$S_{1}$$ chooses a word $$u$$ to best signal an object $$s$$ to a **literal listener** $$L_{0}$$, who interprets $$u$$ as true and weighs in the prior probability of objects in the scenario (i.e., an object’s salience, $$P(s)$$). The **pragmatic listener** $$L_{1}$$ reasons about the speaker’s reasoning and interprets $$u$$ accordingly, using Bayes rule. By formalizing the contributions of salience and efficiency, the RSA framework provides an information-theoretic definition of informativeness in pragmatic inference.  
+A vanilla RSA model for this scenario consists of three recursively layered, conditional probability rules for speaker production and listener interpretation. These rules are summarized in Fig. 2 and will be examined one-by-one in detail below. The overal idea is that a **pragmatic speaker** $$S_{1}$$ chooses a word $$u$$ to best signal an object $$s$$ to a **literal listener** $$L_{0}$$, who interprets $$u$$ as true and weighs in the prior probability of objects in the scenario (i.e., an object’s salience, $$P(s)$$). The **pragmatic listener** $$L_{1}$$ reasons about the speaker’s reasoning and interprets $$u$$ accordingly, using Bayes' rule. By formalizing the contributions of salience and efficiency, the RSA framework provides an information-theoretic definition of informativeness in pragmatic inference.  
 
 {% include figure.html 
 file="../images/rsa_schema.png" 
@@ -97,7 +97,7 @@ viz.table(literalListener("blue"))
 >    over the possible objects of reference (e.g., the "green square" is very salient)? (Hint:
 >    use a `categorical` distribution by calling `categorical({ps: [list_of_probabilities], vs:
 >    objects})`. More information about WebPPL's built-in distributions and their parameterizations can be found in the [documentation](http://webppl.readthedocs.io/en/master/distributions.html).)
-> 2. Call `viz.hist(literalListener("blue"))`, one of WebPPL's visualization functions. Try vizualizing the model output differently (hint: [WebPPL-viz](http://probmods.github.io/webppl-viz/) documents the various visualization options).
+> 2. Try vizualizing the model output differently: call `viz.hist(literalListener("blue"))`, one of WebPPL's visualization functions ([WebPPL-viz](http://probmods.github.io/webppl-viz/) discusses the various visualization options).
 
 
 Fantastic! We now have a way of integrating a listener's prior beliefs about the world with the truth functional meaning of an utterance.

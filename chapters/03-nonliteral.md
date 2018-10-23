@@ -24,6 +24,9 @@ var approx = function(x) {
 var stringify = function(x){return JSON.stringify(x)}
 ///
 
+var fullState = { price: 51, valence: true }
+display("full state = " + stringify(fullState))
+
 var qudFns = {
   price : function(state) {return { price: state.price } },
   valence : function(state) {return { valence: state.valence } },
@@ -32,9 +35,6 @@ var qudFns = {
   },
   approxPrice : function(state) {return { price: approx(state.price) } }
 }
-
-var fullState = { price: 51, valence: true }
-display("full state = " + stringify(fullState))
 
 var valenceQudFn = qudFns["valence"]
 var valenceQudAnswer = valenceQudFn(fullState)
@@ -365,7 +365,7 @@ viz(listenerPosterior)
 ~~~~
 
 > **Exercises:**
-> 1. In the second code box, we looked at the joint *prior* distribution over price and valence. Compare the results of that with the listener interpretation of "10000". What is similar? What is different?
+> 1. In the second code box, we looked at the joint *prior* distribution over price and valence. Compare that joint distribution with the listener interpretation of "10000". What is similar? What is different?
 > 2. Try the `pragmaticListener` with the other possible utterances.
 > 3. Check the predictions of the `speaker` for the `approxPriceValence` QUD.
 > 4. Look at the marginal distributions for "price" and "valence" of the pragmatic listener after hearing "10,000". Do you find these intuitive? If not, how could the model possibly be amended to make it more intuitive?
