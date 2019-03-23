@@ -68,7 +68,7 @@ var thetaPrior = function() {
 
 var utterances = ["expensive", ""];
 var cost = {
-  "expensive": 1,
+  "expensive": 3,
   "": 0
 };
 var utterancePrior = function() {
@@ -120,7 +120,7 @@ var alpha = 10; // optimality parameter
 
 var utterances = ["expensive", ""];
 var cost = {
-  "expensive": 1,
+  "expensive": 3,
   "": 0
 };
 var utterancePrior = function() {
@@ -232,7 +232,7 @@ var alpha = 10; // optimality parameter
 
 var utterances = ["expensive", ""];
 var cost = {
-  "expensive": 1,
+  "expensive": 3,
   "": 0
 };
 var utterancePrior = function() {
