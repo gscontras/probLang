@@ -116,7 +116,7 @@ var thetaPrior = function() {
     return uniformDraw(book.prices);
 };
 
-var alpha = 1; // optimality parameter
+var alpha = 10; // optimality parameter
 
 var utterances = ["expensive", ""];
 var cost = {
@@ -157,7 +157,7 @@ var pragmaticListener = function(utterance) {
   });
 };
 
-var expensiveBook = pragmaticListener("expensive", "book");
+var expensiveBook = pragmaticListener("expensive");
 viz.auto(marginalize(expensiveBook, "price"));
 viz.auto(marginalize(expensiveBook, "theta"));
 
@@ -228,7 +228,7 @@ var theta_prior = function(item) {
 };
 ///
 
-var alpha = 1; // optimality parameter
+var alpha = 10; // optimality parameter
 
 var utterances = ["expensive", ""];
 var cost = {
