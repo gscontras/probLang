@@ -9,13 +9,13 @@ hidden: true
 
 ## Overview
 
-Answers to the question "Who came to the party?", when it is contextually clear that the people we care about are Anne and Bob, can be pragmatically enriched in systemic ways (see, for instance, reft:GroenendijkStokhofThesis1984). The answer "Anne" suggests that only Anne came, but not Bob. The answer "Anne or Bob" suggests that the speaker doesn't know who came and that the speaker doesn't know that both Anne and Bob came. We will look at a model of these inferences in the first part of this chapter.
+Answers to the question "Who came to the party?", when it is contextually clear that the people we care about are Anne and Bob, can be pragmatically enriched in systematic ways (see, for instance, reft:GroenendijkStokhofThesis1984). The answer "Anne" suggests that only Anne came, not Bob. The answer "Anne or Bob" suggests that the speaker doesn't know who came and that the speaker doesn't know that both Anne and Bob came. We will look at a model of these inferences in the first part of this chapter.
 
-But what if the speaker says "Anne or both"? That answer suggests that the speaker considers two things possible, namely (i) that Anne came alone and that (ii) both Anne and Bob came together; the speaker appears to rule out the possibility that only Bob came. This seems straightforward enough but is actually rather tricky to explain. The reason is that, under standard assumptions, the answer "Anne" and "Anne or both" are semantically equivalent. And if two utterances are semantically equivalent, how can they be distinguished with pragmatic reasoning that builds only on top of this semantic meaning? The second part of this chapter will look at one possible solution to this problem, using reasoning about *lexical uncertainty* as discussed more systematically in reft:bergenetal2016, and a seemingly similar but a subtly different approach in terms of the speaker's *lexical intention* (i.e., the intended lexical meaning of word).
+But what if the speaker answers with "Anne or both"? That answer suggests that the speaker considers two things possible, namely (i) that Anne came alone and that (ii) both Anne and Bob came together; the speaker appears to rule out the possibility that only Bob came. This intuition seems straightforward, but is actually rather tricky to explain. The reason is that, under standard assumptions, the answer "Anne" and "Anne or both" are semantically equivalent --- they are true of all the worlds in which Anne (and possibly anyone else) came to the party. If two utterances are semantically equivalent, how can they be distinguished with pragmatic reasoning that builds only on top of this truth-functional meaning? The second part of this chapter will look at one possible solution to this problem, using reasoning about *lexical uncertainty* as discussed more systematically in reft:bergenetal2016, as well as a seemingly similar but subtly different approach in terms of the speaker's *lexical intention* (i.e., the intended lexical meaning of word).
 
 ## Pragmatic interpretation of term answers
 
-The starting point of this chapter is essentially the exact same model as the last model developed in [Chapter 2](02-pragmatics.html) where the pragmatic listener was reasoning about the true world state, the speaker's beliefs and the speaker's general level of knowledgeability. While [Chapter 2](02-pragmatics.html) applied this to reasoning about sentences like "Some of the apples are red", we apply the same set-up here to the interpretation of term answer to a WH-question.
+Our starting point is the last model developed in [Chapter 2](02-pragmatics.html), where the pragmatic listener was reasoning about the true world state, the speaker's beliefs, and the speaker's general level of knowledgeability. While [Chapter 2](02-pragmatics.html) applied this model to reasoning about sentences like "Some of the apples are red", here we apply the same set-up to the interpretation of answers to WH-questions like "Who came to the Party?".
 
 For the example at hand, we distinguish three types of possible worlds, each of which determines who of Anne and Bob came to the party. A speaker's belief state is a non-empty set of possible worlds. Belief states contain all and only worlds compatible with the speaker's knowledge.
 
@@ -44,7 +44,7 @@ print(belief_states)
 
 > **Exercise:** Describe in your own words what a speaker in belief state "[A, B]" considers possible and what she rules out.
 
-As in [Chapter 2](02-pragmatics.html), the pragmatic listener reasons about the speaker's belief state, which is unknown. The listener may nonetheless have certain prior beliefs about which belief states are more likely. The literature on exhaustive interpretation of term answers entertains the idea that interpretations depend on whether the listener believes the speaker to be knowledgeable (a.k.a. competent, an epistemic authority ...). Following this idea, we will similarly assume that the listener's prior beliefs about the speaker's likely belief state is influenced by general assumptions about the speaker's knowledgeability on the matter at hand. Belief states here are just sets of possible worlds. A speaker is then more knowledgeable if she can rule out more worlds. In the following, the `speaker_knowledgeability_level` is a numerical representation for how much more likely belief states are in which the speaker is more knowledgeable.
+As in [Chapter 2](02-pragmatics.html), the pragmatic listener reasons about the speaker's belief state, which is unknown. The listener may nonetheless have certain prior beliefs about which belief states are more likely. The literature on exhaustive interpretations of question answers entertains the idea that interpretations depend on whether the listener believes the speaker to be knowledgeable (i.e., competent, or an epistemic authority). Following this idea, we will  assume that the listener's prior beliefs about the speaker's likely belief state is influenced by general assumptions about the speaker's knowledgeability on the matter at hand. Belief states here are just sets of possible worlds. A speaker is more knowledgeable if she can rule out more worlds. In the following, the `speaker_knowledgeability_level` is a numerical representation of how much more likely belief states are in which the speaker is more knowledgeable.
 
 ~~~~
 ///fold:
@@ -85,9 +85,9 @@ var belief_state_prior = function(speaker_knowledgeability_level){
 viz.hist(Infer({model: function(x) {belief_state_prior(3)}}))
 ~~~~
 
-> **Exercise:** Explore the prior distributions over different speaker belief states for different levels of speaker knowledgeability. Is the speaker assumed to be more knowledgeable for speaker knowledgeability level 0 or for 3?
+> **Exercise:** Explore the prior distributions over different speaker belief states for different levels of speaker knowledgeability. Is the speaker assumed to be more knowledgeable for speaker knowledgeability level 0 or 3?
 
-Next, we need some utterances to use to describe the world. We include atomic utterances (e.g., "Anne", "Bob"), as well as complex utterances formed via disjunction and conjunction. We start with a small set of alternatives and look at a larger set below.
+Next, we need some utterances to use to describe the world. We include atomic utterances (e.g., "Anne", "Bob"), as well as complex utterances formed via disjunction ("or") and conjunction ("and").
 
 ~~~~
 var utterances = [
@@ -145,13 +145,15 @@ var literal_listener = cache(function(utterance) {
   }})
 })
 
+print("L0's belief after hearing that 'Anne' came to the party")
 viz.hist(literal_listener("Anne"))
+print("L0's belief after hearing that 'Anne or Bob' came to the party")
 viz.hist(literal_listener("Anne or Bob"))
 ~~~~
 
 > **Exercise:** Are the interpretations of the literal listener for "Anne" and "Anne or Bob" what we would normally understand from these answers?
 
-As for the model in [Chapter 2](02-pragmatics.html), the speaker's utility of uttering $$u$$ are proportional to the divergence between the speaker's own belief state (about possible worlds) and the literal listener's beliefs (about possible worlds) after hearing $$u$$. 
+The speaker's utility of uttering $$u$$ is proportional to the divergence between the speaker's own belief state (about possible worlds) and the literal listener's beliefs (about possible worlds) after hearing $$u$$. 
 
 ~~~~
 
@@ -257,9 +259,9 @@ var speaker = cache(function(belief_state){
 viz(speaker(["A"]))
 ~~~~
 
-> **Exercise:** Validate by calling the `speaker` function for a number of appropriate belief states that the pragmatic listener does not say anything that she lacks evidence for (i.e., that she does not believe to be true) and that she will prefer more informative statements over less informative ones if she believes that both are true.
+> **Exercise:** Validate (by calling the `speaker` function for a number of appropriate belief states) that the speaker does not say anything that she lacks evidence for (i.e., that she does not believe to be true) and that she will prefer more informative utterances over less informative ones if she believes that both are true.
 
-Finally, we add a pragmatic listener as usual.
+Finally, we add a pragmatic listener.
 
 ~~~~
 ///fold:
@@ -378,7 +380,7 @@ viz(listener("Anne"))
 
 > **Exercises:** 
 > 1. Notice that the pragmatic listener performs a joined inference over the speaker's belief state and the speaker's general level of competence. For which utterances (if any) does the pragmatic listener consider the speaker to be generally more/less knowledgeable?
-> 2. Check the pragmatic listener's interpretation of "Anne or Bob". Do you like it? Try whether other parameter values would increase the extend to which we obtain an exclusive interpretation of the disjunction.
+> 2. Check the pragmatic listener's interpretation of "Anne or Bob". Does it match your intuitions? See whether other parameter values would increase the extent to which we obtain an exclusive interpretation of the disjunction (i.e., either Anne or Bob, but not both).
 
 ## The problem of semantically equivalent term answers
 
@@ -552,7 +554,7 @@ The problem is that "Anne" and "Anne or both" are treated synonymously, and cons
 
 ## Lexical Uncertainty
 
-One solution to this problem is to allow for reasoning about the speaker's lexical meaning of term answers "Anne" and "Bob". Here, we assume that the speaker could have a lexical meaning of "Anne" as "only Anne", for example. To implement this idea, we add lexica, a lexicon priori and an updated semantic meaning function:
+One solution to this problem is to allow for reasoning about the speaker's lexical meaning of term answers "Anne" and "Bob". In effect, we assume that the speaker could have a lexical meaning of "Anne" as "only Anne". To implement this idea, we add lexica, a lexicon prior, and an updated semantic meaning function:
 
 ~~~~
 ///fold:
@@ -585,7 +587,7 @@ display(utterance_meaning("Anne", lexica[0]))
 display(utterance_meaning("Anne", lexica[1]))
 ~~~~
 
-The full model is here, where we resolve uncertainty about the speaker's lexicon at the level of the pragmatic listener, as usual:
+In the full model, we resolve uncertainty about the speaker's lexicon at the level of the pragmatic listener:
 
 ~~~~
 ///fold:
@@ -723,7 +725,7 @@ viz(listener("Anne or both"))
 
 ## Speaker choice of lexical enrichment
 
-The lexical uncertainty model of reft:bergenetal2016 assumes that the listener assumes that the speaker has a fixed lexical meaning for, say, "Anne". The speaker is considered to always (invariably) take "Anne" to mean "only Anne". An alternative approach is to think of the speaker as variably choosing a lexical interpretation of subsentential material. (Another way of thinking about this is that the speaker chooses which of several grammatically supplied local readings of a phrase she intends when producing an utterance; these local enrichments could come from a grammatical approach to quantity implicatures, for example, like proposed by reft:ChierchiaFox2012.) Here is the resulting *local reading choice* model, side-by-side with the previous lexical uncertainty model. The main difference is that now the speaker *chooses* a lexicon in such a way that more informative lexical meanings are preferred over less informative ones (we may think of this as an instantiation of the Maxim of Quantity applied to intended lexical meaning: "Use ambiguous sentential material with an intended (local) meaning that makes your utterances most informative!").
+The lexical uncertainty model of reft:bergenetal2016 assumes that the listener takes the speaker to have a fixed lexical meaning for, say, "Anne" (e.g., the speaker is considered to invariably take "Anne" to mean "only Anne"). An alternative approach is to think of the speaker as variably choosing a lexical interpretation of subsentential material (i.e., single words like "Anne"). (Another way of thinking about this is that the speaker chooses which of several grammatically supplied local readings of a phrase she intends when producing an utterance; these local enrichments could come from a grammatical approach to quantity implicatures, for example, like that proposed by reft:ChierchiaFox2012.) Here is the resulting *local reading choice* model, side-by-side with the previous lexical uncertainty model. The main difference is that now the speaker *chooses* a lexicon in such a way that more informative lexical meanings are preferred over less informative ones. We may think of this move as an instantiation of the Maxim of Quantity applied to intended lexical meaning: "Use ambiguous sentential material with an intended (local) meaning that makes your utterances most informative!"
 
 ~~~~
 ///fold:

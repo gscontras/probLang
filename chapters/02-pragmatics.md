@@ -52,7 +52,7 @@ display([utt, meaning(3)]) // apply meaning to state = 3
 
 > **Exercise:** Interpret the output of the above code box. (Run several times.)
 
-Putting state priors and semantics together, we can implement the behavior of the literal listener. If state priors are uniform, the literal listener will interpret messages by assigning probability 0 to each state where the observed message is false, and the same uniform probability to each true state.
+Putting state priors and semantics together, we can implement the behavior of the literal listener. The literal listener will interpret messages by assigning probability 0 to each state where the observed message is false, and the same uniform probability to each true state.
 
 ~~~~
 // code for state prior and semantics as before
