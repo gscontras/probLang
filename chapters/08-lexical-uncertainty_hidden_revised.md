@@ -376,7 +376,9 @@ viz(listener("Anne"))
 // viz.hist(marginalize(listener("Anne or Bob"),"belief_state"))
 ~~~~
 
-> **Exercise:** Check the pragmatic listener's interpretation of "Anne or Bob". Do you like it? Try whether other parameter values would increase the extend to which we obtain an exclusive interpretation of the disjunction.
+> **Exercises:** 
+> 1. Notice that the pragmatic listener performs a joined inference over the speaker's belief state and the speaker's general level of competence. For which utterances (if any) does the pragmatic listener consider the speaker to be generally more/less knowledgeable?
+> 2. Check the pragmatic listener's interpretation of "Anne or Bob". Do you like it? Try whether other parameter values would increase the extend to which we obtain an exclusive interpretation of the disjunction.
 
 ## The problem of semantically equivalent term answers
 
