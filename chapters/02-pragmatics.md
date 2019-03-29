@@ -219,7 +219,7 @@ number = "1"
 width="500px" 
 %}
 
-Towards an implementation, let's introduce some terminology and some notation. The **total number** of apples is $$n$$, of which $$0 \le s \le n$$ are red. We call $$s$$ the **state** of the world. The speaker knows $$n$$ (as does the listener) but the speaker might not know the true state $$s$$, because she might only observe some of the apples' colors. Concretely, the speaker might only have **access** to $$0 \le a \le n$$ apples, of which the number of red apples **observed** by the speaker is $$0 \le o \le a$$. The model of reft:GoodmanStuhlmuller2013Impl assumes that the listener knows $$a$$. We will first look at this model, and then generalize to the case where the listener must also infer $$a$$ from the speaker's utterance.
+Towards an implementation, let's introduce some terminology and some notation. The **total number** of apples is $$n$$, of which $$0 \le s \le n$$ are red. We call $$s$$ the **state** of the world. The speaker knows $$n$$ (as does the listener) but the speaker might not know the true state $$s$$, because she might only observe some of the apples' colors. Concretely, the speaker might only have seen (i.e., **accessed**) some of the apples; of those apples that were accessed, the speaker might have **observed** that some of them were red. The model of reft:GoodmanStuhlmuller2013Impl assumes that the listener knows how many apples the speaker saw (i.e., the speaker's access $$a$$). We will first look at this model, and then generalize to the case where the listener must also infer $$a$$ from the speaker's utterance.
 
 ##### The extended Scalar Implicature model 
 
@@ -232,12 +232,12 @@ where
 $$P_{S_{1}}(u\mid s, a) = \sum_o P_{S_{1}}(u \mid o, a) \cdot P(o
 \mid s, a)$$
 
-is obtained from marginalizing out the number of observations.
+is obtained from marginalizing out the possible observations $$o$$.
 
 
 ~~~~
 // pragmatic listener
-var pragmaticListener = cache(function(access,utt) {
+var pragmaticListener = cache(function(utt,access) {
   return Infer({model: function(){
     var state = statePrior()
     observe(speaker(access,state),utt)
@@ -246,7 +246,7 @@ var pragmaticListener = cache(function(access,utt) {
 });
 ~~~~
 
-We have to enrich the speaker model: first the speaker makes an observation $$o$$ of the true state $$s$$ with access $$a$$. On the basis of the observation and access, the speaker infers the true state.
+We have to enrich the speaker model: first the speaker makes an observation $$o$$ of the true state $$s$$ with access $$a$$. On the basis of this observation, the speaker infers $$s$$.
 
 ~~~~
 ///fold:
@@ -288,7 +288,7 @@ viz.auto(repeat(1000,function() {
 
 > **Exercise:** See what happens when you change the red apple base rate.
 
-Given potential uncertainty about the world state $$s$$, the speaker's probabilistic production rule has to be adapted from the simpler formulation in [Chapter I](01-introduction.html). It is now no longer a function of the true $$s$$ (because it might not be known) but of the epistemic state of the speaker more generally. In the case at hand, the speaker's epistemic state $$P_{S_{1}}(\cdot \mid o,a) \in \Delta(S)$$ is given by access $$a$$ and observation $$o$$, as in the belief model implemented just above.
+Given potential uncertainty about the world state $$s$$, the speaker's probabilistic production rule has to be adapted from the simpler formulation in [Chapter I](01-introduction.html). This rule is now no longer a function of the true $$s$$ (because, with limited access, the speaker might not know $$s$$), but of what the speaker *believes* $s$ to be (i.e., the speaker's epistemic state, given the speaker's access). In the case at hand, the speaker's epistemic state $$P_{S_{1}}(\cdot \mid o,a) \in \Delta(S)$$ is given by access $$a$$ and observation $$o$$, as in the belief model implemented just above.
 
 Even if the speaker is uncertain about the state $$s$$ after some partial observation $$o$$ and $$a$$, she would still seek to choose an utterance that maximizes information flow. There are several ways in which we can combine speaker uncertainty (in the form of a probability distribution over $$s$$) and the speaker's utility function, which remains unchanged from what we had before, so that utterances are chosen to minimize cost and maximize informativity:
 
@@ -382,7 +382,7 @@ var speaker = cache(function(access,state) {
 });
 
 // pragmatic listener
-var pragmaticListener = cache(function(access,utt) {
+var pragmaticListener = cache(function(utt,access) {
   return Infer({model: function(){
     var state = statePrior()
     observe(speaker(access,state),utt)
