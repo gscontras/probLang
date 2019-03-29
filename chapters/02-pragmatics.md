@@ -19,8 +19,9 @@ Assume a world with three apples; zero, one, two, or three of those apples may b
 
 ~~~~
 // possible states of the world
+var states = [0, 1, 2, 3]
 var statePrior = function() {
-  return uniformDraw([0, 1, 2, 3])
+  return uniformDraw(states)
 }
 statePrior() // sample a state
 ~~~~
@@ -57,8 +58,9 @@ Putting state priors and semantics together, we can implement the behavior of th
 // code for state prior and semantics as before
 ///fold:
 // possible states of the world
+var states = [0, 1, 2, 3]
 var statePrior = function() {
-  return uniformDraw([0, 1, 2, 3])
+  return uniformDraw(states)
 };
 
 // possible utterances
@@ -77,7 +79,7 @@ var literalMeanings = {
 // literal listener
 var literalListener = function(utt) {
   return Infer({model: function(){
-    var state = statePrior()
+    var state = uniformDraw(states)
     var meaning = literalMeanings[utt]
     condition(meaning(state))
     return state
@@ -94,8 +96,9 @@ Next, let's have a look at the speaker's behavior. Intuitively put, in the vanil
 // code for state prior, semantics and literal listener as before
 ///fold:
 // possible states of the world
+var states = [0, 1, 2, 3]
 var statePrior = function() {
-  return uniformDraw([0, 1, 2, 3])
+  return uniformDraw(states)
 }
 
 // possible utterances
@@ -113,7 +116,7 @@ var literalMeanings = {
 // literal listener
 var literalListener = function(utt) {
   return Infer({model: function(){
-    var state = statePrior()
+    var state = uniformDraw(states)
     var meaning = literalMeanings[utt]
     condition(meaning(state))
     return state
@@ -142,8 +145,9 @@ With this knowledge about the communication scenario---crucially, the availabili
 
 ~~~~
 // possible states of the world
+var states = [0, 1, 2, 3]
 var statePrior = function() {
-  return uniformDraw([0, 1, 2, 3])
+  return uniformDraw(states)
 }
 
 // possible utterances
@@ -161,7 +165,7 @@ var literalMeanings = {
 // literal listener
 var literalListener = cache(function(utt) {
   return Infer({model: function(){
-    var state = statePrior()
+    var state = uniformDraw(states)
     var meaning = literalMeanings[utt]
     condition(meaning(state))
     return state
@@ -323,6 +327,16 @@ var numTrue = function(state) {
   }
   return sum(map(fun,state))
 }
+
+// possible states of the world
+var states = [[true,true,true], 
+              [false,true,true], 
+              [true,false,true],
+              [true,true,false],    
+              [false,false,true],
+              [false,true,false],
+              [true,false,false],
+              [false,false,false]]
 ///
 
 // Here is the code from the Goodman and Stuhlmüller speaker-access SI model
@@ -361,7 +375,7 @@ var literalMeanings = {
 // literal listener
 var literalListener = cache(function(utt) {
   return Infer({model: function(){
-    var state = statePrior()
+    var state = uniformDraw(states)
     var meaning = literalMeanings[utt]
     condition(meaning(state))
     return state
@@ -391,9 +405,9 @@ var pragmaticListener = cache(function(utt,access) {
 });
 
 print("pragmatic listener for a full-access speaker:")
-viz.auto(pragmaticListener([true,true,true],'some'))
+viz.auto(pragmaticListener('some',[true,true,true]))
 print("pragmatic listener for a partial-access speaker:")
-viz.auto(pragmaticListener([true,true,false],'some'))
+viz.auto(pragmaticListener('some',[true,true,false]))
 
 ~~~~
 
