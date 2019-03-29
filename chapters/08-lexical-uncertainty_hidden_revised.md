@@ -151,7 +151,7 @@ viz.hist(literal_listener("Anne or Bob"))
 
 > **Exercise:** Are the interpretations of the literal listener for "Anne" and "Anne or Bob" what we would normally understand from these answers?
 
-The speaker tends to send utterances that are informative about her belief state and that minimize utterance costs.
+As for the model in [Chapter 2](02-pragmatics.html), the speaker's utility of uttering $$u$$ are proportional to the divergence between the speaker's own belief state (about possible worlds) and the literal listener's beliefs (about possible worlds) after hearing $$u$$. 
 
 ~~~~
 
@@ -218,44 +218,46 @@ var utterance_prior = cache(function(){
     return utterance
   }})})
 
-var utterance_meaning = function(utterance,belief_state){
+var utterance_meaning = function(utterance){
   var basic_meaning = {
     "Anne" : ["A", "AB"],
     "Bob" : ["B", "AB"],
     "Anne and Bob" : ["AB"],
     "Anne or Bob" : worlds
   }
-  _.min(map(
-    function(s) {
-      _.includes(basic_meaning[utterance], s) + 1
-    },
-    belief_state)) > 1
+  basic_meaning[utterance]
 }
 
-var literal_listener = cache(function(utterance, speaker_knowledgeability_level) {
+var literal_listener = cache(function(utterance, lexicon) {
   Infer({model: function() {
-    var belief_state = belief_state_prior(speaker_knowledgeability_level)
-    var meaning = utterance_meaning(utterance, belief_state)
-    condition(meaning)
-    return belief_state 
+    var world = uniformDraw(utterance_meaning(utterance, lexicon))
+    return world
   }})
 })
-
 ///
 
-var speaker = cache(function(belief_state, knowledgeability){
+var utility = function(belief_state, utterance){
+  var scores = map(
+    function(x) {
+      literal_listener(utterance).score(x)
+    },
+    belief_state
+  )
+  return (1/belief_state.length * sum(scores))
+}
+
+var speaker = cache(function(belief_state){
   Infer({method:'enumerate',
          model: function(){
            var utterance = sample(utterance_prior())
-           var listener = literal_listener(utterance, knowledgeability)
-           factor(alpha*listener.score(belief_state))
+           factor(alpha*utility(belief_state, utterance))
            return utterance
          }})})
 
-viz(speaker(["A"], 0))
+viz(speaker(["A"]))
 ~~~~
 
-> **Exercise:** Explore!
+> **Exercise:** Validate by calling the `speaker` function for a number of appropriate belief states that the pragmatic listener does not say anything that she lacks evidence for (i.e., that she does not believe to be true) and that she will prefer more informative statements over less informative ones if she believes that both are true.
 
 Finally, we add a pragmatic listener as usual.
 
@@ -323,39 +325,42 @@ var utterance_prior = cache(function(){
     return utterance
   }})})
 
-var utterance_meaning = function(utterance,belief_state){
+var utterance_meaning = function(utterance){
   var basic_meaning = {
     "Anne" : ["A", "AB"],
     "Bob" : ["B", "AB"],
     "Anne and Bob" : ["AB"],
     "Anne or Bob" : worlds
   }
-  _.min(map(
-    function(s) {
-      _.includes(basic_meaning[utterance], s) + 1
-    },
-    belief_state)) > 1
+  basic_meaning[utterance]
 }
 
-var literal_listener = cache(function(utterance, speaker_knowledgeability_level) {
+var literal_listener = cache(function(utterance, lexicon) {
   Infer({model: function() {
-    var belief_state = belief_state_prior(speaker_knowledgeability_level)
-    var meaning = utterance_meaning(utterance, belief_state)
-    condition(meaning)
-    return belief_state 
+    var world = uniformDraw(utterance_meaning(utterance, lexicon))
+    return world
   }})
 })
 
-var speaker = cache(function(belief_state, knowledgeability){
+var utility = function(belief_state, utterance){
+  var scores = map(
+    function(x) {
+      literal_listener(utterance).score(x)
+    },
+    belief_state
+  )
+  return (1/belief_state.length * sum(scores))
+}
+
+var speaker = cache(function(belief_state){
   Infer({method:'enumerate',
          model: function(){
            var utterance = sample(utterance_prior())
-           var listener = literal_listener(utterance, knowledgeability)
-           factor(alpha*listener.score(belief_state))
+           factor(alpha*utility(belief_state, utterance))
            return utterance
          }})})
-///
 
+///
 
 var listener = cache(function(utterance){
   Infer({method:'enumerate',
@@ -371,7 +376,7 @@ viz(listener("Anne"))
 // viz.hist(marginalize(listener("Anne or Bob"),"belief_state"))
 ~~~~
 
-> **Exercise:** Check the pragmatic listener's interpretation of "Anne and Bob". Do you like it? Try whether other parameter values are better or worse.
+> **Exercise:** Check the pragmatic listener's interpretation of "Anne or Bob". Do you like it? Try whether other parameter values would increase the extend to which we obtain an exclusive interpretation of the disjunction.
 
 ## The problem of semantically equivalent term answers
 
@@ -411,11 +416,7 @@ var utterance_meaning = function(utterance,belief_state){
     "Bob or both" : ["B", "AB"],
     'Anne or Bob or both' : worlds
   }
-  _.min(map(
-    function(s) {
-      _.includes(basic_meaning[utterance], s) + 1
-    },
-    belief_state)) > 1
+  basic_meaning[utterance]
 }
 ~~~~
 
@@ -501,32 +502,35 @@ var utterance_meaning = function(utterance,belief_state){
     "Bob or both" : ["B", "AB"],
     'Anne or Bob or both' : worlds
   }
-  _.min(map(
-    function(s) {
-      _.includes(basic_meaning[utterance], s) + 1
-    },
-    belief_state)) > 1
+  basic_meaning[utterance]
 }
 
-var literal_listener = cache(function(utterance, speaker_knowledgeability_level) {
+var literal_listener = cache(function(utterance, lexicon) {
   Infer({model: function() {
-    var belief_state = belief_state_prior(speaker_knowledgeability_level)
-    var meaning = utterance_meaning(utterance, belief_state)
-    condition(meaning)
-    return belief_state 
+    var world = uniformDraw(utterance_meaning(utterance, lexicon))
+    return world
   }})
 })
 
-var speaker = cache(function(belief_state, knowledgeability){
+var utility = function(belief_state, utterance){
+  var scores = map(
+    function(x) {
+      literal_listener(utterance).score(x)
+    },
+    belief_state
+  )
+  return (1/belief_state.length * sum(scores))
+}
+
+var speaker = cache(function(belief_state){
   Infer({method:'enumerate',
          model: function(){
            var utterance = sample(utterance_prior())
-           var listener = literal_listener(utterance, knowledgeability)
-           factor(alpha*listener.score(belief_state))
+           factor(alpha*utility(belief_state, utterance))
            return utterance
          }})})
-///
 
+///
 
 var listener = cache(function(utterance){
   Infer({method:'enumerate',
