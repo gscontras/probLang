@@ -138,9 +138,9 @@ var utterance_meaning = function(utterance){
   basic_meaning[utterance]
 }
 
-var literal_listener = cache(function(utterance, lexicon) {
+var literal_listener = cache(function(utterance) {
   Infer({model: function() {
-    var world = uniformDraw(utterance_meaning(utterance, lexicon))
+    var world = uniformDraw(utterance_meaning(utterance))
     return world
   }})
 })
@@ -228,9 +228,9 @@ var utterance_meaning = function(utterance){
   basic_meaning[utterance]
 }
 
-var literal_listener = cache(function(utterance, lexicon) {
+var literal_listener = cache(function(utterance) {
   Infer({model: function() {
-    var world = uniformDraw(utterance_meaning(utterance, lexicon))
+    var world = uniformDraw(utterance_meaning(utterance))
     return world
   }})
 })
@@ -550,7 +550,7 @@ The problem is that "Anne" and "Anne or both" are treated synonymously, and cons
 
 ## Lexical Uncertainty
 
-One solution to this problem is to allow for reasoning about the speaker's lexical meaning of term answers "Anne" and "Bob". Here, we assume that the speaker could have a lexical meaning of "Anne" as "only Anne", for example. Another way of thinking about this is that the speaker might use term answers "Anne" and "Bob" with an exhaustive meaning *in situ*. To implement this idea, we add lexica, a lexicon priori and an updated semantic meaning function:
+One solution to this problem is to allow for reasoning about the speaker's lexical meaning of term answers "Anne" and "Bob". Here, we assume that the speaker could have a lexical meaning of "Anne" as "only Anne", for example. To implement this idea, we add lexica, a lexicon priori and an updated semantic meaning function:
 
 ~~~~
 ///fold:
@@ -565,7 +565,7 @@ var lexicon_prior = function() {
   uniformDraw(lexica)
 }
 
-var utterance_meaning = function(utterance, belief_state, lexicon){
+var utterance_meaning = function(utterance, lexicon){
   var basic_meaning = {
     "Anne" : lexicon["Anne"] == "only Anne" ? ["A"] : ["A", "AB"],
     "Bob"  : lexicon["Bob"] == "only Bob" ? ["B"] : ["B", "AB"],
@@ -576,153 +576,14 @@ var utterance_meaning = function(utterance, belief_state, lexicon){
     "Bob or both"  : ["B", "AB"],
     'Anne or Bob or both' : worlds
   }
-  _.min(map(
-    function(s) {
-      _.includes(basic_meaning[utterance], s) + 1
-    },
-    belief_state)) > 1
+  basic_meaning[utterance]
 }
 
-display(utterance_meaning("Anne", ["AB"], lexica[0]))
-display(utterance_meaning("Anne", ["AB"], lexica[1]))
+display(utterance_meaning("Anne", lexica[0]))
+display(utterance_meaning("Anne", lexica[1]))
 ~~~~
 
 The full model is here, where we resolve uncertainty about the speaker's lexicon at the level of the pragmatic listener, as usual:
-
-~~~~
-///fold:
-var powerset = function(set){
-  if(set.length==0){
-    return [set]
-  }
-  var r = powerset(set.slice(1)) // exlude first element
-  var element = [set[0]] // first element
-  var new_r = r.concat(map(function(x){ element.concat(x) }, r))
-  return new_r
-}
-
-var worlds = ["A","B","AB"]
-
-var belief_states = filter(
-  function(x){return x.length>0},
-  powerset(worlds)
-)
-
-var speaker_knowledgeability_states = [0, 1, 2, 3]
-
-var knowledgeability_level_prior = function() {
-  uniformDraw(speaker_knowledgeability_states)
-}
-
-var belief_state_prior = function(speaker_knowledgeability_level){
-  var weights = map(
-    function(s) {
-      Math.exp(- speaker_knowledgeability_level * s.length)
-    },
-    belief_states
-  )
-  return categorical({vs: belief_states, ps: weights})
-}
-
-var utterances = [
-  'Anne',
-  'Bob',
-  'both', 
-  'Anne or Bob',
-  'Anne or both',
-  'Bob or both',
-  'Anne or Bob or both'
-]
-
-var cost_disjunction = 0.2
-var cost_conjunction = 0.1
-
-var utterance_cost = function(utterance){
-  var utt_cost_table = {
-    "Anne" : 0,
-    'Bob' : 0,
-    'both' : cost_conjunction, 
-    'Anne or Bob' : cost_disjunction,
-    'Anne or both' : cost_disjunction + cost_conjunction,
-    'Bob or both' : cost_disjunction + cost_conjunction,
-    'Anne or Bob or both' : 2* cost_disjunction + cost_conjunction
-  }
-  utt_cost_table[utterance]
-}
-
-var alpha = 5
-
-var utterance_prior = cache(function(){
-  Infer({method:'enumerate',model(){
-    var utterance = uniformDraw(utterances)
-    factor(- alpha * utterance_cost(utterance))
-    return utterance
-  }})})
-
-var lexica = [{ "Anne" : "only Anne", "Bob" : "only Bob"}, 
-              {"Anne" : "Anne or more", "Bob" : "Bob or more"}]
-
-var lexicon_prior = function() {
-  uniformDraw(lexica)
-}
-
-var utterance_meaning = function(utterance, belief_state, lexicon){
-  var basic_meaning = {
-    "Anne" : lexicon["Anne"] == "only Anne" ? ["A"] : ["A", "AB"],
-    "Bob"  : lexicon["Bob"] == "only Bob" ? ["B"] : ["B", "AB"],
-    "both" : ["AB"],
-    "Anne or Bob"  : lexicon["Anne"] == "only Anne" &  
-      lexicon["Bob"] == "only Bob" ? ["A", "B"] : worlds,
-    "Anne or both" : ["A", "AB"],
-    "Bob or both"  : ["B", "AB"],
-    'Anne or Bob or both' : worlds
-  }
-  _.min(map(
-    function(s) {
-      _.includes(basic_meaning[utterance], s) + 1
-    },
-    belief_state)) > 1
-}
-
-///
-
-var literal_listener = cache(function(utterance, knowledgeability, lexicon) {
-  Infer({model: function() {
-    var belief_state = belief_state_prior(knowledgeability)
-    var meaning = utterance_meaning(utterance, belief_state, lexicon)
-    condition(meaning)
-    return belief_state
-  }})
-})
-
-var speaker = cache(function(belief_state, knowledgeability, lexicon){
-  Infer({method:'enumerate',
-         model: function(){
-           var utterance = sample(utterance_prior())
-           var listener = literal_listener(utterance, knowledgeability, lexicon)
-           factor(alpha*listener.score(belief_state))
-           return utterance
-         }})})
-
-var listener = cache(function(utterance){
-  Infer({method:'enumerate',
-         model (){
-           var knowledgeability = knowledgeability_level_prior(speaker_knowledgeability_states)
-           var lexicon = lexicon_prior()
-           var belief_state = belief_state_prior(knowledgeability)
-           var speaker = speaker(belief_state,knowledgeability, lexicon)
-           factor(speaker.score(utterance))
-           return {belief_state}
-         }})})
-
-         
-viz(listener("Anne"))
-viz(listener("Anne or both"))
-~~~~
-
-## Speaker choice of lexical enrichment
-
-The lexical uncertainty model of reft:bergenetal2016 assumes that the listener assumes that the speaker has a fixed lexical meaning for, say, "Anne". The speaker is considered to always (invariably) take "Anne" to mean "only Anne". An alternative approach is to think of the speaker as variably choosing a lexical interpretation of subsentential material. (Another way of thinking about this is that the speaker chooses which of several grammatically supplied local readings of a phrase she intends when producing an utterance; these local enrichments could come from a grammatical approach to quantity implicatures, for example, like proposed by reft:ChierchiaFox2012.) Here is the resulting model *local reading choice* model, side-by-side with the previous lexical uncertainty model:
 
 ~~~~
 ///fold:
@@ -815,7 +676,143 @@ var utterance_meaning = function(utterance, lexicon){
   basic_meaning[utterance]
 }
 
+var literal_listener = cache(function(utterance, lexicon) {
+  Infer({model: function() {
+    var world = uniformDraw(utterance_meaning(utterance, lexicon))
+    return world
+  }})
+})
 
+var utility = function(belief_state, utterance, lexicon){
+  var scores = map(
+    function(x) {
+      literal_listener(utterance, lexicon).score(x)
+    },
+    belief_state
+  )
+  return (1/belief_state.length * sum(scores))
+}
+
+///
+
+var speaker = cache(function(belief_state, lexicon){
+  Infer({method:'enumerate',
+         model: function(){
+           var utterance = sample(utterance_prior())
+           var listener = literal_listener(utterance, lexicon)
+           factor(alpha*utility(belief_state, utterance, lexicon))
+           return utterance
+         }})})
+
+var listener = cache(function(utterance){
+  Infer({method:'enumerate',
+         model (){
+           var knowledgeability = knowledgeability_level_prior(speaker_knowledgeability_states)
+           var lexicon = lexicon_prior()
+           var belief_state = belief_state_prior(knowledgeability)
+           var speaker = speaker(belief_state, lexicon)
+           factor(speaker.score(utterance))
+           return {belief_state, lexicon}
+         }})})
+
+viz(listener("Anne"))
+viz(listener("Anne or both"))
+~~~~
+
+## Speaker choice of lexical enrichment
+
+The lexical uncertainty model of reft:bergenetal2016 assumes that the listener assumes that the speaker has a fixed lexical meaning for, say, "Anne". The speaker is considered to always (invariably) take "Anne" to mean "only Anne". An alternative approach is to think of the speaker as variably choosing a lexical interpretation of subsentential material. (Another way of thinking about this is that the speaker chooses which of several grammatically supplied local readings of a phrase she intends when producing an utterance; these local enrichments could come from a grammatical approach to quantity implicatures, for example, like proposed by reft:ChierchiaFox2012.) Here is the resulting *local reading choice* model, side-by-side with the previous lexical uncertainty model. The main difference is that now the speaker *chooses* a lexicon in such a way that more informative lexical meanings are preferred over less informative ones (we may think of this as an instantiation of the Maxim of Quantity applied to intended lexical meaning: "Use ambiguous sentential material with an intended (local) meaning that makes your utterances most informative!").
+
+~~~~
+///fold:
+var powerset = function(set){
+  if(set.length==0){
+    return [set]
+  }
+  var r = powerset(set.slice(1)) // exlude first element
+  var element = [set[0]] // first element
+  var new_r = r.concat(map(function(x){ element.concat(x) }, r))
+  return new_r
+}
+
+var worlds = ["A","B","AB"]
+
+var belief_states = filter(
+  function(x){return x.length>0},
+  powerset(worlds)
+)
+
+var speaker_knowledgeability_states = [0, 1, 2, 3]
+
+var knowledgeability_level_prior = function() {
+  uniformDraw(speaker_knowledgeability_states)
+}
+
+var belief_state_prior = function(speaker_knowledgeability_level){
+  var weights = map(
+    function(s) {
+      Math.exp(- speaker_knowledgeability_level * s.length)
+    },
+    belief_states
+  )
+  return categorical({vs: belief_states, ps: weights})
+}
+
+var utterances = [
+  'Anne',
+  'Bob',
+  'both', 
+  'Anne or Bob',
+  'Anne or both',
+  'Bob or both',
+  'Anne or Bob or both'
+]
+
+var cost_disjunction = 0.2
+var cost_conjunction = 0.1
+
+var utterance_cost = function(utterance){
+  var utt_cost_table = {
+    "Anne" : 0,
+    'Bob' : 0,
+    'both' : cost_conjunction, 
+    'Anne or Bob' : cost_disjunction,
+    'Anne or both' : cost_disjunction + cost_conjunction,
+    'Bob or both' : cost_disjunction + cost_conjunction,
+    'Anne or Bob or both' : 2* cost_disjunction + cost_conjunction
+  }
+  utt_cost_table[utterance]
+}
+
+var alpha = 5
+
+var utterance_prior = cache(function(){
+  Infer({method:'enumerate',model(){
+    var utterance = uniformDraw(utterances)
+    factor(- alpha * utterance_cost(utterance))
+    return utterance
+  }})})
+
+var lexica = [{ "Anne" : "only Anne", "Bob" : "only Bob"}, 
+              {"Anne" : "Anne or more", "Bob" : "Bob or more"}]
+
+var lexicon_prior = function() {
+  uniformDraw(lexica)
+}
+
+var utterance_meaning = function(utterance, lexicon){
+  var basic_meaning = {
+    "Anne" : lexicon["Anne"] == "only Anne" ? ["A"] : ["A", "AB"],
+    "Bob"  : lexicon["Bob"] == "only Bob" ? ["B"] : ["B", "AB"],
+    "both" : ["AB"],
+    "Anne or Bob"  : lexicon["Anne"] == "only Anne" &  
+      lexicon["Bob"] == "only Bob" ? ["A", "B"] : worlds,
+    "Anne or both" : ["A", "AB"],
+    "Bob or both"  : ["B", "AB"],
+    'Anne or Bob or both' : worlds
+  }
+  basic_meaning[utterance]
+}
 
 var literal_listener = cache(function(utterance, lexicon) {
   Infer({model: function() {
@@ -838,11 +835,11 @@ var utility = function(belief_state, utterance, lexicon){
 
 // lexical uncertainty (LU) model (as before)
 
-var speaker_LU = cache(function(belief_state, knowledgeability, lexicon){
+var speaker_LU = cache(function(belief_state, lexicon){
   Infer({method:'enumerate',
          model: function(){
            var utterance = sample(utterance_prior())
-           var listener = literal_listener(utterance, knowledgeability, lexicon)
+           var listener = literal_listener(utterance, lexicon)
            factor(alpha*utility(belief_state, utterance, lexicon))
            return utterance
          }})})
@@ -853,14 +850,14 @@ var listener_LU = cache(function(utterance){
            var knowledgeability = knowledgeability_level_prior(speaker_knowledgeability_states)
            var lexicon = lexicon_prior()
            var belief_state = belief_state_prior(knowledgeability)
-           var speaker = speaker_LU(belief_state,knowledgeability, lexicon)
+           var speaker = speaker_LU(belief_state, lexicon)
            factor(speaker.score(utterance))
            return {belief_state, lexicon}
          }})})
          
 // local enrichment choice (LEC) model (new stuff)       
 
-var speaker_LEC = cache(function(belief_state, knowledgeability){
+var speaker_LEC = cache(function(belief_state){
   Infer({method:'enumerate',
          model: function(){
            var utterance = sample(utterance_prior())
@@ -875,12 +872,10 @@ var listener_LEC= cache(function(utterance){
            var knowledgeability = knowledgeability_level_prior(speaker_knowledgeability_states)
            var lexicon = lexicon_prior()
            var belief_state = belief_state_prior(knowledgeability)
-           var speaker = speaker_LEC(belief_state,knowledgeability)
+           var speaker = speaker_LEC(belief_state)
            factor(speaker.score({utterance, lexicon}))
            return {belief_state, lexicon}
          }})})
-
-
 
 viz(listener_LU("Anne or both"))
 viz(listener_LEC("Anne or both"))
