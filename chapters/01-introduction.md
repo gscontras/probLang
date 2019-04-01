@@ -50,7 +50,7 @@ At the base of this reasoning, the naive, literal listener $$L_{0}$$ interprets 
 
 $$P_{L_{0}}(s\mid u) \propto [\![u]\!](s) \cdot P(s)$$
 
-Here $$P(s)$$ is an a priori belief regarding which state or object the speaker is likely to refer to in general. These prior beliefs can capture general world knowledge, perceptual salience or other things. For the time being, we assume a flat prior belief according to which each object is equally likely. (As we move away from flat priors, we'll want to revise these assumptions so that $L_0$ (but not $L_1$!) uses a uniform prior over states. In fact, this is what reft:frankgoodman2012 assumed in their model. See [Appendix Chapter 4](app-04-BDA.html) for discussion.)
+Here $$P(s)$$ is an a priori belief regarding which state or object the speaker is likely to refer to in general. These prior beliefs can capture general world knowledge, perceptual salience or other things. For the time being, we assume a flat prior belief according to which each object is equally likely. (As we move away from flat priors, we'll want to revise these assumptions so that $$L_0$$ (but not $$L_1$$!) uses a uniform prior over states. In fact, this is what reft:frankgoodman2012 assumed in their model. See [Appendix Chapter 4](app-04-BDA.html) for discussion.)
 
 The literal listener rule can be written as follows:
 
