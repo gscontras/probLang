@@ -165,8 +165,7 @@ which expands to:
 
 $$P_{S_1}(u \mid s) \propto \exp(\alpha (\log L_{0}(s\mid u) - C(u)))\,.$$
 
-We start by assuming that all utterances are equally costly (i.e., $$C(u) = C(u')$$ for all
-$$u, u'$$) so that we can calculate the speaker's choice probabilities as follows (see [Appendix Chapter 3](app-03-costs.html) for more on message costs and how to implement them):
+The following code implements this model of the speaker:
 
 ~~~~
 // pragmatic speaker
@@ -205,7 +204,8 @@ var pragmaticListener = function(utterance){
 
 ### Putting it all together
 
-Let's explore what happens when we put all of the previous agent models together.
+Let's explore what happens when we put all of the previous agent models together. In the following code, we assume that all utterances are equally costly (i.e., $$C(u) = C(u')$$ for all
+$$u, u'$$) (see [Appendix Chapter 3](app-03-costs.html) for more on message costs and how to implement them).
 
 ~~~~
 
