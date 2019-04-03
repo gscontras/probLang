@@ -251,13 +251,7 @@ var utterances = ["blue", "green", "square", "circle"]
 
 // utterance cost function
 var cost = function(utterance) {
-  var table = {
-    blue: 0,
-    green: 0,
-    square: 0,
-    circle: 0
-  };
-  return table[utterance];
+  return 0;
 };
 
 // meaning function to interpret the utterances
