@@ -173,13 +173,13 @@ $$u, u'$$) so that we can calculate the speaker's choice probabilities as follow
 var speaker = function(obj){
   Infer({model: function(){
     var utterance = utterancePrior();
-    factor(alpha * literalListener(utterance).score(obj))
+    factor(alpha * (literalListener(utterance).score(obj) - cost(utterance)))
     return utterance
   }})
 }
 ~~~~
 
-> **Exercise:** Check the speaker's behavior for a blue square. (Hint: you'll need to add a few pieces to the model, for example the `literalListener()` and all its dependencies. You'll also need to define the `utterancePrior()` --- try using a `uniformDraw()` over the possible `utterances`. Finally, you'll need to define the speaker optimality `alpha` --- try setting `alpha` to 1.)
+> **Exercise:** Check the speaker's behavior for a blue square. (Hint: you'll need to add a few pieces to the model, for example the `literalListener()` and all its dependencies. You'll also need to define the `utterancePrior()` --- try using a `uniformDraw()` over the possible `utterances` --- and the `cost()` function --- try modeling it after the `utility()` function from the previous code box. Finally, you'll need to define the speaker optimality `alpha` --- try setting `alpha` to 1.)
 
 We now have a model of the utterance generation process. With this in hand, we can imagine a listener who thinks about this kind of speaker.
 
@@ -240,14 +240,25 @@ var objects = [{color: "blue", shape: "square", string: "blue square"},
                {color: "blue", shape: "circle", string: "blue circle"},
                {color: "green", shape: "square", string: "green square"}]
 
-// set of utterances
-var utterances = ["blue", "green", "square", "circle"]
-
 // prior over world states
 var objectPrior = function() {
   var obj = uniformDraw(objects)
   return obj.string 
 }
+
+// set of utterances
+var utterances = ["blue", "green", "square", "circle"]
+
+// utterance cost function
+var cost = function(utterance) {
+  var table = {
+    blue: 0,
+    green: 0,
+    square: 0,
+    circle: 0
+  };
+  return table[utterance];
+};
 
 // meaning function to interpret the utterances
 var meaning = function(utterance, obj){
@@ -270,7 +281,7 @@ var alpha = 1
 var speaker = function(obj){
   Infer({model: function(){
     var utterance = uniformDraw(utterances)
-    factor(alpha * literalListener(utterance).score(obj))
+    factor(alpha * (literalListener(utterance).score(obj) - cost(utterance)))
     return utterance
   }})
 }
