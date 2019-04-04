@@ -19,7 +19,7 @@ The psychological literature on quantifier use and interpretation has shown that
 Concretely, the model presented here extends the first model from [Chapter 2](02-pragmatics.html) (without the speaker's uncertainty) by incorporating:
 
 - many more states and utterances
-- variable baseline preferences for the use of utterances (modelled as an utterance prior here)
+- non-uniform utterance priors, instead of utterance costs, to model the relative frequency with which expressions come to mind, rather than their relative complexity or production effort
 - a module for speakers' uncertain perception/representation of cardinality (inspired by work on the Approximate Number System)
 
 
@@ -37,7 +37,7 @@ number = "1"
 width="400px" 
 %}
 
-We look here at the fifteen most frequently filled in quantifying expressions, together with the important but naturally less frequent options *none* and *all*, and their relative proportion of mentioning: 
+We look here at the fifteen most frequently filled in quantifying expressions, together with the important but naturally less frequent options *none* and *all*. We take their their relative proportion of mentioning in the experiment as a (admittedly tentative) stand-in for the relative ease with which these expression may come to mind. We model the ease with which an expression comes to mind as a non-uniform utterance prior, instead of an utterance cost which would rather model an utteranc's production effort (see also [Appendix Chapter](app-03-costs.html) for more on this distinction).
 
 
 ~~~~
@@ -152,7 +152,9 @@ var alpha = 1
 // pragmatic speaker
 var speaker = cache(function(state) {
   return Infer({model: function(){
-    var utt = utterancePrior()
+    // non-uniform utterance priors to model salience or ease-of-retrieval of 
+    // different expressions, rather than an utterance's cost / effort
+    var utt = utterancePrior() 
     factor(alpha * literalListener(utt).score(state))
     return utt
   }})
