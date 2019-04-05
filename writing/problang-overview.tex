@@ -1,0 +1,99 @@
+\documentclass{sp}
+
+% The \pdf* commands provide metadata for the PDF output.
+% Do not use LaTeX style / commands like \emph{} inside these.
+\pdfauthor{Author Full Name(s)}
+\pdftitle{Full title}
+\pdfkeywords{XXX, XXX}
+
+% Optional short title inside square brackets, for the running headers.
+% If no short title is given, no title appears in the headers.
+%\title[Adjective ordering preferences]{On the grammatical source of adjective ordering preferences%
+\title[Practical introduction to RSA]{A practical introduction to the Rational Speech Act modeling framework%
+	\thanks{We thank XXX.}}
+
+% Optional short author inside square brackets, for the running headers.
+% If no short author is given, no authors print in the headers.
+%\author[shortauthor]{% As many authors as you like, each separated by \AND. %%% uncomment to de-anonymize
+%	\spauthor{author1 \\ \institute{affiliation1}} \AND
+%	\spauthor{author2 \\ \institute{affiliation2}} \AND
+%	\spauthor{author3 \\ \institute{affiliation3}}}
+
+	
+
+\usepackage{linguex}
+\usepackage{qtree}
+\qtreecenterfalse
+\usepackage{tree-dvips}
+\usepackage{phonetic}
+\usepackage{xcolor}
+\usepackage{pifont}
+\usepackage{lineno}
+\usepackage{graphicx}
+%\usepackage{qdotbranch}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{CJK}
+\usepackage{tikz}
+\usepackage{amsfonts} 
+\usepackage{amsmath}
+\usepackage{hyperref}
+
+\def\url#1{\expandafter\string\csname #1\endcsname}
+
+\newcommand{\gcs}[1]{\textcolor{blue}{[gcs: #1]}}  
+
+\newcommand{\type}[1]{\ensuremath{\left \langle #1 \right \rangle }}
+\newcommand{\lam}{\ensuremath{\lambda}}
+
+\renewcommand{\firstrefdash}{}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+	Recent advances in computational cognitive science (i.e., simulation-based probabilistic programs) have paved the way for significant progress in formal, implementable models of pragmatics. Rather than describing a pragmatic reasoning process, these models articulate and implement one, deriving both qualitative and quantitative predictions of human behavior---predictions that consistently prove correct, demonstrating the viability and value of the framework. The current paper provides a practical introduction to the Bayesian Rational Speech Act modeling framework, serving as a companion piece to the hands-on web-book at \href{https://www.problang.org}{www.problang.org}. After providing a conceptual overview of the framework, we then walk readers through the resources of the web-book.
+\end{abstract}
+
+\begin{keywords}
+	XXX, XXX
+\end{keywords}
+
+\section{Introduction}
+
+XXX
+
+\section{Conceptual overview of the RSA framework}
+
+XXX
+
+\section{Chapter overview}
+
+XXX
+
+\section{Summary and outlook}
+
+XXX
+
+
+\bibliography{problang}
+
+%\begin{addresses} %%% uncomment to de-anonymize
+%	\begin{address}
+%		author1
+%		\email{email1}
+%	\end{address}
+%	\begin{address}
+%		author2
+%		\email{email2}
+%	\end{address}
+%	\begin{address}
+%		author3
+%		\email{email3}
+%	\end{address}
+%\end{addresses}
+
+
+
+\end{document}
