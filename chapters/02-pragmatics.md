@@ -106,6 +106,14 @@ var utterancePrior = function() {
   return uniformDraw(['all', 'some', 'none'])
 }
 
+// cost function for utterances
+var cost = function(utterance){
+  utterance == "all" ? 1 :
+  utterance == "some" ? 1 :
+  utterance == "none" ? 1 :
+  0
+}
+
 // meaning function to interpret the utterances
 var literalMeanings = {
   all: function(state) { return state === 3; },
@@ -131,7 +139,7 @@ var alpha = 1
 var speaker = function(state) {
   return Infer({model: function(){
     var utt = utterancePrior()
-    factor(alpha * literalListener(utt).score(state))
+    factor(alpha * (literalListener(utt).score(state) - cost(utt)))
     return utt
   }})
 }
@@ -153,6 +161,14 @@ var statePrior = function() {
 // possible utterances
 var utterancePrior = function() {
   return uniformDraw(['all', 'some', 'none'])
+}
+
+// cost function for utterances
+var cost = function(utterance){
+  utterance == "all" ? 1 :
+  utterance == "some" ? 1 :
+  utterance == "none" ? 1 :
+  0
 }
 
 // meaning function to interpret the utterances
@@ -179,7 +195,7 @@ var alpha = 1
 var speaker = cache(function(state) {
   return Infer({model: function(){
     var utt = utterancePrior()
-    factor(alpha * literalListener(utt).score(state))
+    factor(alpha * (literalListener(utt).score(state) - cost(utt)))
     return utt
   }})
 })
@@ -310,7 +326,7 @@ var speaker = cache(function(access,state) {
   return Infer({model: function(){
     var utterance = utterancePrior()
     var beliefState = belief(state,access)
-    factor(alpha * literalListener(utterance).score(beliefState))
+    factor(alpha * (literalListener(utterance).score(beliefState) - cost(utterance)))
     return utterance
   }})
 });
@@ -365,6 +381,14 @@ var utterancePrior = function() {
   uniformDraw(['all','some','none'])
 }
 
+// cost function for utterances
+var cost = function(utterance){
+  utterance == "all" ? 1 :
+  utterance == "some" ? 1 :
+  utterance == "none" ? 1 :
+  0
+}
+
 // meaning funtion to interpret utterances
 var literalMeanings = {
   all: function(state) { return all(function(s){s}, state); },
@@ -388,10 +412,10 @@ var alpha = 1
 // pragmatic speaker
 var speaker = cache(function(access,state) {
   return Infer({model: function(){
-    var utt = utterancePrior()
+    var utterance = utterancePrior()
     var beliefState = belief(state,access)
-    factor(alpha * literalListener(utt).score(beliefState))
-    return utt
+    factor(alpha * (literalListener(utterance).score(beliefState) - cost(utterance)))
+    return utterance
   }})
 });
 
