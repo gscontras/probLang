@@ -14,10 +14,11 @@
 
 % Optional short author inside square brackets, for the running headers.
 % If no short author is given, no authors print in the headers.
-%\author[shortauthor]{% As many authors as you like, each separated by \AND. %%% uncomment to de-anonymize
+\author[]{% As many authors as you like, each separated by \AND. %%% uncomment to de-anonymize
 %	\spauthor{author1 \\ \institute{affiliation1}} \AND
 %	\spauthor{author2 \\ \institute{affiliation2}} \AND
-%	\spauthor{author3 \\ \institute{affiliation3}}}
+%	\spauthor{author3 \\ \institute{affiliation3}}
+}
 
 	
 
@@ -66,7 +67,12 @@ XXX
 
 \section{Conceptual overview of the RSA framework}
 
-XXX
+The RSA framework views language understanding as a process of recursive social reasoning between speakers and listeners: listeners interpret the utterances they hear by reasoning about how speakers generate them; speakers choose their utterances by reasoning about how listeners interpret them. In the basic, vanilla RSA model, this recursion involves three layers of inference. Typically formulated as statements of conditional probability, these inference layers correspond to models of speakers and listeners; they are typically given as conditional probability statements, as in XXX. 
+
+The reasoning grounds out in the naive, literal listener, $L_0$, who interprets utterances according to their literal semantics. In other words, $L_0$ hears some utterance $u$ and infers the state of the world $s$ that $u$ was meant to describe. $L_0$ performs this inference by restricting the set of possible states to just those that are compatible with the literal, truth-functional semantics of $u$, returning a uniform probability distribution over the states $s$ that $u$ maps to \texttt{true}.
+
+One layer up, a pragmatic speaker, $S_1$, chooses utterances in accordance with their utility. Utterances are useful to the extent that they maximize the probability that $L_0$ will infer the intended $s$ on the basis of $u$, all while minimizing the cost of $u$ (speakers are lazy).
+
 
 \section{Chapter overview}
 
@@ -77,7 +83,7 @@ XXX
 XXX
 
 
-\bibliography{problang}
+%\bibliography{problang}
 
 %\begin{addresses} %%% uncomment to de-anonymize
 %	\begin{address}
