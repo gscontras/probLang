@@ -12,7 +12,7 @@ The models we have so far considered strengthen the literal interpretations of o
 
 If you hear that someone waited "a million years" for a table at a popular restaurant or paid "a thousand dollars" for a coffee at a hipster hangout, you are unlikely to conclude that the improbable literal meanings are true. Instead, you conclude that the diner waited a long time, or paid an exorbitant amount of money, *and that she is frustrated with the experience*. Whereas blue circles are compatible with the literal meaning of "blue," five-dollar coffees are not compatible with the literal meaning of "a thousand dollars." How, then, do we arrive at sensible interpretations when our words are literally false?
 
-reft:kaoetal2014 propose that we model hyperbole understanding as pragmatic inference. Crucially, they propose that we recognize uncertainty about **communicative goals**: what Question Under Discussion (QUD) a speaker is likely addressing with their utterance. QUDs are modeled as summaries of the full world states, or *projections* of full world states onto the aspect(s) that are relevant for the Question Under Discussion. In the case study of hyperbolic language understanding, reft:kaoetal2014 propose that two aspects of the world are critical: the true state of the world and speakers' attitude toward the true state of the world (e.g., the valence of their *affect*), which is modeled simply as a binary positive/negative variable (representing whether or not the speaker is upset). In addition, the authors investigate the *pragmatic halo* effect, by considering a QUD that addresses *approximately* the exact price (`approxPrice`):
+reft:kaoetal2014 propose that we model hyperbole understanding as pragmatic inference. Crucially, they propose that we recognize uncertainty about **communicative goals**: what Question Under Discussion (QUD) a speaker is likely addressing with their utterance. QUDs are modeled as summaries of the full world states, or *projections* of full world states onto the aspect(s) that are relevant for the Question Under Discussion. In the case study of hyperbolic language understanding, reft:kaoetal2014 propose that two aspects of the world are critical: the true state of the world and speakers' attitudes toward the true state of the world (e.g., the valence of their *affect*), which is modeled simply as a binary positive/negative variable (representing whether or not the speaker is upset). In addition, the authors investigate the *pragmatic halo* effect, by considering a QUD that addresses *approximately* the exact price (`approxPrice`):
 
 ~~~~
 ///fold:
@@ -57,15 +57,16 @@ Accurately modeling world knowledge is key to getting appropriate inferences fro
 
 ~~~~
 // Prior probability of kettle prices (taken from human experiments)
-var pricePrior = function() {
-  return categorical({
-    vs: [
+var prices = [
       50, 51,
       500, 501,
       1000, 1001,
       5000, 5001,
       10000, 10001
-    ],
+    ]
+var pricePrior = function() {
+  return categorical({
+    vs: prices,
     ps: [
       0.4205, 0.3865,
       0.0533, 0.0538,
@@ -113,15 +114,16 @@ var approx = function(x,b) {
 }
 
 // Prior probability of kettle prices (taken from human experiments)
-var pricePrior = function() {
-  return categorical({
-    vs: [
+var prices = [
       50, 51,
       500, 501,
       1000, 1001,
       5000, 5001,
       10000, 10001
-    ],
+    ]
+var pricePrior = function() {
+  return categorical({
+    vs: prices,
     ps: [
       0.4205, 0.3865,
       0.0533, 0.0538,
@@ -168,13 +170,16 @@ var meaning = function(utterance, price) {
 
 var literalListener = cache(function(utterance, qud) {
   return Infer({model: function(){
-    var price = pricePrior() // uncertainty about the price
-    var valence = valencePrior(price) // uncertainty about the valence
+    var price = uniformDraw(prices)
+    var valence = valencePrior(price)
+    var fullState = {price, valence}
     var qudFn = qudFns[qud]
+    var qudAnswer = qudFn(fullState)
     condition( meaning(utterance, price) )
-    return qudFn({price, valence})
+    return qudAnswer
   }
 })})
+
 ~~~~
 
 > **Exercises:**
@@ -197,18 +202,20 @@ var speaker = function(qudAnswer, qud) {
 To model hyperbole, Kao et al. posited that the pragmatic listener actually has uncertainty about what the QUD is, and jointly infers the price (and speaker valence) and the intended QUD from the utterance he receives. That is, the pragmatic listener simulates how the speaker would behave with various QUDs.
 
 ~~~~
-var pragmaticListener = function(utterance) {
+var pragmaticListener = cache(function(utterance) {
   return Infer({model: function(){
+    //////// priors ////////
     var price = pricePrior()
     var valence = valencePrior(price)
-    var fullState = {price, valence}
     var qud = qudPrior()
+    ////////////////////////
+    var fullState = {price, valence}
     var qudFn = qudFns[qud]
-    var qudAnswer = qudFn(price, valence)
-    observe( speaker(qudAnswer, qud), utterance)
+    var qudAnswer = qudFn(fullState)
+    observe(speaker(qudAnswer, qud), utterance)
     return fullState
   }
-})}
+})})
 ~~~~
 
 Here is the full model:
@@ -223,15 +230,16 @@ var approx = function(x,b) {
 
 // Here is the code from the Kao et al. hyperbole model
 // Prior probability of kettle prices (taken from human experiments)
-var pricePrior = function() {
-  return categorical({
-    vs: [
+var prices = [
       50, 51,
       500, 501,
       1000, 1001,
       5000, 5001,
       10000, 10001
-    ],
+    ]
+var pricePrior = function() {
+  return categorical({
+    vs: prices,
     ps: [
       0.4205, 0.3865,
       0.0533, 0.0538,
@@ -317,12 +325,13 @@ var utterancePrior = function() {
 // true of the state
 var literalListener = cache(function(utterance, qud) {
   return Infer({model: function(){
-    var price = pricePrior() // uncertainty about the price
-    var valence = valencePrior(price) // uncertainty about the valence
+    var price = uniformDraw(prices)
+    var valence = valencePrior(price)
     var fullState = {price, valence}
-    condition( meaning(utterance, price) )
     var qudFn = qudFns[qud]
-    return qudFn(fullState)
+    var qudAnswer = qudFn(fullState)
+    condition( meaning(utterance, price) )
+    return qudAnswer
   }
 })})
 
@@ -362,6 +371,7 @@ viz(listenerPosterior)
 // print("marginal distributions:")
 // viz.table(marginalize(listenerPosterior, "price"))
 // viz.hist(marginalize(listenerPosterior, "valence"))
+
 ~~~~
 
 > **Exercises:**
@@ -445,7 +455,7 @@ var goalState = function(goal, state, valence, arousal) {
 // Define a literal listener
 var literalListener = function(utterance, goal) {
   Infer({model: function(){
-    var state = statePrior()
+    var state = uniformDraw(states)
     var valence = valencePrior(state)
     var arousal = arousalPrior(state)
     condition(literalInterpretation(utterance,state))
@@ -561,7 +571,7 @@ var goalState = function(goal, featureSet) {
 //  Define a literal listener
 var literalListener = function(utterance, goal) {
   Infer({model: function() {
-    var category = categoriesPrior()
+    var category = uniformDraw(categories)
     var featureSet = featureSetPrior(category)
     condition(literalInterpretation(utterance, category))
     return goalState(goal, featureSet)
