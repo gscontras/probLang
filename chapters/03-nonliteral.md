@@ -231,12 +231,12 @@ var approx = function(x,b) {
 // Here is the code from the Kao et al. hyperbole model
 // Prior probability of kettle prices (taken from human experiments)
 var prices = [
-      50, 51,
-      500, 501,
-      1000, 1001,
-      5000, 5001,
-      10000, 10001
-    ]
+  50, 51,
+  500, 501,
+  1000, 1001,
+  5000, 5001,
+  10000, 10001
+]
 var pricePrior = function() {
   return categorical({
     vs: prices,
@@ -290,7 +290,7 @@ var qudFns = {
 
 // Prior over QUDs
 var qudPrior = function() {
- categorical({
+  categorical({
     vs: ["price", "valence", "priceValence", "approxPrice", "approxPriceValence"],
     ps: [1, 1, 1, 1, 1]
   })
@@ -304,21 +304,16 @@ var utterances = [
   5000, 5001,
   10000, 10001
 ]
+var utterancePrior = function() {
+  return  uniformDraw(utterances)
+}
 
 // precise numbers can be assumed to be costlier than round numbers
 var preciseNumberCost = 1
-var utteranceCost = function(numberUtt){
-  return numberUtt == approx(numberUtt) ? // if it's a round number utterance
-        0 : // no cost
-        preciseNumberCost // cost of precise numbers (>= 0)
-}
-
-var utteranceProbs = map(function(numberUtt){
-  return Math.exp(-utteranceCost(numberUtt)) // prob ~ e^(-cost)
-}, utterances)
-
-var utterancePrior = function() {
-  categorical({ vs: utterances, ps: utteranceProbs })
+var cost = function(utterance){
+  return utterance == approx(utterance) ? // if it's a round number utterance
+    0 : // no cost
+  preciseNumberCost // cost of precise numbers (>= 0)
 }
 
 // Literal listener, infers the qud answer assuming the utterance is
@@ -333,7 +328,7 @@ var literalListener = cache(function(utterance, qud) {
     condition( meaning(utterance, price) )
     return qudAnswer
   }
-})})
+               })})
 
 // set speaker optimality
 var alpha = 1
@@ -342,10 +337,11 @@ var alpha = 1
 var speaker = cache(function(qudAnswer, qud) {
   return Infer({model: function(){
     var utterance = utterancePrior()
-    factor(alpha*literalListener(utterance,qud).score(qudAnswer))
+    factor(alpha*(literalListener(utterance,qud).score(qudAnswer) 
+                  - cost(utterance)))
     return utterance
   }
-})})
+               })})
 
 // Pragmatic listener, jointly infers the price state, speaker valence, and QUD
 var pragmaticListener = cache(function(utterance) {
@@ -361,7 +357,7 @@ var pragmaticListener = cache(function(utterance) {
     observe(speaker(qudAnswer, qud), utterance)
     return fullState
   }
-})})
+               })})
 
 var listenerPosterior = pragmaticListener(10000)
 
