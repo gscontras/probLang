@@ -190,13 +190,14 @@ var literalListener = cache(function(utterance, qud) {
 This enriched literal listener performs joint inference about the price and the valence but assumes a particular QUD by which to interpret the utterance. Similarly, the speaker chooses an utterance to convey a particular answer of the QUD to the literal listener:
 
 ~~~~
-var speaker = function(qudAnswer, qud) {
+var speaker = cache(function(qudAnswer, qud) {
   return Infer({model: function(){
     var utterance = utterancePrior()
-    factor(alpha * literalListener(utterance, qud).score(qudAnswer))
+    factor(alpha*(literalListener(utterance,qud).score(qudAnswer) 
+                  - cost(utterance)))
     return utterance
   }
-})}
+               })})
 ~~~~
 
 To model hyperbole, Kao et al. posited that the pragmatic listener actually has uncertainty about what the QUD is, and jointly infers the price (and speaker valence) and the intended QUD from the utterance he receives. That is, the pragmatic listener simulates how the speaker would behave with various QUDs.
