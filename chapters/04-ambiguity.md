@@ -61,7 +61,7 @@ The literal listener $$L_0$$ has prior uncertainty about the true state, *s*, an
 // Literal listener (L0)
 var literalListener = cache(function(utterance, scope) {
   Infer({model: function(){
-    var state = statePrior()
+    var state = uniformDraw(states)
     condition(meaning(utterance,state,scope))
     return state
   }})
@@ -95,6 +95,10 @@ var utterancePrior = function() {
   uniformDraw(utterances)
 }
 
+var cost = function(utterance) {
+  return 1
+}
+
 // possible world states
 var states = [0,1,2,3];
 var statePrior = function() {
@@ -117,17 +121,20 @@ var meaning = function(utterance, state, scope) {
 // Literal listener (L0)
 var literalListener = cache(function(utterance,scope) {
   return Infer({model: function(){
-    var state = statePrior()
+    var state = uniformDraw(states)
     condition(meaning(utterance,state,scope))
     return state
   }})
 })
 
+var alpha = 1
+
 // Speaker (S)
 var speaker = cache(function(scope,state) {
   return Infer({model: function(){
     var utterance = utterancePrior()
-    observe(literalListener(utterance,scope),state)
+    factor(alpha*(literalListener(utterance,scope).score(state) 
+                  - cost(utterance)))
     return utterance
   }})
 })
@@ -164,6 +171,10 @@ var utterancePrior = function() {
   uniformDraw(utterances)
 }
 
+var cost = function(utterance) {
+  return 1
+}
+
 // possible world states
 var states = [0,1,2,3]
 var statePrior = function() {
@@ -196,19 +207,22 @@ var QUDFun = function(QUD, state) {
 // Literal listener (L0)
 var literalListener = cache(function(utterance, scope, QUD) {
   Infer({model: function(){
-    var state = statePrior()
+    var state = uniformDraw(states)
     var qState = QUDFun(QUD,state)
     condition(meaning(utterance, state, scope))
     return qState
   }});
 });
 
+var alpha = 1
+
 // Speaker (S)
 var speaker = cache(function(scope, state, QUD) {
-  Infer({model: function(){
+  return Infer({model: function(){
     var utterance = utterancePrior()
     var qState = QUDFun(QUD, state)
-    observe(literalListener(utterance, scope, QUD), qState)
+    factor(alpha*(literalListener(utterance,scope,QUD).score(qState) 
+                  - cost(utterance)))
     return utterance
   }})
 })
@@ -263,6 +277,10 @@ var utterancePrior = function() {
   uniformDraw(utterances)
 }
 
+var cost = function(utterance) {
+  return 1
+}
+
 // possible world states
 var states = [0,1,2,3];
 var statePrior = function() {
@@ -296,7 +314,7 @@ var QUDFun = function(QUD,state) {
 // Literal listener (L0)
 var literalListener = cache(function(utterance,scope,QUD) {
   Infer({model: function(){
-    var state = statePrior();
+    var state = uniformDraw(states);
     var qState = QUDFun(QUD,state)
     condition(meaning(utterance,state,scope));
     return qState;
@@ -306,14 +324,15 @@ var literalListener = cache(function(utterance,scope,QUD) {
 var alpha = 1
 
 // Speaker (S)
-var speaker = cache(function(scope,state,QUD) {
-  Infer({model: function(){
-    var utterance = utterancePrior();
-    var qState = QUDFun(QUD,state);
-    factor(alpha * literalListener(utterance,scope,QUD).score(qState));
-    return utterance;
-  }});
-});
+var speaker = cache(function(scope, state, QUD) {
+  return Infer({model: function(){
+    var utterance = utterancePrior()
+    var qState = QUDFun(QUD, state)
+    factor(alpha*(literalListener(utterance,scope,QUD).score(qState) 
+                  - cost(utterance)))
+    return utterance
+  }})
+})
 
 // Pragmatic listener (L1)
 var pragmaticListener = cache(function(utterance) {
