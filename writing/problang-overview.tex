@@ -46,6 +46,7 @@
 
 \newcommand{\type}[1]{\ensuremath{\left \langle #1 \right \rangle }}
 \newcommand{\lam}{\ensuremath{\lambda}}
+\newcommand{\sem}[1]{\mbox{$[\![$#1$]\!]$}}
 
 \renewcommand{\firstrefdash}{}
 
@@ -67,11 +68,24 @@ XXX
 
 \section{Conceptual overview of the RSA framework}
 
-The RSA framework views language understanding as a process of recursive social reasoning between speakers and listeners: listeners interpret the utterances they hear by reasoning about how speakers generate them; speakers choose their utterances by reasoning about how listeners interpret them. In the basic, vanilla RSA model, this recursion involves three layers of inference. Typically formulated as statements of conditional probability, these inference layers correspond to models of speakers and listeners; they are typically given as conditional probability statements, as in XXX. 
+The RSA framework views language understanding as a process of recursive social reasoning between speakers and listeners: listeners interpret the utterances they hear by reasoning about how speakers generate them; speakers choose their utterances by reasoning about how listeners interpret them. In the basic, vanilla RSA model, this recursion involves three layers of inference. Typically formulated as statements of conditional probability, as in (\ref{L0}--\ref{L1}), these inference layers correspond to models of speakers and listeners.
+
+\begin{equation} \label{L0}
+P_{L_0}(s|u) \propto \delta_{[\![u]\!](s)}
+\end{equation}
+\begin{equation} \label{U}
+U_{S_1}(u; s) = \textrm{log}P_{L_0}(s|u) - C(u)
+\end{equation}
+\begin{equation} \label{S1}
+P_{S_1}(u|s) \propto \textrm{exp}(\alpha \cdot U_{S_1}(u;s))
+\end{equation}
+\begin{equation} \label{L1}
+P_{L_1}(s|u) \propto P_{S_1}(u|s) \cdot P(s)
+\end{equation}
 
 The reasoning grounds out in the naive, literal listener, $L_0$, who interprets utterances according to their literal semantics. In other words, $L_0$ hears some utterance $u$ and infers the state of the world $s$ that $u$ was meant to describe. $L_0$ performs this inference by restricting the set of possible states to just those that are compatible with the literal, truth-functional semantics of $u$, returning a uniform probability distribution over the states $s$ that $u$ maps to \texttt{true}.
 
-One layer up, a pragmatic speaker, $S_1$, chooses utterances in proportion to their utility. Utterances are useful to the extent that they maximize the probability that $L_0$ will infer the correct $s$ on the basis of $u$ while minimizing the cost of $u$ (speakers are lazy). So, when selecting utterances, $S_1$ considers their affect on interpretation (i.e., on $L_0$'s resulting beliefs).
+One layer up, a pragmatic speaker, $S_1$, chooses utterances in proportion to their utility $U_{S_{1}}$. Utterances are useful to the extent that they maximize the probability that $L_0$ will infer the correct $s$ on the basis of $u$, while minimizing the cost of $u$ (speakers aim to be efficient). So, when selecting utterances, $S_1$ considers their affect on interpretation (i.e., on $L_0$'s resulting beliefs).
 
 At the top layer of inference, the pragmatic listener, $L_1$, interprets utterances to infer the true state of the world. However, unlike $L_0$, who reasons directly about the utterance semantics, $L_1$ reasons instead about the process that generated the utterance; that process is the speaker $S_1$. $L_1$ thus infers $s$ on the basis of $u$ by reasoning about the probability that $S_1$ would have chosen $u$ to signal $s$ to $L_0$; the higher that probability, the more likely $L_1$ is to conclude that $S_1$ indeed intended to communicate $s$. Because $L_1$ reasons about $S_1$, who in turn reasons about the literal semantics in $L_0$, $L_1$'s interpretation is affected by the semantics of $u$, albeit only indirectly via the $S_1$ layer. This space between the semantics (i.e., $L_0$) and the resulting interpretation (i.e., the posterior beliefs of $L_1$) is where pragmatics enters.
 
