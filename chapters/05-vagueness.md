@@ -82,7 +82,7 @@ var meaning = function(utterance, price, theta) {
 
 var literalListener = cache(function(utterance, theta) {
   return Infer({method: "enumerate"}, function() {
-    var price = statePrior();
+    var price = uniformDraw(book.prices);
     condition(meaning(utterance, price, theta))
     return price;
   })
@@ -95,14 +95,6 @@ var literalListener = cache(function(utterance, theta) {
 We get a full RSA model once we add $$S_1$$ and $$L_1$$; $$L_1$$ hears the gradable adjective and jointly infers the relevant item price and cutoff to count as expensive.
 
 ~~~~
-///fold:
-var marginalize = function(dist, key){
-  return Infer({method: "enumerate"}, function(){
-    return sample(dist)[key];
-  })
-}
-///
-
 var book = {
   "prices": [2, 6, 10, 14, 18, 22, 26, 30],
   "probabilities": [1, 2, 3, 4, 4, 3, 2, 1]
@@ -116,7 +108,7 @@ var thetaPrior = function() {
     return uniformDraw(book.prices);
 };
 
-var alpha = 10; // optimality parameter
+var alpha = 1; // optimality parameter
 
 var utterances = ["expensive", ""];
 var cost = {
@@ -124,8 +116,7 @@ var cost = {
   "": 0
 };
 var utterancePrior = function() {
-  var uttProbs = map(function(u) {return Math.exp(-cost[u]) }, utterances);
-  return categorical(uttProbs, utterances);
+  return uniformDraw(utterances);
 };
 
 var meaning = function(utterance, price, theta) {
@@ -134,7 +125,7 @@ var meaning = function(utterance, price, theta) {
 
 var literalListener = cache(function(utterance, theta) {
   return Infer({method: "enumerate"}, function() {
-    var price = statePrior();
+    var price = uniformDraw(book.prices);
     condition(meaning(utterance, price, theta))
     return price;
   });
@@ -143,7 +134,8 @@ var literalListener = cache(function(utterance, theta) {
 var speaker = cache(function(price, theta) {
   return Infer({method: "enumerate"}, function() {
     var utterance = utterancePrior();
-    factor( alpha * literalListener(utterance, theta).score(price) );
+    factor( alpha * (literalListener(utterance, theta).score(price) 
+                    - cost[utterance]));
     return utterance;
   });
 });
@@ -171,12 +163,6 @@ For a better model, rather than assuming prior knowledge (e.g., knowledge about 
 
 ~~~~
 ///fold:
-var marginalize = function(dist, key){
-  return Infer({method: "enumerate"}, function(){
-    return sample(dist)[key];
-  })
-}
-
 // "price" refers to the midpoint of the bin that participants marked a slider for
 // "probability" refers to the average of participants' responses, after normalizing responses for each person for each item
 var coffee = {
@@ -228,7 +214,7 @@ var theta_prior = function(item) {
 };
 ///
 
-var alpha = 10; // optimality parameter
+var alpha = 1; // optimality parameter
 
 var utterances = ["expensive", ""];
 var cost = {
@@ -236,8 +222,7 @@ var cost = {
   "": 0
 };
 var utterancePrior = function() {
-  var uttProbs = map(function(u) {return Math.exp(-cost[u]) }, utterances);
-  return categorical(uttProbs, utterances);
+  return uniformDraw(utterances);
 };
 
 var meaning = function(utterance, price, theta) {
@@ -246,8 +231,7 @@ var meaning = function(utterance, price, theta) {
 
 var literalListener = cache(function(utterance, theta, item) {
   return Infer({method: "enumerate"}, function() {
-    var pricePrior = prior(item);
-    var price = pricePrior()
+    var price = uniformDraw(data[item].prices)
     condition(meaning(utterance, price, theta))
     return price;
   });
@@ -256,7 +240,8 @@ var literalListener = cache(function(utterance, theta, item) {
 var speaker = cache(function(price, theta, item) {
   return Infer({method: "enumerate"}, function() {
     var utterance = utterancePrior();
-    factor( alpha * literalListener(utterance, theta, item).score(price) );
+    factor( alpha * (literalListener(utterance, theta, item).score(price) 
+                    - cost[utterance]));
     return utterance;
   });
 });
@@ -284,6 +269,7 @@ print("the listener's posterior over sweater prices:")
 viz.density(marginalize(expensiveSweater, "price"));
 print("the listener's posterior over sweater price thresholds:")
 viz.density(marginalize(expensiveSweater, "theta"));
+
 ~~~~
 
 > **Exercises:** 
