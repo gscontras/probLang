@@ -68,7 +68,7 @@ var thetaPrior = function() {
 
 var utterances = ["expensive", ""];
 var cost = {
-  "expensive": 3,
+  "expensive": 1,
   "": 0
 };
 var utterancePrior = function() {
@@ -108,11 +108,11 @@ var thetaPrior = function() {
     return uniformDraw(book.prices);
 };
 
-var alpha = 1; // optimality parameter
+var alpha = 2; // optimality parameter
 
 var utterances = ["expensive", ""];
 var cost = {
-  "expensive": 3,
+  "expensive": 1,
   "": 0
 };
 var utterancePrior = function() {
@@ -214,11 +214,11 @@ var theta_prior = function(item) {
 };
 ///
 
-var alpha = 1; // optimality parameter
+var alpha = 2; // optimality parameter
 
 var utterances = ["expensive", ""];
 var cost = {
-  "expensive": 3,
+  "expensive": 1,
   "": 0
 };
 var utterancePrior = function() {
