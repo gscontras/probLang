@@ -193,9 +193,7 @@ var data = {
 };
 
 var prior = function(item) {
-  // midpoint of bin shown to participants
   var prices = data[item].prices;
-  // average responses from participants, normalizing by item
   var probabilities = data[item].probabilities;
   return function() {
     return categorical(probabilities, prices);
@@ -203,10 +201,7 @@ var prior = function(item) {
 };
 
 var theta_prior = function(item) {
-  // midpoint of bin shown to participants
-  var prices = data[item].prices;
-  var bin_width = prices[1] - prices[0];
-  var thetas = map(function(x) {return x - bin_width/2;}, prices);
+  var thetas = data[item].prices;
   return function() {
     return uniformDraw(thetas);
   };
@@ -246,8 +241,10 @@ var speaker = cache(function(price, theta, item) {
 });
 
 var pragmaticListener = function(utterance, item) {
+  // first identify the relevant priors
   var pricePrior = prior(item);
   var thetaPrior = theta_prior(item);
+  // then run inference
   return Infer({method: "enumerate"}, 
   function() {
     var price = pricePrior();
