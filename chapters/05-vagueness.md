@@ -72,8 +72,7 @@ var cost = {
   "": 0
 };
 var utterancePrior = function() {
-  var uttProbs = map(function(u) {return Math.exp(-cost[u]) }, utterances);
-  return categorical(uttProbs, utterances);
+  return uniformDraw(utterances);
 };
 
 var meaning = function(utterance, price, theta) {
