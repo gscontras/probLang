@@ -40,26 +40,31 @@ Now, to talk about the weight of a plurality of obejcts, given that we're dealin
 // possible object weights
 var objects = [2,3,4];
 var objectPrior = function() {
-uniformDraw(objects);
+  uniformDraw(objects);
 }
 
 var numberObjects = 3
 
 // build states with n many objects
 var statePrior = function(nObjLeft,stateSoFar) {
-var stateSoFar = stateSoFar == undefined ? [] : stateSoFar
-if (nObjLeft == 0) {
-  return stateSoFar
-} else {
-  var newObj = objectPrior()
-  var newState = stateSoFar.concat([newObj])
-  return statePrior(nObjLeft - 1,newState)
-}
+  var stateSoFar = stateSoFar == undefined ? [] : stateSoFar
+  if (nObjLeft == 0) {
+    return stateSoFar
+  } else {
+    var newObj = objectPrior()
+    var newState = stateSoFar.concat([newObj])
+    return statePrior(nObjLeft - 1,newState)
+  }
 }
 
 // threshold priors
-var distThetaPrior = function(){return objectPrior()};  
-var collThetaPrior = function(){return uniformDraw([2,3,4,5,6,7,8,9,10,11,12])};
+var distThetaPrior = function(){
+  return uniformDraw(objects)
+};  
+var collThetaPrior = function(){
+  return uniformDraw([5,6,7,8,9,10,11]) // 1 minus possible state sums
+};
+
 ~~~~
 
 > **Exercise:** Visualize the threshold priors.
@@ -77,8 +82,14 @@ var utterances = [
 
 // costs: null < ambiguous < unambiguous 
 var utterancePrior = function() {
-  return categorical([3,2,1,1],utterances)
+  return uniformDraw(utterances)
 };
+
+var cost = function(utterance) {
+  utterance == "null" ? 0 :
+  utterance == "heavy" ? 1 :
+  2
+}
 
 // x > theta interpretations
 var collInterpretation = function(state, collTheta) {
@@ -129,8 +140,14 @@ var utterances = [
 
 // costs: null < ambiguous < unambiguous 
 var utterancePrior = function() {
-  return categorical([3,2,1,1],utterances)
+  return uniformDraw(utterances)
 };
+
+var cost = function(utterance) {
+  utterance == "null" ? 0 :
+  utterance == "heavy" ? 1 :
+  2
+}
 
 // x > theta interpretations
 var collInterpretation = function(state, collTheta,noise) {
@@ -202,8 +219,12 @@ var pluralPredication = function(collectiveNoise) {
   }
 
   // threshold priors
-  var distThetaPrior = function(){return objectPrior()};  
-  var collThetaPrior = function(){return uniformDraw([2,3,4,5,6,7,8,9,10,11,12])};
+  var distThetaPrior = function(){
+    return uniformDraw(objects)
+  };  
+  var collThetaPrior = function(){
+    return uniformDraw([5,6,7,8,9,10,11]) // 1 minus possible state sums
+  };
 
   // noise variance
   var noiseVariance = collectiveNoise == "no" ? 0.01 :
@@ -219,8 +240,14 @@ var pluralPredication = function(collectiveNoise) {
 
   // costs: null < ambiguous < unambiguous 
   var utterancePrior = function() {
-    return categorical([3,2,1,1],utterances)
+    return uniformDraw(utterances)
   };
+  
+  var cost = function(utterance) {
+    utterance == "null" ? 0 :
+    utterance == "heavy" ? 1 :
+    2
+  }
 
   // x > theta interpretations
   var collInterpretation = function(state, collTheta,noise) {
@@ -262,7 +289,6 @@ var pluralPredication = function(collectiveNoise) {
 
 viz.hist(pluralPredication("no"))
 
-
 ~~~~
 
 > **Exercise:** Check the predictions for the other values for `collectiveNoise`.
@@ -273,12 +299,10 @@ You might have guessed that we are dealing with a lifted-variable variant of RSA
 var listener = cache(function(utterance) {
   return Infer({model: function(){
     var state = statePrior(numberObjects);
-    var isCollective = flip(0.8) // collective interpretation baserate
+    var isCollective = flip(0.8)
     var distTheta = distThetaPrior();
     var collTheta = collThetaPrior();
-    factor(alpha * 
-           speaker(state,distTheta,collTheta,isCollective).score(utterance) 
-          );
+    observe(speaker(state,distTheta,collTheta,isCollective),utterance);
     return {coll: isCollective, state: state}
   }});
 });
@@ -294,8 +318,6 @@ The full model combines all of these ingredients in the RSA framework, with recu
 ///fold: 
 
 // helper functions
-// exp
-var exp = function(x){return Math.exp(x)}
 
 // error function
 var erf = function(x) {
@@ -362,8 +384,12 @@ var pluralPredication = function(collectiveNoise) {
   }
 
   // threshold priors
-  var distThetaPrior = function(){return objectPrior()};  
-  var collThetaPrior = function(){return uniformDraw([2,3,4,5,6,7,8,9,10,11,12])};
+  var distThetaPrior = function(){
+    return uniformDraw(objects)
+  };  
+  var collThetaPrior = function(){
+    return uniformDraw([5,6,7,8,9,10,11]) // 1 minus possible state sums
+  };
 
   // noise variance
   var noiseVariance = collectiveNoise == "0-no" ? 0.01 :
@@ -379,8 +405,14 @@ var pluralPredication = function(collectiveNoise) {
 
   // costs: null < ambiguous < unambiguous 
   var utterancePrior = function() {
-    return categorical([3,2,1,1],utterances)
+    return uniformDraw(utterances)
   };
+  
+  var cost = function(utterance) {
+    utterance == "null" ? 0 :
+    utterance == "heavy" ? 1 :
+    2
+  }
 
   // x > theta interpretations
   var collInterpretation = function(state, collTheta,noise) {
@@ -416,7 +448,8 @@ var pluralPredication = function(collectiveNoise) {
   var speaker = cache(function(state,distTheta,collTheta,isCollective) {
     return Infer({model: function(){
       var utterance = utterancePrior()
-      factor(literal(utterance,distTheta,collTheta,isCollective).score(state))
+      factor(alpha*(literal(utterance,distTheta,collTheta,isCollective).score(state)
+                   -cost(utterance)))
       return utterance
     }})
   });
@@ -427,9 +460,7 @@ var pluralPredication = function(collectiveNoise) {
       var isCollective = flip(0.8)
       var distTheta = distThetaPrior();
       var collTheta = collThetaPrior();
-      factor(alpha * 
-             speaker(state,distTheta,collTheta,isCollective).score(utterance) 
-            );
+      observe(speaker(state,distTheta,collTheta,isCollective),utterance);
       return {coll: isCollective, state: state}
     }});
   });
@@ -448,11 +479,12 @@ var L1predictions = map(function(stim) {
   var L1posterior = pluralPredication(stim.noise)
   return {
     x: stim.noise,
-    y: exp(marginalize(L1posterior, "coll").score(true)),
+    y: Math.exp(marginalize(L1posterior, "coll").score(true)),
   }
 }, conditions)
 
 viz.bar(L1predictions)
+
 ~~~~
 
 > **Exercise:** Generate predictions from the $$S_1$$ speaker.
@@ -508,8 +540,6 @@ The full model includes this belief manipulation so that the pragmatic listener 
 ///fold: 
 
 // helper functions
-// exp
-var exp = function(x){return Math.exp(x)}
 
 // error function
 var erf = function(x) {
@@ -578,8 +608,12 @@ var pluralPredication = function( collectiveNoise,
   }
 
   // threshold priors
-  var distThetaPrior = function(){return objectPrior()};  
-  var collThetaPrior = function(){return uniformDraw([2,3,4,5,6,7,8,9,10,11,12])};
+  var distThetaPrior = function(){
+    return uniformDraw(objects)
+  };  
+  var collThetaPrior = function(){
+    return uniformDraw([5,6,7,8,9,10,11]) // 1 minus possible state sums
+  };
 
   // noise variance
   var noiseVariance = collectiveNoise == "0-no" ? 0.01 :
@@ -595,8 +629,14 @@ var pluralPredication = function( collectiveNoise,
 
   // costs: null < ambiguous < unambiguous 
   var utterancePrior = function() {
-    return categorical([3,2,1,1],utterances)
+    return uniformDraw(utterances)
   };
+  
+  var cost = function(utterance) {
+    utterance == "null" ? 0 :
+    utterance == "heavy" ? 1 :
+    2
+  }
   
   // x > theta interpretations
   var collInterpretation = function(state, collTheta,noise) {
@@ -646,9 +686,8 @@ var pluralPredication = function( collectiveNoise,
       var utterance = utterancePrior()
       var bDist = speakerBelief(state,speakerKnows)
       var lDist = literal(utterance,distThetaPos,collThetaPos,isCollective)
-      factor(-1 *
-             KL(bDist,
-                lDist)
+      factor(alpha*(-1 * KL(bDist,lDist) 
+                - cost(utterance))
             )
       return utterance
     }})
@@ -660,9 +699,8 @@ var pluralPredication = function( collectiveNoise,
       var isCollective = flip(0.8)
       var distThetaPos = distThetaPrior();
       var collThetaPos = collThetaPrior();
-      factor(alpha * 
-             speaker(state,distThetaPos,collThetaPos,isCollective,speakerKnows).score(utterance) 
-            );
+      observe(speaker(state,distThetaPos,collThetaPos,isCollective,speakerKnows),
+              utterance) 
       return {coll: isCollective, state: state}
     }});
   });
@@ -685,12 +723,13 @@ var L1predictions = map(function(stim) {
   var L1posterior = pluralPredication(stim.noise,stim.knowledge)
   return {
     x: stim.noise,
-    y: exp(marginalize(L1posterior, "coll").score(true)),
+    y: Math.exp(marginalize(L1posterior, "coll").score(true)),
     knowledge: stim.knowledge
   }
 }, conditions)
 
 viz.bar(L1predictions, {groupBy: 'knowledge'})
+
 ~~~~
 
 > **Exercise:**  Add an $$S_2$$ layer to the model.
