@@ -93,7 +93,7 @@ var cost = function(utterance) {
 
 // x > theta interpretations
 var collInterpretation = function(state, collTheta) {
-  return sum(state) >= collTheta
+  return sum(state) > collTheta
 }
 
 var distInterpretation = function(state, distTheta) {
