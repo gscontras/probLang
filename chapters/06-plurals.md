@@ -59,10 +59,10 @@ var statePrior = function(nObjLeft,stateSoFar) {
 
 // threshold priors
 var distThetaPrior = function(){
-  return uniformDraw(objects)
+  return (uniformDraw(objects) - 1) // 1 minus possible object values
 };  
 var collThetaPrior = function(){
-  return uniformDraw([5,6,7,8,9,10,11]) // 1 minus possible state sums
+  return (sum(statePrior(numberObjects)) - 1) // 1 minus possible state sums
 };
 
 ~~~~
@@ -97,7 +97,7 @@ var collInterpretation = function(state, collTheta) {
 }
 
 var distInterpretation = function(state, distTheta) {
-  return all(function(x){x >= distTheta}, state)
+  return all(function(x){x > distTheta}, state)
 }
 
 // meaning function
@@ -157,7 +157,7 @@ var collInterpretation = function(state, collTheta,noise) {
 }
 
 var distInterpretation = function(state, distTheta) {
-  return all(function(x){x >= distTheta}, state)
+  return all(function(x){x > distTheta}, state)
 }
 
 // meaning function
@@ -220,10 +220,10 @@ var pluralPredication = function(collectiveNoise) {
 
   // threshold priors
   var distThetaPrior = function(){
-    return uniformDraw(objects)
+    return (uniformDraw(objects) - 1) // 1 minus possible object values
   };  
   var collThetaPrior = function(){
-    return uniformDraw([5,6,7,8,9,10,11]) // 1 minus possible state sums
+    return (sum(statePrior(numberObjects)) - 1) // 1 minus possible state sums
   };
 
   // noise variance
@@ -257,7 +257,7 @@ var pluralPredication = function(collectiveNoise) {
   }
 
   var distInterpretation = function(state, distTheta) {
-    return all(function(x){x >= distTheta}, state)
+    return all(function(x){x > distTheta}, state)
   }
 
   // meaning function
@@ -385,10 +385,10 @@ var pluralPredication = function(collectiveNoise) {
 
   // threshold priors
   var distThetaPrior = function(){
-    return uniformDraw(objects)
+    return (uniformDraw(objects) - 1) // 1 minus possible object values
   };  
   var collThetaPrior = function(){
-    return uniformDraw([5,6,7,8,9,10,11]) // 1 minus possible state sums
+    return (sum(statePrior(numberObjects)) - 1) // 1 minus possible state sums
   };
 
   // noise variance
@@ -422,7 +422,7 @@ var pluralPredication = function(collectiveNoise) {
   }
 
   var distInterpretation = function(state, distTheta) {
-    return all(function(x){x >= distTheta}, state)
+    return all(function(x){x > distTheta}, state)
   }
 
   // meaning function
@@ -609,10 +609,10 @@ var pluralPredication = function( collectiveNoise,
 
   // threshold priors
   var distThetaPrior = function(){
-    return uniformDraw(objects)
+    return (uniformDraw(objects) - 1) // 1 minus possible object values
   };  
   var collThetaPrior = function(){
-    return uniformDraw([5,6,7,8,9,10,11]) // 1 minus possible state sums
+    return (sum(statePrior(numberObjects)) - 1) // 1 minus possible state sums
   };
 
   // noise variance
@@ -646,7 +646,7 @@ var pluralPredication = function( collectiveNoise,
   }
 
   var distInterpretation = function(state, distTheta) {
-    return all(function(x){x >= distTheta}, state)
+    return all(function(x){x > distTheta}, state)
   }
 
   // meaning function
