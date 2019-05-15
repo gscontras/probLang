@@ -48,13 +48,13 @@ It seems doubtful that we would ever be able to capture the meaning of generics 
 ~~~~
 var theta = 0.49
 var generic = function(prevalence){ prevalence > theta }
-var number_of_birds_that_lay_eggs = 0.5;
-var number_of_birds_that_are_female = 0.5;
-var number_of_mosquitos_that_carry_malaria = 0.02;
+var percentage_of_birds_that_lay_eggs = 0.5;
+var percentage_of_birds_that_are_female = 0.5;
+var percentage_of_mosquitos_that_carry_malaria = 0.02;
 
-display("Birds lay eggs is true ? " + generic(number_of_birds_that_lay_eggs))
-display("Birds are female is true ? " + generic(number_of_birds_that_are_female))
-display("Mosquitos carry malaria is true ? " + generic(number_of_mosquitos_that_carry_malaria))
+display("Birds lay eggs? " + generic(percentage_of_birds_that_lay_eggs))
+display("Birds are female? " + generic(percentage_of_birds_that_are_female))
+display("Mosquitos carry malaria? " + generic(percentage_of_mosquitos_that_carry_malaria))
 
 ~~~~
 
