@@ -64,9 +64,9 @@
 
 \section{Introduction}
 
-XXX
+Goodies list of RSA
 
-\section{Conceptual overview of the RSA framework}
+\section{High-level overview of framework}
 
 The RSA framework views language understanding as a process of recursive social reasoning between speakers and listeners: listeners interpret the utterances they hear by reasoning about how speakers generate them; speakers choose their utterances by reasoning about how listeners interpret them. In the basic, vanilla RSA model, this recursion involves three layers of inference. Typically formulated as statements of conditional probability, as in (\ref{L0}--\ref{L1}), these inference layers correspond to models of speakers and listeners.
 
@@ -89,28 +89,23 @@ One layer up, a pragmatic speaker, $S_1$, chooses utterances in proportion to th
 
 At the top layer of inference, the pragmatic listener, $L_1$, interprets utterances to infer the true state of the world. However, unlike $L_0$, who reasons directly about the utterance semantics, $L_1$ reasons instead about the process that generated the utterance; that process is the speaker $S_1$. $L_1$ thus infers $s$ on the basis of $u$ by reasoning about the probability that $S_1$ would have chosen $u$ to signal $s$ to $L_0$; the higher that probability, the more likely $L_1$ is to conclude that $S_1$ indeed intended to communicate $s$. Because $L_1$ reasons about $S_1$, who in turn reasons about the literal semantics in $L_0$, $L_1$'s interpretation is affected by the semantics of $u$, albeit only indirectly via the $S_1$ layer. This space between the semantics (i.e., $L_0$) and the resulting interpretation (i.e., the posterior beliefs of $L_1$) is where pragmatics enters.
 
+MF's math (derivable from KL, connection to Grice maxims)
 
-\section{outline}
+\section{Variations on vanilla}
 
-Goodies list of RSA
+\subsection{Lexical inference type models}
 
-High-level overview of framework / Vanilla RSA
+write like this, useful for this, have the following goodies..
 
-MF’s math (derivable from KL, connection to Grice maxims)
+\subsection{QUD inference}
 
-Variations on vanilla (normally we don’t do this at the same time because it’s not necessary and it gets confusing)
+\subsection{Context/Prior inference}
 
-Lexical inference type models: write like this, useful for this, have the following goodies..
+\subsection{Epistemic inference}
 
-QUD inference
+\subsection{Complex utility/utilty inference}
 
-Context / Prior inference
-
-Epistemic inference
-
-Complex utility / utilty inference
-
-Modeling practicalities
+\section{Modeling practicalities}
 
 Free parameters (optimality, cost, alternatives)
 
@@ -120,7 +115,7 @@ QUD
 
 Linking functions
 
-Extensions / limitations
+\section{Extensions/limitations}
 
 Incrementality / processing
 
@@ -128,17 +123,11 @@ Compositionality (CCG chapter in dippl?)
 
 NLP (Dan Klein)
 
-Individual variability (cite Franke & Degen)
+Individual variability (cite Franke \& Degen)
 
-“Just” a computational level theory. Doesn’t bear on mechanisms. But, potentially a hook via resource rational analysis (Leider, Griffiths, …)
+``Just'' a computational level theory. Doesn't bear on mechanisms. But, potentially a hook via resource rational analysis (Leider, Griffiths, ...)
 
-Hand-coded: Don’t have a theory of alternatives, state priors
-
-
-
-\section{Chapter overview}
-
-XXX
+Hand-coded: Don't have a theory of alternatives, state priors
 
 \section{Summary and outlook}
 
