@@ -1,0 +1,47 @@
+\begin{thebibliography}{6}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\providecommand{\urlprefix}{}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi:\discretionary{}{}{}#1}\else
+  \providecommand{\doi}{doi:\discretionary{}{}{}\begingroup
+  \urlstyle{rm}\Url}\fi
+
+\bibitem[{Frank \& Goodman(2012)}]{frankgoodman2012}
+Frank, Michael~C. \& Noah~D. Goodman. 2012.
+\newblock Predicting pragmatic reasoning in language games.
+\newblock \emph{Science} 336. 998--998.
+
+\bibitem[{Franke \& J\"{a}ger(2016)}]{frankejaeger2016}
+Franke, Michael \& Gerhard J\"{a}ger. 2016.
+\newblock Probabilistic pragmatics, or why {B}ayes' rule is probably important
+  for pragmatics.
+\newblock \emph{Zeitschrift f\"{u}r Sprachwissenschaf} 35. 3--44.
+
+\bibitem[{Goodman \& Frank(2016)}]{goodmanfrank2016}
+Goodman, Noah~D. \& Michael~C. Frank. 2016.
+\newblock Pragmatic language interpretation as probabilistic inference.
+\newblock \emph{Trends in Cognitive Sciences} 20(11). 818--829.
+
+\bibitem[{Kao et~al.(2014{\natexlab{a}})Kao, Bergen \&
+  Goodman}]{kaoetal2014metaphor}
+Kao, Justine~T, Leon Bergen \& Noah~D. Goodman. 2014{\natexlab{a}}.
+\newblock Formalizing the pragmatics of metaphor understanding.
+\newblock In \emph{Proceedings of the thirty-sixth annual conference of the
+  {C}ognitive {S}cience {S}ociety}, 719--724.
+
+\bibitem[{Kao et~al.(2014{\natexlab{b}})Kao, Wu, Bergen \&
+  Goodman}]{kaoetal2014}
+Kao, Justine~T, Jean~Y Wu, Leon Bergen \& Noah~D. Goodman. 2014{\natexlab{b}}.
+\newblock Non-literal understanding of number words.
+\newblock \emph{Proceedings of the National Academy of Sciences of the United
+  States of America} 111. 12002--12007.
+
+\bibitem[{Lassiter \& Goodman(2013)}]{lassitergoodman2013}
+Lassiter, Daniel \& Noah~D. Goodman. 2013.
+\newblock Context, scale structure, and statistics in the interpretation of
+  positive-form adjectives.
+\newblock In Todd Snider (ed.), \emph{Proceedings of {SALT} 23}, 587--610. CLC
+  Publications.
+
+\end{thebibliography}

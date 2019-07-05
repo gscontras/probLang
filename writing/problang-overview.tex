@@ -66,7 +66,14 @@
 
 Goodies list of RSA
 
-\section{High-level overview of framework}
+Much work in formal, compositional semantics follows the tradition of positing systematic but inflexible theories of meaning. However, in practice, the meanings we derive from language are heavily dependent on nearly all aspects of context, both linguistic and situational. To formally explain these nuanced aspects of meaning and better understand the compositional mechanism that delivers them, recent work in formal pragmatics recognizes semantics not as one of the final steps in meaning calculation, but rather as one of the first. Within the Bayesian Rational Speech Act (RSA) framework \citep{goodmanfrank2016,frankejaeger2016}, speakers and listeners reason about each other's reasoning about the literal interpretation of utterances. The resulting interpretation necessarily depends on the literal interpretation of an utterance, but is not necessarily wholly determined by it. This move---reasoning about likely interpretations---provides ready explanations for complex phenomena ranging from metaphor \citep{kaoetal2014metaphor} and hyperbole \citep{kaoetal2014} to the specification of thresholds in degree semantics \citep{lassitergoodman2013}.
+
+The probabilistic pragmatics approach leverages the tools of structured probabilistic models formalized in a stochastic $\lambda$-calculus to develop and refine a general theory of communication. The framework synthesizes the knowledge and approaches from diverse areas---formal semantics, Bayesian models of inference, formal theories of measurement, philosophy of language, etc.---into an articulated theory of language in practice. These new tools yield broader empirical coverage and richer explanations for linguistic phenomena through the recognition of language as a means of communication, not merely a vacuum-sealed formal system. By subjecting the heretofore off-limits land of pragmatics to articulated formal models, the rapidly growing body of research both informs pragmatic phenomena and enriches theories of linguistic meaning.
+
+The current paper offers a practical introduction to the modeling framework, serving as a companion piece to the hands-on web-book at \href{https://www.problang.org}{www.problang.org}.
+
+
+\section{High-level overview of RSA}
 
 The RSA framework views language understanding as a process of recursive social reasoning between speakers and listeners: listeners interpret the utterances they hear by reasoning about how speakers generate them; speakers choose their utterances by reasoning about how listeners interpret them. In the basic, vanilla RSA model, this recursion involves three layers of inference. Typically formulated as statements of conditional probability, as in (\ref{L0}--\ref{L1}), these inference layers correspond to models of speakers and listeners.
 
@@ -134,7 +141,7 @@ Hand-coded: Don't have a theory of alternatives, state priors
 XXX
 
 
-%\bibliography{problang}
+\bibliography{problang}
 
 %\begin{addresses} %%% uncomment to de-anonymize
 %	\begin{address}
