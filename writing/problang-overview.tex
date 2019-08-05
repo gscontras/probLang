@@ -123,13 +123,22 @@ MF's math (derivable from KL, connection to Grice maxims)
 
 We have seen how vanilla RSA can model pragmatic reasoning in simple reference games and specificity implicatures more generally. In this section, we explore recent extensions of RSA meant to handle more complex language phenomena. We organize our discussion around deviations from vanilla RSA, highlighting novel technology and the phenomena it captures.
 
+$$P_{S_1}(u|s) \propto \textrm{exp}(\alpha (\textrm{log}P_{L_0}(s|\sem{$u$}) - C(u)))$$
+
 \subsection{Lexical inference type models}
 
 write like this, useful for this, have the following goodies..
 
+$$P_{S_1}(u|s, \textbf{x}) \propto \textrm{exp}(\alpha (\textrm{log}P_{L_0}(s|\sem{$u$}^{\textbf{x}}) - C(u)))$$
+
+
 \subsection{QUD inference}
 
+$$P_{S_1}(u|s, \textbf{x}) \propto \textrm{exp}(\alpha (\textrm{log}P_{L_0}(F(s,\textbf{x})|\sem{$u$}) - C(u)))$$
+
 \subsection{Context/Prior inference}
+
+$$P_{S_1}(u|s, \textbf{x}) \propto \textrm{exp}(\alpha (\textrm{log}P_{L_0}(s|\sem{$u$}, \textbf{x}) - C(u)))$$
 
 \subsection{Epistemic inference}
 
