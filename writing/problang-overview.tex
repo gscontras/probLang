@@ -126,11 +126,12 @@ XXX scalar implicature?
 
 \mf{start MF - - - - - }
 
-The vanilla RSA model, as described above in Equations \eqref{L0}--\eqref{L1}, is a direct
-formalization of Grice's idea that listeners can infer pragmatic meaning based on the
-assumption that speakers adheres to certain rules of behavior, the so-called Maxims of
-Conversation \citep{Grice1975:Logic-and-Conve}. This becomes transparent if we rewrite the
-speaker's utterance choice probability, starting from the definition in \eqref{S1}. 
+\paragraph{Relation to Gricean Maxims.} The vanilla RSA model, as described above in Equations
+\eqref{L0}--\eqref{L1}, is a direct formalization of Grice's idea that listeners can infer
+pragmatic meaning based on the assumption that speakers adheres to certain rules of behavior,
+the so-called Maxims of Conversation \citep{Grice1975:Logic-and-Conve}. This becomes
+transparent if we rewrite the speaker's utterance choice probability, starting from the
+definition in \eqref{S1}.
 %
 \begin{align} \label{eq:S1-rewrite}
   P_{S_1(u\mid s)} & \propto \exp \left [ \alpha \left (\log P_{L_0}(s \mid u) - C(u) \right)  \right ] & \text{\textcolor{gray}{[definitions \eqref{U} \& \eqref{S1}]}} \\
@@ -143,7 +144,7 @@ The reformulation in~\eqref{eq:S1-rewrite} shows how the speaker's choice probab
 product of three factors, each of which corresponds to a central postulate of Grice's
 concerning how cooperative and, arguably, rational speakers should tailor their contributions
 to a conversation. Let's just recast everything in more telling notation by setting:
-$\text{Truth}(u,s) = \sem{u}(s)$, $\text{Informativity}(u) = |\sem(u)|^{-1}$, and
+$\text{Truth}(u,s) = \sem{u}(s)$, $\text{Informativity}(u) = |\sem{u}|^{-1}$, and
 $\text{Economy(u)} = \log C(u)$. We can then rewrite the speaker rule as (notice that for
 binary truth-values, $\alpha$ can be dropped from the factor $\text{Truth}$):
 \begin{align} \label{eq:S1-three-factor-formulation}
@@ -180,6 +181,76 @@ of how easy these utterances come to mind, and then compares the available optio
 their salience/prominence) based on the other factors relevant for communication: truth and
 informativity. \mf{I'm not sure if this paragraph needs to go here; it might have a better
   place elsewhere; but stressing the 'algorithmic picture' somewhere might be good}
+
+\paragraph{Informativity from alignment of beliefs.} As we have just seen, the vanilla RSA
+model's definition of speaker's choice probabilities can be interpreted as a product of three
+factors that correspond closely to Gricean Maxims of Quality, Quantity and Manner. Clearly,
+this is just one formal implementation; others are readily conceivable. Given the particular
+importance of informativity for many pragmatic explanations, it is justified to further dissect
+the way informativity is treated in the RSA model. In the following, we show that \eqref{U} \&
+\eqref{S1} follows from a simple idea, when spelled out in a natural way: the speaker has some
+belief about the relevant world states, e.g., captured in probability distribution $P_{S\text{-}Bel}$;
+after an utterance of $u$ the literal listener's beliefs about the relevant world states are
+represented as another probability distribution $P_{LL\text{-}Bel}(u)$; an utterance $u$ is better
+than another utterance $u'$ if the listener's beliefs $P_{LL\text{-}Bel}(u)$ after hearing $u$ are
+more aligned with the speaker's beliefs $P_{S\text{-}Bel}$ than the listener's beliefs
+$P_{LL\text{-}Bel}(u')$ after hearing $u'$. If we spell out ``being more aligned with'' in terms of an
+information-theoretic notion of divergence between probability distributions, the vanilla RSA
+model is recovered. In the back of it all, however, is simply the idea that the speaker prefers
+utterances that best align speaker's and listener's relevant beliefs about the world.
+
+A useful notion of ``alignment of probability distributions'' is the information-theoretic
+measure of Kullback-Leibler divergence. KL-divergence is not symmetric, but considers one of
+two to-be-compared probability distributions as the ground-truth or the objective function to
+to be approximated. This makes sense in for application to language because it is the speaker's
+beliefs that the listener should align to. KL-divergence then measures divergence in terms of,
+essentially, the expected number of extra bits needed to encode a signal that was generated
+from the true distribution with the approximate distribution. \mf{leave out that last
+  sentence?} The Kullback-Leibler divergence between (baseline/true) probability distribution
+$P_{S\text{-}Bel}$ and (approximate/to-be-optimized) probability distribution
+$P_{LL\text{-}Bel}(u)$ is defined as:
+\begin{align}
+  \label{eq:KL-divergence}
+  \text{KL}(P_{S\text{-}Bel} \mid \mid P_{LL\text{-}Bel}(u)) = - \sum_{s} P_{S\text{-}Bel}(s) \ \log \frac{P_{S\text{-}Bel}(s)}{P_{LL\text{-}Bel}(u,s)}
+\end{align}
+
+Using KL-divergence, we can then state a more general definition of utterance utilities, to
+replace \eqref{U}:
+\begin{align}
+  \label{eq:Utils-KL-based}
+  U_{S_1}(u; s) = \text{KL}(P_{S\text{-}Bel} \mid \mid P_{LL\text{-}Bel}(u)) - C(u)
+\end{align}
+The formulation in \eqref{U} is a special case of the more general \eqref{eq:Utils-KL-based}
+which follows if the speaker's beliefs about the relevant world states are degenerate, i.e.,
+whenever the speaker knows the true world state $s^{*}$, so that $P_{S\text{-}Bel}(s^{*})=1$.
+In that case, we have:
+\begin{align*}
+  \text{KL}(P_{S\text{-}Bel} \mid \mid P_{LL\text{-}Bel}(u)) & = - \sum_{s} P_{S\text{-}Bel}(s) \ \log \frac{P_{S\text{-}Bel}(s)}{P_{LL\text{-}Bel}(u,s)} \\
+  & =  - \log\frac{1}{P_{LL\text{-}Bel}(s^*)} = \log P_{LL\text{-}Bel}(s^*)
+\end{align*}
+
+
+
+If the speaker knows the true world
+state $s^*$, she has a degenerate probabilistic belief about world states $P_{S_1} \in
+\Delta(S)$ which assigns probability 1 to the true $s^*$ and 0 to any other world state.
+After an utterance $u$, the literal listener also has a probability distribution over world
+states $P_{L_0} \in \Delta(S)$. One way of thinking about what happens in cooperative
+discourse that maximizes relevant information flow is that the speaker tries to choose
+utterances $u$ such that the listener's beliefs (after hearing an utterance) is maximally
+similar to the belief of the speaker. In other words, speakers choose to say things that
+assimilate the listener's belief state to their own as much as possible. A notion of divergence
+between probability distributions is the Kullback-Leibler divergence. A defintion of utility in
+terms of minimization of KL-divergence derives the original suprisal-based definition, if the
+speaker's beliefs are degenerate:
+
+$U_{S_1}(P_{S_1}, P_{L_0}) = - \text{KL}(P_{S_1} \mid\mid P_{L_0} )$
+
+$= - \sum_{s'} P_{S_1}(s) \ \log \frac{P_{S_1}(s)}{P_{L_0}(s)}$
+
+$$ = - \log\frac{1}{P_{L_0}(s^*)} = \log P_{L_0}(s^*) $$
+
+
 
 
 
