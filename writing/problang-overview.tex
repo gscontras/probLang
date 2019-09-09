@@ -226,37 +226,8 @@ whenever the speaker knows the true world state $s^{*}$, so that $P_{S\text{-}Be
 In that case, we have:
 \begin{align*}
   \text{KL}(P_{S\text{-}Bel} \mid \mid P_{LL\text{-}Bel}(u)) & = - \sum_{s} P_{S\text{-}Bel}(s) \ \log \frac{P_{S\text{-}Bel}(s)}{P_{LL\text{-}Bel}(u,s)} \\
-  & =  - \log\frac{1}{P_{LL\text{-}Bel}(s^*)} = \log P_{LL\text{-}Bel}(s^*)
+  & =  - \log\frac{1}{P_{LL\text{-}Bel}(u,s^*)} = \log P_{LL\text{-}Bel}(u,s^*)
 \end{align*}
-
-
-
-If the speaker knows the true world
-state $s^*$, she has a degenerate probabilistic belief about world states $P_{S_1} \in
-\Delta(S)$ which assigns probability 1 to the true $s^*$ and 0 to any other world state.
-After an utterance $u$, the literal listener also has a probability distribution over world
-states $P_{L_0} \in \Delta(S)$. One way of thinking about what happens in cooperative
-discourse that maximizes relevant information flow is that the speaker tries to choose
-utterances $u$ such that the listener's beliefs (after hearing an utterance) is maximally
-similar to the belief of the speaker. In other words, speakers choose to say things that
-assimilate the listener's belief state to their own as much as possible. A notion of divergence
-between probability distributions is the Kullback-Leibler divergence. A defintion of utility in
-terms of minimization of KL-divergence derives the original suprisal-based definition, if the
-speaker's beliefs are degenerate:
-
-$U_{S_1}(P_{S_1}, P_{L_0}) = - \text{KL}(P_{S_1} \mid\mid P_{L_0} )$
-
-$= - \sum_{s'} P_{S_1}(s) \ \log \frac{P_{S_1}(s)}{P_{L_0}(s)}$
-
-$$ = - \log\frac{1}{P_{L_0}(s^*)} = \log P_{L_0}(s^*) $$
-
-
-
-
-
-\begin{itemize}
-\item derivation from KL divergence
-\end{itemize}
 
 \mf{end MF - - - - - }
 
