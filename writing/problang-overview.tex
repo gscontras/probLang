@@ -136,35 +136,54 @@ speaker's utterance choice probability, starting from the definition in \eqref{S
   P_{S_1(u\mid s)} & \propto \exp \left [ \alpha \left (\log P_{L_0}(s \mid u) - C(u) \right)  \right ] & \text{\textcolor{gray}{[definitions \eqref{U} \& \eqref{S1}]}} \\
   % & = \left [\exp \left ( \log P_{L_0}(s \mid u) - C(u) \right ) \right ]^\alpha & \text{\textcolor{gray}{[rules exponential function]}} \nonumber \\  
   & = \left (P_{L_0}(s \mid u) \  \frac{1}{\log C(u)} \right)^{\alpha} & \text{\textcolor{gray}{[rules exponential \& log]}} \nonumber \\
-  & = \left ( \frac{\sem{u}(s)}{| \sem{u} |} \right )^{\alpha} \  (\log C(u))^{-\alpha} & \text{\textcolor{gray}{[definition \eqref{L0}]}} \nonumber \\
-  & = \underbrace{\sem{u}(s)^{\alpha}}_{\text{Quantity}} \ \underbrace{| \sem{u} |^{-\alpha}}_{\text{Quantity}} \  \underbrace{(\log C(u))^{-\alpha}}_{\text{Manner}} & \text{\textcolor{gray}{[definition \eqref{L0}]}} \nonumber
+  & = \left ( \frac{\sem{u}(s)}{| \sem{u} |} \ \frac{1}{\log C(u)} \right )^{\alpha} & \text{\textcolor{gray}{[definition \eqref{L0}]}} \nonumber 
 \end{align}
 %
 The reformulation in~\eqref{eq:S1-rewrite} shows how the speaker's choice probabilities are a
 product of three factors, each of which corresponds to a central postulate of Grice's
 concerning how cooperative and, arguably, rational speakers should tailor their contributions
-to a conversation. The RSA speaker assumes that speakers (i) maximize truth (i.e., for
-classical binary truth-values, utter no falsehoods if they can select at least one true
-message), (ii) maximize informativity (all else equal) and (iii) minimize utterance cost (all
-else equal). The more rational a speaker (i.e., the higher $\alpha$), the more pronounced are
-the latter to optimization tendencies. (Notice that this reflects the special status that Grice
-bestowed on the Maxim of Quantity: truthfulness is not affected by the speaker's degree of
-optimizing informativity and costs.)
+to a conversation. Let's just recast everything in more telling notation by setting:
+$\text{Truth}(u,s) = \sem{u}(s)$, $\text{Informativity}(u) = |\sem(u)|^{-1}$, and
+$\text{Economy(u)} = \log C(u)$. We can then rewrite the speaker rule as (notice that for
+binary truth-values, $\alpha$ can be dropped from the factor $\text{Truth}$):
+\begin{align} \label{eq:S1-three-factor-formulation}
+  P_{S_1(u\mid s)}   & \propto \text{Truth}(u,s) \ \text{Informativity}(u)^{\alpha} \ \text{Economy}(u)^{\alpha} % \propto \underbrace{\sem{u}(s)^{\alpha}}_{\text{Quantity}} \ \underbrace{| \sem{u} |^{-\alpha}}_{\text{Quantity}} \  \underbrace{(\log C(u))^{-\alpha}}_{\text{Manner}} & \text{\textcolor{gray}{[definition \eqref{L0}]}} \nonumber
+\end{align}
+These three factors directly capture (one formalization of) the Gricean Maxims of Quality,
+Quantity, and Manner. In effect, the RSA speaker assumes that speakers (i) maximize truth
+(i.e., for classical binary truth-values, utter no falsehoods if they can select at least one
+true message), (ii) maximize informativity (all else equal) and (iii) maximize utterance
+economy (all else equal). The more rational a speaker (i.e., the higher $\alpha$), the more
+pronounced are the latter two optimization tendencies. (Notice that this reflects the special
+status that Grice bestowed on the Maxim of Quantity: (binary) truthfulness is not affected by
+the speaker's degree of optimizing informativity and costs.)
 
 The formulation in \eqref{eq:S1-rewrite} also highlights that it is easy to define nearby
-alternative models of speaker production, for instance, by decoupling the utterance costs from
-the influence of the rationality parameter $\alpha$, like so:
+alternative models of speaker production, which go beyond Grice's seminal work, but allow to
+capture psychological factors, e.g., from a more algorithmic perspective on how speakers
+generate utterances. For instance, some applications might want to capture differences between
+utterance alternatives that are not related to production economy or cost, but rather to the
+ease with which an alternative utterance comes to mind. The latter factor of \emph{differential
+  salience} is arguably not subject to optimization: it is not the case that the more rational
+a speaker is, the more she would tend to select only the utterances which come to mind most
+easily. We can implement differential salience (ease of retrieval) for instance in a
+formulation like this:
 %
 \begin{align}
   \label{eq:S1-utterance-salience}
-  P_{S_1(u\mid s)} \propto  \sem{u}(s) \ | \sem{u} |^{-\alpha} \  (\log C(u))
+  P_{S_1(u\mid s)}^{\text{Salience}}   & \propto \text{Truth}(u,s) \ \text{Informativity}(u)^{\alpha} \ \text{Salience}(u)
 \end{align}
-%
-This 
+An implementation of the speaker model in \eqref{eq:S1-utterance-salience} would implement the
+factor $\text{Salience}(u)$ as an \emph{utterance prior}, suggesting an algorithmic
+picture of utterance choice: the speaker searches for utterances to choose, based on a gradient
+of how easy these utterances come to mind, and then compares the available options (weighted by
+their salience/prominence) based on the other factors relevant for communication: truth and
+informativity. \mf{I'm not sure if this paragraph needs to go here; it might have a better
+  place elsewhere; but stressing the 'algorithmic picture' somewhere might be good}
+
+
 
 \begin{itemize}
-\item connection to Grice's maxims
-\item costs as salience vs as production costs
 \item derivation from KL divergence
 \end{itemize}
 
