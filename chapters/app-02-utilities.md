@@ -24,7 +24,7 @@ The above definition of utilities uses information theoretic surprisal to implem
 
 $$U_{S_1}(P_{S_1}, P_{L_0}) = - \text{KL}(P_{S_1} \mid\mid P_{L_0} )$$
 
-$$= - \sum_{s'} P_{S_1}(s) \ \log \frac{P_{S_1}(s)}{P_{L_0}(s)}$$
+$$= - \sum_{s} P_{S_1}(s) \ \log \frac{P_{S_1}(s)}{P_{L_0}(s)}$$
 
 $$ = - \log\frac{1}{P_{L_0}(s^*)} = \log P_{L_0}(s^*) $$
 
