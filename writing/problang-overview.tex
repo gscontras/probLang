@@ -20,8 +20,6 @@
 %	\spauthor{author3 \\ \institute{affiliation3}}
 }
 
-	
-
 \usepackage{linguex}
 \usepackage{qtree}
 \qtreecenterfalse
@@ -43,10 +41,11 @@
 \def\url#1{\expandafter\string\csname #1\endcsname}
 
 \newcommand{\gcs}[1]{\textcolor{blue}{[gcs: #1]}}  
+\newcommand{\mf}[1]{\textcolor{orange}{[mf: #1]}}  
 
 \newcommand{\type}[1]{\ensuremath{\left \langle #1 \right \rangle }}
 \newcommand{\lam}{\ensuremath{\lambda}}
-\newcommand{\sem}[1]{\mbox{$[\![$#1$]\!]$}}
+\newcommand{\sem}[1]{\ensuremath{[\![#1]\!]}}
 
 \renewcommand{\firstrefdash}{}
 
@@ -80,19 +79,27 @@ The current paper offers a practical introduction to the modeling framework, ser
 The RSA framework views language understanding as a process of recursive social reasoning between speakers and listeners: listeners interpret the utterances they hear by reasoning about how speakers generate them; speakers choose their utterances by reasoning about how listeners interpret them. In the basic, vanilla RSA model from \cite{frankgoodman2012}, this recursion involves three layers of inference. Typically formulated as statements of conditional probability, as in (\ref{L0}), (\ref{S1}), and (\ref{L1}), these inference layers correspond to models of speakers and listeners.
 
 \begin{equation} \label{L0}
-P_{L_0}(s|u) \propto \delta_{[\![u]\!](s)}
+P_{L_0}(s \mid u) \propto \sem{u}(s)
 \end{equation}
 \begin{equation} \label{U}
-U_{S_1}(u; s) = \textrm{log}P_{L_0}(s|u) - C(u)
+U_{S_1}(u; s) = \textrm{log}P_{L_0}(s \mid u) - C(u)
 \end{equation}
 \begin{equation} \label{S1}
-P_{S_1}(u|s) \propto \textrm{exp}(\alpha \cdot U_{S_1}(u;s))
+P_{S_1}(u \mid s) \propto \textrm{exp}(\alpha \cdot U_{S_1}(u;s))
 \end{equation}
 \begin{equation} \label{L1}
-P_{L_1}(s|u) \propto P_{S_1}(u|s) \cdot P(s)
+P_{L_1}(s \mid u) \propto P_{S_1}(u \mid s) \cdot P(s)
 \end{equation}
 
-The reasoning grounds out in the naive, literal listener, $L_0$, who interprets utterances according to their literal semantics. In other words, $L_0$ hears some utterance $u$ and infers the state of the world $s$ that $u$ was meant to describe. $L_0$ performs this inference by restricting the set of possible states to just those that are compatible with the literal, truth-functional semantics of $u$, returning a uniform probability distribution over the states $s$ that $u$ maps to \texttt{true}.
+The reasoning grounds out in the naive, literal listener, $L_0$, who interprets utterances
+according to their literal semantics. The semantics of utterance $u$ is captured in meaning
+function $\sem{u} \colon s \mapsto [0;1]$ which maps states to truth values. We assume binary
+truth-values here, but the formalism works just as well for non-binary, e.g., fuzzy semantics
+\mf{insert refs: Degen on overspecification, Steinert on vagueness, ...?}. According to
+\eqref{L0}, $L_0$ hears some utterance $u$ and infers the state of the world $s$ that $u$ was
+meant to describe by restricting the set of possible states to just those that are compatible
+with the literal, truth-functional semantics of $u$, returning a uniform probability
+distribution over the states $s$ that $u$ maps to \texttt{true}.
 
 One layer up, a pragmatic speaker, $S_1$, chooses utterances in proportion to their utility $U_{S_{1}}$. Utterances are useful to the extent that they maximize the probability that $L_0$ will infer the correct $s$ on the basis of $u$, while minimizing the cost of $u$ ($C(u)$; speakers aim to be efficient). So, when selecting utterances, $S_1$ considers their effect on interpretation (i.e., on $L_0$'s resulting beliefs); utterances that are most likely to lead $L_0$ to the correct belief are most likely to be chosen by $S_1$.
 
@@ -117,28 +124,72 @@ A key component of the RSA framework is the updating of prior beliefs: listeners
 
 XXX scalar implicature?
 
-MF's math (derivable from KL, connection to Grice maxims)
+\mf{start MF - - - - - }
+
+The vanilla RSA model, as described above in Equations \eqref{L0}--\eqref{L1}, is a direct
+formalization of Grice's idea that listeners can infer pragmatic meaning based on the
+assumption that speakers adheres to certain rules of behavior, the so-called Maxims of
+Conversation \citep{Grice1975:Logic-and-Conve}. This becomes transparent if we rewrite the
+speaker's utterance choice probability, starting from the definition in \eqref{S1}. 
+%
+\begin{align} \label{eq:S1-rewrite}
+  P_{S_1(u\mid s)} & \propto \exp \left [ \alpha \left (\log P_{L_0}(s \mid u) - C(u) \right)  \right ] & \text{\textcolor{gray}{[definitions \eqref{U} \& \eqref{S1}]}} \\
+  % & = \left [\exp \left ( \log P_{L_0}(s \mid u) - C(u) \right ) \right ]^\alpha & \text{\textcolor{gray}{[rules exponential function]}} \nonumber \\  
+  & = \left (P_{L_0}(s \mid u) \  \frac{1}{\log C(u)} \right)^{\alpha} & \text{\textcolor{gray}{[rules exponential \& log]}} \nonumber \\
+  & = \left ( \frac{\sem{u}(s)}{| \sem{u} |} \right )^{\alpha} \  (\log C(u))^{-\alpha} & \text{\textcolor{gray}{[definition \eqref{L0}]}} \nonumber \\
+  & = \underbrace{\sem{u}(s)^{\alpha}}_{\text{Quantity}} \ \underbrace{| \sem{u} |^{-\alpha}}_{\text{Quantity}} \  \underbrace{(\log C(u))^{-\alpha}}_{\text{Manner}} & \text{\textcolor{gray}{[definition \eqref{L0}]}} \nonumber
+\end{align}
+%
+The reformulation in~\eqref{eq:S1-rewrite} shows how the speaker's choice probabilities are a
+product of three factors, each of which corresponds to a central postulate of Grice's
+concerning how cooperative and, arguably, rational speakers should tailor their contributions
+to a conversation. The RSA speaker assumes that speakers (i) maximize truth (i.e., for
+classical binary truth-values, utter no falsehoods if they can select at least one true
+message), (ii) maximize informativity (all else equal) and (iii) minimize utterance cost (all
+else equal). The more rational a speaker (i.e., the higher $\alpha$), the more pronounced are
+the latter to optimization tendencies. (Notice that this reflects the special status that Grice
+bestowed on the Maxim of Quantity: truthfulness is not affected by the speaker's degree of
+optimizing informativity and costs.)
+
+The formulation in \eqref{eq:S1-rewrite} also highlights that it is easy to define nearby
+alternative models of speaker production, for instance, by decoupling the utterance costs from
+the influence of the rationality parameter $\alpha$, like so:
+%
+\begin{align}
+  \label{eq:S1-utterance-salience}
+  P_{S_1(u\mid s)} \propto  \sem{u}(s) \ | \sem{u} |^{-\alpha} \  (\log C(u))
+\end{align}
+%
+This 
+
+\begin{itemize}
+\item connection to Grice's maxims
+\item costs as salience vs as production costs
+\item derivation from KL divergence
+\end{itemize}
+
+\mf{end MF - - - - - }
 
 \section{Variations on vanilla} \label{variations}
 
 We have seen how vanilla RSA can model pragmatic reasoning in simple reference games and specificity implicatures more generally. In this section, we explore recent extensions of RSA meant to handle more complex language phenomena. We organize our discussion around deviations from vanilla RSA, highlighting novel technology and the phenomena it captures.
 
-$$P_{S_1}(u|s) \propto \textrm{exp}(\alpha (\textrm{log}P_{L_0}(s|\sem{$u$}) - C(u)))$$
+$$P_{S_1}(u|s) \propto \textrm{exp}(\alpha (\textrm{log}P_{L_0}(s|\sem{u}) - C(u)))$$
 
 \subsection{Lexical inference type models}
 
 write like this, useful for this, have the following goodies..
 
-$$P_{S_1}(u|s, \textbf{x}) \propto \textrm{exp}(\alpha (\textrm{log}P_{L_0}(s|\sem{$u$}^{\textbf{x}}) - C(u)))$$
+$$P_{S_1}(u|s, \textbf{x}) \propto \textrm{exp}(\alpha (\textrm{log}P_{L_0}(s|\sem{u}^{\textbf{x}}) - C(u)))$$
 
 
 \subsection{QUD inference}
 
-$$P_{S_1}(u|s, \textbf{x}) \propto \textrm{exp}(\alpha (\textrm{log}P_{L_0}(F(s,\textbf{x})|\sem{$u$}) - C(u)))$$
+$$P_{S_1}(u|s, \textbf{x}) \propto \textrm{exp}(\alpha (\textrm{log}P_{L_0}(F(s,\textbf{x})|\sem{u}) - C(u)))$$
 
 \subsection{Context/Prior inference}
 
-$$P_{S_1}(u|s, \textbf{x}) \propto \textrm{exp}(\alpha (\textrm{log}P_{L_0}(s|\sem{$u$}, \textbf{x}) - C(u)))$$
+$$P_{S_1}(u|s, \textbf{x}) \propto \textrm{exp}(\alpha (\textrm{log}P_{L_0}(s|\sem{u}, \textbf{x}) - C(u)))$$
 
 \subsection{Epistemic inference}
 

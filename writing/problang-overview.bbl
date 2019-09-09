@@ -1,4 +1,4 @@
-\begin{thebibliography}{6}
+\begin{thebibliography}{7}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \providecommand{\urlprefix}{}
@@ -22,6 +22,12 @@ Franke, Michael \& Gerhard J\"{a}ger. 2016.
 Goodman, Noah~D. \& Michael~C. Frank. 2016.
 \newblock Pragmatic language interpretation as probabilistic inference.
 \newblock \emph{Trends in Cognitive Sciences} 20(11). 818--829.
+
+\bibitem[{Grice(1975)}]{Grice1975:Logic-and-Conve}
+Grice, Paul~Herbert. 1975.
+\newblock Logic and conversation.
+\newblock In Peter Cole \& Jerry~L. Morgan (eds.), \emph{Syntax and semantics,
+  vol.~3, speech acts}, 41--58. New York: Academic Press.
 
 \bibitem[{Kao et~al.(2014{\natexlab{a}})Kao, Bergen \&
   Goodman}]{kaoetal2014metaphor}
