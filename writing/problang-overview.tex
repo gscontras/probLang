@@ -128,9 +128,9 @@ XXX scalar implicature?
 
 \paragraph{Relation to Gricean Maxims.} The vanilla RSA model, as described above in Equations
 \eqref{L0}--\eqref{L1}, is a direct formalization of Grice's idea that listeners can infer
-pragmatic meaning based on the assumption that speakers adheres to certain rules of behavior,
-the so-called Maxims of Conversation \citep{Grice1975:Logic-and-Conve}. This becomes
-transparent if we rewrite the speaker's utterance choice probability, starting from the
+pragmatic meaning based on the assumption that speakers adhere to certain rules of behavior,
+the so-called ``Maxims of Conversation'' \citep{Grice1975:Logic-and-Conve}. This relationship to Grice's maxims becomes
+transparent if we rewrite the speaker's utterance-choice probability, starting from the
 definition in \eqref{S1}.
 %
 \begin{align} \label{eq:S1-rewrite}
@@ -141,21 +141,20 @@ definition in \eqref{S1}.
 \end{align}
 %
 The reformulation in~\eqref{eq:S1-rewrite} shows how the speaker's choice probabilities are a
-product of three factors, each of which corresponds to a central postulate of Grice's
-concerning how cooperative and, arguably, rational speakers should tailor their contributions
-to a conversation. Let's just recast everything in more telling notation by setting:
+product of three factors, each corresponding to a central postulate concerning how cooperative and, arguably, rational speakers should tailor their contributions
+to a conversation. Suppose we recast the components as follows:
 $\text{Truth}(u,s) = \sem{u}(s)$, $\text{Informativity}(u) = |\sem{u}|^{-1}$, and
-$\text{Economy(u)} = \log C(u)$. We can then rewrite the speaker rule as (notice that for
-binary truth-values, $\alpha$ can be dropped from the factor $\text{Truth}$):
+$\text{Economy(u)} = \log C(u)$. We can then rewrite the speaker rule as:\footnote{For
+binary truth-values, $\alpha$ can be dropped from the factor $\text{Truth}$.}
 \begin{align} \label{eq:S1-three-factor-formulation}
   P_{S_1(u\mid s)}   & \propto \text{Truth}(u,s) \ \text{Informativity}(u)^{\alpha} \ \text{Economy}(u)^{\alpha} % \propto \underbrace{\sem{u}(s)^{\alpha}}_{\text{Quantity}} \ \underbrace{| \sem{u} |^{-\alpha}}_{\text{Quantity}} \  \underbrace{(\log C(u))^{-\alpha}}_{\text{Manner}} & \text{\textcolor{gray}{[definition \eqref{L0}]}} \nonumber
 \end{align}
-These three factors directly capture (one formalization of) the Gricean Maxims of Quality,
+These three factors directly capture (a formalization of) the Gricean Maxims of Quality,
 Quantity, and Manner. In effect, the RSA speaker assumes that speakers (i) maximize truth
-(i.e., for classical binary truth-values, utter no falsehoods if they can select at least one
+(i.e., they utter no falsehoods if they can select at least one
 true message), (ii) maximize informativity (all else equal) and (iii) maximize utterance
 economy (all else equal). The more rational a speaker (i.e., the higher $\alpha$), the more
-pronounced are the latter two optimization tendencies. (Notice that this reflects the special
+pronounced the latter two optimization tendencies become. (Notice that this reflects the special
 status that Grice bestowed on the Maxim of Quantity: (binary) truthfulness is not affected by
 the speaker's degree of optimizing informativity and costs.)
 
