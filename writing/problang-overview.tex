@@ -230,15 +230,26 @@ In that case, we have:
 
 \section{Variations on vanilla} \label{variations}
 
-We have seen how vanilla RSA can model pragmatic reasoning in simple reference games and specificity implicatures more generally. In this section, we explore recent extensions of RSA meant to handle more complex language phenomena. We organize our discussion around deviations from vanilla RSA, highlighting novel technology and the phenomena it captures.
+We have seen how vanilla RSA can model pragmatic reasoning in simple reference games, as well as specificity implicatures more generally. In this section, we explore recent extensions of RSA meant to handle more complex language phenomena. We organize our discussion around deviations from vanilla RSA, highlighting novel technology and the phenomena it captures. As a point of reference for vanilla RSA, we repeat the $S_1$ utterance choice rule below, where a pragmatic speaker selects utterances in proportion to their utility in conveying some observed state of affairs to a naive listener who interprets the utterance according to its literal semantics---all while minimizing utterance cost. As we shall see, many of the extensions of RSA can be characterized in terms of their deviation from this simple utterance choice rule.
 
-$$P_{S_1}(u|s) \propto \textrm{exp}(\alpha (\textrm{log}P_{L_0}(s|\sem{u}) - C(u)))$$
+\begin{equation} \label{S1-repeat}
+P_{S_1}(u|s) \propto \textrm{exp}(\alpha (\textrm{log}P_{L_0}(s|\sem{u}) - C(u)))
+\end{equation}
 
-\subsection{Lexical inference type models}
+\subsection{Meaning inference}
 
-write like this, useful for this, have the following goodies..
+Vanilla RSA assumes a fixed utterance semantics that is shared by both speakers and listeners. But what happens when we parameterize the interpretation function such that the utterance semantics is subject to change? This move is illustrated in \eqref{S1-lexical-uncertainty}, where the variable \textbf{x} determines the truth-functional mapping for an utterance $u$. Once named, this interpretation-fixing variable \textbf{x} becomes subject to active pragmatic reasoning. In other words, we can allow for uncertainty around \textbf{x}, such that the precise semantics of $u$ might be vague or underspecified in context. What results is the class of lexical uncertainty RSA models.
 
-$$P_{S_1}(u|s, \textbf{x}) \propto \textrm{exp}(\alpha (\textrm{log}P_{L_0}(s|\sem{u}^{\textbf{x}}) - C(u)))$$
+\begin{equation} \label{S1-lexical-uncertainty}
+P_{S_1}(u|s, \textbf{x}) \propto \textrm{exp}(\alpha (\textrm{log}P_{L_0}(s|\sem{u}^{\textbf{x}}) - C(u)))
+\end{equation}
+
+\cite{lassitergoodman2013} use this technology to model the interpretation of vague gradable adjectives, whose meaning depends crucially on properties of the context, both linguistic and extra-linguistic. Take the adjective \emph{heavy}, which is true of some state (i.e., a weight) just in case the weight exceeds the relevant threshold for heaviness. However, we conclude that a \emph{heavy elephant} weighs substantially more than a \emph{heavy backpack}; moreover, the weight we attribute to the backpack is likely to vary depending on whether the speaker is a preschooler or an olympian. Thus, the threshold above which some state counts as heavy is unlikely to be a fixed, context-invariant value. 
+
+\citeauthor{lassitergoodman2013} handle the uncertainty around the threshold value by parameterizing the meaning of utterances containing gradable adjectives: \emph{heavy} will be true of some state just in case the weight exceeds the relevant threshold (as before), where this threshold (\textbf{x} in \eqref{S1-lexical-uncertainty}) gets fixed by pragmatic reasoning.
+
+
+Also a useful shorthand for modeling ambiguity resolution (quantifier scope, plural predication)
 
 
 \subsection{QUD inference}
@@ -251,7 +262,7 @@ $$P_{S_1}(u|s, \textbf{x}) \propto \textrm{exp}(\alpha (\textrm{log}P_{L_0}(s|\s
 
 \subsection{Epistemic inference}
 
-\subsection{Complex utility/utilty inference}
+\subsection{Complex utility/utility inference}
 
 \section{Modeling practicalities} \label{practicalities}
 
