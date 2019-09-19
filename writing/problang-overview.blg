@@ -1,47 +1,47 @@
-This is BibTeX, Version 0.99d (TeX Live 2018)
-Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
+This is BibTeX, Version 0.99d (TeX Live 2016)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: problang-overview.aux
 The style file: sp.bst
 Database file #1: problang.bib
 Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
-You've used 7 entries,
+You've used 14 entries,
             3147 wiz_defined-function locations,
-            655 strings with 5508 characters,
-and the built_in function-call counts, 4778 in all, are:
-= -- 403
-> -- 169
-< -- 5
-+ -- 59
-- -- 51
-* -- 322
-:= -- 712
-add.period$ -- 30
-call.type$ -- 7
-change.case$ -- 60
-chr.to.int$ -- 6
-cite$ -- 7
-duplicate$ -- 379
-empty$ -- 379
-format.name$ -- 79
-if$ -- 991
+            700 strings with 6843 characters,
+and the built_in function-call counts, 9642 in all, are:
+= -- 814
+> -- 341
+< -- 10
++ -- 118
+- -- 103
+* -- 632
+:= -- 1427
+add.period$ -- 60
+call.type$ -- 14
+change.case$ -- 123
+chr.to.int$ -- 13
+cite$ -- 14
+duplicate$ -- 778
+empty$ -- 771
+format.name$ -- 151
+if$ -- 2023
 int.to.chr$ -- 2
 int.to.str$ -- 1
-missing$ -- 74
-newline$ -- 44
-num.names$ -- 32
-pop$ -- 158
+missing$ -- 149
+newline$ -- 79
+num.names$ -- 64
+pop$ -- 318
 preamble$ -- 1
-purify$ -- 44
+purify$ -- 88
 quote$ -- 0
-skip$ -- 133
+skip$ -- 288
 stack$ -- 0
-substring$ -- 244
-swap$ -- 188
-text.length$ -- 0
+substring$ -- 483
+swap$ -- 387
+text.length$ -- 2
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 63
+type$ -- 126
 warning$ -- 0
-while$ -- 34
+while$ -- 67
 width$ -- 0
-write$ -- 101
+write$ -- 195
