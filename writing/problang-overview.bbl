@@ -1,4 +1,4 @@
-\begin{thebibliography}{14}
+\begin{thebibliography}{15}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \providecommand{\urlprefix}{}
@@ -73,6 +73,12 @@ Lassiter, Daniel \& Noah~D. Goodman. 2013.
   positive-form adjectives.
 \newblock In Todd Snider (ed.), \emph{Proceedings of {SALT} 23}, 587--610. CLC
   Publications.
+
+\bibitem[{Roberts(2012)}]{roberts2012}
+Roberts, Craige. 2012.
+\newblock Information structure in discourse: Towards an integrated formal
+  theory of pragmatics.
+\newblock \emph{Semantics and Pragmatics} 5(6). 1--69.
 
 \bibitem[{Savinelli et~al.(2017)Savinelli, Scontras \&
   Pearl}]{savinellietal2017}

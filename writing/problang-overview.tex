@@ -230,7 +230,7 @@ In that case, we have:
 
 \section{Variations on vanilla} \label{variations}
 
-We have seen how vanilla RSA can model pragmatic reasoning in simple reference games, as well as specificity implicatures more generally. In this section, we explore recent extensions of RSA meant to handle more complex language phenomena. We organize our discussion around deviations from vanilla RSA, highlighting novel technology and the phenomena it captures. As a point of reference for vanilla RSA, we repeat the $S_1$ utterance choice rule below, where a pragmatic speaker selects utterances in proportion to their utility in conveying some observed state of affairs to a naive listener who interprets the utterance according to its literal semantics---all while minimizing utterance cost. As we shall see, many of the extensions of RSA can be characterized in terms of their deviation from this simple utterance choice rule.
+We have seen how vanilla RSA can model pragmatic reasoning in simple reference games, as well as specificity implicatures more generally. In this section, we explore recent extensions of RSA meant to handle more complex language phenomena. We organize our discussion around deviations from vanilla RSA, highlighting novel technology and the phenomena it captures. As a point of reference for vanilla RSA, we repeat the $S_1$ utterance choice rule below, where a pragmatic speaker selects utterances in proportion to their utility in conveying some observed state of affairs to a naive listener who interprets the utterance according to its literal semantics---all while minimizing utterance cost. As we shall see, many of the extensions of RSA can be characterized in terms of their deviation from this simple utterance-choice rule.
 
 \begin{equation} \label{S1-repeat}
 P_{S_1}(u|s) \propto \textrm{exp}(\alpha (\textrm{log}P_{L_0}(s|\sem{u}) - C(u)))
@@ -262,7 +262,15 @@ Both of these applications---plural predication and quantifier scope ambiguity--
 
 \subsection{QUD inference}
 
-$$P_{S_1}(u|s, \textbf{x}) \propto \textrm{exp}(\alpha (\textrm{log}P_{L_0}(F(s,\textbf{x})|\sem{u}) - C(u)))$$
+The technology we have considered up to now allows for the pragmatic enrichment of utterances: from ``blue'' to ``blue square'' or from vague ``expensive'' to ``expensive'' with a contextually-determined price threshold. However, given that $S_1$'s utility relies on successfully communicating the observed $s$ to $L_0$ (i.e., on informativity), our enrichments can only ever be literal---we have no way for ``blue'' to be interpreted as ``green''. However, many instances of everyday language use are, strictly speaking, non-literal. For example, if you hear that someone paid ``a million dollars'' for their coffee at the hipster hangout around the corner, you are unlikely to infer that the actual price paid was \$1,000,000. Rather, you infer that the price was high and that the speaker is, to put it mildly, less than thrilled.
+
+To allow for enrichments beyond the literal meaning, we must broaden $S_1$'s goals beyond informativity with respect to $s$. One way of conceiving of speaker goals is in terms of the Question Under Discussion (QUD) the speaker aims to answer. Under certain theories of pragmatics, all discourse proceeds with respect to some QUD \citep{roberts2012}; utterances in the discourse must at least partially answer the QUD in order to be cooperative and felicitous. By allowing for a broader range of QUDs and uncertainty around which QUD is intended, vanilla RSA may be extended to capture uses of non-literal language. 
+
+As was the case with meaning inference in the previous subsection, we can illustrate this innovation by highlighting its effect on the vanilla utterance-choice rule. In \eqref{S1-QUD}, $S_1$'s utility continues to break down into informativity and economy components. However, now \textbf{x} determines what it is that $S_1$ endeavors to inform the speaker. Viewed as the QUD, \textbf{x} serves to map $s$ to the answer to \textbf{x} that $S_1$ would like to communicate to $L_0$.
+
+\begin{equation} \label{S1-QUD}
+P_{S_1}(u|s, \textbf{x}) \propto \textrm{exp}(\alpha (\textrm{log}P_{L_0}(F(s,\textbf{x})|\sem{u}) - C(u)))
+\end{equation}
 
 \subsection{Context/Prior inference}
 
