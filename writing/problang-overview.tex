@@ -231,7 +231,6 @@ In that case, we have:
 \section{Variations on vanilla} \label{variations}
 
 We have seen how vanilla RSA can model pragmatic reasoning in simple reference games, as well as specificity implicatures more generally. In this section, we explore recent extensions of RSA meant to handle more complex language phenomena. We organize our discussion around deviations from vanilla RSA, highlighting novel technology and the phenomena it captures. As a point of reference for vanilla RSA, we repeat the $S_1$ utterance choice rule below, where a pragmatic speaker selects utterances in proportion to their utility in conveying some observed state of affairs to a naive listener who interprets the utterance according to its literal semantics---all while minimizing utterance cost. As we shall see, many of the extensions of RSA can be characterized in terms of their deviation from this simple utterance-choice rule.
-
 \begin{equation} \label{S1-repeat}
 P_{S_1}(u|s) \propto \textrm{exp}(\alpha (\textrm{log}P_{L_0}(s|\sem{u}) - C(u)))
 \end{equation}
@@ -239,7 +238,6 @@ P_{S_1}(u|s) \propto \textrm{exp}(\alpha (\textrm{log}P_{L_0}(s|\sem{u}) - C(u))
 \subsection{Meaning inference}
 
 Vanilla RSA assumes a fixed utterance semantics that is shared by both speakers and listeners. But what happens when we parameterize the interpretation function such that the utterance semantics is subject to change? This move is illustrated in \eqref{S1-lexical-uncertainty}, where the variable \textbf{x} determines the truth-functional mapping for an utterance $u$. Once named, this interpretation-fixing variable \textbf{x} becomes subject to active pragmatic reasoning. In other words, we can allow for uncertainty around \textbf{x}, such that the precise semantics of $u$ might be vague or underspecified in context. What results is the class of lexical uncertainty RSA models.
-
 \begin{equation} \label{S1-lexical-uncertainty}
 P_{S_1}(u|s, \textbf{x}) \propto \textrm{exp}(\alpha (\textrm{log}P_{L_0}(s|\sem{u}^{\textbf{x}}) - C(u)))
 \end{equation}
@@ -266,11 +264,27 @@ The technology we have considered up to now allows for the pragmatic enrichment 
 
 To allow for enrichments beyond the literal meaning, we must broaden $S_1$'s goals beyond informativity with respect to $s$. One way of conceiving of speaker goals is in terms of the Question Under Discussion (QUD) the speaker aims to answer. Under certain theories of pragmatics, all discourse proceeds with respect to some QUD \citep{roberts2012}; utterances in the discourse must at least partially answer the QUD in order to be cooperative and felicitous. By allowing for a broader range of QUDs and uncertainty around which QUD is intended, vanilla RSA may be extended to capture uses of non-literal language. 
 
-As was the case with meaning inference in the previous subsection, we can illustrate this innovation by highlighting its effect on the vanilla utterance-choice rule. In \eqref{S1-QUD}, $S_1$'s utility continues to break down into informativity and economy components. However, now \textbf{x} determines what it is that $S_1$ endeavors to inform the speaker. Viewed as the QUD, \textbf{x} serves to map $s$ to the answer to \textbf{x} that $S_1$ would like to communicate to $L_0$.
-
+As was the case with meaning inference in the previous subsection, we can illustrate this innovation by highlighting its effect on the vanilla utterance-choice rule. In \eqref{S1-QUD}, $S_1$'s utility continues to break down into informativity and economy components. However, now \textbf{x} determines what it is that $S_1$ endeavors to communicate to the speaker. Viewed as the QUD, \textbf{x} serves to map $s$ to the answer to \textbf{x} that $S_1$ would like to communicate to $L_0$.
 \begin{equation} \label{S1-QUD}
 P_{S_1}(u|s, \textbf{x}) \propto \textrm{exp}(\alpha (\textrm{log}P_{L_0}(F(s,\textbf{x})|\sem{u}) - C(u)))
 \end{equation}
+
+\cite{kaoetal2014} use this technology to model hyperbole, as in the coffee-price example above. To see how, consider some possible states of the world about which a speaker might want to communicate:
+
+\ex. \label{hyperbole-states}
+\emph{Possible states of the world for the coffee-price scenario}:\\
+$s_1$: \{\texttt{affect}: positive, \texttt{price}: \$2\}\\
+$s_2$: \{\texttt{affect}: positive, \texttt{price}: \$5\}\\
+$s_3$: \{\texttt{affect}: positive, \texttt{price}: \$1,000,000\}\\
+$s_4$: \{\texttt{affect}: negative, \texttt{price}: \$2\}\\
+$s_5$: \{\texttt{affect}: negative, \texttt{price}: \$5\}\\
+$s_6$: \{\texttt{affect}: negative, \texttt{price}: \$1,000,000\}
+
+Notice that the world states in \ref{hyperbole-states} have two properties: the \texttt{affect} of the speaker (i.e., whether the speaker feels positive or negative about the price paid), together with the actual \texttt{price} paid. A speaker talking about $s$ might have the goal of communicating about their \texttt{affect} and the \texttt{price} paid, or they may want to communicate only their \texttt{affect} or only the \texttt{price} paid. Viewed in terms of QUDs, these goals serve to partition the state space. With an \texttt{affect?} QUD, we partition the state space into two cells, corresponding to positive vs.~negative \texttt{affect}. With a \texttt{price?} QUD, we partition the state space into three cells, corresponding to the three possible \texttt{price}s. With a QUD asking after both \texttt{affect-and-price?}, we partition the state space into the six cells listed in \ref{hyperbole-states}.
+
+With the utterance-choice rule in \eqref{S1-QUD}, $S_1$'s goals are QUD specific: for communication to succeed, $L_0$ must simply arrive at the correct cell of the relevant partition; whatever $L_0$ infers about what happened within that partition is irrelevant to $S_1$'s goals. For example, if $S_1$ has a negative affect and is addressing the \texttt{affect?} QUD, utility depends on whether or not $L_0$ correctly arrives at the negative cell of the \texttt{affect?} partition, regardless of whether $L_0$ infers the full state to be $s_1$, $s_2$, or $s_3$. Here is where non-literal language suddenly becomes rational for a speaker.
+
+Now, world knowledge tells us that states in which the speaker actually paid \$1,000,000 (i.e., $s_3$ and $s_6$) are extraordinarily improbable, while states in which the coffee cost \$2 (i.e., $s_1$ and $s_4$) are the most likely; this knowledge gets reflected in $L_1$'s prior over world states, $P(s)$.
 
 \subsection{Context/Prior inference}
 
