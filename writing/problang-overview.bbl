@@ -1,4 +1,4 @@
-\begin{thebibliography}{15}
+\begin{thebibliography}{16}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \providecommand{\urlprefix}{}
@@ -59,6 +59,12 @@ Kao, Justine~T, Leon Bergen \& Noah~D. Goodman. 2014{\natexlab{a}}.
 \newblock Formalizing the pragmatics of metaphor understanding.
 \newblock In \emph{Proceedings of the thirty-sixth annual conference of the
   {C}ognitive {S}cience {S}ociety}, 719--724.
+
+\bibitem[{Kao \& Goodman(2015)}]{kaogoodman2015}
+Kao, Justine~T \& Noah~D. Goodman. 2015.
+\newblock Let's talk (ironically) about the weather: Modeling verbal irony.
+\newblock In \emph{Proceedings of the thirty-seventh annual conference of the
+  {C}ognitive {S}cience {S}ociety}, .
 
 \bibitem[{Kao et~al.(2014{\natexlab{b}})Kao, Wu, Bergen \&
   Goodman}]{kaoetal2014}
