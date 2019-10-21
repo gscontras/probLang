@@ -42,6 +42,7 @@
 
 \newcommand{\gcs}[1]{\textcolor{blue}{[gcs: #1]}}  
 \newcommand{\mf}[1]{\textcolor{orange}{[mf: #1]}}  
+\newcommand{\mht}[1]{\textcolor{purple}{[mht: #1]}}  
 
 \newcommand{\type}[1]{\ensuremath{\left \langle #1 \right \rangle }}
 \newcommand{\lam}{\ensuremath{\lambda}}
@@ -54,7 +55,7 @@
 \maketitle
 
 \begin{abstract}
-	Recent advances in computational cognitive science (i.e., simulation-based probabilistic programs) have paved the way for significant progress in formal, implementable models of pragmatics. Rather than describing a pragmatic reasoning process, these models articulate and implement one, deriving both qualitative and quantitative predictions of human behavior---predictions that consistently prove correct, demonstrating the viability and value of the framework. The current paper provides a practical introduction to the Bayesian Rational Speech Act modeling framework, serving as a companion piece to the hands-on web-book at \href{https://www.problang.org}{www.problang.org}. After providing a conceptual overview of the framework, we then walk readers through the resources of the web-book.
+	Recent advances in computational cognitive science (i.e., simulation-based probabilistic programs) have paved the way for significant progress in formal, implementable models of pragmatics. Rather than describing a pragmatic reasoning process, these models formalize and implement one, deriving both qualitative and quantitative predictions of human behavior---predictions that consistently prove correct, demonstrating the viability and value of the framework. The current paper provides a practical introduction to the Bayesian Rational Speech Act modeling framework, serving as a companion piece to the hands-on web-book at \href{https://www.problang.org}{www.problang.org}. After providing a conceptual overview of the framework, we then walk readers through the resources of the web-book.
 \end{abstract}
 
 \begin{keywords}
@@ -249,7 +250,7 @@ P_{S_1}(u|s, \textbf{x}) \propto \textrm{exp}(\alpha (\textrm{log}P_{L_0}(s|\sem
 \ex. \label{heavy-sem}
 \sem{heavy}$^{\textbf{x}}$ = \lam s. weight(s) $>$ \textbf{x}
 
-It is up to the pragmatic listener, $L_1$, to resolve the uncertainty surrounding \textbf{x}. To do so, $L_1$ hears the utterance and jointly infers both the state of the world (i.e., the weight of the state being described) and the relevant heaviness threshold. $L_1$ performs this inference just as in the vanilla model: which state and threshold would have been most likely to lead $S_1$ to select the utterance that $L_1$ encountered? In other words, $L_1$ simulates $S_1$'s behavior for the possible combinations of states and thresholds, then weights states and thresholds in proportion to the probability that they would lead $S_1$ to choose the utterance that was encountered.
+It is up to the pragmatic listener, $L_1$, to resolve the uncertainty surrounding \textbf{x}. To do so, $L_1$ hears the utterance and jointly infers both the state of the world (i.e., the weight of the state being described) and the relevant heaviness threshold. $L_1$ performs this inference just as in the vanilla model: which state and threshold would have been most likely to lead $S_1$ to select the utterance that $L_1$ encountered? In other words, $L_1$ simulates $S_1$'s behavior for the possible combinations of states and thresholds, then weights states and thresholds in proportion to the probability that they would lead $S_1$ to choose the utterance that was encountered.\mht{mention how this same mechanism is used for generics?}
 
 This technology---parameterization of the utterance semantics subject to pragmatic reasoning---allows for a recasting of the division of labor between semantics and pragmatics. With lexical uncertainty, the semantic content of an utterance can be (at least partially) determined via pragmatic inference. \cite{bergenetal2016} seize on this innovation to model M-implicatures \citep{horn1984} and certain embedded implicatures \citep{hurford1974,chierchiaetal2012}. Rather than uncertainty around the semantics of a single utterance (e.g., a gradable adjective, as in the example above), \citeauthor{bergenetal2016} assume uncertainty around entire lexica. \gcs{need to say more about lexical uncertainty?}
 
@@ -295,13 +296,20 @@ We have identified how non-literal utterances can be useful to a speaker, but we
 
 \subsection{Context/Prior inference}
 
-We now have technology to model vagueness and ambiguity on the basis of an underspecified semantics, as well as shifting goals and the nonliteral language that addresses them on the basis of uncertainty around the QUD. So far, all of this reasoning has happened with respect to a fixed context, or common ground. What happens when a listener is unsure of the context a speaker has used in the production of their utterance? For example, if you hear that some person is tall, what is the comparison class the speaker had in mind? Depending on the comparison class, the height you ultimately infer for the person  could vary dramatically: tall for a basketball player means something quite different from tall for a jockey.
+We now have technology to model vagueness and ambiguity on the basis of an underspecified semantics, as well as shifting goals and the nonliteral language that addresses them on the basis of uncertainty around the QUD. So far, all of this reasoning has happened with respect to a fixed context, or common ground. What happens when a listener is unsure of the context a speaker has used in the production of their utterance? For example, if you hear that some person is tall, how does a listener know what the referent is tall relative to? Depending on the comparison class, the height you ultimately infer for the person could vary dramatically: tall for a basketball player means something quite different from tall for a jockey.
 
-$$P_{S_1}(u|s, \textbf{x}) \propto \textrm{exp}(\alpha (\textrm{log}P_{L_0}(s|\sem{u}, \textbf{x}) - C(u)))$$
+$$P_{S_1}(u|s, \textbf{x}, c) \propto \textrm{exp}(\alpha (\textrm{log}P_{L_0}(s|\sem{u}, \textbf{x}, c) - C(u)))$$
 
-\gcs{MH, could you summarize the comparison class model?}
+%\gcs{MH, could you summarize the comparison class model?}
+In an analogous manner to the way we treat uncertainty in the literal meaning and uncertainty in the QUD, a listener can have uncertainty as to the relevant comparison class. The comparison class, which we will denote $c$, is the class of objects or entities against which the referent is implicitly compared and parametrizes the prior distribution over degrees. Thus, in the literal listener model, $P(\textbf{x})$ is treated as a conditional probability distribution that depends upon the comparison class $c$): $P(\textbf{x}\mid c)$.
+
+\cite{tessler2017comparisonclass} used this parameterization to model comparison class inferences when listeners hear only an adjective applied to an individual (e.g., when describing a basketball player, ``He is tall''). 
+The model assumes that the listener has access to the fact that the referent is a basketball player, and has a knowledge that a basketball player is a person. Then, the listener's hypothesis space of possible comparison classes is the set of all categories to which the referent is a member, weighted by the prior probability. The prior probability of different comparison classes is an unknown theoretical construct and the original comparison class inference model only uses two comparisons classes: the subordinate category (e.g., basketball player) and a basic or superordinate category (e.g., people). The inference proceeds by imagining the conditions under which a speaker would use the adjective heard (e.g., \emph{tall}) with each of the comparison classes (e.g., \emph{for a person}~vs.~\emph{for a basketball player}). 
+
+An important detail to this model is that pragmatic listener use their knowledge that the referent is a member of the subordinate category (i.e., the referent is a basketball player) to inform their prior distribution over the degree. That is, whereas the literal listener's prior distribution over the degree can take either comparison class variable $c$, the pragmatic listener's prior distribution over the degree always uses the subordinate category to guide their predictions about the plausible height of the referent. 
 
 \gcs{maybe this is also the place to discuss the generics model (in terms of a fancy prior)? or should we mention generics in the context of meaning inference?}
+\mht{I would think the meaning inference section is the appropriate one. We can mention fancy prior there, and point in some way to probabilistic models of cognition more broadly as a way to approach priors...}
 
 \subsection{Epistemic inference}
 
