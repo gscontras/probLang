@@ -66,18 +66,18 @@
 
 \section{Introduction}
 
-Much work in formal, compositional semantics follows the tradition of positing systematic but inflexible theories of meaning. However, in practice, the meanings we derive from language are heavily dependent on nearly all aspects of context, both linguistic and situational. To formally explain these nuanced aspects of meaning and better understand the compositional mechanism that delivers them, recent work in formal pragmatics recognizes semantics not as one of the final steps in meaning calculation, but rather as one of the first. Within the Bayesian Rational Speech Act (RSA) framework \citep{goodmanfrank2016,frankejaeger2016}, speakers and listeners reason about each other's reasoning about the literal interpretation of utterances. The resulting interpretation necessarily depends on the literal interpretation of an utterance, but is not necessarily wholly determined by it. This move---reasoning about likely interpretations---provides ready explanations for complex phenomena ranging from metaphor \citep{kaoetal2014metaphor} and hyperbole \citep{kaoetal2014} to the specification of thresholds in degree semantics \citep{lassitergoodman2013}.
+Much work in formal, compositional semantics follows the tradition of positing systematic but inflexible theories of meaning. In practice, however, the meanings listeners derive from language are heavily dependent on nearly all aspects of context, both linguistic and situational. To formally explain these nuanced aspects of meaning and better understand the compositional mechanism that delivers them, recent work in formal pragmatics recognizes semantics not as one of the final steps in meaning calculation, but rather as one of the first. Within the Bayesian Rational Speech Act (RSA) framework \citep{goodmanfrank2016,frankejaeger2016}, speakers and listeners reason about each other's reasoning about the literal interpretation of utterances. The resulting interpretation necessarily depends on the literal interpretation of an utterance, but is not necessarily wholly determined by it. This move---reasoning about likely interpretations---provides ready explanations for complex phenomena ranging from metaphor \citep{kaoetal2014metaphor} and hyperbole \citep{kaoetal2014} to the specification of thresholds in degree semantics \citep{lassitergoodman2013}.
 
-The probabilistic pragmatics approach leverages the tools of structured probabilistic models formalized in a stochastic $\lambda$-calculus to develop and refine a general theory of communication. The framework synthesizes the knowledge and approaches from diverse areas---formal semantics, Bayesian models of inference, formal theories of measurement, philosophy of language, etc.---into an articulated theory of language in practice. These new tools yield broader empirical coverage and richer explanations for linguistic phenomena through the recognition of language as a means of communication, not merely a vacuum-sealed formal system. By subjecting the heretofore off-limits land of pragmatics to articulated formal models, the rapidly growing body of research both informs pragmatic phenomena and enriches theories of linguistic meaning.
+The probabilistic pragmatics approach leverages the tools of structured probabilistic models formalized in a stochastic $\lambda$-calculus to develop and refine a general theory of communication. The framework synthesizes the knowledge and approaches from diverse areas---formal semantics, Bayesian models of reasoning under uncertainty, formal theories of measurement, philosophy of language, etc.---into an articulated theory of language in practice. These new tools yield broader \mht{broader than what?} empirical coverage and richer explanations for linguistic phenomena through the recognition of language as a means of communication, not merely a vacuum-sealed formal system. By subjecting the heretofore off-limits land of pragmatics to articulated formal models, the rapidly growing body of research both informs pragmatic phenomena and enriches theories of linguistic meaning.
 
 These models are particularly well-suited for capturing XXX Goodies list of RSA
 
-The current paper offers a practical introduction to the modeling framework, serving as a companion piece to the hands-on web-book at \href{https://www.problang.org}{www.problang.org}. We begin in Section \ref{overview} with a high-level overview of RSA, walking through its basic implementation and the philosophical foundations that informed the architectural choices. We then explore variations to the basic architecture in Section \ref{variations}, surveying technological innovations that have allowed for broader empirical coverage. Section \ref{practicalities} discusses common practical considerations faced by the working modeler. In Section \ref{limitations}, we explore limitations of the current framework, which also serve as guidance for future extensions. Section \ref{summary} concludes.
+The current paper offers a practical introduction to the modeling framework, serving as a companion piece to the hands-on web-book at \href{https://www.problang.org}{www.problang.org}. We begin in Section \ref{overview} with a high-level overview of RSA, walking through its basic implementation and the philosophical foundations that informed the architectural choices. We then explore variations to the basic architecture in Section \ref{variations}, surveying technological innovations that have allowed for broader empirical coverage. Section \ref{practicalities} discusses common practical considerations facing the modeler. In Section \ref{limitations}, we explore limitations of the current framework, which also serve as guidance for future extensions. Section \ref{summary} concludes.
 
 
 \section{High-level overview of RSA} \label{overview}
 
-The RSA framework views language understanding as a process of recursive social reasoning between speakers and listeners: listeners interpret the utterances they hear by reasoning about how speakers generate them; speakers choose their utterances by reasoning about how listeners interpret them. In the basic, vanilla RSA model from \cite{frankgoodman2012}, this recursion involves three layers of inference. Typically formulated as statements of conditional probability, as in (\ref{L0}), (\ref{S1}), and (\ref{L1}), these inference layers correspond to models of speakers and listeners.
+The RSA framework views language understanding as a process of recursive social reasoning between speakers and listeners: listeners interpret the utterances they hear by reasoning about how speakers generate them; speakers choose their utterances by reasoning about how listeners interpret them. In the basic RSA model from \cite{frankgoodman2012} (hereafter, Vanilla RSA), this recursion involves three layers of inference. Typically formulated as statements of conditional probability, as in (\ref{L0}), (\ref{S1}), and (\ref{L1}), these inference layers correspond to models of speakers and listeners.
 
 \begin{equation} \label{L0}
 P_{L_0}(s \mid u) \propto \sem{u}(s)
@@ -96,15 +96,17 @@ The reasoning grounds out in the naive, literal listener, $L_0$, who interprets 
 according to their literal semantics. The semantics of utterance $u$ is captured in meaning
 function $\sem{u} \colon s \mapsto [0;1]$ which maps states to truth values. We assume binary
 truth-values here, but the formalism works just as well for non-binary, e.g., fuzzy semantics
-\mf{insert refs: Degen on overspecification, Steinert on vagueness, ...?}. According to
-\eqref{L0}, $L_0$ hears some utterance $u$ and infers the state of the world $s$ that $u$ was
-meant to describe by restricting the set of possible states to just those that are compatible
-with the literal, truth-functional semantics of $u$, returning a uniform probability
-distribution over the states $s$ that $u$ maps to \texttt{true}.
+\mf{insert refs: Degen on overspecification, Steinert on vagueness, ...?}. 
+
+According to \eqref{L0}, $L_0$ hears some utterance $u$ and infers the state of the world $s$ that $u$ was
+meant to describe. They do this by restricting the set of possible states to just those that are compatible
+with the literal, truth-functional semantics of $u$.
+Thus, \eqref{L0} returns a uniform probability distribution over the states $s$ that $u$ maps to \texttt{true}.
+\mht{note: we are presenting the version of RSA where the literal listener doesn't have $P(s)$... is this a good idea?}
 
 One layer up, a pragmatic speaker, $S_1$, chooses utterances in proportion to their utility $U_{S_{1}}$. Utterances are useful to the extent that they maximize the probability that $L_0$ will infer the correct $s$ on the basis of $u$, while minimizing the cost of $u$ ($C(u)$; speakers aim to be efficient). So, when selecting utterances, $S_1$ considers their effect on interpretation (i.e., on $L_0$'s resulting beliefs); utterances that are most likely to lead $L_0$ to the correct belief are most likely to be chosen by $S_1$.
 
-At the top layer of inference, the pragmatic listener, $L_1$, interprets utterances to infer the true state of the world. However, unlike $L_0$, who reasons directly about the utterance semantics, $L_1$ reasons instead about the process that generated the utterance; that process is the speaker $S_1$. $L_1$ thus infers $s$ on the basis of $u$ by reasoning about the probability that $S_1$ would have chosen $u$ to signal $s$ to $L_0$; the higher that probability, the more likely $L_1$ is to conclude that $S_1$ indeed intended to communicate $s$. Because $L_1$ reasons about $S_1$, who in turn reasons about the literal semantics in $L_0$, $L_1$'s interpretation is affected by the semantics of $u$, albeit only indirectly via the $S_1$ layer. This space between the semantics (i.e., $L_0$) and the resulting interpretation (i.e., the posterior beliefs of $L_1$) is where pragmatics enters. To see how, it would help to consider a concrete communication scenario.
+At the top layer of inference, the pragmatic listener, $L_1$, interprets utterances to infer the true state of the world. However, unlike $L_0$, who reasons directly about the utterance semantics, $L_1$ reasons instead about the process that generated the utterance; that process is the speaker $S_1$. $L_1$ thus infers $s$ on the basis of $u$ by reasoning about the probability that $S_1$ would have chosen $u$ to signal $s$ to $L_0$; the higher that probability, the more likely $L_1$ is to conclude that $S_1$ indeed intended to communicate $s$. Because $L_1$ reasons about $S_1$, who in turn reasons about the literal semantics in $L_0$, $L_1$'s interpretation is affected by the semantics of $u$, albeit only indirectly via the $S_1$ layer. This space between the semantics (i.e., $L_0$) and the resulting interpretation (i.e., the posterior beliefs of $L_1$) is where pragmatics enters. \mht{haven't discussed $P(s)$ at this point, see previous note}. To see how, it would help to consider a concrete communication scenario.
 
 In its initial formulation, \cite{frankgoodman2012} used the RSA framework to model referent choices in efficient communication. Suppose we are in a world as in Figure \ref{ref-game} with three objects: a blue square, a blue circle, and a green square. Suppose further that a speaker is trying to signal a single object in this world to a cooperative listener, and that the speaker can only use a single-word utterance to do so. The utterances available to the speaker include ``blue'', ``green'', ``square'', and ``circle''; the possible states the listener might infer correspond to the three objects: blue-square, blue-circle, and green-square. We have the expected truth-functional semantics for the utterances: ``blue'' maps blue-square and blue-circle to true but green-square to false, ``green'' maps blue-square and blue-circle to false but green-square to true, etc.
 
@@ -118,10 +120,12 @@ In its initial formulation, \cite{frankgoodman2012} used the RSA framework to mo
 With the semantics as stated, $L_0$ interprets utterances to return uniform probability distributions over the compatible states. Hearing the utterance ``blue'', $L_0$ returns a belief distribution over states that divides probability equally between blue-square and blue-circle, the only objects compatible with the semantics of ``blue''. Hearing ``circle'', $L_0$ returns a distribution with 100\% of the probability on blue-circle---$L_0$ is certain that the speaker intends to signal blue-circle. With $L_0$ formulated in this way, we have an agent who interprets utterances naively, according to the literal semantics. 
 
 $S_1$ chooses utterances by simulating their effect on $L_0$. Suppose the speaker wants to communicate blue-circle to $L_0$. Two utterances, ``green'' and ``square'', stand no chance of communicating the intended state to $L_0$ and so they are ruled out. The other two utterances, ``blue'' and ``circle'', are both literally compatible with blue-circle, but one of the utterances is more likely to lead $L_0$ to the correct belief state. If the speaker were to utter ``blue'', we saw that $L_0$'s belief distribution would be evenly split between blue-square and blue-circle. In other words, ``blue'' has a 50\% chance of leading $L_0$ to the correct state. On the other hand, ``circle'' has a 100\% chance of leading $L_0$ to the correct state. Assuming equal utterance costs, ``circle'' is thus twice as useful to the speaker as ``blue'' for communicating blue-circle to $L_0$, and $S_1$ reflects this asymmetry in utility by assigning twice as much probability to ``circle'' in the posterior distribution over utterance choices.\footnote{With no scaling. XXX} For communicating the blue-square state, both ``blue'' and ``square'' have a 50\% chance of leading $L_0$ to the correct state, so both utterances are equally likely and thus equally probable in the $S_1$ posterior.
+\mht{we may want to have a figure of probability tables, a la MF's probability tables in problang code boxes...}
 
 Within this simple reference-game scenario, $L_1$ reasons pragmatically about $S_1$ to break the symmetry in the semantics. Hearing ``blue'', $L_1$ will invert the $S_1$ model to determine which state (i.e., which object) the speaker is most likely trying to communicate. Had the speaker wanted to communicate the blue-circle state, we saw above that the speaker would have been more likely to utter ``circle''. But the speaker did not utter ``circle''; she uttered ``blue'' instead. This counterfactual reasoning leads $L_1$ to down-weight the probability of the state that ``circle'' could have uniquely picked out, since the speaker could have said ``circle'' but chose not to. As a result, more probability gets assigned to the blue-square state, the other state compatible with the semantics of the utterance. In this way, we capture the Gricean specificity implicature associated with uttering ``blue'' in a scenario as in Figure \ref{ref-game}: the speaker probably intends the blue square because if she wanted to communicate the blue circle she could have said ``circle''.
 
 A key component of the RSA framework is the updating of prior beliefs: listeners use the utterances they hear as signal with which to update their beliefs about the world. In walking through the reference-game example above, we assumed a uniform prior over world states: before hearing the speaker's utterance, $L_1$ had no reason to suspect that any object was more or less likely to get referenced. With a different, more informative prior, it is possible to shift the qualitative predictions of $L_1$. Suppose that $L_1$ has reason to suspect that the blue-circle state is most likely to get referenced. Now there are two opposing pressures operating on $L_1$'s interpretation of the utterance ``blue" (i.e., on $L_1$'s posterior beliefs): the prior belief favoring blue-circle over blue-square and the specificity implicature discussed above that favors blue-square over blue-circle (if the speaker had wanted to reference blue-circle, she could have said ``circle''). With a sufficiently strong prior in favor of blue-circle, it is possible to override the specificity implicature so that $L_1$ interprets ``blue'' as confirming his suspicions and referring to blue-circle.
+\mht{it can very easily sound like there is a mathematical rule that explain everything while explaining nothing. do we want to talk about how to empirically ground prior beliefs? or, reiterate that this is a modeling framework, not a particular theory (and thus, different prior beliefs correspond to different theories within the framework?)}
 
 XXX scalar implicature?
 
@@ -181,27 +185,29 @@ their salience/prominence) based on the other factors relevant for communication
 informativity. \mf{I'm not sure if this paragraph needs to go here; it might have a better
   place elsewhere; but stressing the 'algorithmic picture' somewhere might be good}
 
-\paragraph{Informativity from alignment of beliefs.} We saw above that the vanilla RSA
+\paragraph{Informativity from alignment of beliefs.} We saw above that the Vanilla RSA
 model's definition of speaker's choice probabilities can be interpreted as a product of three
 factors that correspond closely to Gricean maxims of Quality, Quantity and Manner. 
-This is just one formal implementation; others are readily conceivable. Given the particular
+This \mht{what exactly is ``this'' referring to?} is just one formal implementation; others are readily conceivable. Given the particular
 importance of informativity for many pragmatic explanations, one would be justified in further dissecting
-the way informativity is treated in the RSA model. In the following, we show that \eqref{U} \&
-\eqref{S1} follows from a simple idea, which can be spelled out in a natural way: the speaker has some
-belief about the relevant world states that gets captured in probability distribution $P_{S\text{-}Bel}$;
-after an utterance of $u$, the literal listener's beliefs about the relevant world states are
-represented as another probability distribution $P_{LL\text{-}Bel}(u)$. An utterance $u$ is better/more useful
-than another utterance $u'$ if the listener's beliefs $P_{LL\text{-}Bel}(u)$ after hearing $u$ are
-more aligned with the speaker's beliefs $P_{S\text{-}Bel}$ than the listener's beliefs
-$P_{LL\text{-}Bel}(u')$ after hearing $u'$. If we spell out ``being more aligned with'' in terms of an
-information-theoretic notion of divergence between probability distributions, the vanilla RSA
-model is recovered. Behind it all, however, is simply the idea that the speaker prefers
+the way informativity is treated in the RSA model. 
+
+In the following, we show that \eqref{U} \& \eqref{S1} follows from a simple idea. 
+The speaker has some belief about the relevant world states that gets captured in a probability distribution $P_{S\text{-}Bel}$; 
+after hearing utterance $u$, the literal listener's beliefs about the relevant world states are
+represented as another probability distribution $P_{LL\text{-}Bel}(u)$. An utterance $u$ is more useful
+than another utterance $u'$ to the extent that $P_{LL\text{-}Bel}(u)$  (the listener's beliefs after hearing $u$) is
+more aligned with $P_{S\text{-}Bel}$ (the speaker's beliefs) than 
+$P_{LL\text{-}Bel}(u')$  (the listener's beliefs after hearing $u'$).
+Vanilla RSA corresponds to a notion of ``alignment'' in terms of an information-theoretic notion of divergence between probability distributions.
+Behind it all, however, is simply the idea that the speaker prefers
 utterances that best align speaker's and listener's relevant beliefs about the world.
 
 A useful notion of ``alignment of probability distributions'' is the information-theoretic
 measure of Kullback-Leibler divergence. KL-divergence is not symmetric, but considers one of
 two to-be-compared probability distributions as the ground-truth or the objective function to
-to be approximated. This assumption makes sense in our application to language because it is the speaker's
+to be approximated. 
+This asymmetry makes sense in language understanding because it is the speaker's
 beliefs to which the listener should align. KL-divergence then measures divergence in terms of,
 essentially, the expected number of extra bits needed to encode a signal that was generated
 from the true distribution with the approximate distribution. \mf{leave out that last
@@ -229,16 +235,18 @@ In that case, we have:
 \end{align*}
 
 
-\section{Variations on vanilla} \label{variations}
+\section{Variations on Vanilla} \label{variations}
 
-We have seen how vanilla RSA can model pragmatic reasoning in simple reference games, as well as specificity implicatures more generally. In this section, we explore recent extensions of RSA meant to handle more complex language phenomena. We organize our discussion around deviations from vanilla RSA, highlighting novel technology and the phenomena it captures. As a point of reference for vanilla RSA, we repeat the $S_1$ utterance choice rule below, where a pragmatic speaker selects utterances in proportion to their utility in conveying some observed state of affairs to a naive listener who interprets the utterance according to its literal semantics---all while minimizing utterance cost. As we shall see, many of the extensions of RSA can be characterized in terms of their deviation from this simple utterance-choice rule.
+We have seen how Vanilla RSA can be used to model pragmatic reasoning in simple reference games, as well as specificity implicatures more generally. In this section, we explore recent extensions of RSA meant to handle more complex language phenomena. We organize our discussion around deviations from Vanilla RSA, highlighting novel technology in language understanding computation and the phenomena they capture. \mht{a sentence about how RSA is an active area of research, new developments are happening all the time, ...? our goal is to give the naive reader a sense of the landscape and the variants that have been considered as of this date...} 
+
+As a point of reference for Vanilla RSA, we repeat the $S_1$ utterance choice rule below, where a pragmatic speaker selects utterances in proportion to their utility in conveying some observed state of affairs to a naive listener who interprets the utterance according to its literal semantics---all while minimizing utterance cost. As we shall see, many of the extensions of RSA can be characterized in terms of their deviation from this simple utterance-choice rule.
 \begin{equation} \label{S1-repeat}
 P_{S_1}(u|s) \propto \textrm{exp}(\alpha (\textrm{log}P_{L_0}(s|\sem{u}) - C(u)))
 \end{equation}
 
 \subsection{Meaning inference}
 
-Vanilla RSA assumes a fixed utterance semantics that is shared by both speakers and listeners. But what happens when we parameterize the interpretation function such that the utterance semantics is subject to change? This move is illustrated in \eqref{S1-lexical-uncertainty}, where the variable \textbf{x} determines the truth-functional mapping for an utterance $u$. Once named, this interpretation-fixing variable \textbf{x} becomes subject to active pragmatic reasoning. In other words, we can allow for uncertainty around \textbf{x}, such that the precise semantics of $u$ might be vague or underspecified in context. What results is the class of lexical uncertainty RSA models.
+Vanilla RSA assumes a fixed utterance semantics that is shared by both speakers and listeners. But what happens when we parameterize the interpretation function such that the utterance semantics is subject to change? This move is illustrated in \eqref{S1-lexical-uncertainty}, where the variable \textbf{x} determines the truth-functional mapping for an utterance $u$. Once named, this interpretation-fixing variable \textbf{x} becomes subject to active pragmatic reasoning. In other words, we can allow for uncertainty around \textbf{x}, such that the precise semantics of $u$ might be vague or underspecified in context. What results is the class of lexical uncertainty RSA models. \mht{Do we want to show the pragmatic listener model too?}
 \begin{equation} \label{S1-lexical-uncertainty}
 P_{S_1}(u|s, \textbf{x}) \propto \textrm{exp}(\alpha (\textrm{log}P_{L_0}(s|\sem{u}^{\textbf{x}}) - C(u)))
 \end{equation}
