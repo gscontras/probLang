@@ -1,4 +1,4 @@
-\begin{thebibliography}{16}
+\begin{thebibliography}{18}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \providecommand{\urlprefix}{}
@@ -34,6 +34,12 @@ Franke, Michael \& Gerhard J\"{a}ger. 2016.
 Goodman, Noah~D. \& Michael~C. Frank. 2016.
 \newblock Pragmatic language interpretation as probabilistic inference.
 \newblock \emph{Trends in Cognitive Sciences} 20(11). 818--829.
+
+\bibitem[{Goodman \& Stuhlm\"{u}ller(2013)}]{goodmanstuhlmuller2013}
+Goodman, Noah~D. \& Andreas Stuhlm\"{u}ller. 2013.
+\newblock Knowledge and implicature: Modeling language understanding as social
+  cognition.
+\newblock \emph{Topics in Cognitive Science} 5. 173--184.
 
 \bibitem[{Grice(1975)}]{Grice1975:Logic-and-Conve}
 Grice, Paul~Herbert. 1975.
@@ -106,5 +112,13 @@ Savinelli, K.J., Gregory Scontras \& Lisa Pearl. 2018.
 Scontras, Gregory \& Noah~D. Goodman. 2017.
 \newblock Resolving uncertainty in plural predication.
 \newblock \emph{Cognition} 168. 294--311.
+
+\bibitem[{Tessler et~al.(2017)Tessler, Lopez-Brau \&
+  Goodman}]{tessler2017comparisonclass}
+Tessler, Michael~Henry, Michael Lopez-Brau \& Noah~D Goodman. 2017.
+\newblock {Warm (for winter): Comparison class understanding in vague
+  language}.
+\newblock In \emph{Proceedings of the 39th annual meeting of the {C}ognitive
+  {S}cience {S}ociety}, .
 
 \end{thebibliography}
