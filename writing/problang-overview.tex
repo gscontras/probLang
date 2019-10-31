@@ -34,15 +34,15 @@
 \usepackage{multirow}
 \usepackage{CJK}
 \usepackage{tikz}
-\usepackage{amsfonts} 
+\usepackage{amsfonts}
 \usepackage{amsmath}
 \usepackage{hyperref}
 
 \def\url#1{\expandafter\string\csname #1\endcsname}
 
-\newcommand{\gcs}[1]{\textcolor{blue}{[gcs: #1]}}  
-\newcommand{\mf}[1]{\textcolor{orange}{[mf: #1]}}  
-\newcommand{\mht}[1]{\textcolor{purple}{[mht: #1]}}  
+\newcommand{\gcs}[1]{\textcolor{blue}{[gcs: #1]}}
+\newcommand{\mf}[1]{\textcolor{orange}{[mf: #1]}}
+\newcommand{\mht}[1]{\textcolor{purple}{[mht: #1]}}
 
 \newcommand{\type}[1]{\ensuremath{\left \langle #1 \right \rangle }}
 \newcommand{\lam}{\ensuremath{\lambda}}
@@ -96,7 +96,7 @@ The reasoning grounds out in the naive, literal listener, $L_0$, who interprets 
 according to their literal semantics. The semantics of utterance $u$ is captured in meaning
 function $\sem{u} \colon s \mapsto [0;1]$ which maps states to truth values. We assume binary
 truth-values here, but the formalism works just as well for non-binary, e.g., fuzzy semantics
-\mf{insert refs: Degen on overspecification, Steinert on vagueness, ...?}. 
+\mf{insert refs: Degen on overspecification, Steinert on vagueness, ...?}.
 
 According to \eqref{L0}, $L_0$ hears some utterance $u$ and infers the state of the world $s$ that $u$ was
 meant to describe. They do this by restricting the set of possible states to just those that are compatible
@@ -117,7 +117,7 @@ In its initial formulation, \cite{frankgoodman2012} used the RSA framework to mo
 \label{ref-game}
 \end{figure}
 
-With the semantics as stated, $L_0$ interprets utterances to return uniform probability distributions over the compatible states. Hearing the utterance ``blue'', $L_0$ returns a belief distribution over states that divides probability equally between blue-square and blue-circle, the only objects compatible with the semantics of ``blue''. Hearing ``circle'', $L_0$ returns a distribution with 100\% of the probability on blue-circle---$L_0$ is certain that the speaker intends to signal blue-circle. With $L_0$ formulated in this way, we have an agent who interprets utterances naively, according to the literal semantics. 
+With the semantics as stated, $L_0$ interprets utterances to return uniform probability distributions over the compatible states. Hearing the utterance ``blue'', $L_0$ returns a belief distribution over states that divides probability equally between blue-square and blue-circle, the only objects compatible with the semantics of ``blue''. Hearing ``circle'', $L_0$ returns a distribution with 100\% of the probability on blue-circle---$L_0$ is certain that the speaker intends to signal blue-circle. With $L_0$ formulated in this way, we have an agent who interprets utterances naively, according to the literal semantics.
 
 $S_1$ chooses utterances by simulating their effect on $L_0$. Suppose the speaker wants to communicate blue-circle to $L_0$. Two utterances, ``green'' and ``square'', stand no chance of communicating the intended state to $L_0$ and so they are ruled out. The other two utterances, ``blue'' and ``circle'', are both literally compatible with blue-circle, but one of the utterances is more likely to lead $L_0$ to the correct belief state. If the speaker were to utter ``blue'', we saw that $L_0$'s belief distribution would be evenly split between blue-square and blue-circle. In other words, ``blue'' has a 50\% chance of leading $L_0$ to the correct state. On the other hand, ``circle'' has a 100\% chance of leading $L_0$ to the correct state. Assuming equal utterance costs, ``circle'' is thus twice as useful to the speaker as ``blue'' for communicating blue-circle to $L_0$, and $S_1$ reflects this asymmetry in utility by assigning twice as much probability to ``circle'' in the posterior distribution over utterance choices.\footnote{With no scaling. XXX} For communicating the blue-square state, both ``blue'' and ``square'' have a 50\% chance of leading $L_0$ to the correct state, so both utterances are equally likely and thus equally probable in the $S_1$ posterior.
 \mht{we may want to have a figure of probability tables, a la MF's probability tables in problang code boxes...}
@@ -139,9 +139,9 @@ definition in \eqref{S1}.
 %
 \begin{align} \label{eq:S1-rewrite}
   P_{S_1(u\mid s)} & \propto \exp \left [ \alpha \left (\log P_{L_0}(s \mid u) - C(u) \right)  \right ] & \text{\textcolor{gray}{[definitions \eqref{U} \& \eqref{S1}]}} \\
-  % & = \left [\exp \left ( \log P_{L_0}(s \mid u) - C(u) \right ) \right ]^\alpha & \text{\textcolor{gray}{[rules exponential function]}} \nonumber \\  
+  % & = \left [\exp \left ( \log P_{L_0}(s \mid u) - C(u) \right ) \right ]^\alpha & \text{\textcolor{gray}{[rules exponential function]}} \nonumber \\
   & = \left (P_{L_0}(s \mid u) \  \frac{1}{\log C(u)} \right)^{\alpha} & \text{\textcolor{gray}{[rules exponential \& log]}} \nonumber \\
-  & = \left ( \frac{\sem{u}(s)}{| \sem{u} |} \ \frac{1}{\log C(u)} \right )^{\alpha} & \text{\textcolor{gray}{[definition \eqref{L0}]}} \nonumber 
+  & = \left ( \frac{\sem{u}(s)}{| \sem{u} |} \ \frac{1}{\log C(u)} \right )^{\alpha} & \text{\textcolor{gray}{[definition \eqref{L0}]}} \nonumber
 \end{align}
 %
 The reformulation in~\eqref{eq:S1-rewrite} shows how the speaker's choice probabilities are a
@@ -187,17 +187,17 @@ informativity. \mf{I'm not sure if this paragraph needs to go here; it might hav
 
 \paragraph{Informativity from alignment of beliefs.} We saw above that the Vanilla RSA
 model's definition of speaker's choice probabilities can be interpreted as a product of three
-factors that correspond closely to Gricean maxims of Quality, Quantity and Manner. 
+factors that correspond closely to Gricean maxims of Quality, Quantity and Manner.
 This \mht{what exactly is ``this'' referring to?} is just one formal implementation; others are readily conceivable. Given the particular
 importance of informativity for many pragmatic explanations, one would be justified in further dissecting
-the way informativity is treated in the RSA model. 
+the way informativity is treated in the RSA model.
 
-In the following, we show that \eqref{U} \& \eqref{S1} follows from a simple idea. 
-The speaker has some belief about the relevant world states that gets captured in a probability distribution $P_{S\text{-}Bel}$; 
+In the following, we show that \eqref{U} \& \eqref{S1} follows from a simple idea.
+The speaker has some belief about the relevant world states that gets captured in a probability distribution $P_{S\text{-}Bel}$;
 after hearing utterance $u$, the literal listener's beliefs about the relevant world states are
 represented as another probability distribution $P_{LL\text{-}Bel}(u)$. An utterance $u$ is more useful
 than another utterance $u'$ to the extent that $P_{LL\text{-}Bel}(u)$  (the listener's beliefs after hearing $u$) is
-more aligned with $P_{S\text{-}Bel}$ (the speaker's beliefs) than 
+more aligned with $P_{S\text{-}Bel}$ (the speaker's beliefs) than
 $P_{LL\text{-}Bel}(u')$  (the listener's beliefs after hearing $u'$).
 Vanilla RSA corresponds to a notion of ``alignment'' in terms of an information-theoretic notion of divergence between probability distributions.
 Behind it all, however, is simply the idea that the speaker prefers
@@ -206,7 +206,7 @@ utterances that best align speaker's and listener's relevant beliefs about the w
 A useful notion of ``alignment of probability distributions'' is the information-theoretic
 measure of Kullback-Leibler divergence. KL-divergence is not symmetric, but considers one of
 two to-be-compared probability distributions as the ground-truth or the objective function to
-to be approximated. 
+to be approximated.
 This asymmetry makes sense in language understanding because it is the speaker's
 beliefs to which the listener should align. KL-divergence then measures divergence in terms of,
 essentially, the expected number of extra bits needed to encode a signal that was generated
@@ -237,21 +237,21 @@ In that case, we have:
 
 \section{Variations on Vanilla} \label{variations}
 
-We have seen how Vanilla RSA can be used to model pragmatic reasoning in simple reference games, as well as specificity implicatures more generally. In this section, we explore recent extensions of RSA meant to handle more complex language phenomena. We organize our discussion around deviations from Vanilla RSA, highlighting novel technology in language understanding computation and the phenomena they capture. \mht{a sentence about how RSA is an active area of research, new developments are happening all the time, ...? our goal is to give the naive reader a sense of the landscape and the variants that have been considered as of this date...} 
+We have seen how Vanilla RSA can be used to model pragmatic reasoning in simple reference games, as well as specificity implicatures more generally. In this section, we explore recent extensions of RSA meant to handle more complex language phenomena. We organize our discussion around deviations from Vanilla RSA, highlighting novel technology in language understanding computation and the phenomena they capture. \mht{a sentence about how RSA is an active area of research, new developments are happening all the time, ...? our goal is to give the naive reader a sense of the landscape and the variants that have been considered as of this date...}
 
 As a point of reference for Vanilla RSA, we repeat the $S_1$ utterance choice rule below, where a pragmatic speaker selects utterances in proportion to their utility in conveying some observed state of affairs to a naive listener who interprets the utterance according to its literal semantics---all while minimizing utterance cost. As we shall see, many of the extensions of RSA can be characterized in terms of their deviation from this simple utterance-choice rule.
 \begin{equation} \label{S1-repeat}
 P_{S_1}(u|s) \propto \textrm{exp}(\alpha (\textrm{log}P_{L_0}(s|\sem{u}) - C(u)))
 \end{equation}
 
-\subsection{Meaning inference}
+\subsection{Meaning inference} \label{meaning_inference}
 
 Vanilla RSA assumes a fixed utterance semantics that is shared by both speakers and listeners. But what happens when we parameterize the interpretation function such that the utterance semantics is subject to change? This move is illustrated in \eqref{S1-lexical-uncertainty}, where the variable \textbf{x} determines the truth-functional mapping for an utterance $u$. Once named, this interpretation-fixing variable \textbf{x} becomes subject to active pragmatic reasoning. In other words, we can allow for uncertainty around \textbf{x}, such that the precise semantics of $u$ might be vague or underspecified in context. What results is the class of lexical uncertainty RSA models. \mht{Do we want to show the pragmatic listener model too?}
 \begin{equation} \label{S1-lexical-uncertainty}
 P_{S_1}(u|s, \textbf{x}) \propto \textrm{exp}(\alpha (\textrm{log}P_{L_0}(s|\sem{u}^{\textbf{x}}) - C(u)))
 \end{equation}
 
-\cite{lassitergoodman2013} use this technology to model the interpretation of vague gradable adjectives, whose meaning depends crucially on properties of the context, both linguistic and extra-linguistic. Take the adjective \emph{heavy}, which is true of some state (i.e., a weight) just in case the weight exceeds the relevant threshold for heaviness. However, we conclude that a \emph{heavy elephant} weighs substantially more than a \emph{heavy backpack}; moreover, the weight we attribute to the backpack is likely to vary depending on whether the speaker is a preschooler or an olympian. Thus, the threshold above which some state counts as heavy is unlikely to be a fixed, context-invariant value. 
+\cite{lassitergoodman2013} use this technology to model the interpretation of vague gradable adjectives, whose meaning depends crucially on properties of the context, both linguistic and extra-linguistic. Take the adjective \emph{heavy}, which is true of some state (i.e., a weight) just in case the weight exceeds the relevant threshold for heaviness. However, we conclude that a \emph{heavy elephant} weighs substantially more than a \emph{heavy backpack}; moreover, the weight we attribute to the backpack is likely to vary depending on whether the speaker is a preschooler or an olympian. Thus, the threshold above which some state counts as heavy is unlikely to be a fixed, context-invariant value.
 
 \citeauthor{lassitergoodman2013} handle the uncertainty around the threshold value by parameterizing the meaning of utterances containing gradable adjectives: \emph{heavy} will be true of some state just in case the weight exceeds the relevant threshold (as before), where this threshold (\textbf{x} in \eqref{S1-lexical-uncertainty}) gets fixed by pragmatic reasoning:
 
@@ -262,7 +262,7 @@ It is up to the pragmatic listener, $L_1$, to resolve the uncertainty surroundin
 
 This technology---parameterization of the utterance semantics subject to pragmatic reasoning---allows for a recasting of the division of labor between semantics and pragmatics. With lexical uncertainty, the semantic content of an utterance can be (at least partially) determined via pragmatic inference. \cite{bergenetal2016} seize on this innovation to model M-implicatures \citep{horn1984} and certain embedded implicatures \citep{hurford1974,chierchiaetal2012}. Rather than uncertainty around the semantics of a single utterance (e.g., a gradable adjective, as in the example above), \citeauthor{bergenetal2016} assume uncertainty around entire lexica. \gcs{need to say more about lexical uncertainty?}
 
-Meaning inference also serves as a useful tool for modeling ambiguity resolution. \cite{scontrasgoodman2017} use an utterance-choice rule as in \eqref{S1-lexical-uncertainty} to model the resolution of distributive-collective ambiguities in plural predication. If a listener hears that \emph{the boxes are heavy}, the listener must jointly infer both the intended interpretation of the utterance (i.e., distributive, commenting on individual box weight, or collective, commenting on the total weight of the set) and the state of the world (i.e., the weights of the boxes). Returning to \eqref{S1-lexical-uncertainty}, \citeauthor{scontrasgoodman2017} treat \textbf{x} as the interpretation-resolving variable that determines whether $u$ receives a distributive or collective interpretation. \cite{savinellietal2017,savinellietal2018} use this technology to model the resolution of scope ambiguity, as in utterances like \emph{every horse didn't jump over the fence}. For \citeauthor{savinellietal2017}, \textbf{x} in \eqref{S1-lexical-uncertainty} serves to determine the relative scope of quantification elements at LF. 
+Meaning inference also serves as a useful tool for modeling ambiguity resolution. \cite{scontrasgoodman2017} use an utterance-choice rule as in \eqref{S1-lexical-uncertainty} to model the resolution of distributive-collective ambiguities in plural predication. If a listener hears that \emph{the boxes are heavy}, the listener must jointly infer both the intended interpretation of the utterance (i.e., distributive, commenting on individual box weight, or collective, commenting on the total weight of the set) and the state of the world (i.e., the weights of the boxes). Returning to \eqref{S1-lexical-uncertainty}, \citeauthor{scontrasgoodman2017} treat \textbf{x} as the interpretation-resolving variable that determines whether $u$ receives a distributive or collective interpretation. \cite{savinellietal2017,savinellietal2018} use this technology to model the resolution of scope ambiguity, as in utterances like \emph{every horse didn't jump over the fence}. For \citeauthor{savinellietal2017}, \textbf{x} in \eqref{S1-lexical-uncertainty} serves to determine the relative scope of quantification elements at LF.
 
 Both of these applications---plural predication and quantifier scope ambiguity---highlight how meaning inference in RSA can serve as a useful shorthand for providing computational-level descriptions of the process of ambiguity resolution. However, while these models offer a promising hypothesis for how listeners reason pragmatically to resolve ambiguity, it bears noting that neither application attempts to model the compositional processes that give rise to the relevant ambiguities in the first place. We return to this issue in Section \ref{limitations}.
 
@@ -271,7 +271,7 @@ Both of these applications---plural predication and quantifier scope ambiguity--
 
 The technology we have considered up to now allows for the pragmatic enrichment of utterances: from ``blue'' to ``blue square'' or from vague ``expensive'' to ``expensive'' with a contextually-determined price threshold. However, given that $S_1$'s utility relies on successfully communicating the observed $s$ to $L_0$ (i.e., on informativity), our enrichments can only ever be literal---we have no way for ``blue'' to be interpreted as ``green''. However, many instances of everyday language use are, strictly speaking, non-literal. For example, if you hear that someone paid ``a million dollars'' for their coffee at the hipster hangout around the corner, you are unlikely to infer that the actual price paid was \$1,000,000. Rather, you infer that the price was high and that the speaker is, to put it mildly, less than thrilled.
 
-To allow for enrichments beyond the literal meaning, we must broaden $S_1$'s goals beyond informativity with respect to $s$. One way of conceiving of speaker goals is in terms of the Question Under Discussion (QUD) the speaker aims to answer. Under certain theories of pragmatics, all discourse proceeds with respect to some QUD \citep{roberts2012}; utterances in the discourse must at least partially answer the QUD in order to be cooperative and felicitous. By allowing for a broader range of QUDs and uncertainty around which QUD is intended, vanilla RSA may be extended to capture uses of non-literal language. 
+To allow for enrichments beyond the literal meaning, we must broaden $S_1$'s goals beyond informativity with respect to $s$. One way of conceiving of speaker goals is in terms of the Question Under Discussion (QUD) the speaker aims to answer. Under certain theories of pragmatics, all discourse proceeds with respect to some QUD \citep{roberts2012}; utterances in the discourse must at least partially answer the QUD in order to be cooperative and felicitous. By allowing for a broader range of QUDs and uncertainty around which QUD is intended, vanilla RSA may be extended to capture uses of non-literal language.
 
 As was the case with meaning inference in the previous subsection, we can illustrate this innovation by highlighting its effect on the vanilla utterance-choice rule. In \eqref{S1-QUD}, $S_1$'s utility continues to break down into informativity and economy components. However, now \textbf{x} determines what it is that $S_1$ endeavors to communicate to $L_0$. Viewed as the QUD, \textbf{x} serves to map $s$ to the answer to \textbf{x} that $S_1$ would like to communicate to $L_0$.
 \begin{equation} \label{S1-QUD}
@@ -304,17 +304,23 @@ We have identified how non-literal utterances can be useful to a speaker, but we
 
 \subsection{Context/Prior inference}
 
-We now have technology to model vagueness and ambiguity on the basis of an underspecified semantics, as well as shifting goals and the nonliteral language that addresses them on the basis of uncertainty around the QUD. So far, all of this reasoning has happened with respect to a fixed context, or common ground. What happens when a listener is unsure of the context a speaker has used in the production of their utterance? For example, if you hear that some person is tall, how does a listener know what the referent is tall relative to? Depending on the comparison class, the height you ultimately infer for the person could vary dramatically: tall for a basketball player means something quite different from tall for a jockey.
+We now have technology to model vagueness and ambiguity on the basis of an underspecified semantics, as well as shifting goals and the nonliteral language that address them on the basis of uncertainty around the QUD. So far, all of this reasoning has happened with respect to a fixed context, or common ground. What happens when a listener is unsure of the context a speaker has used in the production of their utterance? For example, if you hear that some person is tall, how does a listener know what the referent is tall relative to? 
+
+The formal mechanism by which an adjective like \emph{tall} receives a context-specific interpretation is the \emph{comparison class}, the (often implicit) set of entities or events against which the referent is compared (e.g., \emph{tall} for a person~vs.~\emph{tall} for a basketball player). 
+In Section \ref{meaning_inference}, we described a model of gradable adjectives where the threshold for \emph{tall} is computed via reference to the state prior, the prior distribution over heights within some comparison class. We can make this dependence on the comparison class $c$ explicit in the model of the speaker: 
+%Depending on the comparison class, the height you ultimately infer for the person could vary dramatically: tall for a basketball player means something different from tall for a person.
 
 $$P_{S_1}(u|s, \textbf{x}, c) \propto \textrm{exp}(\alpha (\textrm{log}P_{L_0}(s|\sem{u}, \textbf{x}, c) - C(u)))$$
 
 %\gcs{MH, could you summarize the comparison class model?}
-In an analogous manner to the way we treat uncertainty in the literal meaning and uncertainty in the QUD, a listener can have uncertainty as to the relevant comparison class. The comparison class, which we will denote $c$, is the class of objects or entities against which the referent is implicitly compared and parametrizes the prior distribution over degrees. Thus, in the literal listener model, $P(\textbf{x})$ is treated as a conditional probability distribution that depends upon the comparison class $c$): $P(\textbf{x}\mid c)$.
+In an analogous manner to the way we treat uncertainty in the literal meaning and uncertainty in the QUD, a listener can have uncertainty as to the relevant comparison class. In the literal listener model, $P(\textbf{x})$ is treated as a conditional probability distribution that depends upon the comparison class $c$): $P(\textbf{x}\mid c)$.
 
-\cite{tessler2017comparisonclass} used this parameterization to model comparison class inferences when listeners hear only an adjective applied to an individual (e.g., when describing a basketball player, ``He is tall''). 
-The model assumes that the listener has access to the fact that the referent is a basketball player, and has a knowledge that a basketball player is a person. Then, the listener's hypothesis space of possible comparison classes is the set of all categories to which the referent is a member, weighted by the prior probability. The prior probability of different comparison classes is an unknown theoretical construct and the original comparison class inference model only uses two comparisons classes: the subordinate category (e.g., basketball player) and a basic or superordinate category (e.g., people). The inference proceeds by imagining the conditions under which a speaker would use the adjective heard (e.g., \emph{tall}) with each of the comparison classes (e.g., \emph{for a person}~vs.~\emph{for a basketball player}). 
+\cite{tessler2017comparisonclass} used this parameterization to model comparison class inferences when listeners hear only an adjective applied to an individual (e.g., when describing a basketball player, ``He is tall'').
+The model assumes that the listener has access to the fact that the referent is a basketball player and has a knowledge that a basketball player is a person. Then, the listener's prior distribution of comparison classes is the set of all categories to which the referent is a member, weighted by the prior probability. The prior probability of different comparison classes is an unknown theoretical construct and the original comparison class inference model only uses two comparisons classes: the subordinate category (e.g., basketball player) and a basic or superordinate category (e.g., people). The inference proceeds by imagining the conditions under which a speaker would use the adjective heard (e.g., \emph{tall}) with each of the comparison classes (e.g., \emph{for a person}~vs.~\emph{for a basketball player}).
 
-An important detail to this model is that pragmatic listener use their knowledge that the referent is a member of the subordinate category (i.e., the referent is a basketball player) to inform their prior distribution over the degree. That is, whereas the literal listener's prior distribution over the degree can take either comparison class variable $c$, the pragmatic listener's prior distribution over the degree always uses the subordinate category to guide their predictions about the plausible height of the referent. 
+An important detail to this model is that pragmatic listener use their knowledge that the referent is a member of the subordinate category (i.e., the referent is a basketball player) to inform their prior distribution over the degree. That is, whereas the literal listener's prior distribution over the degree can take either comparison class variable $c$, the pragmatic listener's prior distribution over the degree always uses the subordinate category to guide their predictions about the plausible height of the referent.
+
+The uncertainty over the comparison class is a special case of uncertainty over contexts, for which an appropriately constructed pragmatic listener model can reason over. \cite{degen2015wonky} used a very similar model to account for the stubbornness of scalar implicatures in the face of strong prior beliefs that would have made the implicature-calculated meaning. In that study, the authors investigated listener interpretations of quantified statements involving ``Some'' in a set of stimuli with diverse prior expectations concerning the probability of the \emph{all-state}. For example, ``John threw 15 marbles into the pool. Kevin, who observed what happened, said \emph{Some of the marbles sank.}''. In this scenario, the prior probability of a marble sinking in water is close to 1; thus, one would expect \emph{a priori} that all of the marbles would sink. However, the authors observe across multiple dependent measures that participants still draw the implicature---\emph{some but not all of the marbles sank}. \cite{degen2015wonky} account for this behavior using this context-inference mechanism that allows listeners to revise their prior beliefs when the utterances heard are sufficiently unexpected (e.g., by positing the world is somehow strange or \emph{wonky}).
 
 \gcs{maybe this is also the place to discuss the generics model (in terms of a fancy prior)? or should we mention generics in the context of meaning inference?}
 \mht{I would think the meaning inference section is the appropriate one. We can mention fancy prior there, and point in some way to probabilistic models of cognition more broadly as a way to approach priors...}
