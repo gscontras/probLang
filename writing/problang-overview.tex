@@ -313,10 +313,12 @@ In Section \ref{meaning_inference}, we described a model of gradable adjectives 
 $$P_{S_1}(u|s, \textbf{x}, c) \propto \textrm{exp}(\alpha (\textrm{log}P_{L_0}(s|\sem{u}, \textbf{x}, c) - C(u)))$$
 
 %\gcs{MH, could you summarize the comparison class model?}
+
 In an analogous manner to the way we treat uncertainty in the literal meaning and uncertainty in the QUD, a listener can have uncertainty as to the relevant comparison class. In the literal listener model, $P(\textbf{x})$ is treated as a conditional probability distribution that depends upon the comparison class $c$): $P(\textbf{x}\mid c)$.
 
 \cite{tessler2017comparisonclass} used this parameterization to model comparison class inferences when listeners hear only an adjective applied to an individual (e.g., when describing a basketball player, ``He is tall'').
-The model assumes that the listener has access to the fact that the referent is a basketball player and has a knowledge that a basketball player is a person. Then, the listener's prior distribution of comparison classes is the set of all categories to which the referent is a member, weighted by the prior probability. The prior probability of different comparison classes is an unknown theoretical construct and the original comparison class inference model only uses two comparisons classes: the subordinate category (e.g., basketball player) and a basic or superordinate category (e.g., people). The inference proceeds by imagining the conditions under which a speaker would use the adjective heard (e.g., \emph{tall}) with each of the comparison classes (e.g., \emph{for a person}~vs.~\emph{for a basketball player}).
+The model assumes that the listener has access to the fact that the referent is a basketball player and has a knowledge that a basketball player is a person. Then, the listener's prior distribution of comparison classes is the set of all categories to which the referent is a member, weighted by the prior probability. The prior probability of different comparison classes is an unknown theoretical construct and the original comparison class inference model only uses two comparisons classes: the subordinate category (e.g., basketball player) and a basic or superordinate category (e.g., people). The inference proceeds by imagining the conditions under which a speaker would use the adjective heard (e.g., \emph{tall}) with each of the comparison classes (e.g., \emph{for a person}~vs.~\emph{for a basketball player}). \gcs{I thought your $c$ was serving as \textbf{x} in this example, and your \textbf{x} is $s$.}
+
 
 An important detail to this model is that pragmatic listener use their knowledge that the referent is a member of the subordinate category (i.e., the referent is a basketball player) to inform their prior distribution over the degree. That is, whereas the literal listener's prior distribution over the degree can take either comparison class variable $c$, the pragmatic listener's prior distribution over the degree always uses the subordinate category to guide their predictions about the plausible height of the referent.
 
@@ -326,6 +328,10 @@ The uncertainty over the comparison class is a special case of uncertainty over 
 \mht{I would think the meaning inference section is the appropriate one. We can mention fancy prior there, and point in some way to probabilistic models of cognition more broadly as a way to approach priors...}
 
 \subsection{Epistemic inference}
+
+By now it should be clear that a productive way of extending the RSA framework is to take into account various sorts of uncertainty that enter into communication scenarios: uncertainty about the semantics, the goals, or the context itself. Another common source of uncertainty concerns the epistemic states of the agents who are communicating. Speakers commonly describe states of the world without total knowledge of those states. For example, a speaker might observe an empty plate on John's desk with pizza crumbs on it and describe the scenario with ``John ate some of the pizza.'' As far as the speaker knows, John could have eaten all of the pizza, but without seeing the pizza box, the speaker lacks evidence to make this stronger claim. Now, a hungry listener will interpret the speaker's utterance to infer just how much pizza John has eaten. Importantly, whether the speaker saw the pizza box or just the crumb-covered plate is likely to influence the listener's inference about the full state of the pizza. The mechanism involves reasoning about the knowledge that the speaker used to make his utterance (i.e., the speaker's epistemic state), and the implications that knowledge has for likely states of the world.
+
+We can model this inference by XXX. In the pizza example, the relevant inference concerns how likely it is for the listener to strengthen the ``some'' utterance to ``some but not all.'' \cite{goodmanstuhlmuller2013} 
 
 - scalar implicature model
 
