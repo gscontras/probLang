@@ -141,17 +141,17 @@ definition in \eqref{S1}.
   P_{S_1(u\mid s)} & \propto \exp \left [ \alpha \left (\log P_{L_0}(s \mid u) - C(u) \right)  \right ] & \text{\textcolor{gray}{[definitions \eqref{U} \& \eqref{S1}]}} \\
   % & = \left [\exp \left ( \log P_{L_0}(s \mid u) - C(u) \right ) \right ]^\alpha & \text{\textcolor{gray}{[rules exponential function]}} \nonumber \\
   & = \left (P_{L_0}(s \mid u) \  \frac{1}{\log C(u)} \right)^{\alpha} & \text{\textcolor{gray}{[rules exponential \& log]}} \nonumber \\
-  & = \left ( \frac{\sem{u}(s)}{| \sem{u} |} \ \frac{1}{\log C(u)} \right )^{\alpha} & \text{\textcolor{gray}{[definition \eqref{L0}]}} \nonumber
+  & = \left ( \frac{\sem{u}(s)}{\mid  \sem{u} \mid } \ \frac{1}{\log C(u)} \right )^{\alpha} & \text{\textcolor{gray}{[definition \eqref{L0}]}} \nonumber
 \end{align}
 %
 The reformulation in~\eqref{eq:S1-rewrite} shows how the speaker's choice probabilities are a
 product of three factors, each corresponding to a central postulate concerning how cooperative and, arguably, rational speakers should tailor their contributions
 to a conversation. Suppose we recast the components as follows:
-$\text{Truth}(u,s) = \sem{u}(s)$, $\text{Informativity}(u) = |\sem{u}|^{-1}$, and
+$\text{Truth}(u,s) = \sem{u}(s)$, $\text{Informativity}(u) = \mid \sem{u}\mid ^{-1}$, and
 $\text{Economy(u)} = \log C(u)$. We can then rewrite the speaker rule as:\footnote{For
 binary truth-values, $\alpha$ can be dropped from the factor $\text{Truth}$.}
 \begin{align} \label{eq:S1-three-factor-formulation}
-  P_{S_1(u\mid s)}   & \propto \text{Truth}(u,s) \ \text{Informativity}(u)^{\alpha} \ \text{Economy}(u)^{\alpha} % \propto \underbrace{\sem{u}(s)^{\alpha}}_{\text{Quantity}} \ \underbrace{| \sem{u} |^{-\alpha}}_{\text{Quantity}} \  \underbrace{(\log C(u))^{-\alpha}}_{\text{Manner}} & \text{\textcolor{gray}{[definition \eqref{L0}]}} \nonumber
+  P_{S_1(u\mid s)}   & \propto \text{Truth}(u,s) \ \text{Informativity}(u)^{\alpha} \ \text{Economy}(u)^{\alpha} % \propto \underbrace{\sem{u}(s)^{\alpha}}_{\text{Quantity}} \ \underbrace{\mid  \sem{u} \mid ^{-\alpha}}_{\text{Quantity}} \  \underbrace{(\log C(u))^{-\alpha}}_{\text{Manner}} & \text{\textcolor{gray}{[definition \eqref{L0}]}} \nonumber
 \end{align}
 These three factors directly capture (a formalization of) the Gricean maxims of Quality,
 Quantity, and Manner. In effect, the RSA speaker assumes that speakers (i) maximize truth
@@ -241,14 +241,14 @@ We have seen how Vanilla RSA can be used to model pragmatic reasoning in simple 
 
 As a point of reference for Vanilla RSA, we repeat the $S_1$ utterance choice rule below, where a pragmatic speaker selects utterances in proportion to their utility in conveying some observed state of affairs to a naive listener who interprets the utterance according to its literal semantics---all while minimizing utterance cost. As we shall see, many of the extensions of RSA can be characterized in terms of their deviation from this simple utterance-choice rule.
 \begin{equation} \label{S1-repeat}
-P_{S_1}(u|s) \propto \textrm{exp}(\alpha (\textrm{log}P_{L_0}(s|\sem{u}) - C(u)))
+P_{S_1}(u\mid s) \propto \textrm{exp}(\alpha (\textrm{log}P_{L_0}(s\mid \sem{u}) - C(u)))
 \end{equation}
 
-\subsection{Meaning inference} \label{meaning_inference}
+\subsection{Meaning inference} \label{meaning-inference}
 
 Vanilla RSA assumes a fixed utterance semantics that is shared by both speakers and listeners. But what happens when we parameterize the interpretation function such that the utterance semantics is subject to change? This move is illustrated in \eqref{S1-lexical-uncertainty}, where the variable \textbf{x} determines the truth-functional mapping for an utterance $u$. Once named, this interpretation-fixing variable \textbf{x} becomes subject to active pragmatic reasoning. In other words, we can allow for uncertainty around \textbf{x}, such that the precise semantics of $u$ might be vague or underspecified in context. What results is the class of lexical uncertainty RSA models. \mht{Do we want to show the pragmatic listener model too?}
 \begin{equation} \label{S1-lexical-uncertainty}
-P_{S_1}(u|s, \textbf{x}) \propto \textrm{exp}(\alpha (\textrm{log}P_{L_0}(s|\sem{u}^{\textbf{x}}) - C(u)))
+P_{S_1}(u\mid s, \textbf{x}) \propto \textrm{exp}(\alpha (\textrm{log}P_{L_0}(s\mid \sem{u}^{\textbf{x}}) - C(u)))
 \end{equation}
 
 \cite{lassitergoodman2013} use this technology to model the interpretation of vague gradable adjectives, whose meaning depends crucially on properties of the context, both linguistic and extra-linguistic. Take the adjective \emph{heavy}, which is true of some state (i.e., a weight) just in case the weight exceeds the relevant threshold for heaviness. However, we conclude that a \emph{heavy elephant} weighs substantially more than a \emph{heavy backpack}; moreover, the weight we attribute to the backpack is likely to vary depending on whether the speaker is a preschooler or an olympian. Thus, the threshold above which some state counts as heavy is unlikely to be a fixed, context-invariant value.
@@ -275,7 +275,7 @@ To allow for enrichments beyond the literal meaning, we must broaden $S_1$'s goa
 
 As was the case with meaning inference in the previous subsection, we can illustrate this innovation by highlighting its effect on the vanilla utterance-choice rule. In \eqref{S1-QUD}, $S_1$'s utility continues to break down into informativity and economy components. However, now \textbf{x} determines what it is that $S_1$ endeavors to communicate to $L_0$. Viewed as the QUD, \textbf{x} serves to map $s$ to the answer to \textbf{x} that $S_1$ would like to communicate to $L_0$.
 \begin{equation} \label{S1-QUD}
-P_{S_1}(u|s, \textbf{x}) \propto \textrm{exp}(\alpha (\textrm{log}P_{L_0}(F(s,\textbf{x})|\sem{u}) - C(u)))
+P_{S_1}(u\mid s, \textbf{x}) \propto \textrm{exp}(\alpha (\textrm{log}P_{L_0}(F(s,\textbf{x})\mid \sem{u}) - C(u)))
 \end{equation}
 
 \cite{kaoetal2014} use this technology to model hyperbole, as in the coffee-price example above. To see how, consider some possible states of the world about which a speaker might want to communicate:
@@ -307,31 +307,35 @@ We have identified how non-literal utterances can be useful to a speaker, but we
 We now have technology to model vagueness and ambiguity on the basis of an underspecified semantics, as well as shifting goals and the nonliteral language that address them on the basis of uncertainty around the QUD. So far, all of this reasoning has happened with respect to a fixed context, or common ground. What happens when a listener is unsure of the context a speaker has used in the production of their utterance? For example, if you hear that some person is tall, how does a listener know what the referent is tall relative to? 
 
 The formal mechanism by which an adjective like \emph{tall} receives a context-specific interpretation is the \emph{comparison class}, the (often implicit) set of entities or events against which the referent is compared (e.g., \emph{tall} for a person~vs.~\emph{tall} for a basketball player). 
-In Section \ref{meaning_inference}, we described a model of gradable adjectives where the threshold for \emph{tall} is computed via reference to the state prior, the prior distribution over heights within some comparison class. We can make this dependence on the comparison class $c$ explicit in the model of the speaker: 
+In Section \ref{meaning-inference}, we described a model of gradable adjectives where the threshold for \emph{tall} is computed via reference to the state prior, the prior distribution over heights within some comparison class. We can make this dependence on the comparison class explicit in the model of the speaker: 
 %Depending on the comparison class, the height you ultimately infer for the person could vary dramatically: tall for a basketball player means something different from tall for a person.
 
-$$P_{S_1}(u|s, \textbf{x}, c) \propto \textrm{exp}(\alpha (\textrm{log}P_{L_0}(s|\sem{u}, \textbf{x}, c) - C(u)))$$
-
-%\gcs{MH, could you summarize the comparison class model?}
-
-In an analogous manner to the way we treat uncertainty in the literal meaning and uncertainty in the QUD, a listener can have uncertainty as to the relevant comparison class. In the literal listener model, $P(\textbf{x})$ is treated as a conditional probability distribution that depends upon the comparison class $c$): $P(\textbf{x}\mid c)$.
+$$P_{S_1}(u\mid s, \textbf{x}) \propto \textrm{exp}(\alpha (\textrm{log}P_{L_0}(s\mid \sem{u}, \textbf{x}) - C(u)))$$
+In an analogous manner to the way we treat uncertainty in the literal meaning and uncertainty in the QUD, a listener can have uncertainty as to the relevant comparison class. In the literal listener model, the prior over world states is treated as a conditional probability distribution that depends upon the comparison class \textbf{x}: $P(s\mid \textbf{x})$.
 
 \cite{tessler2017comparisonclass} used this parameterization to model comparison class inferences when listeners hear only an adjective applied to an individual (e.g., when describing a basketball player, ``He is tall'').
-The model assumes that the listener has access to the fact that the referent is a basketball player and has a knowledge that a basketball player is a person. Then, the listener's prior distribution of comparison classes is the set of all categories to which the referent is a member, weighted by the prior probability. The prior probability of different comparison classes is an unknown theoretical construct and the original comparison class inference model only uses two comparisons classes: the subordinate category (e.g., basketball player) and a basic or superordinate category (e.g., people). The inference proceeds by imagining the conditions under which a speaker would use the adjective heard (e.g., \emph{tall}) with each of the comparison classes (e.g., \emph{for a person}~vs.~\emph{for a basketball player}). \gcs{I thought your $c$ was serving as \textbf{x} in this example, and your \textbf{x} is $s$.}
+The model assumes that the listener has access to the fact that the referent is a basketball player and has a knowledge that a basketball player is a person. Then, the listener's prior distribution of comparison classes is the set of all categories to which the referent is a member, weighted by the prior probability. The prior probability of different comparison classes is an unknown theoretical construct and the original comparison class inference model only uses two comparisons classes: the subordinate category (e.g., basketball player) and a basic or superordinate category (e.g., people). The inference proceeds by imagining the conditions under which a speaker would use the adjective heard (e.g., \emph{tall}) with each of the comparison classes (e.g., \emph{for a person}~vs.~\emph{for a basketball player}). 
+%\gcs{I thought your $c$ was serving as \textbf{x} in this example, and your \textbf{x} is $s$.}
 
 
 An important detail to this model is that pragmatic listener use their knowledge that the referent is a member of the subordinate category (i.e., the referent is a basketball player) to inform their prior distribution over the degree. That is, whereas the literal listener's prior distribution over the degree can take either comparison class variable $c$, the pragmatic listener's prior distribution over the degree always uses the subordinate category to guide their predictions about the plausible height of the referent.
 
-The uncertainty over the comparison class is a special case of uncertainty over contexts, for which an appropriately constructed pragmatic listener model can reason over. \cite{degen2015wonky} used a very similar model to account for the stubbornness of scalar implicatures in the face of strong prior beliefs that would have made the implicature-calculated meaning. In that study, the authors investigated listener interpretations of quantified statements involving ``Some'' in a set of stimuli with diverse prior expectations concerning the probability of the \emph{all-state}. For example, ``John threw 15 marbles into the pool. Kevin, who observed what happened, said \emph{Some of the marbles sank.}''. In this scenario, the prior probability of a marble sinking in water is close to 1; thus, one would expect \emph{a priori} that all of the marbles would sink. However, the authors observe across multiple dependent measures that participants still draw the implicature---\emph{some but not all of the marbles sank}. \cite{degen2015wonky} account for this behavior using this context-inference mechanism that allows listeners to revise their prior beliefs when the utterances heard are sufficiently unexpected (e.g., by positing the world is somehow strange or \emph{wonky}).
+The uncertainty over the comparison class is a special case of uncertainty over contexts, for which an appropriately constructed pragmatic listener model can reason over. \cite{degen2015wonky} used a very similar model to account for the stubbornness of scalar implicatures in the face of strong prior beliefs that would have made the implicature-calculated meaning. In that study, the authors investigated listener interpretations of quantified statements involving ``Some'' in a set of stimuli with diverse prior expectations concerning the probability of the \emph{all-state}. For example, ``John threw 15 marbles into the pool. Kevin, who observed what happened, said \emph{Some of the marbles sank.}''. In this scenario, the prior probability of a marble sinking in water is close to 1; thus, one would expect \emph{a priori} that all of the marbles would sink. However, the authors observe across multiple dependent measures that participants still draw the implicature---\emph{some but not all of the marbles sank}. \citeauthor{degen2015wonky} account for this behavior using this context-inference mechanism that allows listeners to revise their prior beliefs when the utterances heard are sufficiently unexpected (e.g., by positing the world is somehow strange or \emph{wonky}).
 
 \gcs{maybe this is also the place to discuss the generics model (in terms of a fancy prior)? or should we mention generics in the context of meaning inference?}
 \mht{I would think the meaning inference section is the appropriate one. We can mention fancy prior there, and point in some way to probabilistic models of cognition more broadly as a way to approach priors...}
 
 \subsection{Epistemic inference}
 
-By now it should be clear that a productive way of extending the RSA framework is to take into account various sorts of uncertainty that enter into communication scenarios: uncertainty about the semantics, the goals, or the context itself. Another common source of uncertainty concerns the epistemic states of the agents who are communicating. Speakers commonly describe states of the world without total knowledge of those states. For example, a speaker might observe an empty plate on John's desk with pizza crumbs on it and describe the scenario with ``John ate some of the pizza.'' As far as the speaker knows, John could have eaten all of the pizza, but without seeing the pizza box, the speaker lacks evidence to make this stronger claim. Now, a hungry listener will interpret the speaker's utterance to infer just how much pizza John has eaten. Importantly, whether the speaker saw the pizza box or just the crumb-covered plate is likely to influence the listener's inference about the full state of the pizza. The mechanism involves reasoning about the knowledge that the speaker used to make his utterance (i.e., the speaker's epistemic state), and the implications that knowledge has for likely states of the world.
+By now it should be clear that a productive way of extending the RSA framework is to take into account various sorts of uncertainty that enter into communication scenarios: uncertainty about the semantics, the goals, or the context itself. Another common source of uncertainty concerns the epistemic states of the agents who are communicating. Speakers commonly describe states of the world without total knowledge of those states. For example, a speaker might observe an empty plate on John's desk with pizza crumbs on it and describe the scenario with ``John ate some of the pizza.'' As far as the speaker knows, John could have eaten all of the pizza, but without seeing the pizza box, the speaker lacks evidence to make this stronger claim. A hungry listener will interpret the speaker's utterance to infer just how much pizza John has eaten. Importantly, whether the speaker saw the pizza box or just the crumb-covered plate is likely to influence the listener's inference about the full state of the pizza. The mechanism involves reasoning about the knowledge that the speaker used to make his utterance (i.e., the speaker's epistemic state), and the implications that knowledge has for likely states of the world.
 
-We can model this inference by XXX. In the pizza example, the relevant inference concerns how likely it is for the listener to strengthen the ``some'' utterance to ``some but not all.'' \cite{goodmanstuhlmuller2013} 
+We can model this inference by once again amending our speaker model. Rather than having the speaker (epistemically) access the state to be communicated directly, this access can be mediated by an observation the speaker makes (e.g., observing the crumb-covered plate vs.~the empty pizza box). On the basis of this observation, the speaker infers what the true state of the world is likely to be, and then attempts to communicate the inferred state (i.e., the state the speaker believes he is in on the basis of his observation) to $L_0$. \gcs{I wonder whether we need to distinguish observation from access} This process is illustrated in \eqref{S1-epistemic}, where $S_1$ chooses $u$ on the basis of an observation \textbf{x} by determining what the true $s$ is likely to be and then maximizing the probability that $L_1$ arrives at $s$ from $u$; the value $P(s\mid \textbf{x})$ encodes $S_1$'s beliefs about the states $s$ that could have led to \textbf{x}.
+
+\begin{equation} \label{S1-epistemic}
+P_{S_1}(u\mid \textbf{x}) \propto \textrm{exp}(\alpha \mathbb{E}_{P(s\mid \textbf{x})}(\textrm{log}P_{L_0}(s\mid \sem{u}) - C(u)))
+\end{equation}
+
+In the pizza example, the relevant inference concerns how likely it is for the listener to strengthen the ``some'' utterance to ``some but not all.'' \cite{goodmanstuhlmuller2013} 
 
 - scalar implicature model
 
