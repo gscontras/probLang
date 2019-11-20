@@ -4,11 +4,15 @@ title: Introduction to WebPPL
 description: "A brief introduction."
 ---
 
+<!-- Yes, these chapters would be great. Maybe putting the most crucial basics of JS into the book as well? And maybe a shorter, more streamlined example of Bayesian conditioning than what is now in the second linked chapter? There is an example already in appendix chap 1 if that can be recycled, maybe?
+I can also put hand to this, in about a week or two.
+Cheers, m. -->
+
 WebPPL is a probabilistic programming language based on Javascript. WebPPL can be used most easily through [webppl.org](http://webppl.org). It can also be [installed locally](http://webppl.readthedocs.io/en/dev/installation.html) and run from the [command line](http://webppl.readthedocs.io/en/dev/usage.html).
 
 The deterministic part of WebPPL is a [subset of Javascript](http://dippl.org/chapters/02-webppl.html).
 
-> New to functional programming or JavaScript? Start off with a [basic introduction](http://probmods.org/chapters/13-appendix-js-basics.html) to the deterministic parts of the language.
+> New to functional programming or JavaScript? We will explain some of the constructs as they come up in WebPPL. For a slightly more substantial introduction, try this [short introduction to the deterministic parts of the language](http://probmods.org/chapters/13-appendix-js-basics.html).
 
 The probabilistic aspects of WebPPL come from: [distributions](http://webppl.readthedocs.io/en/dev/distributions.html) and [sampling](http://webppl.readthedocs.io/en/dev/sample.html),
 marginal [inference](http://webppl.readthedocs.io/en/dev/inference/index.html),
@@ -16,8 +20,7 @@ and [factors](http://webppl.readthedocs.io/en/dev/inference/index.html#factor).
 
 > **Probabilistic model**: A mathematical mapping from a set of latent (unobservable) variables to a *probability distribution* of observable outcomes or data. A **probability distribution** is simply a mathematical mapping between outcomes and their associated probability of occurrence.
 
-
-### Sampling
+### Sampling with functions
 
 The core ingredient of probabilistic programs: *random primitives*.
 
@@ -25,18 +28,20 @@ The core ingredient of probabilistic programs: *random primitives*.
 flip(0.6)
 ~~~~
 
-`flip` is a function like any other function in a programming langauge: it takes an argument and returns a value.
+`flip` is a function like any other function in a programming language: it takes an argument and returns a value.
 What makes `flip` special is that doesn't return the same value every time you run it, even with the same arguments: It is a probabilistic function.
 Try running the code box above multiple times to see this.
 Flip essentially flips a coin whose probability of landing on heads is given by the parameter value (above: 0.6).
 (You can treat the value of `true` as "heads" and `false` as "tails").
 
-Because `flip` is a function (like any other), we can pass it to higher-order functions like `repeat()`
-(Recall that "higher-order functions" are functions that take other functions as arguments.)
+Because `flip` is a function (like any other), we can pass it to higher-order functions like `repeat()`.
+"Higher-order functions" are functions that take other functions as arguments.
 
 ~~~~
 repeat(100, flip)
 ~~~~
+
+Here, `repeat()` has two arguments: a number `100` and a function `flip`. It returns the outcome of repeating `n`(here, 1000) calls to function (flipping a coin). Notice that the function `flip` is being referred to by its name; the function `flip` is not being called (which you would achieve with: `flip()`).
 
 If you are uncertain about the arguments to `repeat()`, or other WebPPL functions, pop over to the [WebPPL docs](http://docs.webppl.org/en/master/functions/arrays.html#repeat) to get it all straight.
 
@@ -52,13 +57,15 @@ The coolest thing about WebPPL-viz is the default `viz()` function, which will t
 1. Try calling `viz()` on the output of the above code box.
 2. Run the code box several times. Does the output surprise you?
 3. Try repeating the flip 1000 times, and run the code box several times. What has changed? Why?
-4. Try repeating `flip(0.6)`. What needs to change from the original code box? (Hint: Recall that `repeat()` wants to take a function as an argument.)
+4. Try repeating `flip(0.6)`. What needs to change from the original code box? (Hint: Recall that `repeat()` wants to take a function as an argument. You can define new functions using the `function(arguments){body}` construction, as in `var newFn = function(){ ...}`` `)
+
+<!-- MH: explain defining new functions -->
 
 ### Distributions
 
-Above, we looked at *samples* from probability distributions.
-The probability distribution was *implicit* in those sampling functions; it specified the probability of the different return values.
-When you repeatedly run the code box many times, you will start to approximate the underlying distribution better and better.
+Above, we looked at *samples* from probability distributions: the outcomes of randomly flipping a bunch of coins (of a certain weight).
+The probability distributions were *implicit* in those sampling functions; they specified the probability of the different return values (`true` or `false`).
+When you repeatedly run the code box many times, you to approximate the underlying true distribution better and better.
 
 WebPPL also represents probability distributions *explicitly*.
 We call these explicit probability distributions: **distribution objects**.
