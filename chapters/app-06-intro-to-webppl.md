@@ -1,5 +1,5 @@
 ---
-layout: chapter
+layout: appendix
 title: Introduction to WebPPL
 description: "A brief introduction."
 ---
