@@ -22,28 +22,61 @@ and [factors](http://webppl.readthedocs.io/en/dev/inference/index.html#factor).
 
 ### Sampling with functions
 
-The core ingredient of probabilistic programs: *random primitives*.
+Functions are procedures that return a value.
+They (often) take as input some number of arguments, do some computation, and return an output.
+You can define new functions in WebPPL, just as you would in JavaScript.
+
+~~~~
+var myNewFunction = function(args){
+    return args[0] + args[1]
+}
+myNewFunction([2, 3])
+~~~~
+
+Above, `args` is the argument to the function `myNewFunction`; based on the body (content) of `myNewFunction`, `args` should be a list.
+What the function `myNewFunction` does is add the 0th element of the list to the 1st element of the list (WebPPL is 0-indexed).
+Try running `myNewFunction([2, 3, 5])`.
+What happens?
+
+The basic building block of probabilistic programs is *random primitives*.
+Random primitives can be accessed with *sampling functions*.
+Sampling functions, like other functions, take in some number of arguments (often, the parameters of a probability distribution), do some (probabilistic) computation, and return the output.
+In their most basic form, sampling functions return a random value drawn from a known probability distribution.
 
 ~~~~
 flip(0.6)
 ~~~~
 
-`flip` is a function like any other function in a programming language: it takes an argument and returns a value.
+`flip` is a function: it takes an argument and returns a value.
 What makes `flip` special is that doesn't return the same value every time you run it, even with the same arguments: It is a probabilistic function.
 Try running the code box above multiple times to see this.
-Flip essentially flips a coin whose probability of landing on heads is given by the parameter value (above: 0.6).
+`flip` essentially flips a coin whose probability of landing on heads is given by the parameter value (above: `0.6`).
 (You can treat the value of `true` as "heads" and `false` as "tails").
 
-Because `flip` is a function (like any other), we can pass it to higher-order functions like `repeat()`.
-"Higher-order functions" are functions that take other functions as arguments.
+#### Higher-order functions: Munging randomness
+
+*Higher-order functions* are a key component of functional programming languages; they allow you to repeat computation (e.g., like you would want to do with a for-loop).
+Two very useful higher-order functions are `repeat` and `map`.
 
 ~~~~
-repeat(100, flip)
+repeat(10, flip)
 ~~~~
 
-Here, `repeat()` has two arguments: a number `100` and a function `flip`. It returns the outcome of repeating `n`(here, 1000) calls to function (flipping a coin). Notice that the function `flip` is being referred to by its name; the function `flip` is not being called (which you would achieve with: `flip()`).
+`repeat()` has two arguments: a number `10` and a function `flip`.
+It returns the outcome of repeating `n`(here, 10) calls to function (flipping a coin).
+Notice that the function `flip` is being referred to by its name; the function `flip` is not being called (which you would achieve with: `flip()`) before it is passed to `repeat`.
 
-If you are uncertain about the arguments to `repeat()`, or other WebPPL functions, pop over to the [WebPPL docs](http://docs.webppl.org/en/master/functions/arrays.html#repeat) to get it all straight.
+**Exercise**: Try repeating `flip(0.6)`. What needs to change from the original code box? (Hint: `repeat()` wants to take a function as an argument. You can define new functions using the `function(arguments){body}` construction, as in `var newFn = function(){...}`` `)
+
+Sometimes, we want to repeat a function but with different arguments. For this, we need `map`
+
+~~~~
+var weights = [0.1, 0.3, 0.5, 0.7, 0.9]
+map(function(w){ w * 2 }, weights)
+~~~~
+
+`map` takes two arguments: a function and a list. `map` returns a list, which is the result of running the function over each element of the list.
+If you are uncertain about the arguments to `repeat()`, `map()`, or other WebPPL functions, pop over to the [WebPPL docs](http://docs.webppl.org/en/master/functions/arrays.html#repeat) to get it all straight.
 
 #### A brief aside for visualization
 
@@ -57,7 +90,6 @@ The coolest thing about WebPPL-viz is the default `viz()` function, which will t
 1. Try calling `viz()` on the output of the above code box.
 2. Run the code box several times. Does the output surprise you?
 3. Try repeating the flip 1000 times, and run the code box several times. What has changed? Why?
-4. Try repeating `flip(0.6)`. What needs to change from the original code box? (Hint: Recall that `repeat()` wants to take a function as an argument. You can define new functions using the `function(arguments){body}` construction, as in `var newFn = function(){ ...}`` `)
 
 <!-- MH: explain defining new functions -->
 
