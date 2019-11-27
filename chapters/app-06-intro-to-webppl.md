@@ -87,17 +87,15 @@ The coolest thing about WebPPL-viz is the default `viz()` function, which will t
 
 **Exercises:**
 
-1. Try calling `viz()` on the output of the above code box.
+1. Try calling `viz()` on the output of the `repeat` code box above.
 2. Run the code box several times. Does the output surprise you?
 3. Try repeating the flip 1000 times, and run the code box several times. What has changed? Why?
 
-<!-- MH: explain defining new functions -->
-
 ### Distributions
 
-Above, we looked at *samples* from probability distributions: the outcomes of randomly flipping a bunch of coins (of a certain weight).
+Above, we looked at *samples* from probability distributions: the outcomes of randomly flipping coins (of a certain weight).
 The probability distributions were *implicit* in those sampling functions; they specified the probability of the different return values (`true` or `false`).
-When you repeatedly run the code box many times, you to approximate the underlying true distribution better and better.
+When you repeatedly run the sampling function more and more times (for example: with `repeat`), you to approximate the underlying true distribution better and better.
 
 WebPPL also represents probability distributions *explicitly*.
 We call these explicit probability distributions: **distribution objects**.
@@ -129,7 +127,7 @@ sample(myDist)
 
 ### Properties of distribution objects
 
-We just saw how you can call `sample()` on a distribution, and it returns a value from that distribution (sampled according to the its probability).
+We just saw how you can call `sample()` on a distribution, and it returns a value from that distribution (the value is sampled according to the its probability).
 Distribution objects have two other properties that will be useful for us.
 
 Sometimes, we want to know what possible values could be sampled from a distribution.
@@ -140,9 +138,11 @@ This is called the **support** of a distribution and it can be accessed by calli
 Bernoulli( { p : 0.9 } ).support()
 ~~~~
 
-Other times, we have a sample from distribution and we want to know how probable it was to get that sample.
+Note that the support of many distributions will be a continuum, like a `Uniform({a, b})` distribution which is defined over the bounds `a` and `b`.
+
+Another common computation relating to probability distributions comes when you have a sample from distribution and want to know how probable it was to get that sample.
 This is sometimes called "scoring a sample", and it can be accessed by calling `myDist.score(mySample)`, where `myDist` is a distribution object and `mySample` is a value.
-Note that for the score of sample to be defined, the sample must be an element of the support of the distribution.
+Note that for the score of sample to be defined; that is, the sample must be an element of the support of the distribution.
 WebPPL returns not the probability of `mySample` under the distribution `myDist`, but the natural logarithm of the probability, or the log-probability.
 To recover the probability, use the javascript function `Math.exp()`.
 
@@ -167,12 +167,14 @@ Variables can be defined, but (unlike in JavaScript) their values cannot be rede
 ~~~~
 var a = 0;
 a = 1; // won't work
+// var a = 1 // will work
 
 var b = {x: 0};
 b.x = 1; // won't work
+// var b = {x: 1} // will work
 ~~~~
 
-This also means looping constructs (such as `for`) are not available; we use functional programming instead to operate on [arrays](http://webppl.readthedocs.io/en/dev/functions/arrays.html).
+This also means looping constructs (such as `for`) are not available; we use functional programming constructs (like `map`) instead to operate on [arrays](http://webppl.readthedocs.io/en/dev/functions/arrays.html).
 (Note that [tensors](http://webppl.readthedocs.io/en/dev/functions/tensors.html) are not arrays.)
 
 
@@ -191,10 +193,7 @@ var geometricCoin = function(){
 1. Make a function (`geometricCoin`) that flips a coin (of whatever weight you'd like). If it comes up heads, you call that same function (`geometricCoin`) and add 1 to the result. If it comes up tails, you return the number 1.
 2. Pass that function to repeat, repeat it many times, and create a picture using `viz()`
 
-In the [next chapter](03-simpleModels.html), we'll start to compose generative models of data, and use observations (e.g., data we've collected in an experiment) to learn about the models we've created.
-
-
-
+## Bayesian Inference in WebPPL
 
 #### Learning about parameters from data
 
