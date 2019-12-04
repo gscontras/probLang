@@ -22,8 +22,8 @@ and [factors](http://webppl.readthedocs.io/en/dev/inference/index.html#factor).
 
 ### Sampling with functions
 
-Functions are procedures that return a value.
-They (often) take as input some number of arguments, do some computation, and return an output.
+A function is a procedure that returns a value.
+Functions (often) take as input some number of arguments.
 You can define new functions in WebPPL, just as you would in JavaScript.
 
 ~~~~
@@ -38,8 +38,7 @@ What the function `myNewFunction` does is add the 0th element of the list to the
 Try running `myNewFunction([2, 3, 5])`.
 What happens?
 
-The basic building block of probabilistic programs is *random primitives*.
-Random primitives can be accessed with *sampling functions*.
+The basic building block of probabilistic programs is random primitives, accessed with *sampling functions*.
 Sampling functions, like other functions, take in some number of arguments (often, the parameters of a probability distribution), do some (probabilistic) computation, and return the output.
 In their most basic form, sampling functions return a random value drawn from a known probability distribution.
 
@@ -77,6 +76,25 @@ map(function(w){ w * 2 }, weights)
 
 `map` takes two arguments: a function and a list. `map` returns a list, which is the result of running the function over each element of the list.
 If you are uncertain about the arguments to `repeat()`, `map()`, or other WebPPL functions, pop over to the [WebPPL docs](http://docs.webppl.org/en/master/functions/arrays.html#repeat) to get it all straight.
+
+
+#### Recursive functions
+
+A recursive function is one that encodes a procedure in which the same function is called.
+It is easy to get stuck in an infinite regress with recursive function, so it's often important to define a base case.
+
+~~~~
+var firstEven = function(lst){
+  if ((first(lst) % 2) == 0) {
+    return first(lst)
+  } else {
+    return firstEven(rest(lst))
+  }
+}
+firstEven([1,3,2,4])
+~~~~
+
+`firstEven` takes in a list, checks to see if the first element is even, and returns that value if it is even, but otherwise calls itself using the rest of the list (everything except the first element) as the argument.
 
 #### A brief aside for visualization
 
@@ -195,161 +213,76 @@ var geometricCoin = function(){
 
 ## Bayesian Inference in WebPPL
 
-#### Learning about parameters from data
+#### Warm-up: Constructing distributions with Infer
 
-Having specified our *a priori* state of knowledge about the parameter of interest, and the generative process of the data given a particular value of the parameter, we are ready to make inferences about the likely value of the parameter given our observed data.
-We do this via *Bayesian inference*, the mathematically correct way of reasoning about the underlying probability that generated our data.
+Sampling functions and explicit representations of probability distributions are the basic building blocks of a probabilistic programs.
+These constructs can be thought of as ways of generating data. For example, if you wanted to generate a sequence of flips of a coin, you could use `repeat(15, flip)`, like we saw above.
 
-So we run the experiment, and 15 out of 20 kids performed the helping behavior.
-Thus, `numberOfHelpfulResponses == 15`.
-How can we tell our model about this?
+~~~~
+repeat(15, flip)
+~~~~
 
-~~~~ norun
-var sampleAndObserve = function(){
-  var propensityToHelp = sample(PriorDistribution)
-  var numberOfHelpfulResponses = binomial({
-    p: propensityToHelp,
-    n: numberOfKidsTested
-  })
-  var matchesOurData = (numberOfHelpfulResponses == 15)
-  return ...
+When you run the code-box above, the program returns to you one sample: a sample from the probability distribution defined by the program (a sequence of 15 flips).
+What if we wanted more samples, to better understand the distribution? For example, how probable is it to get 14 heads in a series of 15 flips?
+We could wrap the above code into a function, and call `repeat` on that.
+
+~~~~
+var repeat15flips = function(){ repeat(15, flip) }
+repeat(3, repeat15flips)
+~~~~
+
+As you might imagine, it's going to be hard to get any intuition for this distribution by looking at many samples, because each sample is a list.
+But we may not need to keep around the whole list for each sample. If we want to know how probable it is to get 14 heads in a series of 15 flips, then all we need to keep around from each sample is the number of heads (rather than the full sequence).  To get the number of heads, we can call `sum()` on the list of boolean values returned by `repeat15flips`.
+
+~~~~
+var sumRepeat15flips = function(){ sum(repeat(15, flip)) }
+repeat(3, sumRepeat15flips)
+~~~~
+
+Now, the data is a lot more managable to understand. Try running 1000 samples, and wrap the output in a `viz`.
+Presently, the data which results from the `repeat` function call is represented as a list, but the procedure implicitly defines a probability distribution.
+We can reify the sampling function into a probability distribution used the built-in function `Infer()`.
+
+~~~~
+var sumRepeat15flips = function(){ sum(repeat(15, flip)) }
+Infer(sumRepeat15flips)
+~~~~
+
+Turning the sampling function into a probability distribution has the advantage of being able to access properties of the distribution (like the score, support, and sampling; as described above).
+
+**Exercise:**: Using the newly constructed distribution object from `Infer`, compute the probability of getting 14 heads from a series of 15 flips.
+
+#### Bayesian inference
+
+Both as scientists and as run-of-the-mill semi-rational agents reasoning about the world under uncertain conditions, we are often not interested in the question of how probable is some data I'm observing. Rather, we are in how probable a certain hypothesis may be given the data that I have observed.
+For example, imagine that you observe 14 heads from a series of 15 flips of a coin, but you're actually uncertain about the weight of the coin (i.e., you have reason to believe the coin may be biased towards landing on heads or tails, but you don't know which one and you don't know how biased it may be).
+Given the observed data (14 heads out of 15 flips), you can use Bayesian inference to make judgment about the likely weight of the coin.
+
+To do this in a WebPPL program, we need to make two changes to the code above: We need to specify the **prior distribution** over the parameters (in this case, the prior distribution over coin weights) and we need to tell WebPPL about the data we observed.
+
+~~~~
+var model = function(){
+  var coin_weight = uniform(0, 1)
+  var sumRepeat15flips = function(){ sum(repeat(15, flip)) }
+  observe(Infer(sumRepeat15flips), 14)
+  return coin_weight
 }
+Infer(model)
 ~~~~
 
-What should we return?
-We could return `matchesOurData`.
-If we repeat this function many times, we will estimate how many `propensityToHelp`s under our prior (i.e., between 0 - 1) give rise to our observed data.
-This is called the **likelihood of the data**, but is not immediately interpretable in isolation (though we will see it later in this course).
-
-What if we returned `propensityToHelp`?
-Well, that will just give us the same prior that we saw above, because there is no relationship in the program between `matchesOurData` and `propensityToHelp`.
-
-What if we returned `propensityToHelp`, but only if `matchesOurData` is `true`?
-In principle, any value `propensityToHelp` *could* give rise to our data, but intuitively some values are more likely to than others (e.g., a `propensityToHelp` = 0.2, would produce 15 out of 20 successes with probability proportional to $$0.2^{15} + 0.8^5$$, which is not as likely as a `propensityToHelp` = 0.8 would have in producing 15 out of 20 success).
-
-It turns out, if you repeat that procedure many times, then the values that survive this "rejection" procedure, survive it in proportion to the actual *a posteriori* probability of those values given the observed data.
-It is a mathematical manifestation of the quotation from Arthur Conan Doyle's *Sherlock Holmes*: "Once you eliminate the impossible, whatever remains, no matter how improbable, must be the truth."
-Thus, we eliminate the impossible (and, implicitly, we penalize the improbable), and what we are left with is a distribution that reflects our state of knowledge after having observed the data we collected.
-
-
-We'll use the `editor.put()` function to save our results so we can look at the them in different code boxes.
+Unfortunately, this will take a very long time to run.
+Instead, we'll take advantage of the fact that `Infer(sumRepeat15flips)` is a known probability distribution. It is the Binomial distribution.
 
 ~~~~
-var PriorDistribution = Uniform({a:0, b:1});
-var numberOfKidsTested = 20;
-
-var sampleAndObserve = function(){
-  var propensityToHelp = sample(PriorDistribution)
-  var numberOfHelpfulResponses = binomial({
-    p: propensityToHelp,
-    n: numberOfKidsTested
-  })
-  var matchesOurData = (numberOfHelpfulResponses == 15)
-  return matchesOurData ? propensityToHelp : "reject"
+var model = function(){
+  var coin_weight = uniform(0, 1)
+  // var sumRepeat15flips = function(){ sum(repeat(15, flip)) }
+  // observe(Infer(sumRepeat15flips), 14)
+  observe(Binomial({n: 15, p: coin_weight}), 14)
+  return coin_weight
 }
-
-var exampleOutput = repeat(10, sampleAndObserve)
-
-display("___example output from function___")
-display(exampleOutput)
-
-// remove all the rejects
-var posteriorSamples = filter(
-  function(s){return s != "reject" },
-  repeat(100000, sampleAndObserve)
-)
-
-// save results in browser cache to access them later
-editor.put("posteriorSamples", posteriorSamples)
-
-viz(posteriorSamples)
+Infer({model})
 ~~~~
-
-Visualized from the code box above is the *posterior distribution* over the parameter `propensityToHelp`.
-It represents our state of knowledge about the parameter after having observed the data (15 out of 20 success).
-
-#### The inference algorithm
-
-The procedure we implemented in the above code box is called [Rejection sampling](https://en.wikipedia.org/wiki/Rejection_sampling), and it is the simplest algorithm for [Bayesian inference](https://en.wikipedia.org/wiki/Bayesian_inference).
-
-The algorithm can be written as:
-
-1. Sample a parameter value from the prior (e.g., `p = uniform(0,1)`)
-2. Make a prediction (i.e., generate a possible observed data), given that parameter value (e.g., `binomial( {n:20, p: p} )`)
-+ If the prediction generates the observed data, record parameter value.
-+ If the prediction doesn't generate the observed data, throw away that parameter value.
-3. Repeat many times.
-
-Just as we saw in the previous chapter, our ability to represent this distribution depends upon the number of samples we take.
-Above, we have chosen to take 100000 samples in order to more accurately represent the posterior distribution.
-The number of samples doesn't correspond to anything about our scientific question; it is a feature of the *inference algorithm*, not of our model.
-We will describe inference algorithms in more detail in a later chapter.
-
-
-### Abstracting away from the algorithm with `Infer`
-
-
-~~~~
-var priorDistribution = Uniform({a:0, b:1});
-var numberOfKidsTested = 20;
-var model = function() {
-  var propensityToHelp = sample(priorDistribution)
-  var numberOfHelpfulResponses = binomial({
-    p: propensityToHelp,
-    n: numberOfKidsTested
-  })
-  condition(numberOfHelpfulResponses == 15) // condition on data
-  return { propensityToHelp }
-}
-
-var inferArgument = {
-  model: model,
-  method: "rejection",
-  samples: 5000
-}
-
-var posteriorDistibution = Infer(inferArgument)
-
-viz(posteriorDistibution)
-~~~~
-
-
-Intuitively, `condition()` here operates the same as the conditional return statement in the code box above this one.
-It takes in a boolean value, and throws out the random choices for which that boolean is `false`.
-Speaking more generally and technically, `condition()` *re-weights* the probabilities of the *program execution* (which includes all of the *random choices* that have been made up to that point in the program) in a binary way: If it's true, the probability of that program execution gets multiplied by 1 (which has no effect) and if the condition statement is false, the probability of that program execution gets multiplied by 0 (which completely destroys that program execution).
-
-`condition()` is a special case of `factor()`, which directly (and continuously) re-weights the (log) probability of the program execution.
-Whereas `condition()` can only take `true` or `false` as arguments, `factor()` takes a number.
-The code above can be rewritten using factor in the following way:
-
-
-~~~~
-var priorDistribution = Uniform({a:0, b:1});
-
-var model = function() {
-  var propensityToHelp = sample(priorDistribution)
-  // reweight based on log-prob of observing 15
-  factor(Binomial( {n:20, p: propensityToHelp} ).score(15))
-  return { propensityToHelp }
-}
-
-var posterior = Infer({model: model, method: "rejection", samples: 1000})
-viz(posterior)
-~~~~
-
-Re-weighting the log-probabilities of a program execution by the (log) probability of a value under a given distribution, as is shown in the code box above, is true Bayesian updating. Because this updating procedure is so commonly used, it gets its own helper function: `observe()`.
-
-~~~~
-var model = function() {
-  var propensityToHelp = uniform(0,1) // priors
-  observe(Binomial( {n:20, p: propensityToHelp} ), 15) // observe 15 from the Binomial dist
-  return { propensityToHelp }
-}
-
-var posterior = Infer({model: model, method: "rejection", samples: 1000})
-viz(posterior)
-~~~~
-
 
 #### Observe, condition, and factor: distilled
 
