@@ -12,7 +12,7 @@ WebPPL is a probabilistic programming language based on Javascript. WebPPL can b
 
 The deterministic part of WebPPL is a [subset of Javascript](http://dippl.org/chapters/02-webppl.html).
 
-> New to functional programming or JavaScript? We will explain some of the constructs as they come up in WebPPL. For a slightly more substantial introduction, try this [short introduction to the deterministic parts of the language](http://probmods.org/chapters/13-appendix-js-basics.html).
+> New to functional programming or JavaScript? We will explain some of the constructs as they come up in WebPPL. For a slightly more substantial introduction, try this [short introduction to the deterministic parts of the language](http://probmods.org/chapters/appendix-js-basics.html).
 
 The probabilistic aspects of WebPPL come from: [distributions](http://webppl.readthedocs.io/en/dev/distributions.html) and [sampling](http://webppl.readthedocs.io/en/dev/sample.html),
 marginal [inference](http://webppl.readthedocs.io/en/dev/inference/index.html),
