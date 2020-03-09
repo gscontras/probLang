@@ -298,8 +298,8 @@ For Bayesian data analysis, we use these terms to change the probabilities of th
 For BDA, this is usually achived using `observe`.
 
 `factor` is the most primitive of the three, and `observe` and `condition` are both special cases of `factor`.
-`factor` directly re-weighs the log-probability of program executions, and it takes in a single numerical argument (how much to re-weigh the log-probabilities).
-`observe` is a special case where you want to re-weigh the probabilities by the probability of the observed data under some distribution. `observe` thus takes in two arguments: a distribution and an observed data point.
+`factor` directly re-weights the log-probability of program executions, and it takes in a single numerical argument (how much to re-weight the log-probabilities).
+`observe` is a special case where you want to re-weight the probabilities by the probability of the observed data under some distribution. `observe` thus takes in two arguments: a distribution and an observed data point.
 
 `condition` is a special case where you want to completely reject or rule out certain program executions.
 `condition` takes in a single *boolean* argum
