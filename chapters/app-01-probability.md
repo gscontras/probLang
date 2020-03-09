@@ -58,7 +58,7 @@ Denote with $$\text{"black"}$$ the proposition of meeting a person with black ha
 
 If $$A, B \subseteq X$$ with $$B \neq \emptyset$$, the **conditional probability** of $$A$$ given $$B$$ is
 
-$$P(A \mid B) = \frac{P(A \cap B)}{B}$$
+$$P(A \mid B) = \frac{P(A \cap B)}{P(B)}$$
 
 For example, the conditional probability of a person to have black hair given that she has green eyes is:
 
