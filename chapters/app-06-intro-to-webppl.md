@@ -121,10 +121,10 @@ Syntactically, this is denoted using a capitalized versions of the sampler funct
 
 ~~~~
 // bernoulli(0.6) // same as flip(0.6); returns a single sample
-var cool_dstrbtn = Bernoulli( { p: 0.6 } ) // create distribution object
-viz( cool_dstrbtn )  // plot the distribution
-display( cool_dstrbtn )  // show high-level representation
-print( cool_dstrbtn )  // show true underlying representtion
+var myDist = Bernoulli( { p: 0.6 } ) // create distribution object
+viz( myDist )  // plot the distribution
+display( myDist )  // show high-level representation
+print( myDist )  // show true underlying representtion
 ~~~~
 
 (Note: `flip()` is a cute way of referring to a sample from the `bernoulli()` distribution.)
