@@ -20,7 +20,7 @@ and [factors](http://webppl.readthedocs.io/en/dev/inference/index.html#factor).
 
 > **Probabilistic model**: A mathematical mapping from a set of latent (unobservable) variables to a *probability distribution* of observable outcomes or data. A **probability distribution** is simply a mathematical mapping between outcomes and their associated probability of occurrence.
 
-### Building probabilistic programs with functions
+### Building stochastic sampling functions
 
 A function is a procedure that returns a value.
 Functions (often) take as input some number of arguments.
@@ -40,7 +40,9 @@ What the function `myNewFunction` does is add the 0th element of the list to the
 > Try running `myNewFunction([2, 3, 5])`.
 > What happens?
 
-The basic building blocks of probabilistic programs are random primitives, accessed with *sampling functions*.
+The above function is deterministic.
+It returns the same outcome every time it is called for the same input.
+To unfold the power of probabilistic programming, we also consider stochastic sampling functions.
 Sampling functions, like other functions, take in some number of arguments (often, the parameters of a probability distribution), do some (probabilistic) computation, and return the output.
 In their most basic form, sampling functions return a random value drawn from a known probability distribution.
 
@@ -57,7 +59,7 @@ What makes `flip` special is that doesn't return the same value every time you r
 `flip` essentially flips a coin whose probability of landing on heads is given by the parameter value (above: `0.6`).
 (You can treat the value of `true` as "heads" and `false` as "tails").
 
-By chaining other sampling functions together we can create more complex probabilistic functions. Here is a minimally more complex example:
+By chaining various sampling functions together we can create more complex sampling functions. Here is a minimally more complex example:
 
 ~~~~
 var two_coins = function(){
@@ -68,6 +70,19 @@ var two_coins = function(){
 // sample outcome of two coin flips (added together)
 two_coins()
 ~~~~
+
+#### Built-in sampling functions
+
+`flip()` is a the simplest stochastic sampling function, but there are many more in WebPPL.
+Check out the [WebPPL documentation](https://webppl.readthedocs.io/en/master/distributions.html) on the available distributions.
+
+~~~~
+// returns a single sample from a standard normal
+gaussian({mu: 0, sigma: 1})
+~~~~
+
+Notice that the sampling functions of built-in probability distributions all start with a lower-case letter (see below for explanation of *distribution objects* which are instantiated by using a capital letter).
+
 
 #### Higher-order functions: Munging randomness
 
