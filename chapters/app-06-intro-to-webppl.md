@@ -113,15 +113,18 @@ The coolest thing about WebPPL-viz is the default `viz()` function, which will t
 
 Above, we looked at *samples* from probability distributions: the outcomes of randomly flipping coins (of a certain weight).
 The probability distributions were *implicit* in those sampling functions; they specified the probability of the different return values (`true` or `false`).
-When you repeatedly run the sampling function more and more times (for example: with `repeat`), you to approximate the underlying true distribution better and better.
+When you repeatedly run the sampling function more and more times (for example: with `repeat`), you approximate the underlying true distribution better and better.
 
 WebPPL also represents probability distributions *explicitly*.
 We call these explicit probability distributions: **distribution objects**.
 Syntactically, this is denoted using a capitalized versions of the sampler functions.
 
 ~~~~
-// bernoulli(0.6) // same as flip(0.6)
-viz(Bernoulli( { p: 0.6 } ) )
+// bernoulli(0.6) // same as flip(0.6); returns a single sample
+var cool_dstrbtn = Bernoulli( { p: 0.6 } ) // create distribution object
+viz( cool_dstrbtn )  // plot the distribution
+display( cool_dstrbtn )  // show high-level representation
+print( cool_dstrbtn )  // show true underlying representtion
 ~~~~
 
 (Note: `flip()` is a cute way of referring to a sample from the `bernoulli()` distribution.)
