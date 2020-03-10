@@ -20,6 +20,23 @@ and [factors](http://webppl.readthedocs.io/en/dev/inference/index.html#factor).
 
 > **Probabilistic model**: A mathematical mapping from a set of latent (unobservable) variables to a *probability distribution* of observable outcomes or data. A **probability distribution** is simply a mathematical mapping between outcomes and their associated probability of occurrence.
 
+### Some restrictions
+
+Being a probabilistic programming language, WebPPL is more restrictive than JavaScript. Variables can be defined, but (unlike in JavaScript) their values cannot be redefined. For example, the following does not work:
+
+~~~~
+var a = 0;
+a = 1; // won't work
+// var a = 1 // will work
+
+var b = {x: 0};
+b.x = 1; // won't work
+// var b = {x: 1} // will work
+~~~~
+
+This also means looping constructs (such as `for`) are not available; we use functional programming constructs instead (like `map`, to be explained below) to operate on [arrays](http://webppl.readthedocs.io/en/dev/functions/arrays.html).
+(Note that [tensors](http://webppl.readthedocs.io/en/dev/functions/tensors.html) are not arrays.)
+
 ### Building stochastic sampling functions
 
 A function is a procedure that returns a value.
@@ -165,7 +182,7 @@ var geometricCoin = function(){
 
 ### Distributions
 
-Above, we looked at *samples* from probability distributions: the outcomes of randomly flipping coins (of a certain weight).
+So far, we looked at *sampling functions*, which produce single samples from probability distributions, e.g., the outcomes of randomly flipping coins (of a certain weight).
 The probability distributions were *implicit* in those sampling functions; they specified the probability of the different return values (`true` or `false`).
 When you repeatedly run the sampling function more and more times (for example: with `repeat`), you approximate the underlying true distribution better and better.
 
@@ -177,8 +194,6 @@ Syntactically, this is denoted using a capitalized versions of the sampler funct
 // bernoulli(0.6) // same as flip(0.6); returns a single sample
 var myDist = Bernoulli( { p: 0.6 } ) // create distribution object
 viz( myDist )  // plot the distribution
-display( myDist )  // show high-level representation
-print( myDist )  // show true underlying representtion
 ~~~~
 
 (Note: `flip()` is a cute way of referring to a sample from the `bernoulli()` distribution.)
@@ -199,22 +214,34 @@ var myDist = Bernoulli(parameters)
 sample(myDist)
 ~~~~
 
-**Exercise**: Line by line, describe what is happening in the above code box.
+> **Exercise**: Line by line, describe what is happening in the above code box.
 
 ### Properties of distribution objects
 
 We just saw how you can call `sample()` on a distribution, and it returns a value from that distribution (the value is sampled according to the its probability).
 Distribution objects have two other properties that will be useful for us.
+We get a glimpse at how WebPPL represents probability distributions as first-order objects when we use the method `print`. (This example also show the difference between the brute `print()` and the elegant `display()`.)
+
+~~~~
+var myDist = Bernoulli( { p: 0.6 } ) // create distribution object
+display( myDist )  // show high-level representation
+print( myDist )  // show true underlying representation 
+// (to see the last output you may have to run the code box twice (a glitch in "print"))
+~~~~
+
+(Notice: using `print` only works for discrete probability distributions (with finite support).)
+
+We see that distribution objects are internally represented as a set of elements (the support) and the probability, or score (see below), of each element in the support.
 
 Sometimes, we want to know what possible values could be sampled from a distribution.
 This is called the **support** of a distribution and it can be accessed by calling `myDist.support()`, where `myDist` is some distribution object.
 
 ~~~~
-// the support of the distribution
-Bernoulli( { p : 0.9 } ).support()
+var myDist = Bernoulli( { p: 0.6 } ) // create distribution object
+myDist.support() // the support of the distribution 
 ~~~~
 
-Note that the support of many distributions will be a continuum, like a `Uniform({a, b})` distribution which is defined over the bounds `a` and `b`.
+Note that the support of many distributions will be a continuum, like a `Uniform({a, b})` distribution which is defined over the bounds `a` and `b`. 
 
 Another common computation relating to probability distributions comes when you have a sample from distribution and want to know how probable it was to get that sample.
 This is sometimes called "scoring a sample", and it can be accessed by calling `myDist.score(mySample)`, where `myDist` is a distribution object and `mySample` is a value.
@@ -222,38 +249,15 @@ Note that for the score of sample to be defined; that is, the sample must be an 
 WebPPL returns not the probability of `mySample` under the distribution `myDist`, but the natural logarithm of the probability, or the log-probability.
 To recover the probability, use the javascript function `Math.exp()`.
 
-
 ~~~~
 // the log-probability of true (e.g., "heads")
 Bernoulli( { p : 0.9 } ).score(true)
 ~~~~
 
-
-**Exercises:**
-
-1. Try changing the parameter value of the Bernoulli distribution in the first code chunk (for the support). Does the result change? Why or why not?
-2. Try changing the parameter value of the Bernoulli distribution in the second code chunk (for the score). Does the result change? Why or why not?
-3. Modify the second code chunk to return the probability of `true` (rather than the log-probability). What is the relation between the probability of `true` and the parameter to the Bernoulli distribution?
-
-
-### Some restrictions
-
-Variables can be defined, but (unlike in JavaScript) their values cannot be redefined. For example, the following does not work:
-
-~~~~
-var a = 0;
-a = 1; // won't work
-// var a = 1 // will work
-
-var b = {x: 0};
-b.x = 1; // won't work
-// var b = {x: 1} // will work
-~~~~
-
-This also means looping constructs (such as `for`) are not available; we use functional programming constructs (like `map`) instead to operate on [arrays](http://webppl.readthedocs.io/en/dev/functions/arrays.html).
-(Note that [tensors](http://webppl.readthedocs.io/en/dev/functions/tensors.html) are not arrays.)
-
-
+> **Exercises:**
+> 1. Try changing the parameter value of the Bernoulli distribution in the first code chunk (for the support). Does the result change? Why or why not?
+> 2. Try changing the parameter value of the Bernoulli distribution in the second code chunk (for the score). Does the result change? Why or why not?
+> 3. Modify the second code chunk to return the probability of `true` (rather than the log-probability). What is the relation between the probability of `true` and the parameter to the Bernoulli distribution?
 
 
 ## Bayesian Inference in WebPPL
