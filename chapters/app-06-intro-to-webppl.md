@@ -20,7 +20,7 @@ and [factors](http://webppl.readthedocs.io/en/dev/inference/index.html#factor).
 
 > **Probabilistic model**: A mathematical mapping from a set of latent (unobservable) variables to a *probability distribution* of observable outcomes or data. A **probability distribution** is simply a mathematical mapping between outcomes and their associated probability of occurrence.
 
-### Sampling with functions
+### Building probabilistic programs with functions
 
 A function is a procedure that returns a value.
 Functions (often) take as input some number of arguments.
@@ -35,10 +35,12 @@ myNewFunction([2, 3])
 
 Above, `args` is the argument to the function `myNewFunction`; based on the body (content) of `myNewFunction`, `args` should be a list.
 What the function `myNewFunction` does is add the 0th element of the list to the 1st element of the list (WebPPL is 0-indexed).
-Try running `myNewFunction([2, 3, 5])`.
-What happens?
 
-The basic building block of probabilistic programs is random primitives, accessed with *sampling functions*.
+> **Exercise:**
+> Try running `myNewFunction([2, 3, 5])`.
+> What happens?
+
+The basic building blocks of probabilistic programs are random primitives, accessed with *sampling functions*.
 Sampling functions, like other functions, take in some number of arguments (often, the parameters of a probability distribution), do some (probabilistic) computation, and return the output.
 In their most basic form, sampling functions return a random value drawn from a known probability distribution.
 
@@ -48,13 +50,28 @@ flip(0.6)
 
 `flip` is a function: it takes an argument and returns a value.
 What makes `flip` special is that doesn't return the same value every time you run it, even with the same arguments: It is a probabilistic function.
-Try running the code box above multiple times to see this.
+
+> **Exericise:**
+> Try running the code box above multiple times to see this.
+
 `flip` essentially flips a coin whose probability of landing on heads is given by the parameter value (above: `0.6`).
 (You can treat the value of `true` as "heads" and `false` as "tails").
 
+By chaining other sampling functions together we can create more complex probabilistic functions. Here is a minimally more complex example:
+
+~~~~
+var two_coins = function(){
+  var c1 = flip(0.5);
+  var c2 = flip(0.5);
+  return c1 + c2; // adding Booleans coerces them to integers
+}
+// sample outcome of two coin flips (added together)
+two_coins()
+~~~~
+
 #### Higher-order functions: Munging randomness
 
-*Higher-order functions* are a key component of functional programming languages; they allow you to repeat computation (e.g., like you would want to do with a for-loop).
+*Higher-order functions*, i.e., functions that take other functions as arguments, are a key component of functional programming languages; they allow you chain functions or to repeat a computation (e.g., like you would want to do with a for-loop).
 Two very useful higher-order functions are `repeat` and `map`.
 
 ~~~~
@@ -65,17 +82,35 @@ repeat(10, flip)
 It returns the outcome of repeating `n`(here, 10) calls to function (flipping a coin).
 Notice that the function `flip` is being referred to by its name; the function `flip` is not being called (which you would achieve with: `flip()`) before it is passed to `repeat`.
 
-**Exercise**: Try repeating `flip(0.6)`. What needs to change from the original code box? (Hint: `repeat()` wants to take a function as an argument. You can define new functions using the `function(arguments){body}` construction, as in `var newFn = function(){...}`` `)
+> **Exercise**: 
+> Try repeating `flip(0.6)`. What needs to change from the original code box? (Hint: `repeat()` wants to take a function as an argument. You can define new functions using the `function(arguments){body}` construction, as in `var newFn = function(){...}`` `)
 
-Sometimes, we want to repeat a function but with different arguments. For this, we need `map`
+Sometimes, we want to repeat a function but with different arguments. For this, we need `map`. Here is an example of flipping five coins, each with a different bias:
 
 ~~~~
 var weights = [0.1, 0.3, 0.5, 0.7, 0.9]
-map(function(w){ w * 2 }, weights)
+map(function(w){ flip(w) }, weights)
 ~~~~
 
 `map` takes two arguments: a function and a list. `map` returns a list, which is the result of running the function over each element of the list.
 If you are uncertain about the arguments to `repeat()`, `map()`, or other WebPPL functions, pop over to the [WebPPL docs](http://docs.webppl.org/en/master/functions/arrays.html#repeat) to get it all straight.
+
+#### A brief aside for visualization
+
+WebPPL (as accessed in the browser) provides basic visualization tools.
+WebPPL-viz has a lot of functionality, the documentation for which can be found [here](https://github.com/probmods/webppl-viz).
+The coolest thing about WebPPL-viz is the default `viz()` function, which will take whatever you pass it and try to construct a reasonable visualization automatically.
+(This used to be called `viz.magic()`).
+
+~~~~
+// visualize the output of this higher-order function call
+repeat(10, flip)
+~~~~
+
+> **Exercises:**
+> 1. Try calling `viz()` on the output of the `repeat` code box above.
+> 2. Run the code box several times. Does the output surprise you?
+> 3. Try repeating the flip 1000 times, and run the code box several times. What has changed? Why?
 
 
 #### Recursive functions
@@ -96,18 +131,22 @@ firstEven([1,3,2,4])
 
 `firstEven` takes in a list, checks to see if the first element is even, and returns that value if it is even, but otherwise calls itself using the rest of the list (everything except the first element) as the argument.
 
-#### A brief aside for visualization
 
-WebPPL (as accessed in the browser) provides basic visualization tools.
-WebPPL-viz has a lot of functionality, the documentation for which can be found [here](https://github.com/probmods/webppl-viz).
-The coolest thing about WebPPL-viz is the default `viz()` function, which will take whatever you pass it and try to construct a reasonable visualization automatically.
-(This used to be called `viz.magic()`).
+#### Challenge problem
 
-**Exercises:**
+We can also use recursive functions to build interesting stochastic functions.
 
-1. Try calling `viz()` on the output of the `repeat` code box above.
-2. Run the code box several times. Does the output surprise you?
-3. Try repeating the flip 1000 times, and run the code box several times. What has changed? Why?
+~~~~
+var geometricCoin = function(){
+  ...
+}
+
+~~~~
+
+> **Exercises:**
+> 1. Make a function (`geometricCoin`) that flips a coin (of whatever weight you'd like). If it comes up heads, you call that same function (`geometricCoin`) and add 1 to the result. If it comes up tails, you return the number 1.
+> 2. Pass that function to repeat, repeat it many times, and create a picture using `viz()`
+
 
 ### Distributions
 
@@ -129,7 +168,8 @@ print( myDist )  // show true underlying representtion
 
 (Note: `flip()` is a cute way of referring to a sample from the `bernoulli()` distribution.)
 
-**Exercise**: Try running the above box many times. Does it change? Why not?
+> **Exercise**: 
+> Try running the above box many times. Does it change? Why not?
 
 Distributions have parameters. (And different distributions have different parameters.)
 For example, the Bernoulli distribution has a single parameter.
@@ -200,19 +240,6 @@ This also means looping constructs (such as `for`) are not available; we use fun
 
 
 
-## Challenge problem
-
-~~~~
-var geometricCoin = function(){
-  ...
-}
-
-~~~~
-
-**Exercises:**
-
-1. Make a function (`geometricCoin`) that flips a coin (of whatever weight you'd like). If it comes up heads, you call that same function (`geometricCoin`) and add 1 to the result. If it comes up tails, you return the number 1.
-2. Pass that function to repeat, repeat it many times, and create a picture using `viz()`
 
 ## Bayesian Inference in WebPPL
 
