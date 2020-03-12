@@ -497,7 +497,7 @@ var statePrior = function() {
   binomial({p: base_rate_red, n: total_apples})
 }
 
-viz(Infer({model: statePrior, method: "forward", samples: 5000}))
+Infer(statePrior)
 ~~~~
 
 > Exercise: Play around with `total_apples` and `base_rate_red` to get good intuitions about the state prior for different parameters. (For which values of `total_apples` and `base_rate_red` would it be better to take more samples for a more precise visualization?)
@@ -535,9 +535,7 @@ var hypergeometricSample = function(N,K,n) {
 }
 
 var total_apples = 3, state = 2, access = 1;
-viz(Infer({model: function() {hypergeometricSample(total_apples, state, access)},
-           method: "forward",
-           samples: 2500}))
+Infer(function() {hypergeometricSample(total_apples, state, access)})
 ~~~~
 
 The prior over states and the hypergeometric distribution combine to give the speaker's beliefs about world state $$s$$ given access $$a$$ and observation $$o$$, using Bayes rule (and knowledge of the total number of apples $$n$$):
