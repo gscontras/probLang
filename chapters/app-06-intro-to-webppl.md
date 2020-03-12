@@ -333,8 +333,6 @@ Instead, we'll take advantage of the fact that `Infer(sumRepeat15flips)` is a kn
 ~~~~
 var model = function(){
   var coin_weight = uniform(0, 1)
-  // var sumRepeat15flips = function(){ sum(repeat(15, flip)) }
-  // observe(Infer(sumRepeat15flips), 14)
   observe(Binomial({n: 15, p: coin_weight}), 14)
   return coin_weight
 }
@@ -343,7 +341,7 @@ Infer(model)
 
 #### Observe, condition, and factor: distilled
 
-The helper functions `condition()`, `observe()`, and `factor()` all have the same underlying purpose: Changing the probability of different program executions. For Bayesian data analysis, we want to do this in a way that computes the posterior distribution.
+The helper functions `condition`, `observe`, and `factor` all have the same underlying purpose: Changing the probability of different program executions. For Bayesian data analysis, we want to do this in a way that computes the posterior distribution.
 
 Imagine running a model function a single time.
 In some lines of the model code, the program makes *random choices* (e.g., flipping a coin and it landing on heads, or tails).
@@ -368,4 +366,33 @@ factor(val)
 observe(Dist, val) === factor(Dist.score(val))
                    === condition(sample(Dist) == val)
 condition(bool) === factor(bool ? 0 : -Infinity)
+~~~~
+
+Finally, here are three equivalent models for inferring a coin's bias, one using `factor`, one using `observe` and one using `condition`:
+
+~~~~
+// model with observe
+var model_observe = function(){
+  var coin_weight = uniform(0, 1)
+  observe(Binomial({n: 15, p: coin_weight}), 14)
+  return coin_weight
+}
+viz(Infer({model: model_observe, method: "rejection", samples: 5000}))
+
+// model with condition
+var model_condition = function(){
+  var coin_weight = uniform(0, 1)
+  var number_of_heads = binomial({n: 15, p: coin_weight})
+  condition(number_of_heads == 14)
+  return coin_weight
+}
+viz(Infer({model: model_condition, method: "rejection", samples: 5000}))
+
+// model with factor
+var model_factor = function(){
+  var coin_weight = uniform(0, 1)
+  factor(Binomial({n: 15, p: coin_weight}).score(14))
+  return coin_weight
+}
+viz(Infer({model: model_factor, method: "rejection", samples: 5000}))
 ~~~~
