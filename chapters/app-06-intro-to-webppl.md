@@ -281,39 +281,47 @@ repeat(3, repeat15flips)
 ~~~~
 
 As you might imagine, it's going to be hard to get any intuition for this distribution by looking at many samples, because each sample is a list.
-But we may not need to keep around the whole list for each sample. If we want to know how probable it is to get 14 heads in a series of 15 flips, then all we need to keep around from each sample is the number of heads (rather than the full sequence).  To get the number of heads, we can call `sum()` on the list of boolean values returned by `repeat15flips`.
+But we may not need to keep around the whole list for each sample. 
+If we want to know how probable it is to get 14 heads in a series of 15 flips, then all we need to keep around from each sample is the number of heads (rather than the full sequence).
+To get the number of heads, we can call `sum()` on the list of boolean values returned by `repeat15flips`.
 
 ~~~~
 var sumRepeat15flips = function(){ sum(repeat(15, flip)) }
 repeat(3, sumRepeat15flips)
 ~~~~
 
-Now, the data is a lot more managable to understand. Try running 1000 samples, and wrap the output in a `viz`.
+> **Exercise:**
+> Try running 1000 samples, and wrap the output in a `viz``.
+
 Presently, the data which results from the `repeat` function call is represented as a list, but the procedure implicitly defines a probability distribution.
-We can reify the sampling function into a probability distribution used the built-in function `Infer()`.
+We can reify the sampling function into a probability distribution using the built-in function `Infer()`.
 
 ~~~~
 var sumRepeat15flips = function(){ sum(repeat(15, flip)) }
 Infer(sumRepeat15flips)
 ~~~~
 
-Turning the sampling function into a probability distribution has the advantage of being able to access properties of the distribution (like the score, support, and sampling; as described above).
+Turning the sampling function into a probability distribution has the advantage of being able to access properties of the distribution (like the score, support, and sampling; as described above). 
+Think of `Infer` as a constructor, which takes as input a sampling function (no matter how complex) and returns a distribution object. 
+In this way, probabilistic programming languages can powerfully create distributions comprised of distributions in a fully generative way.
 
-**Exercise:**: Using the newly constructed distribution object from `Infer`, compute the probability of getting 14 heads from a series of 15 flips.
+> **Exercise:**: 
+> Using the newly constructed distribution object from `Infer`, compute the probability of getting 14 heads from a series of 15 flips.
 
 #### Bayesian inference
 
-Both as scientists and as run-of-the-mill semi-rational agents reasoning about the world under uncertain conditions, we are often not interested in the question of how probable is some data I'm observing. Rather, we are in how probable a certain hypothesis may be given the data that I have observed.
+In science and life, we are often not interested in the question of how probable some data is but rather in the question of how probable a certain *hypothesis* may be given some data we have observed.
 For example, imagine that you observe 14 heads from a series of 15 flips of a coin, but you're actually uncertain about the weight of the coin (i.e., you have reason to believe the coin may be biased towards landing on heads or tails, but you don't know which one and you don't know how biased it may be).
 Given the observed data (14 heads out of 15 flips), you can use Bayesian inference to make judgment about the likely weight of the coin.
 
-To do this in a WebPPL program, we need to make two changes to the code above: We need to specify the **prior distribution** over the parameters (in this case, the prior distribution over coin weights) and we need to tell WebPPL about the data we observed.
+To do this in a WebPPL program, we need to make two changes to the code above: We need to specify the **prior distribution** over the parameters (in this case, the prior distribution over coin weights) and we need to tell WebPPL about the data we observed, e.g., using the `observe` function.
 
 ~~~~
 var model = function(){
   var coin_weight = uniform(0, 1)
-  var sumRepeat15flips = function(){ sum(repeat(15, flip)) }
-  observe(Infer(sumRepeat15flips), 14)
+  var sumRepeat15flips = function(){ sum(repeat(15, function() {flip(coin_weight)})) }
+  var myDist = Infer(sumRepeat15flips)
+  observe(myDist, 14)
   return coin_weight
 }
 Infer(model)
@@ -330,7 +338,7 @@ var model = function(){
   observe(Binomial({n: 15, p: coin_weight}), 14)
   return coin_weight
 }
-Infer({model})
+Infer(model)
 ~~~~
 
 #### Observe, condition, and factor: distilled
@@ -339,7 +347,7 @@ The helper functions `condition()`, `observe()`, and `factor()` all have the sam
 
 Imagine running a model function a single time.
 In some lines of the model code, the program makes *random choices* (e.g., flipping a coin and it landing on heads, or tails).
-The collection of all the random choices in an execution of every line of a program is referred to as the program execution.
+The collection of all the random choices in an execution of every line of a program is referred to as the *program execution*.
 
 Different random choices may have different (prior) probabilities (or perhaps, you have uninformed priors on all of the parameters, and then they each have equal probability).
 What `observe`, `condition`, and `factor` do is change the probabilities of these different random choices.
