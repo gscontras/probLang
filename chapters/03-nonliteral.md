@@ -105,6 +105,8 @@ viz.table(Infer({model: pricePrior}))
 
 Putting it all together, the literal listener updates these prior belief distributions by conditioning on the literal meaning of the utterance. The Question Under Discussion determines which kind of distribution (e.g., price or affect or both) will be returned.
 
+$$P_{LL}(x \mid u. QUD) = \sum_{s,a \colon QUD(s,a) = x} P(a \mid s) \ P(s \mid [\![u]\!])$$
+
 ~~~~
 ///fold:
 // Round x to nearest multiple of b (used for approximate interpretation):
