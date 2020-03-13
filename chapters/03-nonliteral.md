@@ -189,20 +189,26 @@ var literalListener = cache(function(utterance, qud) {
 
 This enriched literal listener performs joint inference about the price and the valence but assumes a particular QUD by which to interpret the utterance. Similarly, the speaker chooses an utterance to convey a particular answer of the QUD to the literal listener:
 
+$$P_S(u \mid s, a, QUD) \propto \exp \left( \alpha \ (\log P_{LL}(QUD(s,a) \mid u) - C(u)) \right)$$
+
 ~~~~
-var speaker = cache(function(qudAnswer, qud) {
+// Speaker, chooses an utterance to convey a particular answer of the qud
+var speaker = cache(function(fullState, qud) {
   return Infer({model: function(){
     var utterance = utterancePrior()
+    var qudFn = qudFns[qud]
+    var qudAnswer = qudFn(fullState)
     factor(alpha*(literalListener(utterance,qud).score(qudAnswer) 
                   - cost(utterance)))
     return utterance
-  }
-               })})
+  }})
+})
 ~~~~
 
 To model hyperbole, Kao et al. posited that the pragmatic listener actually has uncertainty about what the QUD is, and jointly infers the price (and speaker valence) and the intended QUD from the utterance he receives. That is, the pragmatic listener simulates how the speaker would behave with various QUDs.
 
 ~~~~
+// Pragmatic listener, jointly infers the price state, speaker valence, and QUD
 var pragmaticListener = cache(function(utterance) {
   return Infer({model: function(){
     //////// priors ////////
@@ -211,12 +217,10 @@ var pragmaticListener = cache(function(utterance) {
     var qud = qudPrior()
     ////////////////////////
     var fullState = {price, valence}
-    var qudFn = qudFns[qud]
-    var qudAnswer = qudFn(fullState)
-    observe(speaker(qudAnswer, qud), utterance)
+    observe(speaker(fullState, qud), utterance)
     return fullState
-  }
-})})
+  }})
+})
 ~~~~
 
 Here is the full model:
@@ -335,14 +339,16 @@ var literalListener = cache(function(utterance, qud) {
 var alpha = 1
 
 // Speaker, chooses an utterance to convey a particular answer of the qud
-var speaker = cache(function(qudAnswer, qud) {
+var speaker = cache(function(fullState, qud) {
   return Infer({model: function(){
     var utterance = utterancePrior()
+    var qudFn = qudFns[qud]
+    var qudAnswer = qudFn(fullState)
     factor(alpha*(literalListener(utterance,qud).score(qudAnswer) 
                   - cost(utterance)))
     return utterance
-  }
-               })})
+  }})
+})
 
 // Pragmatic listener, jointly infers the price state, speaker valence, and QUD
 var pragmaticListener = cache(function(utterance) {
@@ -353,12 +359,10 @@ var pragmaticListener = cache(function(utterance) {
     var qud = qudPrior()
     ////////////////////////
     var fullState = {price, valence}
-    var qudFn = qudFns[qud]
-    var qudAnswer = qudFn(fullState)
-    observe(speaker(qudAnswer, qud), utterance)
+    observe(speaker(fullState, qud), utterance)
     return fullState
-  }
-               })})
+  }})
+})
 
 var listenerPosterior = pragmaticListener(10000)
 
