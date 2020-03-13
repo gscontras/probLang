@@ -207,7 +207,9 @@ var speaker = cache(function(fullState, qud) {
 })
 ~~~~
 
-To model hyperbole, Kao et al. posited that the pragmatic listener actually has uncertainty about what the QUD is, and jointly infers the price (and speaker valence) and the intended QUD from the utterance he receives. That is, the pragmatic listener simulates how the speaker would behave with various QUDs.
+To model hyperbole, Kao et al. posited that the pragmatic listener actually has uncertainty about what the QUD is, and jointly infers the price (and speaker valence) and the intended QUD from the utterance he receives. That is, the pragmatic listener simulates how the speaker would behave with various QUDs. (Notice that the code below marginalizes over different QUDs.)
+
+$$P_L(s,a \mid u) \propto \sum_{QUD} P(s) \ P(a \mid s) \ P(QUD) \ P_S(u \mid s,a, QUD) $$
 
 ~~~~
 // Pragmatic listener, jointly infers the price state, speaker valence, and QUD
