@@ -6,7 +6,7 @@ description: "Vagueness"
 
 ### Chapter 5: Vagueness
 
-Sometimes our words themselves are imprecise, vague, and heavily dependent on context to fix their interpretations. Compositionality assumes semantic atoms with invariant meanings; context-dependent word interpretations pose a serious challenge to compositionality. Take the case of gradable adjectives: "expensive for a sweater" means something quite different from "expensive for a laptop." What, then, do we make of the contribution from the word "expensive"? Semanticists settle on the least common denominator: a threshold semantics by which the adjective asserts that holders of the relevant property surpass some point on the relevant scale (i.e., *expensive* means more expensive than *d* for some contextually-determined degree of price *d*). Whereas semanticists punt on the mechanism by which context fixes these aspects of meaning, the RSA framework is well-suited to meet the challenge.
+Sometimes our words themselves are imprecise, vague, and heavily dependent on context to fix their interpretations. Compositionality assumes semantic atoms with invariant meanings; context-dependent word interpretations pose a serious challenge to compositionality. Take the case of gradable adjectives: "expensive for a sweater" means something quite different from "expensive for a laptop." What, then, do we make of the contribution from the word "expensive"? Semanticists settle on the least common denominator: a threshold semantics by which the adjective asserts that holders of the relevant property surpass some point on the relevant scale (i.e., *expensive* means something like "more expensive than some contextually-determined threshold on prices). Whereas semanticists punt on the mechanism by which context fixes these aspects of meaning, the RSA framework is well-suited to meet the challenge.
 
 
 #### Application 1: Gradable adjectives and vagueness resolution
@@ -50,7 +50,9 @@ var thetaPrior = function() {
 
 > **Exercise:** Visualize the `thetaPrior`.
 
-We introduce two possible utterances: saying that a book is *expensive*, or saying nothing at all (a "null utterance"). The semantics of the *expensive* utterance checks the relevant item's price against the price cutoff. The "null utterance" is true everywhere and it is assumed to be less likely than uttering *expensive* a priori. (The relevant publications (reft:lassitergoodman2013, reft:LassiterGoodman2015:Adjectival-vagu) treat biases between *expensive* and the "null utterance" as costs, not as prior differences. While the results of either modeling choice are largely the same for our practical purposes, these are not in general identical models. (To see this, think about what happens for optimality parameter $$\alpha = 0$$)).
+We introduce two possible utterances: saying that a book is *expensive*, or saying nothing at all (a "null utterance"). The semantics of the *expensive* utterance checks the relevant item's price against the price cutoff. The "null utterance" represents the speaker's choice to stay silent: silence is easier to produce than saying "expensive" and it is never (literally) false. (Whence, that rational speakers prefer silence over speech which is not informative; see below.) The model of the literal listener implemented here can be written as (where $$s$$ is general notation for the world state (here: price of a book), and $$\theta$$ is the threshold to be inferred later on):
+
+$$P_{L_0}(s \mid u, \theta) = P(s \mid [\![u]\!]^\theta)$$
 
 ~~~~
 var book = {
@@ -91,7 +93,11 @@ var literalListener = cache(function(utterance, theta) {
 
 > **Exercise:** Check $$L_0$$'s predictions for various price cutoffs.
 
-We get a full RSA model once we add $$S_1$$ and $$L_1$$; $$L_1$$ hears the gradable adjective and jointly infers the relevant item price and cutoff to count as expensive.
+We get a full RSA model once we add the pragmatic speaker $$L_1$$ and pragmatic listener $$L_1$$ models. The pragmatic speaker is assumed to have a fixed threshold $$\theta$$, the pragmatic listener hears the gradable adjective and jointly infers the relevant item price and cutoff to count as expensive.
+
+$$P_{S_1}(u \mid s, \theta) \propto \exp ( \alpha \ (\log P_{L_0}(s \mid u, \theta) - C(u)))$$
+
+$$P_{L_1}(s \mid u) P(s) \ P(\theta) \ P_{S_1}(u \mid s, \theta)$$
 
 ~~~~
 var book = {
