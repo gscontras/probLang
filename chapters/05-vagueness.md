@@ -198,7 +198,7 @@ var data = {
   "watch": watch
 };
 
-var statePrior = function(item) {
+var statePrior_lookup = function(item) {
   var prices = data[item].prices;
   var probabilities = data[item].probabilities;
   return function() {
@@ -206,7 +206,7 @@ var statePrior = function(item) {
   };
 };
 
-var thetaPrior = function(item) {
+var thetaPrior_lookup = function(item) {
   var thetas = data[item].prices;
   return function() {
     return uniformDraw(thetas);
@@ -230,6 +230,7 @@ var meaning = function(utterance, price, theta) {
 };
 
 var literalListener = cache(function(utterance, theta, item) {
+  var statePrior = statePrior_lookup(item);
   return Infer({method: "enumerate"}, function() {
     var price = statePrior(item);
     condition(meaning(utterance, price, theta));
@@ -248,8 +249,8 @@ var speaker = cache(function(price, theta, item) {
 
 var pragmaticListener = function(utterance, item) {
   // first identify the relevant priors
-  var pricePrior = statePrior(item);
-  var thetaPrior = thetaPrior(item);
+  var pricePrior = statePrior_lookup(item);
+  var thetaPrior = thetaPrior_lookup(item);
   // then run inference
   return Infer({method: "enumerate"}, 
   function() {
@@ -271,7 +272,6 @@ print("the listener's posterior over sweater prices:")
 viz.density(marginalize(expensiveSweater, "price"));
 print("the listener's posterior over sweater price thresholds:")
 viz.density(marginalize(expensiveSweater, "theta"));
-
 ~~~~
 
 > **Exercises:** 
