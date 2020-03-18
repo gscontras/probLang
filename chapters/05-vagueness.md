@@ -249,12 +249,12 @@ var speaker = cache(function(price, theta, item) {
 
 var pragmaticListener = function(utterance, item) {
   // first identify the relevant priors
-  var pricePrior = statePrior_lookup(item);
+  var statePrior = statePrior_lookup(item);
   var thetaPrior = thetaPrior_lookup(item);
   // then run inference
   return Infer({method: "enumerate"}, 
   function() {
-    var price = pricePrior();
+    var price = statePrior();
     var theta = thetaPrior();
     factor( speaker(price, theta, item).score(utterance) );
     return { price: price, theta: theta };
