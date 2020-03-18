@@ -83,7 +83,7 @@ var meaning = function(utterance, price, theta) {
 
 var literalListener = cache(function(utterance, theta) {
   return Infer({method: "enumerate"}, function() {
-    var price = uniformDraw(book.prices);
+    var price = statePrior();
     condition(meaning(utterance, price, theta))
     return price;
   })
@@ -130,7 +130,7 @@ var meaning = function(utterance, price, theta) {
 
 var literalListener = cache(function(utterance, theta) {
   return Infer({method: "enumerate"}, function() {
-    var price = uniformDraw(book.prices);
+    var price = statePrior();
     condition(meaning(utterance, price, theta))
     return price;
   });
@@ -198,7 +198,7 @@ var data = {
   "watch": watch
 };
 
-var prior = function(item) {
+var statePrior = function(item) {
   var prices = data[item].prices;
   var probabilities = data[item].probabilities;
   return function() {
@@ -206,7 +206,7 @@ var prior = function(item) {
   };
 };
 
-var theta_prior = function(item) {
+var thetaPrior = function(item) {
   var thetas = data[item].prices;
   return function() {
     return uniformDraw(thetas);
@@ -231,8 +231,8 @@ var meaning = function(utterance, price, theta) {
 
 var literalListener = cache(function(utterance, theta, item) {
   return Infer({method: "enumerate"}, function() {
-    var price = uniformDraw(data[item].prices)
-    condition(meaning(utterance, price, theta))
+    var price = statePrior(item);
+    condition(meaning(utterance, price, theta));
     return price;
   });
 });
@@ -248,8 +248,8 @@ var speaker = cache(function(price, theta, item) {
 
 var pragmaticListener = function(utterance, item) {
   // first identify the relevant priors
-  var pricePrior = prior(item);
-  var thetaPrior = theta_prior(item);
+  var pricePrior = statePrior(item);
+  var thetaPrior = thetaPrior(item);
   // then run inference
   return Infer({method: "enumerate"}, 
   function() {
