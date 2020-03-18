@@ -97,7 +97,7 @@ We get a full RSA model once we add the pragmatic speaker $$L_1$$ and pragmatic 
 
 $$P_{S_1}(u \mid s, \theta) \propto \exp ( \alpha \ (\log P_{L_0}(s \mid u, \theta) - C(u)))$$
 
-$$P_{L_1}(s \mid u) P(s) \ P(\theta) \ P_{S_1}(u \mid s, \theta)$$
+$$ P_{L_1}( s, \theta \mid u) \propto P(s) \ P(\theta) \ P_{S_1}( u \mid s, \theta) $$
 
 ~~~~
 var book = {
