@@ -107,7 +107,7 @@ var meaning = function(utterance, state){
 };
 
 // literal listener
-var listener0 = function(utterance) {
+var literalListener = function(utterance) {
   Infer({model: function(){
     var state = uniformDraw(states);
     var m = meaning(utterance, state);
@@ -118,7 +118,7 @@ var listener0 = function(utterance) {
 
 ~~~~
 
-> **Exercise:** Test the predictions of `listener0` for the various utterances.
+> **Exercise:** Test the predictions of `literalListener` for the various utterances.
 
 Next, we add in the speaker, who reasons about the literal listener with respect to an epistemic and a social goal.
 
@@ -152,7 +152,7 @@ var valueFunction = function(s){
 };
 
 // literal listener
-var listener0 = function(utterance) {
+var literalListener = function(utterance) {
   Infer({model: function(){
     var state = uniformDraw(states);
     var m = meaning(utterance, state);
@@ -165,7 +165,7 @@ var alpha = 10; // MAP estimate from Yoon, Tessler, et al. 2016
 var speaker1 = function(state, phi) {
   Infer({model: function(){
     var utterance = uniformDraw(utterances)
-    var L0_posterior = listener0(utterance)
+    var L0_posterior = literalListener(utterance)
     var utility = {
       epistemic: L0_posterior.score(state),
       social: expectation(L0_posterior, valueFunction)
@@ -218,7 +218,7 @@ var valueFunction = function(s){
 }
 
 // literal listener
-var listener0 = cache(function(utterance) {
+var literalListener = cache(function(utterance) {
   Infer({model: function(){
     var state = uniformDraw(states)
     var m = meaning(utterance, state)
@@ -231,7 +231,7 @@ var alpha = 10; // MAP estimate from Yoon, Tessler, et al. 2016
 var speaker1 = cache(function(state, phi) {
   Infer({model: function(){
     var utterance = uniformDraw(utterances);
-    var L0_posterior = listener0(utterance);
+    var L0_posterior = literalListener(utterance);
     var utility = {
       epistemic: L0_posterior.score(state),
       social: expectation(L0_posterior, valueFunction)
