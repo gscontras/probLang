@@ -35,7 +35,7 @@ $$
 Social utility can be defined as the expected subjective utility of the state the listener would infer given the utterance $$u$$:
 
 $$
-U_{\text{social}}(u; s) = \mathbb{E}_{P_{L_0}(s' \mid u)}[V(s')] = \sum_{s'} P_{L_0}(s' \mid u)}[V(s') \ V(s')
+U_{\text{social}}(u; s) = \mathbb{E}_{P_{L_0}(s' \mid u)}[V(s')] = \sum_{s'} P_{L_0}(s' \mid u) \ V(s')
 $$
 
 where $$V$$ is a value function that maps states to subjective utility values --- this captures the affective consequences for the listener of being in state $$s$$.
