@@ -84,7 +84,9 @@ At the same time, these states of the world also have some inherent subjective v
 `phi` governs how much the speaker seeks to communicate information about the state vs. make
 the listener believe she is in a highly valued state.
 
-We start with a literal listener whose task is to interpret value judgments (e.g., "terrible," "okay," "amazing") according to their literal semantics.
+We start with a literal listener whose task is to interpret value judgments (e.g., "terrible," "okay," "amazing") according to their literal semantics. The literal listener model assumed here is the exact same as in the vanilla RSA model of [Chapter 1](01-introduction.md).
+
+$$P_{L_{0}}(s\mid u) \propto [\![u]\!](s) \cdot P(s)$$
 
 ~~~~
 var states = [1,2,3,4,5]
@@ -120,7 +122,9 @@ var literalListener = function(utterance) {
 
 > **Exercise:** Test the predictions of `literalListener` for the various utterances.
 
-Next, we add in the speaker, who reasons about the literal listener with respect to an epistemic and a social goal.
+Next, we add in the speaker, who reasons about the literal listener with respect to an epistemic and a social goal. The speaker model assumed here is exactly like in the vanilla RSA model of [Chapter 1](01-introduction.md), except that we use a different (more complicated) utility function.
+
+$$P_{S_1}( u \mid s, \varphi) \propto \exp \left ( \alpha \  U (s, u, \varphi) \right)$$
 
 ~~~~
 // state prior, utterance prior, and meaning function
@@ -188,7 +192,9 @@ speaker1(1, 0.99)
 
 ### A listener who understands politeness
 
-If different speakers can have different weights on the mixture parameter `phi`, which governs the trade-off between kindness and informativity, listeners may have uncertainty about what kind of speaker they are interacting with. (Another motivation is to interpret the kindness vs. informativity behind a single utterance, for a known speaker.) This can be captured by endowing the `pragmaticListener` with a prior distribution over `phi`, corresponding to uncertainty about the parameter of the speaker's utility function.
+If different speakers can have different weights on the mixture parameter `phi`, which governs the trade-off between kindness and informativity, listeners may have uncertainty about what kind of speaker they are interacting with. (Another motivation is to interpret the kindness vs. informativity behind a single utterance, for a known speaker.) This can be captured by endowing the `pragmaticListener` with a prior distribution over `phi`, corresponding to uncertainty about the parameter of the speaker's utility function. The pragmatic listener model assumed here is a joint-inference model, much like used in previous chapters, inferring world state and `phi`-parameter at the same time:
+
+$$P_{L_1}( s, \varphi \mid u) \propto P(s) \ P(\varphi) \ P_{S_1}( u \mid s, \varphi)$$
 
 ~~~~
 ///fold:
@@ -278,6 +284,8 @@ Above, we have a listener who hears that they did "good" and infers how well the
 Above, we modeled the case study of **white lies**, utterances which convey misleading information for purposes of politeness. There are other ways to be polite, however. Speakers may deliberately be **indirect** for considerations of politeness. Consider a listener who just gave an objectively terrible presentation. They look fragile as they come to you for your feedback. You tell them "It wasn't amazing."
 
 Why would somebody produce such an indirect speech act? If the speaker wanted to actually be nice, they would say "It was fine." or "It was great." If the speaker wanted to actually convey information, they would say "It was terrible." [Yoon et al. (2017)](http://langcog.stanford.edu/papers_new/yoon-2017-cogsci.pdf) hypothesize that speakers produce indirect speech acts in order to *appear* to care both about conveying information and saving the listener's face. Can we elaborate the model above to account for politeness by being indirect? First, we will have to consider a speaker model, who produces utterances that can be understood as polite.
+
+$$P_{S_2}( u \mid s, \varphi) \propto \exp \left ( \alpha' \left ( \log P_{L_1}(s, \varphi \mid u)\right ) \right)$$
 
 ~~~~
 var speaker2 = function(state, phi) {
