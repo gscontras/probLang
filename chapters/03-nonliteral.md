@@ -105,7 +105,7 @@ viz.table(Infer({model: pricePrior}))
 
 Putting it all together, the literal listener updates these prior belief distributions by conditioning on the literal meaning of the utterance. The Question Under Discussion determines which kind of distribution (e.g., price or affect or both) will be returned.
 
-$$P_{LL}(x \mid u, QUD) = \sum_{s,a \ \colon \ QUD(s,a) = x} P(a \mid s) \ P(s \mid [\![u]\!])$$
+$$P_{L_{0}}(x \mid u, QUD) = \sum_{s,a \ \colon \ QUD(s,a) = x} P(a \mid s) \ P(s \mid [\![u]\!])$$
 
 ~~~~
 ///fold:
@@ -191,7 +191,7 @@ var literalListener = cache(function(utterance, qud) {
 
 This enriched literal listener performs joint inference about the price and the valence but assumes a particular QUD by which to interpret the utterance. Similarly, the speaker chooses an utterance to convey a particular answer of the QUD to the literal listener:
 
-$$P_S(u \mid s, a, QUD) \propto \exp \left( \alpha \ (\log P_{LL}(QUD(s,a) \mid u) - C(u)) \right)$$
+$$P_{S_{1}}(u \mid s, a, QUD) \propto \exp \left( \alpha \ (\log P_{L_{0}}(QUD(s,a) \mid u) - C(u)) \right)$$
 
 ~~~~
 // Speaker, chooses an utterance to convey a particular answer of the qud
@@ -209,7 +209,7 @@ var speaker = cache(function(fullState, qud) {
 
 To model hyperbole, Kao et al. posited that the pragmatic listener actually has uncertainty about what the QUD is, and jointly infers the price (and speaker valence) and the intended QUD from the utterance he receives. That is, the pragmatic listener simulates how the speaker would behave with various QUDs. (Notice that the code below marginalizes over different QUDs.)
 
-$$P_L(s,a \mid u) \propto \sum_{QUD} P(s) \ P(a \mid s) \ P(QUD) \ P_S(u \mid s,a, QUD) $$
+$$P_{L_{1}}(s,a \mid u) \propto \sum_{QUD} P(s) \ P(a \mid s) \ P(QUD) \ P_{S_{1}}(u \mid s,a, QUD) $$
 
 ~~~~
 // Pragmatic listener, jointly infers the price state, speaker valence, and QUD
