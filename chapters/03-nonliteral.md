@@ -380,10 +380,10 @@ viz(listenerPosterior)
 ~~~~
 
 > **Exercises:**
-> 1. In the second code box, we looked at the joint *prior* distribution over price and valence. Compare that joint distribution with the listener interpretation of "10000". What is similar? What is different?
+> 1. In the second code box, we looked at the joint *prior* distribution over price and valence. Compare that joint distribution with the listener interpretation of "`10000`". What is similar? What is different?
 > 2. Try the `pragmaticListener` with the other possible utterances.
 > 3. Check the predictions for a speaker who paid 501 and has a negative-valenced affect (i.e., valence is `true`) and wishes to only communicate affect. What are the three most likely utterances such a speaker would choose? (Hint: use `viz.table` to see all options ordered in terms of their probability; a histogram is not informative in this case.)
-> 4. Look at the marginal distributions for "price" and "valence" of the pragmatic listener after hearing `10000`. Do you find these intuitive? If not, how could the model possibly be amended to make it more intuitive?
+> 4. Look at the marginal distributions for "price" and "valence" of the pragmatic listener after hearing "`10000`". Do you find these intuitive? If not, how could the model possibly be amended to make it more intuitive?
 
 By capturing the extreme (im)probability of kettle prices, together with the flexibility introduced by shifting communicative goals, the model is able to derive the inference that a speaker who comments on a "$10,000 kettle" likely intends to communicate that the kettle price was upsetting. The model thus captures some of the most flexible uses of language: what we mean when our utterances are literally false.
 
