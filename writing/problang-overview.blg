@@ -4,44 +4,44 @@ The top-level auxiliary file: problang-overview.aux
 The style file: sp.bst
 Database file #1: problang.bib
 Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
-You've used 18 entries,
+You've used 19 entries,
             3147 wiz_defined-function locations,
-            719 strings with 7581 characters,
-and the built_in function-call counts, 11860 in all, are:
-= -- 994
-> -- 421
+            723 strings with 7803 characters,
+and the built_in function-call counts, 12441 in all, are:
+= -- 1037
+> -- 450
 < -- 13
-+ -- 146
-- -- 127
-* -- 775
-:= -- 1769
-add.period$ -- 76
-call.type$ -- 18
-change.case$ -- 157
-chr.to.int$ -- 17
-cite$ -- 18
-duplicate$ -- 964
-empty$ -- 952
-format.name$ -- 189
-if$ -- 2466
++ -- 156
+- -- 136
+* -- 814
+:= -- 1859
+add.period$ -- 80
+call.type$ -- 19
+change.case$ -- 168
+chr.to.int$ -- 18
+cite$ -- 19
+duplicate$ -- 1013
+empty$ -- 997
+format.name$ -- 201
+if$ -- 2580
 int.to.chr$ -- 2
 int.to.str$ -- 1
-missing$ -- 185
-newline$ -- 99
-num.names$ -- 80
-pop$ -- 403
+missing$ -- 194
+newline$ -- 104
+num.names$ -- 84
+pop$ -- 429
 preamble$ -- 1
-purify$ -- 112
+purify$ -- 119
 quote$ -- 0
-skip$ -- 355
+skip$ -- 374
 stack$ -- 0
-substring$ -- 564
-swap$ -- 465
+substring$ -- 575
+swap$ -- 483
 text.length$ -- 2
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 162
+type$ -- 171
 warning$ -- 0
-while$ -- 82
+while$ -- 85
 width$ -- 0
-write$ -- 245
+write$ -- 257
