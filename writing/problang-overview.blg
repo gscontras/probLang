@@ -1,12 +1,13 @@
-This is BibTeX, Version 0.99d (TeX Live 2016)
-Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+This is BibTeX, Version 0.99d (TeX Live 2019)
+Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
 The top-level auxiliary file: problang-overview.aux
 The style file: sp.bst
 Database file #1: problang.bib
+Warning--I didn't find a database entry for "grice1975"
 Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
 You've used 19 entries,
             3147 wiz_defined-function locations,
-            723 strings with 7803 characters,
+            724 strings with 7812 characters,
 and the built_in function-call counts, 12441 in all, are:
 = -- 1037
 > -- 450
@@ -45,3 +46,4 @@ warning$ -- 0
 while$ -- 85
 width$ -- 0
 write$ -- 257
+(There was 1 warning)
