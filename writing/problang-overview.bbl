@@ -1,4 +1,4 @@
-\begin{thebibliography}{18}
+\begin{thebibliography}{19}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \providecommand{\urlprefix}{}
@@ -18,6 +18,13 @@ Chierchia, Gennaro, Danny Fox \& Benjamin Spector. 2012.
 \newblock In Klaus von Heusinger, Claudia Maienborn \& Paul Portner (eds.),
   \emph{Semantics: An international handbook of natural language meaning},
   vol.~3, chap.~87, 2297--2331. Berlin: Mouton de Gruyter.
+
+\bibitem[{Degen et~al.(2015)Degen, Tessler \& Goodman}]{degen2015wonky}
+Degen, Judith, Michael~Henry Tessler \& Noah~D Goodman. 2015.
+\newblock Wonky worlds: Listeners revise world knowledge when utterances are
+  odd.
+\newblock In \emph{Proceedings of the 37th annual meeting of the {C}ognitive
+  {S}cience {S}ociety}, .
 
 \bibitem[{Frank \& Goodman(2012)}]{frankgoodman2012}
 Frank, Michael~C. \& Noah~D. Goodman. 2012.
