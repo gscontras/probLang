@@ -260,7 +260,7 @@ P_{S_1}(u\mid s, \textbf{x}) \propto \textrm{exp}(\alpha (\textrm{log}P_{L_0}(s\
 
 It is up to the pragmatic listener, $L_1$, to resolve the uncertainty surrounding \textbf{x}. To do so, $L_1$ hears the utterance and jointly infers both the state of the world (i.e., the weight of the state being described) and the relevant heaviness threshold. $L_1$ performs this inference just as in the vanilla model: which state and threshold would have been most likely to lead $S_1$ to select the utterance that $L_1$ encountered? In other words, $L_1$ simulates $S_1$'s behavior for the possible combinations of states and thresholds, then weights states and thresholds in proportion to the probability that they would lead $S_1$ to choose the utterance that was encountered.\mht{mention how this same mechanism is used for generics?}
 
-This technology---parameterization of the utterance semantics subject to pragmatic reasoning---allows for a recasting of the division of labor between semantics and pragmatics. With lexical uncertainty, the semantic content of an utterance can be (at least partially) determined via pragmatic inference. \cite{bergenetal2016} seize on this innovation to model M-implicatures \citep{horn1984} and certain embedded implicatures \citep{hurford1974,chierchiaetal2012}. Rather than uncertainty around the semantics of a single utterance (e.g., a gradable adjective, as in the example above), \citeauthor{bergenetal2016} assume uncertainty around entire lexica. \gcs{need to say more about lexical uncertainty?}
+This technology---parameterization of the utterance semantics subject to pragmatic reasoning---allows for a recasting of the division of labor between semantics and pragmatics. With lexical uncertainty, the semantic content of an utterance can be (at least partially) determined via pragmatic inference. \cite{bergenetal2016} seize on this innovation to model M-implicatures \citep{horn1984} and certain embedded implicatures \citep{hurford1974,chierchiaetal2012}. Rather than uncertainty around the semantics of a single utterance (e.g., a gradable adjective, as in the example above), \citeauthor{bergenetal2016} assume uncertainty around entire lexica. \gcs{need to say more about lexical uncertainty?} \mht{Frank and Goodman (2014) and Bohn, Tessler, and Frank (2019) use lexical uncertainty (or, at least in spirit for FG2014, if not exactly in their model) to model word learning via mutual-exclusivity reasoning (e.g., ``dax'' probably means novel object, and not the car).} \mht{do we / will we have a discussion somewhere about language / word learning?}
 
 Meaning inference also serves as a useful tool for modeling ambiguity resolution. \cite{scontrasgoodman2017} use an utterance-choice rule as in \eqref{S1-lexical-uncertainty} to model the resolution of distributive-collective ambiguities in plural predication. If a listener hears that \emph{the boxes are heavy}, the listener must jointly infer both the intended interpretation of the utterance (i.e., distributive, commenting on individual box weight, or collective, commenting on the total weight of the set) and the state of the world (i.e., the weights of the boxes). Returning to \eqref{S1-lexical-uncertainty}, \citeauthor{scontrasgoodman2017} treat \textbf{x} as the interpretation-resolving variable that determines whether $u$ receives a distributive or collective interpretation. \cite{savinellietal2017,savinellietal2018} use this technology to model the resolution of scope ambiguity, as in utterances like \emph{every horse didn't jump over the fence}. For \citeauthor{savinellietal2017}, \textbf{x} in \eqref{S1-lexical-uncertainty} serves to determine the relative scope of quantification elements at LF.
 
@@ -337,19 +337,19 @@ P_{S_1}(u\mid \textbf{x}) \propto \textrm{exp}(\alpha \mathbb{E}_{P(s\mid \textb
 
 In the pizza example, the relevant inference concerns how likely it is for the listener to strengthen the ``some'' utterance to ``some but not all.'' \cite{goodmanstuhlmuller2013} 
 
-- scalar implicature model
+\gcs{}- scalar implicature model
 
-- plural predication model
+\gcs{}- plural predication model
 
 
 \subsection{Complex utility/utility inference}
 
-- politeness
+\mht{}- politeness
 
 
 \section{Modeling practicalities} \label{practicalities}
 
-Free parameters (optimality, cost, alternatives)
+\gcs{} \mht{}Free parameters (optimality, cost, alternatives)
 
 World priors: Both how to model and how to measure
 
@@ -360,17 +360,19 @@ Linking functions
 
 \section{Extensions/limitations} \label{limitations}
 
-Incrementality / processing
+* order doesn't matter
 
-Compositionality (CCG chapter in dippl?)
+\mf{}\mht{} Incrementality / processing
 
-NLP (Dan Klein)
+\gcs{}Compositionality (CCG chapter in dippl?)
 
-Individual variability (cite Franke \& Degen)
+\mf{}NLP (Dan Klein)
 
-``Just'' a computational level theory. Doesn't bear on mechanisms. But, potentially a hook via resource rational analysis (Leider, Griffiths, ...)
+\mf{}Individual variability (cite Franke \& Degen)
 
-Hand-coded: Don't have a theory of alternatives, state priors
+\mf{}\gcs{}``Just'' a computational level theory. Doesn't bear on mechanisms. But, potentially a hook via resource rational analysis (Leider, Griffiths, ...)
+
+\mf{}Hand-coded: Don't have a theory of alternatives, state priors
 
 \section{Summary and outlook} \label{summary}
 
