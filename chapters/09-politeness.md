@@ -73,11 +73,11 @@ Performance on the task maps to a scale ranging from 1 to 5 hearts (shown below;
 These are the states of the world that the speaker can be informative with respect to.
 Below, the speaker thinks the cake deserves 3 out of 5 hearts.
 
-{% include figure.html 
-file="../images/yoon-hearts.jpeg" 
-caption="Politeness case study" 
+{% include figure.html
+file="../images/yoon-hearts.jpeg"
+caption="Politeness case study"
 number = "1"
-width="400px" 
+width="400px"
 %}
 
 At the same time, these states of the world also have some inherent subjective value: 5 hearts is better than 3 hearts.
@@ -281,160 +281,200 @@ Above, we have a listener who hears that they did "good" and infers how well the
 
 ### Politeness with indirect speech acts
 
-Above, we modeled the case study of **white lies**, utterances which convey misleading information for purposes of politeness. There are other ways to be polite, however. Speakers may deliberately be **indirect** for considerations of politeness. Consider a listener who just gave an objectively terrible presentation. They look fragile as they come to you for your feedback. You tell them "It wasn't amazing."
+Above, we modeled the case study of **white lies**, utterances which convey misleading information for purposes of politeness. There are other ways to be polite, however. Speakers may deliberately be **indirect** for considerations of politeness. Consider a listener who just gave an objectively terrible presentation. They look fragile as they come to you for your feedback. You tell them "It wasn't bad."
 
-Why would somebody produce such an indirect speech act? If the speaker wanted to actually be nice, they would say "It was fine." or "It was great." If the speaker wanted to actually convey information, they would say "It was terrible." [Yoon et al. (2017)](http://langcog.stanford.edu/papers_new/yoon-2017-cogsci.pdf) hypothesize that speakers produce indirect speech acts in order to *appear* to care both about conveying information and saving the listener's face. Can we elaborate the model above to account for politeness by being indirect? First, we will have to consider a speaker model, who produces utterances that can be understood as polite.
+Why would somebody produce such an indirect speech act? If the speaker wanted to actually be nice, they would say "It was fine." or "It was great." If the speaker wanted to actually convey information, they would say "It was terrible." [Yoon et al. (2017)](https://cogsci.mindmodeling.org/2017/papers/0679/paper0679.pdf) and [Yoon, Tessler et al. (2018)](https://psyarxiv.com/67ne8) hypothesize that speakers produce indirect speech acts in order to *appear* to care both about conveying information and saving the listener's face. Can we elaborate the model above to account for politeness by being indirect? First, we can define the speaker's utility as we did before, breaking it up into component parts of epistemic and social utility, defined now with respect to the pragmatic listener $L_1$.
 
-$$P_{S_2}( u \mid s, \varphi) \propto \exp \left ( \alpha' \left ( \log P_{L_1}(s, \varphi \mid u)\right ) \right)$$
+$$
+\log(P_{L_1}(s \mid u)) = \int_\phi P_{L_1}(s, \phi \mid u) d\phi
+U_{\text{epistemic}}(u; s) = \log(P_{L_1}(s \mid u))
+U_{\text{social}}(u) = \mathbb{E}_{P_{L_1}(s' \mid u)}[V(s')] = \sum_{s'} P_{L_1}(s' \mid u) \ V(s')
+$$
+
+where $$V$$ is a value function from before that maps states to subjective utility values.
+With our higher-order speaker, however, we have a new possible utility component: a self-presentational utility -- defined with respect to the pragmatic listener's inferences about the politeness mixture component $\phi$.
+
+$$
+U_{\text{presentational}}(u) = \log(P_{L_1}(\phi \mid u)) = \int_s P_{L_1}(s, \phi \mid u) ds
+$$
+
+Speaker utility is then a mixture of these three components, weighed by mixture component vector $\omega$:
+
+$$
+U(u; s; \phi; \omega) = \omega_{\text{epistemic}} \cdot U_{\text{epistemic}}(u; s) + \omega_{\text{social}}  \cdot U_{\text{social}}(u) + \omega_{\text{presentational}}  \cdot U_{\text{presentational}}(u)
+$$
+
+and the speaker model is simply a soft-max utility speaker:
+
+$$P_{S_2}( u \mid s, \varphi) \propto \exp \left ( \alpha' \left ( U(u; s; \phi; \omega) \right ) \right)$$
 
 ~~~~
-var speaker2 = function(state, phi) {
+var speaker2 = function(state, phi, omega) {
   Infer({model: function(){
     var utterance = sample(utterancePrior)
     var L1 = pragmaticListener(utterance)
-    factor(alpha2 * L1.score({state, phi}))
+    var L1_state = marginalize(L1, "state")
+    var L1_goal = marginalize(L1, "goal")
+    var utilities = {
+      epistemic: L1_state.score(state),
+      social: expectation(L1_state, valueFunction),
+      presentational: L1_goal.score(phi)
+    }
+    var speakerUtility = omega.epistemic + utilities.epistemic +
+      omega.social + utilities.social +
+      omega.presentational + utilities.presentational
+    factor(alpha2 * speakerUtility)
     return utterance
   }})
 }
 ~~~~
 
-The `pragmaticListener` model is the one defined in the case study above, a listener who reasons both about the true state and the speaker's goals (specifically, `phi`). Now, we have a speaker (`speaker2`) who produces utterances in order to get the pragmatic listener to believe a certain true state and `phi`. That is, the above speaker has a "self-presentational" goal.
+The `pragmaticListener` model is the one defined in the case study above, a listener who reasons both about the true state and the speaker's goals (specifically, `phi`). Now, we have a speaker (`speaker2`) who produces utterances in order to get the pragmatic listener to believe a certain true state, feel good, and think of the speaker as somebody with a particular utility trade-off `phi`. This latter goal is the "self-presentational component". This component allows the speakers to say things that are literally false but also not directly signalling states with high subjective values. In other words, speakers can say false things and be indirect.
 
 To look at *indirectness*, we will add utterances with **negation**, which are indirect insofar as they convey less information than their positive form (e.g., "not amazing" is potentially true of 1 - 4 hearts).
-<!-- Here is the full politeness model from [Yoon et al. (2017)](http://langcog.stanford.edu/papers_new/yoon-2017-underrev.pdf): -->
 
 ~~~~
 ///fold:
-// helper function split utterances at "_" to find negation
+var utterances = [
+  "yes_terrible","yes_bad","yes_good","yes_amazing",
+  "not_terrible","not_bad","not_good","not_amazing"
+];
+
+var states = [0, 1,2,3,];
+
 var isNegation = function(utt){
   return (utt.split("_")[0] == "not")
+};
+
+var marginalize = function(dist, key){
+  return Infer({model: function(){ sample(dist)[key] }})
 }
 
-var reshapeUtt = function(utt){
-  return {
-    negation: (utt.split("_")[0] == "not") ? "not": "",
-    adjective: utt.split("_")[1]
-  }
-}
+var cost_yes = 1;
+var cost_neg = 2.5;
+var speakerOptimality = 4.5;
+var speakerOptimality2 = 2;
 
-// helper function to round
 var round = function(x){
   return Math.round(x * 100) / 100
 }
 
-// possible utterances (both positive and negative)
-var utterances = [
-  "yes_terrible","yes_bad","yes_okay","yes_good","yes_amazing",
-  "not_terrible","not_bad","not_okay","not_good","not_amazing"
-]
-
-// utterance costs (negative utterance more expensive)
-var cost_yes = 0
-var cost_neg = 1
+var weightBins = map(round, _.range(0,1, 0.05))
+var phiWeights = repeat(weightBins.length, function(){1})
 
 var uttCosts = map(function(u) {
   return isNegation(u) ? Math.exp(-cost_neg) : Math.exp(-cost_yes)
 }, utterances)
 
-// utterance prior
 var utterancePrior = Infer({model: function(){
-  return categorical({
-    vs: utterances,
-    ps: uttCosts
-  })
-}})
+  return utterances[discrete(uttCosts)]
+}});
 
-// taken from literal semantics expt
+// Parameter values = Maximum A-Posteriori values from Yoon, Tessler et al., (2018)
 var literalSemantics = {
-  "not_amazing": [0.9925, 0.9186, 0.7876, 0.2321, 0.042],
-  "not_bad": [0.0075, 0.2897, 0.8514, 0.8694, 0.8483],
-  "not_good": [0.9926, 0.8871, 0.1582, 0.0073, 0.0081],
-  "not_okay": [0.9198, 0.7652, 0.1063, 0.0074, 0.1192],
-  "not_terrible": [0.0415, 0.4363, 0.9588, 0.9225, 0.9116],
-  "yes_amazing": [0.0077, 0.0077, 0.0426, 0.675, 0.9919],
-  "yes_bad": [0.9921, 0.9574, 0.0078, 0.0078, 0.0079],
-  "yes_good": [0.008, 0.0408, 0.8279, 0.9914, 0.993],
-  "yes_okay": [0.0078, 0.286, 0.9619, 0.7776, 0.6122],
-  "yes_terrible": [0.9593, 0.5217, 0.0753, 0.008, 0.044]
-}
+  "state": [0, 1, 2, 3],
+  "not_amazing": [0.9652,0.9857,0.7873,0.0018],
+  "not_bad": [0.0967,0.365,0.7597,0.9174],
+  "not_good": [0.9909,0.736,0.2552,0.2228],
+  "not_terrible": [0.2749,0.5285,0.728,0.9203],
+  "yes_amazing": [4e-04,2e-04,0.1048,0.9788 ],
+  "yes_bad": [0.9999,0.8777,0.1759,0.005],
+  "yes_good": [0.0145,0.1126,0.9893,0.9999],
+  "yes_terrible": [0.9999,0.3142,0.0708,0.0198]
+};
 
 var meaning = function(words, state){
-  return flip(literalSemantics[words][state - 1]);
-}
-
-// value function scales social utility by a parameter lambda
-var lambda = 1.25 // value taken from MAP estimate from Yoon, Tessler, et al. 2016
-var valueFunction = function(s){
-  return lambda * s
-}
-
-// possible states of the world (cf. Yelp reviews)
-var states = [1,2,3,4,5]
-
-// info for epistemic vs. social utility prior;
-// 1 corresponds to fully favoring epistemic utility
-var weightBins = map(round, _.range(0,1, 0.05))
-
-// literal listener
-var literalListener = cache(function(utterance) {
-  Infer({model: function(){
-    var state = uniformDraw(states)
-    var m = meaning(utterance, state)
-    condition(m)
-    return state
-  }})
-})
-
-var alpha = 10; // MAP estimate from Yoon, Tessler, et al. 2016
-var speaker1 = cache(function(state, phi) {
-  Infer({model: function(){
-    var utterance = sample(utterancePrior)
-    var L0_posterior = literalListener(utterance)
-    var utility = {
-      epistemic: L0_posterior.score(state),
-      social: expectation(L0_posterior, valueFunction)
-    }
-    var speakerUtility = phi * utility.epistemic +
-                        (1 - phi) * utility.social
-    factor(alpha * speakerUtility)
-    return utterance
-  }})
-})
+  return flip(literalSemantics[words][state]);
+};
 ///
 
-// pragmatic listener
-// infers the state and the speaker's goals (i.e., phi)
-var pragmaticListener = cache(function(utterance) {
+var listener0 = cache(function(utterance) {
   Infer({model: function(){
-    var state = uniformDraw(states)
-    var phi = uniformDraw(weightBins)
-    var S1 = speaker1(state, phi)
+    var state = uniformDraw(states);
+    var m = meaning(utterance, state);
+    condition(m);
+    return state;
+  }})
+}, 10000);
+
+var speaker1 = cache(function(state, phi) {
+  Infer({model: function(){
+
+    var utterance = sample(utterancePrior);
+    var L0 = listener0(utterance);
+
+    var utilities = {
+      inf: L0.score(state), // log P(s | u)
+      soc: expectation(L0) // E[s]
+    }
+    var speakerUtility = phi * utilities.inf +
+        (1-phi) * utilities.soc;
+
+    factor(speakerOptimality*speakerUtility);
+
+    return utterance;
+  }})
+}, 10000);
+
+var listener1 = cache(function(utterance) {
+  Infer({model: function(){
+
+    var phi = categorical({vs: weightBins, ps: phiWeights})
+    var state = uniformDraw(states);
+    var S1 = speaker1(state, phi);
+
     observe(S1, utterance)
-    return { state, phi }
-  }})
-}, 10000)
 
-var alpha2 = 1
-var speaker2 = function(state, phi) {
+    return {
+      state: state,
+      phi: phi
+    }
+
+  }})
+}, 10000);
+
+var speaker2 = function(state, phi, weights) {
   Infer({model: function(){
-    var utterance = sample(utterancePrior)
-    var L1 = pragmaticListener(utterance)
-    factor(alpha2 * L1.score({state, phi}))
-    return reshapeUtt(utterance)
+
+    var utterance = sample(utterancePrior);
+    var L1 = listener1(utterance);
+    var L1_state = marginalize(L1, "state");
+    var L1_goals = marginalize(L1, "phi");
+
+    var utilities = {
+      inf: L1_state.score(state), // log P(s | u)
+      soc: expectation(L1_state), // E [s]
+      pres: L1_goals.score(phi) // // log P(phi | u)
+    }
+
+    var totalUtility = weights.soc * utilities.soc +
+        weights.pres * utilities.pres +
+        weights.inf * utilities.inf;
+
+    factor(speakerOptimality * totalUtility)
+
+    var utt = utterance.split("_")
+    return {
+      "utterance particle": utt[0], utterance: utt[1]
+    }
+
   }})
-}
+};
 
-display("speaker thinks 1 heart, tries to appear nice")
-var s2_nice  = speaker2(1, 0.05)
-viz(s2_nice)
+// Parameter values = Maximum A-Posteriori values from Yoon, Tessler et al., (2018)
+display('Listener gives presentation, worthy of 0 out of 4 hearts ("truly terrible")...')
 
-display("speaker thinks 1 heart, tries to appear informative")
-var s2_informative  = speaker2(1, 0.95)
-viz(s2_informative)
+// informational
+display("Speaker wants to give Listener accurate and informative feedback")
+viz(speaker2(0, 0.5, {soc: 0.05, pres: 0.60, inf: 0.35}))
 
-display("speaker thinks 1 heart, tries to appear both nice and informative")
-var s2_both  = speaker2(1, 0.5)
-viz(s2_both)
+// social
+display("Speaker wants to make Listener feel good")
+viz(speaker2(0, 0.35, {soc: 0.30, pres: 0.45, inf: 0.25}))
+
+// both
+display("Speaker wants to make Listener feel good AND give accurate and informative feedback")
+viz(speaker2(0, 0.35, {soc: 0.10, pres: 0.55, inf: 0.35}))
 ~~~~
 
 > **Exercises**:
