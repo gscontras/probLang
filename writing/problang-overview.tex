@@ -304,7 +304,7 @@ We have identified how non-literal utterances can be useful to a speaker, but we
 
 \subsection{Context/Prior inference}
 
-We now have technology to model vagueness and ambiguity on the basis of an underspecified semantics, as well as shifting goals and the nonliteral language that address them on the basis of uncertainty around the QUD. So far, all of this reasoning has happened with respect to a fixed context, or common ground. What happens when a listener is unsure of the context a speaker has used in the production of their utterance? For example, if you hear that some person is tall, how does a listener know what the referent is tall relative to? 
+We now have technology to model vagueness and ambiguity on the basis of an underspecified semantics, as well as shifting goals and the nonliteral language that address them on the basis of uncertainty around the QUD. So far, all of this reasoning has happened with respect to a fixed context, or common ground. What happens when a listener is unsure of the context a speaker has used in the production of their utterance? \mht{might want to draw this out as a very general problem: what aspects of context should the listener pay attention to?} For example, if you hear that some person is tall, how does a listener know what the referent is tall relative to? 
 
 The formal mechanism by which an adjective like \emph{tall} receives a context-specific interpretation is the \emph{comparison class}, the (often implicit) set of entities or events against which the referent is compared (e.g., \emph{tall} for a person~vs.~\emph{tall} for a basketball player). 
 In Section \ref{meaning-inference}, we described a model of gradable adjectives where the threshold for \emph{tall} is computed via reference to the state prior, the prior distribution over heights within some comparison class. We can make this dependence on the comparison class explicit in the model of the speaker: 
@@ -344,8 +344,24 @@ In their model of distributive-collective ambiguities in plural predication, \ci
 
 
 \subsection{Complex utility/utility inference}
+ 
+ So far, we have considered a host of different parameterizations to RSA that revolve around the problem of understanding meaning in context by assuming that speakers want to convey information to the listener. Though informational uses of language are arguably the bread-and-butter of a successful communicative system, speakers don't always say what they mean. We dawdle, prevaricate, and sometimes outright lie, often in the service of maintain our social relationships. We can begin to model non-informational uses of language by augmenting the speaker's utility function: 
+ 
+ \mht{someone have the math in the streamlined formalism?}
+ 
+\cite{yoonetal2016} use this generalization of the speaker utility to account for polite language use. They formalize a version of \cite{brown1987politeness}'s politeness theory, in which cooperative speakers have social goals to minimize any potential damage to the hearer’s (and the speaker’s own) self-image (called \emph{face}), in addition to standard informational-goals. Specifically, they assume that $S_1$'s utility is a mixture of two-utilities: standard epistemic utility defined in Eq.~\ref{U} and a social utility. An utterance's social utility is a function of the literal listener's subjective value $V$ of the state of the world they believe they are in given the utterance. 
 
-\mht{}- politeness
+\begin{equation} \label{U-soc}
+U_{social}(u)  =  \mathbb{E}_{L_0(s \mid u)}[V(s)]
+\end{equation}
+
+One thing to note about $U_{social}(u)$ is that it is a function of only the utterance $u$ because of the expectation in the definition: It is the expected subjective value of the state the literal listener believes themselves to be in (averaging over the possible states the listener believes themselves to be in). $V$ is a value function that maps states of the world onto subjective values; in the case study explored by \cite{yoonetal2016}, the value of the state of the world was denoted explicitly in terms of a yelp-style review (\# of hearts on a ``heart-scale''), but this is area where work from cognitive science can help articulate more realistic value functions for listeners. The effect of this social utility term is that increases the speaker $S_1$'s production probabilities of utterances that convey states with high subjective value (e.g., ``it's \emph{beautiful}'', ``your talk was \emph{amazing}''), which can lead to ``white lies''. 
+
+The pragmatic consequences of this complex utility function can be realized at the higher levels of pragmatic recursion.
+The pragmatic listener $L_1$ can reason jointly about the state of the world and about the speaker's utility function (specifically, what is the speaker's trade-off between informativity vs. social goals?). \cite{yoonetal2016} showed that with information about the true state of the world and the utterance, the model can recover the speaker's likely goals, and visa versa, with information about the speaker's goals and the utterance, the model recovers the likely true state of the world.
+\cite{yoonetal2017, yoonetal2018} explored the implications of this utility inference mechanism on the higher-order speaker $S_2$. Because $L_1$ reasons about the speaker's utility, $S_2$'s utility function can be modified to include a term based on the listener's inference about the utility function, what they call a ``self-presentational utility''. This term contributes positive utility to the higher-order $S_2$'s utterance choice when the utterance makes the speaker appear as if they had a particular goal in mind (e.g., a particular utility trade-off). \cite{yoonetal2018} showed how this mechanism is important for capturing polite, indirect speech, especially when the utterance has low informational utility or is literally false (e.g., saying ``your talk wasn't terrible'' when \emph{terrible} is quite likely true). 
+
+\mht{show S2?}
 
 
 \section{Modeling practicalities} \label{practicalities}
