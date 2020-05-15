@@ -3,47 +3,47 @@ Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
 The top-level auxiliary file: problang-overview.aux
 The style file: sp.bst
 Database file #1: problang.bib
-Warning--I didn't find a database entry for "grice1975"
 Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
-You've used 19 entries,
+Warning--empty journal in yoonetal2018
+You've used 25 entries,
             3147 wiz_defined-function locations,
-            724 strings with 7812 characters,
-and the built_in function-call counts, 12441 in all, are:
-= -- 1037
-> -- 450
-< -- 13
-+ -- 156
-- -- 136
-* -- 814
-:= -- 1859
-add.period$ -- 80
-call.type$ -- 19
-change.case$ -- 168
-chr.to.int$ -- 18
-cite$ -- 19
-duplicate$ -- 1013
-empty$ -- 997
-format.name$ -- 201
-if$ -- 2580
+            755 strings with 8745 characters,
+and the built_in function-call counts, 16172 in all, are:
+= -- 1322
+> -- 642
+< -- 15
++ -- 224
+- -- 196
+* -- 1086
+:= -- 2440
+add.period$ -- 104
+call.type$ -- 25
+change.case$ -- 224
+chr.to.int$ -- 24
+cite$ -- 26
+duplicate$ -- 1307
+empty$ -- 1267
+format.name$ -- 283
+if$ -- 3311
 int.to.chr$ -- 2
 int.to.str$ -- 1
-missing$ -- 194
-newline$ -- 104
-num.names$ -- 84
-pop$ -- 429
+missing$ -- 255
+newline$ -- 134
+num.names$ -- 108
+pop$ -- 576
 preamble$ -- 1
-purify$ -- 119
+purify$ -- 163
 quote$ -- 0
-skip$ -- 374
+skip$ -- 469
 stack$ -- 0
-substring$ -- 575
-swap$ -- 483
+substring$ -- 695
+swap$ -- 609
 text.length$ -- 2
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 171
-warning$ -- 0
-while$ -- 85
+type$ -- 222
+warning$ -- 1
+while$ -- 106
 width$ -- 0
-write$ -- 257
+write$ -- 332
 (There was 1 warning)

@@ -1,4 +1,4 @@
-\begin{thebibliography}{19}
+\begin{thebibliography}{25}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \providecommand{\urlprefix}{}
@@ -11,6 +11,11 @@
 Bergen, Leon, Roger Levy \& Noah~D. Goodman. 2016.
 \newblock Pragmatic reasoning through semantic inference.
 \newblock \emph{Semantics and Pragmatics} 9(20).
+
+\bibitem[{Brown \& Levinson(1987)}]{brown1987politeness}
+Brown, Penelope \& Stephen~C Levinson. 1987.
+\newblock \emph{Politeness: Some universals in language usage}.
+\newblock Cambridge university press.
 
 \bibitem[{Chierchia et~al.(2012)Chierchia, Fox \& Spector}]{chierchiaetal2012}
 Chierchia, Gennaro, Danny Fox \& Benjamin Spector. 2012.
@@ -120,6 +125,17 @@ Scontras, Gregory \& Noah~D. Goodman. 2017.
 \newblock Resolving uncertainty in plural predication.
 \newblock \emph{Cognition} 168. 294--311.
 
+\bibitem[{Tenenbaum et~al.(2011)Tenenbaum, Kemp, Griffiths \&
+  Goodman}]{tenenbaum2011grow}
+Tenenbaum, Joshua~B, Charles Kemp, Thomas~L Griffiths \& Noah~D Goodman. 2011.
+\newblock How to grow a mind: Statistics, structure, and abstraction.
+\newblock \emph{science} 331(6022). 1279--1285.
+
+\bibitem[{Tessler \& Goodman(2019)}]{tesslergoodman2019}
+Tessler, Michael~Henry \& Noah~D. Goodman. 2019.
+\newblock The language of generalization.
+\newblock \emph{Psychological Review} 126. 395--436.
+
 \bibitem[{Tessler et~al.(2017)Tessler, Lopez-Brau \&
   Goodman}]{tessler2017comparisonclass}
 Tessler, Michael~Henry, Michael Lopez-Brau \& Noah~D Goodman. 2017.
@@ -127,5 +143,24 @@ Tessler, Michael~Henry, Michael Lopez-Brau \& Noah~D Goodman. 2017.
   language}.
 \newblock In \emph{Proceedings of the 39th annual meeting of the {C}ognitive
   {S}cience {S}ociety}, .
+
+\bibitem[{Yoon et~al.(2016)Yoon, Tessler, Goodman \& Frank}]{yoonetal2016}
+Yoon, Erica~J, Michael~Henry Tessler, Noah~D Goodman \& Michael~C Frank. 2016.
+\newblock Talking with tact: Polite language as a balance between kindness and
+  informativity.
+\newblock In \emph{Proceedings of the thirty-eighth annual conference of the
+  {C}ognitive {S}cience {S}ociety}, .
+
+\bibitem[{Yoon et~al.(2017)Yoon, Tessler, Goodman \& Frank}]{yoonetal2017}
+Yoon, Erica~J, Michael~Henry Tessler, Noah~D Goodman \& Michael~C Frank. 2017.
+\newblock ``i won't lie, it wasn't amazing'': Modeling polite indirect speech.
+\newblock In \emph{Proceedings of the thirty-ninth annual conference of the
+  {C}ognitive {S}cience {S}ociety}, .
+
+\bibitem[{Yoon et~al.(2018)Yoon, Tessler, Goodman \& Frank}]{yoonetal2018}
+Yoon, Erica~J, Michael~Henry Tessler, Noah~D Goodman \& Michael~C Frank. 2018.
+\newblock Polite speech emerges from competing social goals
+  \doi{10.31234/osf.io/67ne8}.
+\newblock \urlprefix\url{psyarxiv.com/67ne8}.
 
 \end{thebibliography}
