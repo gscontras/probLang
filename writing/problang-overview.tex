@@ -310,7 +310,11 @@ The formal mechanism by which an adjective like \emph{tall} receives a context-s
 In Section \ref{meaning-inference}, we described a model of gradable adjectives where the threshold for \emph{tall} is computed via reference to the state prior, the prior distribution over heights within some comparison class. We can make this dependence on the comparison class explicit in the model of the speaker: 
 %Depending on the comparison class, the height you ultimately infer for the person could vary dramatically: tall for a basketball player means something different from tall for a person.
 
-$$P_{S_1}(u\mid s, \textbf{x}) \propto \textrm{exp}(\alpha (\textrm{log}P_{L_0}(s\mid \sem{u}, \textbf{x}) - C(u)))$$
+\begin{equation} \label{S1-context}
+P_{S_1}(u\mid s, \textbf{x}) \propto \textrm{exp}(\alpha (\textrm{log}P_{L_0}(s\mid \sem{u}, \textbf{x}) - C(u)))
+\end{equation}
+
+
 In an analogous manner to the way we treat uncertainty in the literal meaning and uncertainty in the QUD, a listener can have uncertainty as to the relevant comparison class. In the literal listener model, the prior over world states is treated as a conditional probability distribution that depends upon the comparison class \textbf{x}: $P(s\mid \textbf{x})$.
 
 \cite{tessler2017comparisonclass} used this parameterization to model comparison class inferences when listeners hear only an adjective applied to an individual (e.g., when describing a basketball player, ``He is tall'').
@@ -345,15 +349,21 @@ In their model of distributive-collective ambiguities in plural predication, \ci
 
 \subsection{Complex utility/utility inference}
  
- So far, we have considered a host of different parameterizations to RSA that revolve around the problem of understanding meaning in context by assuming that speakers want to convey information to the listener. Though informational uses of language are arguably the bread-and-butter of a successful communicative system, speakers don't always say what they mean. We dawdle, prevaricate, and sometimes outright lie, often in the service of maintain our social relationships. We can begin to model non-informational uses of language by augmenting the speaker's utility function: 
- 
- \mht{someone have the math in the streamlined formalism?}
- 
-\cite{yoonetal2016} use this generalization of the speaker utility to account for polite language use. They formalize a version of \cite{brown1987politeness}'s politeness theory, in which cooperative speakers have social goals to minimize any potential damage to the hearer’s (and the speaker’s own) self-image (called \emph{face}), in addition to standard informational-goals. Specifically, they assume that $S_1$'s utility is a mixture of two-utilities: standard epistemic utility defined in Eq.~\ref{U} and a social utility. An utterance's social utility is a function of the literal listener's subjective value $V$ of the state of the world they believe they are in given the utterance. 
-
-\begin{equation} \label{U-soc}
-U_{social}(u)  =  \mathbb{E}_{L_0(s \mid u)}[V(s)]
+ So far, we have considered a host of different parameterizations to RSA that revolve around the problem of understanding meaning in context by assuming that speakers want to convey information to the listener. Though informational uses of language are arguably the bread-and-butter of a successful communicative system, speakers do not always say what they mean. We dawdle, prevaricate, and sometimes outright lie, and this is often in the service of maintaining our social relationships. Perhaps rather than telling your friend that their haircut is ugly, you could say ``it's an interesting look''. How can speakers deviate from choosing the maximally informative utterance? We can begin to model non-informational uses of language by augmenting the speaker's utility function: 
+  
+ \begin{equation} \label{S1-polite}
+P_{S_1}(u\mid s, \textbf{x}) \propto \textrm{exp}(\alpha  (
+ \textbf{x} \cdot \textrm{log}P_{L_0}(s \mid \sem{u}) + 
+ (1 - \textbf{x}) \cdot  \mathbb{E}_{P_{L_0}(s \mid \sem{u})}[V(s)] - C(u)))
 \end{equation}
+
+\mht{do we want to make the speaker distribution conditional on $V$ as well?}
+Now $S_1$ chooses an utterance on basis the of true state $s$ (e.g., the speaker's true feelings about the haircut), where the standard, RSA information utility is one component of the utility function. 
+This informational utility is weighted by a mixture parameter $\textbf{x}$, were the second component receives the opposite weight ($1-\textbf{x}$).
+The second component is what \cite{yoonetal2016} call \emph{social utility} and is a function of the literal listener's subjective value $V$ of the state of the world they believe they are in given the utterance.
+\cite{yoonetal2016} deploy this generalization of the speaker utility to account for polite language use. 
+It formalizes a version of \cite{brown1987politeness}'s politeness theory, in which cooperative speakers have social goals to minimize any potential damage to the hearer’s (and the speaker’s own) self-image (called \emph{face}), in addition to standard informational-goals. 
+Thus, $S_1$'s utility is a mixture of two-utilities: standard epistemic utility defined in Eq.~\ref{U} and a social utility: $U_{social}(u)  =  \mathbb{E}_{L_0(s \mid \sem{u})}[V(s)]$.
 
 One thing to note about $U_{social}(u)$ is that it is a function of only the utterance $u$ because of the expectation in the definition: It is the expected subjective value of the state the literal listener believes themselves to be in (averaging over the possible states the listener believes themselves to be in). $V$ is a value function that maps states of the world onto subjective values; in the case study explored by \cite{yoonetal2016}, the value of the state of the world was denoted explicitly in terms of a yelp-style review (\# of hearts on a ``heart-scale''), but this is area where work from cognitive science can help articulate more realistic value functions for listeners. The effect of this social utility term is that increases the speaker $S_1$'s production probabilities of utterances that convey states with high subjective value (e.g., ``it's \emph{beautiful}'', ``your talk was \emph{amazing}''), which can lead to ``white lies''. 
 
@@ -370,7 +380,7 @@ Our hope in the previous section was to present a menu of options to the would-b
 
 One of the most important modeling decisions concerns setting up the conversational scenario: how do we represent the states of the world that can be described in our model? Answering this question entails identifying the essence of the language phenomenon of interest. In the reference game from \cite{frankgoodman2012} depicted in Figure \ref{ref-game}, we equate states with individual objects, and the set of possible states corresponds to the set of possible objects present in the visual array. But only certain features of the objects are relevant: their shape and color. Properties like size or position do not enter into the reasoning about shape and color in this reference game (or at least we don't think they do), and so they need not enter into the representation of states in the model. In \ref{hyperbole-states}, we saw possible states from the hyperbole model of \cite{kaoetal2014}; of all the various facts of the world, the authors narrowed in on two for their model: the price paid for some object, and valence of the affect of the person who paid it. But the authors also narrowed the possible prices. 
 
-One of the more ingenious---and abstract---state implementations comes from the generics model. \gcs{a note about the states in the generics model?}
+One of the more ingenious---and abstract---state implementations comes from the generics model. Generic statements update beliefs about the prevalence of a feature in a category (e.g., the \% of robins that lay eggs). The prior, then, is a distribution over prevalence. \cite{tesslergoodman2019} treat this distribution as a distribution over alternative categories, akin to the implementation of the comparison class in the vague adjectives models \citep{lassitergoodman2013, tessler2017comparisonclass}. These distributions have complex structures, reflecting abstract, intuitive theories about categories and properties, which can also be well-modeled using the tools of probabilistic calculus \citep{tenenbaum2011grow}. 
 
 In addition to deciding how to model the various state possibilities, one must also determine which possibilities to include. This choice is relevant to every aspect of the model where alternatives must be specified: alternative states, alternative utterances, alternative QUDs, etc. Unfortunately, the literature on RSA has not yet arrived at a set of best practices for determining alternatives (indeed, this issue is a problem for pragmatic theories more broadly).
 
