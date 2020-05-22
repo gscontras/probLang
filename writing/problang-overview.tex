@@ -387,7 +387,9 @@ In some cases---for example, an analytic demonstration of a qualitative predicti
 
 Like the specific probabilities assigned in the various priors, other free parameters of the model must be fixed in order to generate predictions. Free parameters common to RSA include $\alpha$, which controls speaker optimality, and the various utterance cost parameters. \gcs{a note on BDA?}
 
-With values for the various priors and free parameters, it is possible to generate predictions from an RSA model. However, interpreting those predictions requires a clear linking function from the model output to human behavior, and the specific linking function needed will depend on the human behavior to be modeled. 
+With values for the various priors and free parameters, it is possible to generate predictions from an RSA model. However, interpreting those predictions requires a clear linking function from the model output to human behavior, and the specific linking function needed will depend on the human behavior to be modeled. Keep in mind that the model generates two sets of predictions: listener behavior in the form of a posterior distribution over possible states (and other variables; e.g., QUDs, thresholds, etc.) given some utterance, and speaker behavior in the form of a distribution over utterances given some state. In cases where the behavioral data takes one of these forms, the linking function between model output and human data can be rather direct. For example, \cite{frankgoodman2012} used a betting paradigm to elicit interpretation and production behavior for scenes as in Figure \ref{ref-game}: given an utterance, how would participants distribute their bets over possible references, and given a specific object, how would participants distribute their bets over possible utterances? By treating the bets as probabilities, the model output aligns directly with the behavior measured. 
+
+Truth-value judgments XXX
 
 
 \section{Extensions/limitations} \label{limitations}
