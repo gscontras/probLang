@@ -94,17 +94,17 @@ P_{L_1}(s \mid u) \propto P_{S_1}(u \mid s) \cdot P(s)
 
 The reasoning grounds out in the naive, literal listener, $L_0$, who interprets utterances
 according to their literal semantics. The semantics of utterance $u$ is captured in meaning
-function $\sem{u} \colon s \mapsto [0;1]$ which maps states to truth values. We assume binary
-truth-values here, but the formalism works just as well for non-binary, e.g., fuzzy semantics
+function $\sem{u} \colon s \mapsto [0;1]$, which maps states to truth values. We assume binary
+truth-values here, but the formalism works just as well for non-binary, fuzzy values
 \mf{insert refs: Degen on overspecification, Steinert on vagueness, ...?}.
 
 According to \eqref{L0}, $L_0$ hears some utterance $u$ and infers the state of the world $s$ that $u$ was
-meant to describe. They do this by restricting the set of possible states to just those that are compatible
+meant to describe. $L_0$ performs this inference by restricting the set of possible states to just those that are compatible
 with the literal, truth-functional semantics of $u$.
 Thus, \eqref{L0} returns a uniform probability distribution over the states $s$ that $u$ maps to \texttt{true}.
 \mht{note: we are presenting the version of RSA where the literal listener doesn't have $P(s)$... is this a good idea?}
 
-One layer up, a pragmatic speaker, $S_1$, chooses utterances in proportion to their utility $U_{S_{1}}$. Utterances are useful to the extent that they maximize the probability that $L_0$ will infer the correct $s$ on the basis of $u$, while minimizing the cost of $u$ ($C(u)$; speakers aim to be efficient). So, when selecting utterances, $S_1$ considers their effect on interpretation (i.e., on $L_0$'s resulting beliefs); utterances that are most likely to lead $L_0$ to the correct belief are most likely to be chosen by $S_1$.
+One layer up, a pragmatic speaker, $S_1$, chooses utterances in proportion to their utility $U_{S_{1}}$. Utterances are useful to the extent that they maximize the probability that $L_0$ will infer the correct $s$ on the basis of $u$ (i.e., informativity), while minimizing the cost of $u$ ($C(u)$; speakers aim to be efficient). So, when selecting utterances, $S_1$ considers their effect on interpretation (i.e., on $L_0$'s resulting beliefs); utterances that are most likely to lead $L_0$ to the correct belief are most likely to be chosen by $S_1$.
 
 At the top layer of inference, the pragmatic listener, $L_1$, interprets utterances to infer the true state of the world. However, unlike $L_0$, who reasons directly about the utterance semantics, $L_1$ reasons instead about the process that generated the utterance; that process is the speaker $S_1$. $L_1$ thus infers $s$ on the basis of $u$ by reasoning about the probability that $S_1$ would have chosen $u$ to signal $s$ to $L_0$; the higher that probability, the more likely $L_1$ is to conclude that $S_1$ indeed intended to communicate $s$. Because $L_1$ reasons about $S_1$, who in turn reasons about the literal semantics in $L_0$, $L_1$'s interpretation is affected by the semantics of $u$, albeit only indirectly via the $S_1$ layer. This space between the semantics (i.e., $L_0$) and the resulting interpretation (i.e., the posterior beliefs of $L_1$) is where pragmatics enters. \mht{haven't discussed $P(s)$ at this point, see previous note}. To see how, it would help to consider a concrete communication scenario.
 
@@ -119,7 +119,7 @@ In its initial formulation, \cite{frankgoodman2012} used the RSA framework to mo
 
 With the semantics as stated, $L_0$ interprets utterances to return uniform probability distributions over the compatible states. Hearing the utterance ``blue'', $L_0$ returns a belief distribution over states that divides probability equally between blue-square and blue-circle, the only objects compatible with the semantics of ``blue''. Hearing ``circle'', $L_0$ returns a distribution with 100\% of the probability on blue-circle---$L_0$ is certain that the speaker intends to signal blue-circle. With $L_0$ formulated in this way, we have an agent who interprets utterances naively, according to the literal semantics.
 
-$S_1$ chooses utterances by simulating their effect on $L_0$. Suppose the speaker wants to communicate blue-circle to $L_0$. Two utterances, ``green'' and ``square'', stand no chance of communicating the intended state to $L_0$ and so they are ruled out. The other two utterances, ``blue'' and ``circle'', are both literally compatible with blue-circle, but one of the utterances is more likely to lead $L_0$ to the correct belief state. If the speaker were to utter ``blue'', we saw that $L_0$'s belief distribution would be evenly split between blue-square and blue-circle. In other words, ``blue'' has a 50\% chance of leading $L_0$ to the correct state. On the other hand, ``circle'' has a 100\% chance of leading $L_0$ to the correct state. Assuming equal utterance costs, ``circle'' is thus twice as useful to the speaker as ``blue'' for communicating blue-circle to $L_0$, and $S_1$ reflects this asymmetry in utility by assigning twice as much probability to ``circle'' in the posterior distribution over utterance choices.\footnote{With no scaling. XXX} For communicating the blue-square state, both ``blue'' and ``square'' have a 50\% chance of leading $L_0$ to the correct state, so both utterances are equally likely and thus equally probable in the $S_1$ posterior.
+$S_1$ chooses utterances by simulating their effect on $L_0$. Suppose the speaker wants to communicate blue-circle to $L_0$. Two utterances, ``green'' and ``square'', stand no chance of communicating the intended state to $L_0$ and so they are ruled out entirely. The other two utterances, ``blue'' and ``circle'', are both literally compatible with blue-circle, but one of the utterances is more likely to lead $L_0$ to the correct belief state. If the speaker were to utter ``blue'', we saw that $L_0$'s belief distribution would be evenly split between blue-square and blue-circle. In other words, ``blue'' has a 50\% chance of leading $L_0$ to the correct state. On the other hand, ``circle'' has a 100\% chance of leading $L_0$ to the correct state. Assuming equal utterance costs, ``circle'' is thus twice as useful to the speaker as ``blue'' for communicating blue-circle to $L_0$, and $S_1$ reflects this asymmetry in utility by assigning twice as much probability to ``circle'' in the posterior distribution over utterance choices.\footnote{With no scaling. XXX} For communicating the blue-square state, both ``blue'' and ``square'' have a 50\% chance of leading $L_0$ to the correct state, so both utterances are equally likely and thus equally probable in the $S_1$ posterior.
 \mht{we may want to have a figure of probability tables, a la MF's probability tables in problang code boxes...}
 
 Within this simple reference-game scenario, $L_1$ reasons pragmatically about $S_1$ to break the symmetry in the semantics. Hearing ``blue'', $L_1$ will invert the $S_1$ model to determine which state (i.e., which object) the speaker is most likely trying to communicate. Had the speaker wanted to communicate the blue-circle state, we saw above that the speaker would have been more likely to utter ``circle''. But the speaker did not utter ``circle''; she uttered ``blue'' instead. This counterfactual reasoning leads $L_1$ to down-weight the probability of the state that ``circle'' could have uniquely picked out, since the speaker could have said ``circle'' but chose not to. As a result, more probability gets assigned to the blue-square state, the other state compatible with the semantics of the utterance. In this way, we capture the Gricean specificity implicature associated with uttering ``blue'' in a scenario as in Figure \ref{ref-game}: the speaker probably intends the blue square because if she wanted to communicate the blue circle she could have said ``circle''.
@@ -127,13 +127,10 @@ Within this simple reference-game scenario, $L_1$ reasons pragmatically about $S
 A key component of the RSA framework is the updating of prior beliefs: listeners use the utterances they hear as signal with which to update their beliefs about the world. In walking through the reference-game example above, we assumed a uniform prior over world states: before hearing the speaker's utterance, $L_1$ had no reason to suspect that any object was more or less likely to get referenced. With a different, more informative prior, it is possible to shift the qualitative predictions of $L_1$. Suppose that $L_1$ has reason to suspect that the blue-circle state is most likely to get referenced. Now there are two opposing pressures operating on $L_1$'s interpretation of the utterance ``blue" (i.e., on $L_1$'s posterior beliefs): the prior belief favoring blue-circle over blue-square and the specificity implicature discussed above that favors blue-square over blue-circle (if the speaker had wanted to reference blue-circle, she could have said ``circle''). With a sufficiently strong prior in favor of blue-circle, it is possible to override the specificity implicature so that $L_1$ interprets ``blue'' as confirming his suspicions and referring to blue-circle.
 \mht{it can very easily sound like there is a mathematical rule that explain everything while explaining nothing. do we want to talk about how to empirically ground prior beliefs? or, reiterate that this is a modeling framework, not a particular theory (and thus, different prior beliefs correspond to different theories within the framework?)}\gcs{we mention empirical grounding in the practicalities section}
 
-XXX scalar implicature?
-
-
 \paragraph{Relation to Gricean maxims.} The vanilla RSA model, as described above in Equations
 \eqref{L0}--\eqref{L1}, is a direct formalization of Grice's idea that listeners can infer
 pragmatic meaning based on the assumption that speakers adhere to certain rules of behavior,
-the so-called ``Maxims of Conversation'' \citep{Grice1975:Logic-and-Conve}. This relationship to Grice's maxims becomes
+the so-called ``Maxims of Conversation'' \citep{Grice1975:Logic-and-Conve}. This relationship to Grice's maxims becomes more
 transparent if we rewrite the speaker's utterance-choice probability, starting from the
 definition in \eqref{S1}.
 %
@@ -148,7 +145,7 @@ The reformulation in~\eqref{eq:S1-rewrite} shows how the speaker's choice probab
 product of three factors, each corresponding to a central postulate concerning how cooperative and, arguably, rational speakers should tailor their contributions
 to a conversation. Suppose we recast the components as follows:
 $\text{Truth}(u,s) = \sem{u}(s)$, $\text{Informativity}(u) = \mid \sem{u}\mid ^{-1}$, and
-$\text{Economy(u)} = \log C(u)$. We can then rewrite the speaker rule as:\footnote{For
+$\text{Economy(u)} = \log C(u)$. \gcs{we might explicitly justify this recasting} We can then rewrite the speaker rule as:\footnote{For
 binary truth-values, $\alpha$ can be dropped from the factor $\text{Truth}$.}
 \begin{align} \label{eq:S1-three-factor-formulation}
   P_{S_1(u\mid s)}   & \propto \text{Truth}(u,s) \ \text{Informativity}(u)^{\alpha} \ \text{Economy}(u)^{\alpha} % \propto \underbrace{\sem{u}(s)^{\alpha}}_{\text{Quantity}} \ \underbrace{\mid  \sem{u} \mid ^{-\alpha}}_{\text{Quantity}} \  \underbrace{(\log C(u))^{-\alpha}}_{\text{Manner}} & \text{\textcolor{gray}{[definition \eqref{L0}]}} \nonumber
@@ -156,8 +153,8 @@ binary truth-values, $\alpha$ can be dropped from the factor $\text{Truth}$.}
 These three factors directly capture (a formalization of) the Gricean maxims of Quality,
 Quantity, and Manner. In effect, the RSA speaker assumes that speakers (i) maximize truth
 (i.e., they utter no falsehoods if they can select at least one
-true message), (ii) maximize informativity (all else equal) and (iii) maximize utterance
-economy (all else equal). The more rational a speaker (i.e., the higher $\alpha$), the more
+true message), (ii) maximize informativity (all else equal), and (iii) maximize utterance
+economy (all else equal). The more rational a speaker (i.e., the higher the value of the scaling parameter $\alpha$), the more
 pronounced the latter two optimization tendencies become. This behavior reflects the special
 status that Grice bestowed on the Maxim of Quantity: (binary) truthfulness is not affected by
 the speaker's degree of optimizing informativity and costs.
@@ -170,68 +167,68 @@ utterance alternatives that are not related to production economy or cost, but r
 ease with which an alternative utterance comes to mind. The latter factor of \emph{differential
   salience} is arguably not subject to optimization: it is not the case that the more rational
 a speaker is, the more she would tend to select only the utterances which come to mind most
-easily. We can implement differential salience (ease of retrieval) for instance in a
-formulation like this:
+easily. We can implement differential salience (ease of retrieval) in a
+formulation as follows:
 %
 \begin{align}
   \label{eq:S1-utterance-salience}
   P_{S_1(u\mid s)}^{\text{Salience}}   & \propto \text{Truth}(u,s) \ \text{Informativity}(u)^{\alpha} \ \text{Salience}(u)
 \end{align}
-An implementation of the speaker model in \eqref{eq:S1-utterance-salience} would implement the
+The implementation of the speaker model in \eqref{eq:S1-utterance-salience} includes the
 factor $\text{Salience}(u)$ as an \emph{utterance prior}, suggesting an algorithmic
 picture of utterance choice: the speaker searches for utterances to choose, based on a gradient
 of how easy these utterances come to mind, then compares the available options (weighted by
 their salience/prominence) based on the other factors relevant for communication: truth and
 informativity. \mf{I'm not sure if this paragraph needs to go here; it might have a better
-  place elsewhere; but stressing the 'algorithmic picture' somewhere might be good}
+  place elsewhere; but stressing the 'algorithmic picture' somewhere might be good} \gcs{yeah, this paragraph feels a bit out of place -- I wonder if it would be possible to tie it back more closely to the existing RSA formalism}
 
 \paragraph{Informativity from alignment of beliefs.} We saw above that the Vanilla RSA
 model's definition of speaker's choice probabilities can be interpreted as a product of three
 factors that correspond closely to Gricean maxims of Quality, Quantity and Manner.
-This \mht{what exactly is ``this'' referring to?} is just one formal implementation; others are readily conceivable. Given the particular
+This interpretation is just one formal implementation; others are readily conceivable. Given the particular
 importance of informativity for many pragmatic explanations, one would be justified in further dissecting
 the way informativity is treated in the RSA model.
 
-In the following, we show that \eqref{U} \& \eqref{S1} follows from a simple idea.
-The speaker has some belief about the relevant world states that gets captured in a probability distribution $P_{S\text{-}Bel}$;
+In the following, we show that \eqref{U} and \eqref{S1} follow from a simple idea.
+The speaker has some belief about the relevant world states that gets captured in a probability distribution $P_{S_{1}\text{-}Bel}$;
 after hearing utterance $u$, the literal listener's beliefs about the relevant world states are
-represented as another probability distribution $P_{LL\text{-}Bel}(u)$. An utterance $u$ is more useful
-than another utterance $u'$ to the extent that $P_{LL\text{-}Bel}(u)$  (the listener's beliefs after hearing $u$) is
-more aligned with $P_{S\text{-}Bel}$ (the speaker's beliefs) than
-$P_{LL\text{-}Bel}(u')$  (the listener's beliefs after hearing $u'$).
-Vanilla RSA corresponds to a notion of ``alignment'' in terms of an information-theoretic notion of divergence between probability distributions.
+represented as another probability distribution $P_{L_{0}\text{-}Bel}(u)$. An utterance $u$ is more useful
+than another utterance $u'$ to the extent that $P_{L_{0}\text{-}Bel}(u)$  (i.e., the listener's beliefs after hearing $u$) is
+more closely aligned with $P_{S_{1}\text{-}Bel}$ (i.e., the speaker's beliefs) than
+$P_{L_{0}\text{-}Bel}(u')$  (i.e., the listener's beliefs after hearing $u'$).
+Vanilla RSA corresponds to a implementation of ``alignment'' in terms of an information-theoretic notion of divergence between probability distributions.
 Behind it all, however, is simply the idea that the speaker prefers
 utterances that best align speaker's and listener's relevant beliefs about the world.
 
 A useful notion of ``alignment of probability distributions'' is the information-theoretic
 measure of Kullback-Leibler divergence. KL-divergence is not symmetric, but considers one of
-two to-be-compared probability distributions as the ground-truth or the objective function to
+two to-be-compared probability distributions as the ground-truth or the objective function
 to be approximated.
 This asymmetry makes sense in language understanding because it is the speaker's
 beliefs to which the listener should align. KL-divergence then measures divergence in terms of,
 essentially, the expected number of extra bits needed to encode a signal that was generated
 from the true distribution with the approximate distribution. \mf{leave out that last
   sentence?} The Kullback-Leibler divergence between (baseline/true) probability distribution
-$P_{S\text{-}Bel}$ and (approximate/to-be-optimized) probability distribution
-$P_{LL\text{-}Bel}(u)$ is defined as:
+$P_{S_{1}\text{-}Bel}$ and (approximate/to-be-optimized) probability distribution
+$P_{L_{0}\text{-}Bel}(u)$ is defined as:
 \begin{align}
   \label{eq:KL-divergence}
-  \text{KL}(P_{S\text{-}Bel} \mid \mid P_{LL\text{-}Bel}(u)) = - \sum_{s} P_{S\text{-}Bel}(s) \ \log \frac{P_{S\text{-}Bel}(s)}{P_{LL\text{-}Bel}(u,s)}
+  \text{KL}(P_{S_{1}\text{-}Bel} \mid \mid P_{L_{0}\text{-}Bel}(u)) = - \sum_{s} P_{S_{1}\text{-}Bel}(s) \ \log \frac{P_{S_{1}\text{-}Bel}(s)}{P_{L_{0}\text{-}Bel}(u,s)}
 \end{align}
 
 Using KL-divergence, we can then state a more general definition of utterance utilities, to
 replace \eqref{U}:
 \begin{align}
   \label{eq:Utils-KL-based}
-  U_{S_1}(u; s) = \text{KL}(P_{S\text{-}Bel} \mid \mid P_{LL\text{-}Bel}(u)) - C(u)
+  U_{S_1}(u; s) = \text{KL}(P_{S_{1}\text{-}Bel} \mid \mid P_{L_{0}\text{-}Bel}(u)) - C(u)
 \end{align}
 The formulation in \eqref{U} is a special case of the more general \eqref{eq:Utils-KL-based}
-which follows if the speaker's beliefs about the relevant world states are degenerate, that is,
+that follows if the speaker's beliefs about the relevant world states are degenerate, that is,
 whenever the speaker knows the true world state $s^{*}$, so that $P_{S\text{-}Bel}(s^{*})=1$.
 In that case, we have:
 \begin{align*}
-  \text{KL}(P_{S\text{-}Bel} \mid \mid P_{LL\text{-}Bel}(u)) & = - \sum_{s} P_{S\text{-}Bel}(s) \ \log \frac{P_{S\text{-}Bel}(s)}{P_{LL\text{-}Bel}(u,s)} \\
-  & =  - \log\frac{1}{P_{LL\text{-}Bel}(u,s^*)} = \log P_{LL\text{-}Bel}(u,s^*)
+  \text{KL}(P_{S_{1}\text{-}Bel} \mid \mid P_{L_{0}\text{-}Bel}(u)) & = - \sum_{s} P_{S_{1}\text{-}Bel}(s) \ \log \frac{P_{S_{1}\text{-}Bel}(s)}{P_{L_{0}\text{-}Bel}(u,s)} \\
+  & =  - \log\frac{1}{P_{L_{0}\text{-}Bel}(u,s^*)} = \log P_{L_{0}\text{-}Bel}(u,s^*)
 \end{align*}
 
 
