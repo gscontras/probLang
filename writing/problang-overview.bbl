@@ -1,4 +1,4 @@
-\begin{thebibliography}{25}
+\begin{thebibliography}{27}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \providecommand{\urlprefix}{}
@@ -23,6 +23,13 @@ Chierchia, Gennaro, Danny Fox \& Benjamin Spector. 2012.
 \newblock In Klaus von Heusinger, Claudia Maienborn \& Paul Portner (eds.),
   \emph{Semantics: An international handbook of natural language meaning},
   vol.~3, chap.~87, 2297--2331. Berlin: Mouton de Gruyter.
+
+\bibitem[{Degen \& Goodman(2014)}]{degengoodman2014}
+Degen, Judith \& Noah~D Goodman. 2014.
+\newblock Lost your marbles? the puzzle of dependent measures in experimental
+  pragmatics.
+\newblock In \emph{Proceedings of the 36th annual conference of the {C}ognitive
+  {S}cience {S}ociety}, 397--402.
 
 \bibitem[{Degen et~al.(2015)Degen, Tessler \& Goodman}]{degen2015wonky}
 Degen, Judith, Michael~Henry Tessler \& Noah~D Goodman. 2015.
@@ -70,6 +77,12 @@ Horn, Laurence. 1984.
 Hurford, James~R. 1974.
 \newblock Exclusive or inclusive disjunction.
 \newblock \emph{Foundations of Language} 11(3). 409--411.
+
+\bibitem[{Jasbi et~al.(2019)Jasbi, Waldon \& Degen}]{jasbietal2019}
+Jasbi, Msoud, Brandon Waldon \& Judith Degen. 2019.
+\newblock Linking hypothesis and number of response options modulate inferred
+  scalar implicature rate.
+\newblock \emph{Frontiers in Psychology} 10. 189.
 
 \bibitem[{Kao et~al.(2014{\natexlab{a}})Kao, Bergen \&
   Goodman}]{kaoetal2014metaphor}

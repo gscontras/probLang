@@ -5,45 +5,45 @@ The style file: sp.bst
 Database file #1: problang.bib
 Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
 Warning--empty journal in yoonetal2018
-You've used 25 entries,
+You've used 27 entries,
             3147 wiz_defined-function locations,
-            755 strings with 8745 characters,
-and the built_in function-call counts, 16172 in all, are:
-= -- 1322
-> -- 642
-< -- 15
-+ -- 224
-- -- 196
-* -- 1086
-:= -- 2440
-add.period$ -- 104
-call.type$ -- 25
-change.case$ -- 224
-chr.to.int$ -- 24
-cite$ -- 26
-duplicate$ -- 1307
-empty$ -- 1267
-format.name$ -- 283
-if$ -- 3311
+            766 strings with 9139 characters,
+and the built_in function-call counts, 17496 in all, are:
+= -- 1437
+> -- 691
+< -- 16
++ -- 241
+- -- 211
+* -- 1171
+:= -- 2637
+add.period$ -- 112
+call.type$ -- 27
+change.case$ -- 242
+chr.to.int$ -- 26
+cite$ -- 28
+duplicate$ -- 1414
+empty$ -- 1369
+format.name$ -- 306
+if$ -- 3586
 int.to.chr$ -- 2
 int.to.str$ -- 1
-missing$ -- 255
-newline$ -- 134
-num.names$ -- 108
-pop$ -- 576
+missing$ -- 275
+newline$ -- 144
+num.names$ -- 116
+pop$ -- 622
 preamble$ -- 1
-purify$ -- 163
+purify$ -- 176
 quote$ -- 0
-skip$ -- 469
+skip$ -- 511
 stack$ -- 0
-substring$ -- 695
-swap$ -- 609
+substring$ -- 758
+swap$ -- 659
 text.length$ -- 2
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 222
+type$ -- 240
 warning$ -- 1
-while$ -- 106
+while$ -- 116
 width$ -- 0
-write$ -- 332
+write$ -- 358
 (There was 1 warning)
