@@ -1,4 +1,4 @@
-\begin{thebibliography}{30}
+\begin{thebibliography}{31}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \providecommand{\urlprefix}{}
@@ -122,6 +122,12 @@ Lassiter, Daniel \& Noah~D. Goodman. 2013.
   positive-form adjectives.
 \newblock In Todd Snider (ed.), \emph{Proceedings of {SALT} 23}, 587--610. CLC
   Publications.
+
+\bibitem[{Marr(1982)}]{marr1982}
+Marr, David. 1982.
+\newblock \emph{Vision: A computational investigation into the human
+  representation and processing of visual information}.
+\newblock San Francisco: W. H. Freeman and Company.
 
 \bibitem[{Montague(1973)}]{montague1973}
 Montague, Richard. 1973.
