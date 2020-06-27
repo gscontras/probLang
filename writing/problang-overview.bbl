@@ -1,4 +1,4 @@
-\begin{thebibliography}{29}
+\begin{thebibliography}{30}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \providecommand{\urlprefix}{}
@@ -66,6 +66,11 @@ Goodman, Noah~D. \& Andreas Stuhlm\"{u}ller. 2013.
 \newblock Knowledge and implicature: Modeling language understanding as social
   cognition.
 \newblock \emph{Topics in Cognitive Science} 5. 173--184.
+
+\bibitem[{Goodman \& Stuhlm\"{u}ller(2014)}]{goodmanstuhlmuller2014}
+Goodman, Noah~D. \& Andreas Stuhlm\"{u}ller. 2014.
+\newblock The design and implementation of probabilistic programming languages.
+\newblock \url{http://dippl.org}.
 
 \bibitem[{Grice(1975)}]{Grice1975:Logic-and-Conve}
 Grice, Paul~Herbert. 1975.
