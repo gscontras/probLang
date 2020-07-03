@@ -1,4 +1,4 @@
----
+\varphi---
 layout: chapter
 title: Social reasoning about social reasoning
 description: "Politeness"
@@ -43,7 +43,7 @@ where $$V$$ is a value function that maps states to subjective utility values --
 Speaker utility is then a mixture of these components:
 
 $$
-U(u; s; \phi) = \phi \cdot U_{\text{epistemic}}(u;s) + (1 - \phi) \cdot U_{\text{social}}(u;s)
+U(u; s; \varphi) = \varphi \cdot U_{\text{epistemic}}(u;s) + (1 - \varphi) \cdot U_{\text{social}}(u;s)
 $$
 
 Note that at this point, we do not differentiate subjective state value to the listener from subjective state value to the speaker, though in many situations these could in principle be different.
@@ -294,7 +294,7 @@ U_{\text{social}}(u) = \mathbb{E}_{P_{L_1}(s' \mid u)}[V(s')] = \sum_{s'} P_{L_1
 $$
 
 $$
-P_{L_1}(s \mid u) = \int_\phi P_{L_1}(s, \varphi \mid u) d\phi
+P_{L_1}(s \mid u) = \int_\varphi P_{L_1}(s, \varphi \mid u) d\varphi
 $$
 
 where $$V$$ is a value function from before that maps states to subjective utility values.
