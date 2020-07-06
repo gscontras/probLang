@@ -1,4 +1,4 @@
-\varphi---
+---
 layout: chapter
 title: Social reasoning about social reasoning
 description: "Politeness"
