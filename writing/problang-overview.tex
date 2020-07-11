@@ -379,7 +379,8 @@ One of the most important modeling decisions concerns setting up the conversatio
 
 One of the more ingenious---and abstract---state implementations comes from the generics model \citep{tesslergoodman2019}. Generic statements update beliefs about the prevalence of a feature in a category (e.g., the prevalence of egg-laying among robins upon hearing that ``robins lay eggs''). The prior, then, is a distribution over possible prevalences. \citeauthor{tesslergoodman2019} treat this distribution as a distribution over alternative kinds (e.g., bluejays, horses, tarantulas, etc.), akin to the implementation of the comparison class in the vague adjectives models \citep{lassitergoodman2013, tessler2017comparisonclass}. Each kind is modeled as its prevalence for the relevant property; the resulting distributions have complex structures, reflecting abstract, intuitive theories about kinds and properties, which can also be well-modeled using the tools of probabilistic calculus \citep{tenenbaum2011grow}. 
 
-In addition to deciding how to model the various state possibilities, one must also determine which possibilities to include. This choice is relevant to every aspect of the model where alternatives must be specified: alternative states, alternative utterances, alternative QUDs, etc. Unfortunately, the literature on RSA has not yet arrived at a set of best practices for determining alternatives (indeed, this issue is a problem for pragmatic theories more broadly). XXX \gcs{has anyone used a free response method to determine possible utterances? or QUDs? or states? We did something like this for the epistemic must model, but I don't think it ever got published.}\gcs{I guess this do a version of this for the metaphor model}
+In addition to deciding how to model the various state possibilities, one must also determine which possibilities to include. This choice is relevant to every aspect of the model where alternatives must be specified: alternative states, alternative utterances, alternative QUDs, etc. Unfortunately, the literature on RSA has not yet arrived at a set of best practices for determining alternatives (indeed, this issue is a problem for pragmatic theories more broadly). One option is to include a free-response experiment in the model-development pipeline. For example, in developing their model of metaphors like ``John is a whale'', \cite{kaoetal2014metaphor} begin by eliciting the most salient features for a set of animals (e.g., \emph{large}, \emph{graceful}, and \emph{majestic} in the case of whales).
+\gcs{has anyone else used a free response method to determine possible utterances? or QUDs? or states?}
 
 Having decided what the relevant alternatives are and how to model them, the task then turns to implementing the appropriate priors: beliefs about which alternatives are more or less likely a priori. Some priors can be estimated empirically. With state priors, it might be possible to ask people explicitly about the relevant probabilities. For example, \cite{kaoetal2014} asked participants to rate the probability of paying various prices for certain objects, and also how likely it is that someone would consider a given price expensive; those ratings were normalized and served as the state prior probabilities in the hyperbole model. In the reference game model, \cite{frankgoodman2012} got at the state prior probabilities using a less direct method. To determine which objects in Figure \ref{ref-game} were more likely to get referenced a priori, the authors told participants that someone had used an unknown word to signal one of the objects; based on participants' guesses at which object the speaker was intending, \citeauthor{frankgoodman2012} were able to estimate the relevant state prior. In the generics model, \cite{tesslergoodman2019} \gcs{how you estimated the state prior using targeting questions to determine parameters of the relevant distributions}.
 
@@ -413,7 +414,19 @@ By incorporating semantic composition into the RSA framework (rather than approx
 \mf{}\mht{} Incrementality / processing
 \mf{}\gcs{}``Just'' a computational level theory. Doesn't bear on mechanisms. But, potentially a hook via resource rational analysis (Leider, Griffiths, ...)
 
-In our characterization of RSA reasoning, we have described agents performing various reasoning steps, talking about $L_1$ reasoning about $S_1$'s reasoning about $L_0$, etc. However, this language can sometimes prove misleading. RSA models are intended to deliver a computational-level description of the problem speakers face as they use language to communicate. As a computational-level analysis \citep{marr1982}, these models intentionally avoid pronouncements about the specific mechanisms involved in solving the problem of language understanding.
+In our characterization of RSA reasoning, we have described agents performing various reasoning steps, talking about $L_1$ reasoning about $S_1$'s reasoning about $L_0$, etc. However, this language can sometimes prove misleading. RSA models are intended to deliver a computational-level description of the problem speakers face as they use language to communicate. As a computational-level analysis \citep{marr1982}, these models intentionally avoid pronouncements about the specific mechanisms involved in solving the problem of language understanding. In other words, the RSA framework is not conceived as a model of language processing.
+
+Indeed, one may wonder about the psychological validity of the perfectly rational agents operating within an RSA model. Language users face limits on their cognitive abilities---limitations of memory, attention, and general processing resources---yet it may not be obvious where such resource limitations enter into RSA. One avenue through which resource limitations may enter is the optimality parameter $\alpha$, which control's $S_1$'s utility-maximizing behavior. As $\alpha$ decreases, $S_1$ is less likely to choose actions (i.e., utterances) with higher utility.
+
+Another avenue through which resources limitations may enter RSA is the layers of recursive reasoning steps.
+
+\mf{}Individual variability (cite Franke \& Degen)
+
+
+
+Another factor that we have yet to address in our summary of the successes of RSA is the highly incremental nature of human language processing.
+
+
 
 
 
@@ -422,7 +435,7 @@ In our characterization of RSA reasoning, we have described agents performing va
 
 \mf{}NLP (Dan Klein)
 
-\mf{}Individual variability (cite Franke \& Degen)
+
 
 
 
