@@ -392,7 +392,10 @@ Having decided what the relevant alternatives are and how to model them, the tas
 \mht{this makes salient to me the potential differences in the prior over states and the prior over meanings... i think FG12 is more about the prior over meanings, whereas Kao et al is about the prior on states... might we want a little discussion of when to think which?}
 In the generics model, \cite{tesslergoodman2019} employe two techniques: one had participants freely generate categories and then rat the prevalence of a target feature for those categories; another had participants answer targeted questions about the abstract parameters of the prior distribution and then used Bayesian data analysis to reconstruct the appropriate priors. %\gcs{how you estimated the state prior using targeting questions to determine parameters of the relevant distributions}.
 
-In some cases---for example, an analytic demonstration of a qualitative prediction---prior estimation might be unnecessary or infeasible. In such cases, one ought to make minimal assumptions, for example by assuming an uninformative, uniform prior. Uniform distributions are often used in the implementation of the prior over possible utterances. \gcs{something about the philosophy behind a uniform utterance prior?}
+\subsubsection{Utterance alternatives}
+
+In some cases---for example, an analytic demonstration of a qualitative prediction---prior estimation might be unnecessary or infeasible. In such cases, one ought to make minimal assumptions, for example by assuming an uninformative, uniform prior. Better yet, the modeler may want to demonstrate the qualitative predictions under a number of different assumptions about the shape of the prior; in this case, Uniform, Gaussian, and Beta distributions are natural choices to explore. 
+Uniform distributions are often used in the implementation of the prior over possible utterances. \gcs{something about the philosophy behind a uniform utterance prior?}
 \mht{we might want to instead talk about this uniform utterance prior rather when we talk about utterance cost}
 
 \subsubsection{Lifted variables}
@@ -401,9 +404,17 @@ In some cases---for example, an analytic demonstration of a qualitative predicti
 
 \subsection{Nuisance parameters, or parameters probably not of theoretical interest}
 
-Like the specific probabilities assigned in the various priors, other free parameters of the model must be fixed in order to generate predictions. Free parameters common to RSA include $\alpha$, which controls speaker optimality, and the various utterance cost parameters. \gcs{a note on BDA?}
+Like the specific probabilities assigned in the various priors, other free parameters of the model must be fixed in order to generate predictions. Free parameters common to RSA include $\alpha$, which controls speaker optimality, and the various utterance cost parameters. These parameters are often not of direct theoretical interest but sometimes can be informed by domain knowledge. For instance, it is often a natural assumption to assume to that the cost of an utterance is a function of either its length (which could be measured in terms of number of words, syllables, or characters) or its frequency (measured from a corpus). Unfortunately,  no comparable motivation exists for the setting of the speaker optimality parameter $\alpha$ and any effort to convince a participant that a speaker is ``not very rational'' may lead to unintended pragmatic inferences.
 
-XXX how many layers of recursion?
+%Even if a 
+
+%\cite{yoonetal2017, yoonetal2018} 
+\gcs{a note on BDA?}
+
+For the Vanilla RSA model, the number of layers of recursion can also be thought of as a free parameter. The rule of thumb has been that levels of recursion and speaker optimality trade-off with one another \mht{(Frank et al., manuscript; Peloquin et al.?  Levy cogsci 2018 paper?)} though recent analytic results argue against this simple picture \mht{(Zaslavsky, Hu, Levy, 2020 cogsci?}).
+
+
+%XXX how many layers of recursion?
 
 
 \subsection{Linking functions}
