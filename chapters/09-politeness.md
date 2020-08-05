@@ -252,7 +252,7 @@ var speaker1 = cache(function(state, phi) {
 var pragmaticListener = function(utterance) {
   Infer({model: function(){
     var state = uniformDraw(states)
-    var phi = uniformDraw([0.1, 0.3, 0.5, 0.7, 0.9])
+    var phi = uniformDraw(_.range(0.05, 0.95, 0.05))
     var S1 = speaker1(state, phi)
     observe(S1, utterance)
     return { state, phi }
@@ -260,13 +260,18 @@ var pragmaticListener = function(utterance) {
 }
 
 var listenerPosterior = pragmaticListener("good")
+// note in this case that visualizing the joint distribution via viz()
+// produces the wrong joint distribution. this is a bug in the viz() program.
+// we visualize the marginal distributions instead:
 
 display("expected state = " +
         expectation(marginalize(listenerPosterior, "state")))
+
 viz(marginalize(listenerPosterior, "state"))
 
 display("expected phi = " +
         expectation(marginalize(listenerPosterior, "phi")))
+
 viz.density(marginalize(listenerPosterior, "phi"))
 ~~~~
 
@@ -346,20 +351,17 @@ var utterances = [
   "not_terrible","not_bad","not_good","not_amazing"
 ];
 
-var states = [0, 1,2,3,];
+var states = [0, 1,2,3];
 
 var isNegation = function(utt){
   return (utt.split("_")[0] == "not")
 };
 
-var marginalize = function(dist, key){
-  return Infer({model: function(){ sample(dist)[key] }})
-}
-
-var cost_yes = 1;
-var cost_neg = 2.5;
-var speakerOptimality = 4.5;
-var speakerOptimality2 = 2;
+var cost_yes = 0;
+var cost_neg = 0.35;
+// in Yoon, Tessler, et al. (2020), the speaker optimality parameters were set to be the same value
+var speakerOptimality = 4;
+var speakerOptimality2 = 4;
 
 var round = function(x){
   return Math.round(x * 100) / 100
@@ -368,13 +370,16 @@ var round = function(x){
 var weightBins = map(round, _.range(0,1, 0.05))
 var phiWeights = repeat(weightBins.length, function(){1})
 
-var uttCosts = map(function(u) {
-  return isNegation(u) ? Math.exp(-cost_neg) : Math.exp(-cost_yes)
-}, utterances)
-
-var utterancePrior = Infer({model: function(){
-  return utterances[discrete(uttCosts)]
-}});
+var cost = function(utterance){
+  return isNegation(utterance) ? cost_neg : cost_yes
+}
+// var uttCosts = map(function(u) {
+//   return isNegation(u) ? Math.exp(-cost_neg) : Math.exp(-cost_yes)
+// }, utterances)
+//
+// var utterancePrior = Infer({model: function(){
+//   return utterances[discrete(uttCosts)]
+// }});
 
 // Parameter values = Maximum A-Posteriori values from Yoon, Tessler et al., (2018)
 var literalSemantics = {
@@ -406,7 +411,7 @@ var listener0 = cache(function(utterance) {
 var speaker1 = cache(function(state, phi) {
   Infer({model: function(){
 
-    var utterance = sample(utterancePrior);
+    var utterance = uniformDraw(utterances);
     var L0 = listener0(utterance);
 
     var utilities = {
@@ -414,9 +419,9 @@ var speaker1 = cache(function(state, phi) {
       soc: expectation(L0) // E[s]
     }
     var speakerUtility = phi * utilities.inf +
-        (1-phi) * utilities.soc;
+        (1-phi) * utilities.soc - cost(utterance);
 
-    factor(speakerOptimality*speakerUtility);
+    factor(speakerOptimality * speakerUtility);
 
     return utterance;
   }})
@@ -442,7 +447,7 @@ var listener1 = cache(function(utterance) {
 var speaker2 = function(state, phi, weights) {
   Infer({model: function(){
 
-    var utterance = sample(utterancePrior);
+    var utterance = uniformDraw(utterances);
     var L1 = listener1(utterance);
     var L1_state = marginalize(L1, "state");
     var L1_goals = marginalize(L1, "phi");
@@ -455,9 +460,9 @@ var speaker2 = function(state, phi, weights) {
 
     var totalUtility = weights.soc * utilities.soc +
         weights.pres * utilities.pres +
-        weights.inf * utilities.inf;
+        weights.inf * utilities.inf - cost(utterance);
 
-    factor(speakerOptimality * totalUtility)
+    factor(speakerOptimality2 * totalUtility)
 
     var utt = utterance.split("_")
     return {
