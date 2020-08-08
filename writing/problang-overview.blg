@@ -3,47 +3,56 @@ Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
 The top-level auxiliary file: problang-overview.aux
 The style file: sp.bst
 Database file #1: problang.bib
+Name 1 in "Crain, Stephen, and Rosalind Thornton" has a comma at the end for entry crainthornton1998
+while executing---line 1478 of file sp.bst
+Name 1 in "Crain, Stephen, and Rosalind Thornton" has a comma at the end for entry crainthornton1998
+while executing---line 1478 of file sp.bst
 Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
+Name 1 in "Crain, Stephen, and Rosalind Thornton" has a comma at the end for entry crainthornton1998
+while executing---line 1555 of file sp.bst
+Name 1 in "Crain, Stephen, and Rosalind Thornton" has a comma at the end for entry crainthornton1998
+while executing---line 1555 of file sp.bst
+Warning--empty journal in frank2016rational
 Warning--empty journal in yoonetal2018
-You've used 31 entries,
+You've used 35 entries,
             3147 wiz_defined-function locations,
-            792 strings with 9841 characters,
-and the built_in function-call counts, 19865 in all, are:
-= -- 1628
-> -- 772
-< -- 23
-+ -- 272
-- -- 234
-* -- 1315
-:= -- 3000
-add.period$ -- 129
-call.type$ -- 31
-change.case$ -- 276
-chr.to.int$ -- 36
-cite$ -- 32
-duplicate$ -- 1614
-empty$ -- 1560
-format.name$ -- 343
-if$ -- 4075
+            808 strings with 10394 characters,
+and the built_in function-call counts, 22041 in all, are:
+= -- 1796
+> -- 870
+< -- 27
++ -- 310
+- -- 264
+* -- 1458
+:= -- 3340
+add.period$ -- 144
+call.type$ -- 35
+change.case$ -- 309
+chr.to.int$ -- 40
+cite$ -- 37
+duplicate$ -- 1794
+empty$ -- 1721
+format.name$ -- 391
+if$ -- 4509
 int.to.chr$ -- 2
 int.to.str$ -- 1
-missing$ -- 315
-newline$ -- 164
-num.names$ -- 136
-pop$ -- 712
+missing$ -- 351
+newline$ -- 183
+num.names$ -- 152
+pop$ -- 810
 preamble$ -- 1
-purify$ -- 198
+purify$ -- 224
 quote$ -- 0
-skip$ -- 582
+skip$ -- 653
 stack$ -- 0
-substring$ -- 838
-swap$ -- 754
-text.length$ -- 3
+substring$ -- 882
+swap$ -- 823
+text.length$ -- 4
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 273
-warning$ -- 1
-while$ -- 133
+type$ -- 303
+warning$ -- 2
+while$ -- 146
 width$ -- 0
-write$ -- 412
-(There was 1 warning)
+write$ -- 459
+(There were 4 error messages)

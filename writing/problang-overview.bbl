@@ -1,4 +1,4 @@
-\begin{thebibliography}{31}
+\begin{thebibliography}{35}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \providecommand{\urlprefix}{}
@@ -24,6 +24,22 @@ Chierchia, Gennaro, Danny Fox \& Benjamin Spector. 2012.
   \emph{Semantics: An international handbook of natural language meaning},
   vol.~3, chap.~87, 2297--2331. Berlin: Mouton de Gruyter.
 
+\bibitem[{Chierchia \& McConnell-Ginet(2000)}]{chierchiamcconnellginet2000}
+Chierchia, Gennaro \& Sally McConnell-Ginet. 2000.
+\newblock \emph{Meaning and grammar: An introduction to semantics.}
+\newblock Cambridge, MA: MIT Press.
+
+\bibitem[{Crain \& McKee(1985)}]{crainmckee1985}
+Crain, Stephen \& Cecile McKee. 1985.
+\newblock The acquisition of structural restrictions on anaphora.
+\newblock In \emph{Proceedings of {NELS}}, vol.~15, 94--110.
+
+\bibitem[{Crain \& Thornton(1998)}]{crainthornton1998}
+Crain, Stephen \& Rosalind Thornton. 1998.
+\newblock \emph{Investigations in {U}niversal {G}rammar: A guide to research on
+  the acquisition of syntax and semantics}.
+\newblock Cambridge, MA: MIT Press.
+
 \bibitem[{Degen \& Goodman(2014)}]{degengoodman2014}
 Degen, Judith \& Noah~D Goodman. 2014.
 \newblock Lost your marbles? the puzzle of dependent measures in experimental
@@ -37,6 +53,13 @@ Degen, Judith, Michael~Henry Tessler \& Noah~D Goodman. 2015.
   odd.
 \newblock In \emph{Proceedings of the 37th annual meeting of the {C}ognitive
   {S}cience {S}ociety}, .
+
+\bibitem[{Frank et~al.(2016)Frank, Emilsson, Peloquin, Goodman \&
+  Potts}]{frank2016rational}
+Frank, Michael~C, Andres~Gomez Emilsson, Benjamin Peloquin, Noah~D Goodman \&
+  Christopher Potts. 2016.
+\newblock Rational speech act models of pragmatic reasoning in reference games
+  .
 
 \bibitem[{Frank \& Goodman(2012)}]{frankgoodman2012}
 Frank, Michael~C. \& Noah~D. Goodman. 2012.
@@ -163,12 +186,6 @@ Scontras, Gregory \& Noah~D. Goodman. 2017.
 \newblock Resolving uncertainty in plural predication.
 \newblock \emph{Cognition} 168. 294--311.
 
-\bibitem[{Tenenbaum et~al.(2011)Tenenbaum, Kemp, Griffiths \&
-  Goodman}]{tenenbaum2011grow}
-Tenenbaum, Joshua~B, Charles Kemp, Thomas~L Griffiths \& Noah~D Goodman. 2011.
-\newblock How to grow a mind: Statistics, structure, and abstraction.
-\newblock \emph{science} 331(6022). 1279--1285.
-
 \bibitem[{Tessler \& Goodman(2019)}]{tesslergoodman2019}
 Tessler, Michael~Henry \& Noah~D. Goodman. 2019.
 \newblock The language of generalization.
@@ -200,5 +217,10 @@ Yoon, Erica~J, Michael~Henry Tessler, Noah~D Goodman \& Michael~C Frank. 2018.
 \newblock Polite speech emerges from competing social goals
   \doi{10.31234/osf.io/67ne8}.
 \newblock \urlprefix\url{psyarxiv.com/67ne8}.
+
+\bibitem[{Zaslavsky et~al.(2020)Zaslavsky, Hu \& Levy}]{zaslavsky2020rate}
+Zaslavsky, Noga, Jennifer Hu \& Roger~P Levy. 2020.
+\newblock A rate-distortion view of human pragmatic reasoning.
+\newblock \emph{arXiv preprint arXiv:2005.06641} .
 
 \end{thebibliography}
