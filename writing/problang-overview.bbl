@@ -1,4 +1,5 @@
-\begin{thebibliography}{35}
+\newcommand{\SortNoop}[1]{}
+\begin{thebibliography}{37}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \providecommand{\urlprefix}{}
@@ -6,6 +7,13 @@
   \providecommand{\doi}[1]{doi:\discretionary{}{}{}#1}\else
   \providecommand{\doi}{doi:\discretionary{}{}{}\begingroup
   \urlstyle{rm}\Url}\fi
+
+\bibitem[{Benz \&
+  {\SortNoop{Rooij}}van~Rooij(2007)}]{BenzvanRooijOptimalAssertions2007}
+Benz, Anton \& Robert {\SortNoop{Rooij}}van~Rooij. 2007.
+\newblock Optimal assertions and what they implicate.
+\newblock \emph{Topoi} 26. 63--78.
+\newblock \doi{doi:10.1007/s11245-006-9007-3}.
 
 \bibitem[{Bergen et~al.(2016)Bergen, Levy \& Goodman}]{bergenetal2016}
 Bergen, Leon, Roger Levy \& Noah~D. Goodman. 2016.
@@ -65,6 +73,13 @@ Frank, Michael~C, Andres~Gomez Emilsson, Benjamin Peloquin, Noah~D Goodman \&
 Frank, Michael~C. \& Noah~D. Goodman. 2012.
 \newblock Predicting pragmatic reasoning in language games.
 \newblock \emph{Science} 336. 998--998.
+
+\bibitem[{Franke(2014)}]{Franke2014:Typical-use-of-}
+Franke, Michael. 2014.
+\newblock Typical use of quantifiers: {A} probabilistic speaker model.
+\newblock In Paul Bello, Marcello Guarini, Marjorie McShane \& Brian
+  Scassellati (eds.), \emph{Proceedings of cogsci}, 487--492. Austin, TX:
+  Cognitive Science Society.
 
 \bibitem[{Franke \& J\"{a}ger(2016)}]{frankejaeger2016}
 Franke, Michael \& Gerhard J\"{a}ger. 2016.
