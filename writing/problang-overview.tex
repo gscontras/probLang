@@ -105,7 +105,7 @@ truth-values here, but the formalism works just as well for non-binary, fuzzy va
 According to \eqref{L0}, $L_0$ hears some utterance $u$ and infers the state of the world $s$ that $u$ was
 meant to describe. $L_0$ performs this inference by restricting the set of possible states to just those that are compatible
 with the literal, truth-functional semantics of $u$.
-Thus, \eqref{L0} returns a uniform probability distribution over the states $s$ that $u$ maps to \texttt{true}.\footnote{We are presenting a version of vanilla RSA where $L_0$ does not take into account the state prior $P(s)$ in calculating the posterior over states. For more on this choice, including empirical justification, see \cite{qingfranke2015}.}
+Thus, \eqref{L0} returns a uniform probability distribution over the states $s$ that $u$ maps to \texttt{true}.\footnote{We are presenting a version of Vanilla RSA where $L_0$ does not take into account the state prior $P(s)$ in calculating the posterior over states. For more on this choice, including empirical justification, see \cite{qingfranke2015}.}
 %\mht{note: we are presenting the version of RSA where the literal listener doesn't have $P(s)$... is this a good idea?}
 %\mf{I would also argue for including world-state priors already here}
 
@@ -152,7 +152,7 @@ definition in \eqref{S1}.
 The reformulation in~\eqref{eq:S1-rewrite} shows how the speaker's choice probabilities are a
 product of three factors, each corresponding to a central postulate concerning how cooperative and, arguably, rational speakers should tailor their contributions
 to a conversation. Suppose we recast the components as follows: (i) we realize that the expression $\sem{u}(s)$ just gives us the truth-value of $u$ in state $s$, so we write this explicitly as 
-$\text{Truth}(u,s) = \sem{u}(s)$; we identify the expression $\mid \sem{u}\mid ^{-1}$ as a measure of the logical strength of $u$, because it gives us the number of states in which $u$ is true, so that we explicitly write this as  $\text{Informativity}(u) = \mid \sem{u}\mid ^{-1}$; (iii) we consider the cost $C(u)$ of utterance $u$ as a measure of efficiency of economy to optimize during production, and so explicitly write $\text{Economy(u)} = \log C(u)$, using the logarithm for mathematical convenience. We can then rewrite the speaker rule as:\footnote{For
+$\text{Truth}(u,s) = \sem{u}(s)$; we identify the expression $\mid \sem{u}\mid ^{-1}$ as a measure of the logical strength of $u$, because it gives us the number of states in which $u$ is true, so that we explicitly write this quantity as  $\text{Informativity}(u) =\ \mid \sem{u}\mid ^{-1}$; (iii) we consider the cost $C(u)$ of utterance $u$ as a measure of efficiency of economy to optimize during production, and so explicitly write $\text{Economy(u)} = \log C(u)$, using the logarithm for mathematical convenience. We can then rewrite the speaker rule as:\footnote{For
 binary truth-values, $\alpha$ can be dropped from the factor $\text{Truth}$.}
 \begin{align} \label{eq:S1-three-factor-formulation}
   P_{S_1(u\mid s)}   & \propto \text{Truth}(u,s) \ \text{Informativity}(u)^{\alpha} \ \text{Economy}(u)^{\alpha} % \propto \underbrace{\sem{u}(s)^{\alpha}}_{\text{Quantity}} \ \underbrace{\mid  \sem{u} \mid ^{-\alpha}}_{\text{Quantity}} \  \underbrace{(\log C(u))^{-\alpha}}_{\text{Manner}} & \text{\textcolor{gray}{[definition \eqref{L0}]}} \nonumber
@@ -160,17 +160,17 @@ binary truth-values, $\alpha$ can be dropped from the factor $\text{Truth}$.}
 These three factors directly capture (a formalization of) the Gricean maxims of Quality,
 Quantity, and Manner. In effect, the RSA speaker assumes that speakers (i) maximize truth
 (i.e., they utter no falsehoods if they can select at least one
-true message), (ii) maximize informativity (all else equal), and (iii) maximize utterance
-economy (all else equal). The more rational a speaker (i.e., the higher the value of the scaling parameter $\alpha$), the more
+true message; Quality), (ii) maximize informativity (all else equal; Quantity), and (iii) maximize utterance
+economy (all else equal; Manner). The more rational a speaker (i.e., the higher the value of the scaling parameter $\alpha$), the more
 pronounced the latter two optimization tendencies become. This behavior reflects the special
-status that Grice bestowed on the Maxim of Quantity: (binary) truthfulness is not affected by
+status that Grice bestowed on the Maxim of Quantity \gcs{Quality?}: (binary) truthfulness is not affected by
 the speaker's degree of optimizing informativity and costs.
 
 The formulation in \eqref{eq:S1-rewrite} highlights the ease with which it is possible to define nearby
 alternative models of speaker production, going beyond Grice's seminal work by
 capturing additional psychological factors (e.g., from a more algorithmic perspective on how speakers
 generate utterances). For instance, some applications might want to capture differences between
-utterance alternatives that are not related to production economy or cost, but rather to the
+utterance alternatives that are related not to production economy or cost, but rather to the
 ease with which an alternative utterance comes to mind. The latter factor of \emph{differential
   salience} is arguably not subject to optimization: it is not the case that the more rational
 a speaker is, the more she would tend to select only the utterances which come to mind most
@@ -186,12 +186,15 @@ factor $\text{Salience}(u)$ as an \emph{utterance prior}, suggesting an algorith
 picture of utterance choice: the speaker searches for utterances to choose, based on a gradient
 of how easy these utterances come to mind, then compares the available options (weighted by
 their salience/prominence) based on the other factors relevant for communication: truth and
-informativity. \mf{I'm not sure if this paragraph needs to go here; it might have a better
-  place elsewhere; but stressing the 'algorithmic picture' somewhere might be good} \gcs{yeah, this paragraph feels a bit out of place -- I wonder if it would be possible to tie it back more closely to the existing RSA formalism} \mf{note sure I understand what you mean,  Greg; I'd leave it here and maybe give an example of an application of this in the web-book; alternatively, we could move it to the ``variations section''}
+informativity. 
+%\mf{I'm not sure if this paragraph needs to go here; it might have a better
+%  place elsewhere; but stressing the 'algorithmic picture' somewhere might be good} \gcs{yeah, this paragraph feels a bit out of place -- I wonder if it would be possible to tie it back more closely to the existing RSA formalism} \mf{note sure I understand what you mean,  Greg; I'd leave it here and maybe give an example of an application of this in the web-book; alternatively, we could move it to the ``variations section''}
+
+\gcs{example application?}
 
 \paragraph{Informativity from alignment of beliefs.} We saw above that the Vanilla RSA
-model's definition of speaker's choice probabilities can be interpreted as a product of three
-factors that correspond closely to Gricean maxims of Quality, Quantity and Manner.
+model's definition of speakers' choice probabilities can be interpreted as a product of three
+factors that correspond closely to Gricean maxims of Quality, Quantity, and Manner.
 This interpretation is just one formal implementation; others are readily conceivable. Given the particular
 importance of informativity for many pragmatic explanations, one would be justified in further dissecting
 the way informativity is treated in the RSA model.
@@ -203,19 +206,20 @@ represented as another probability distribution $P_{L_{0}\text{-}Bel}(u)$. An ut
 than another utterance $u'$ to the extent that $P_{L_{0}\text{-}Bel}(u)$  (i.e., the listener's beliefs after hearing $u$) is
 more closely aligned with $P_{S_{1}\text{-}Bel}$ (i.e., the speaker's beliefs) than
 $P_{L_{0}\text{-}Bel}(u')$  (i.e., the listener's beliefs after hearing $u'$).
-Vanilla RSA corresponds to an implementation of ``alignment'' in terms of an information-theoretic notion of divergence between probability distributions.
+Vanilla RSA corresponds to an implementation of alignment in terms of an information-theoretic notion of divergence between probability distributions.
 Behind it all, however, is simply the idea that the speaker prefers
-utterances that best align speaker's and listener's relevant beliefs about the world.
+utterances that best align speakers' and listeners' relevant beliefs about the world.
 
-A useful notion of ``alignment of probability distributions'' is the information-theoretic
-measure of Kullback-Leibler divergence. KL-divergence is not symmetric, but considers one of
-two to-be-compared probability distributions as the ground-truth or the objective function
+A useful notion of alignment of probability distributions is the information-theoretic
+measure of Kullback-Leibler (KL) divergence. KL-divergence is not symmetric, but considers one of
+two to-be-compared probability distributions as the ground-truth, or the objective function
 to be approximated.
 This asymmetry makes sense in language understanding because it is the speaker's
 beliefs to which the listener should align. KL-divergence then measures divergence in terms of,
 essentially, the expected number of extra bits needed to encode a signal that was generated
-from the true distribution with the approximate distribution. \mf{leave out that last
-  sentence?} The Kullback-Leibler divergence between (baseline/true) probability distribution
+from the true distribution with the approximate distribution. 
+%\mf{leave out that last sentence?} 
+The Kullback-Leibler divergence between (baseline/true) probability distribution
 $P_{S_{1}\text{-}Bel}$ and (approximate/to-be-optimized) probability distribution
 $P_{L_{0}\text{-}Bel}(u)$ is defined as:
 \begin{align}
@@ -279,7 +283,7 @@ Both of these applications---plural predication and quantifier scope ambiguity--
 
 The technology we have considered up to now allows for the pragmatic enrichment of utterances: from ``blue'' to ``blue square'' or from vague ``expensive'' to ``expensive'' with a contextually-determined price threshold. However, given that $S_1$'s utility relies on successfully communicating the observed $s$ to $L_0$ (i.e., on informativity), our enrichments can only ever be literal---we have no way for ``blue'' to be interpreted as ``green''. But many instances of everyday language use are, strictly speaking, non-literal. For example, if you hear that someone paid ``a million dollars'' for their coffee at the hipster hangout, you are unlikely to infer that the actual price paid was \$1,000,000. Rather, you infer that the price was high and that the speaker is, to put it mildly, less than thrilled.
 
-To allow for enrichments beyond the literal meaning, we must broaden $S_1$'s goals beyond informativity with respect to $s$. One way of conceiving of speaker goals is in terms of the Question Under Discussion (QUD) the speaker aims to answer. Under certain theories of pragmatics, all discourse proceeds with respect to some QUD \citep{roberts2012}; utterances in the discourse must at least partially answer the QUD in order to be cooperative and felicitous. By allowing for a broader range of QUDs and uncertainty around which QUD is intended, vanilla RSA may be extended to capture uses of non-literal language.
+To allow for enrichments beyond the literal meaning, we must broaden $S_1$'s goals beyond informativity with respect to $s$. One way of conceiving of speaker goals is in terms of the Question Under Discussion (QUD) the speaker aims to answer. Under certain theories of pragmatics, all discourse proceeds with respect to some QUD \citep{roberts2012}; utterances in the discourse must at least partially answer the QUD in order to be cooperative and felicitous. By allowing for a broader range of QUDs and uncertainty around which QUD is intended, Vanilla RSA may be extended to capture uses of non-literal language.
 
 As was the case with meaning inference in the previous subsection, we can illustrate this innovation by highlighting its effect on the vanilla utterance-choice rule. In \eqref{S1-QUD}, $S_1$'s utility continues to break down into informativity and economy components. However, now \textbf{x} determines what it is that $S_1$ endeavors to communicate to $L_0$. Viewed as the QUD, \textbf{x} serves to map $s$ to the answer to \textbf{x} that $S_1$ would like to communicate to $L_0$.
 \begin{equation} \label{S1-QUD}
