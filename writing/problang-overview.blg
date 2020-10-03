@@ -14,45 +14,45 @@ Name 1 in "Crain, Stephen, and Rosalind Thornton" has a comma at the end for ent
 while executing---line 1555 of file sp.bst
 Warning--empty journal in frank2016rational
 Warning--empty journal in yoonetal2018
-You've used 37 entries,
+You've used 39 entries,
             3147 wiz_defined-function locations,
-            827 strings with 10888 characters,
-and the built_in function-call counts, 23431 in all, are:
-= -- 1917
-> -- 914
-< -- 29
-+ -- 325
-- -- 277
-* -- 1546
-:= -- 3544
-add.period$ -- 154
-call.type$ -- 37
-change.case$ -- 325
-chr.to.int$ -- 42
-cite$ -- 39
-duplicate$ -- 1908
-empty$ -- 1833
-format.name$ -- 411
-if$ -- 4799
+            839 strings with 11315 characters,
+and the built_in function-call counts, 25006 in all, are:
+= -- 2043
+> -- 988
+< -- 30
++ -- 350
+- -- 300
+* -- 1660
+:= -- 3775
+add.period$ -- 163
+call.type$ -- 39
+change.case$ -- 345
+chr.to.int$ -- 44
+cite$ -- 41
+duplicate$ -- 2032
+empty$ -- 1950
+format.name$ -- 443
+if$ -- 5125
 int.to.chr$ -- 2
 int.to.str$ -- 1
-missing$ -- 375
-newline$ -- 195
-num.names$ -- 162
-pop$ -- 855
+missing$ -- 400
+newline$ -- 205
+num.names$ -- 172
+pop$ -- 908
 preamble$ -- 2
-purify$ -- 235
+purify$ -- 250
 quote$ -- 0
-skip$ -- 691
+skip$ -- 732
 stack$ -- 0
-substring$ -- 955
-swap$ -- 884
+substring$ -- 1026
+swap$ -- 951
 text.length$ -- 4
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 321
+type$ -- 339
 warning$ -- 2
-while$ -- 158
+while$ -- 168
 width$ -- 0
-write$ -- 489
+write$ -- 516
 (There were 4 error messages)

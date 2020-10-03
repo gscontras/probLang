@@ -1,5 +1,5 @@
 \newcommand{\SortNoop}[1]{}
-\begin{thebibliography}{37}
+\begin{thebibliography}{39}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \providecommand{\urlprefix}{}
@@ -54,6 +54,14 @@ Degen, Judith \& Noah~D Goodman. 2014.
   pragmatics.
 \newblock In \emph{Proceedings of the 36th annual conference of the {C}ognitive
   {S}cience {S}ociety}, 397--402.
+
+\bibitem[{Degen et~al.(2020)Degen, Hawkins, Graf, Kreiss \&
+  Goodman}]{degenetal2020}
+Degen, Judith, Robert~X.D. Hawkins, Caroline Graf, Elisa Kreiss \& Noah~D.
+  Goodman. 2020.
+\newblock When redundancy is useful: A {B}ayesian approach to `overinformative'
+  referring expressions.
+\newblock \emph{Psychological Review} 127(4). 591--621.
 
 \bibitem[{Degen et~al.(2015)Degen, Tessler \& Goodman}]{degen2015wonky}
 Degen, Judith, Michael~Henry Tessler \& Noah~D Goodman. 2015.
@@ -173,6 +181,13 @@ Montague, Richard. 1973.
 \newblock In K~J~J Hintikka, J~M~E Moravcsik \& P~Suppes (eds.),
   \emph{Approaches to natural language}, vol.~49 Synthese Library, 221--242.
   Dordrecht: Reidel.
+
+\bibitem[{Qing \& Franke(2015)}]{qingfranke2015}
+Qing, Ciyang \& Michael Franke. 2015.
+\newblock Variations on a {B}ayesian theme: Comparing {B}ayesian models of
+  referential reasoning.
+\newblock In H.~Zeevat \& H.-C. Schmitz (eds.), \emph{Bayesian natural language
+  semantics and pragmatics}, 201--220. Springer.
 
 \bibitem[{Roberts(2012)}]{roberts2012}
 Roberts, Craige. 2012.
