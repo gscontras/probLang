@@ -1,5 +1,5 @@
 \newcommand{\SortNoop}[1]{}
-\begin{thebibliography}{39}
+\begin{thebibliography}{43}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \providecommand{\urlprefix}{}
@@ -19,6 +19,14 @@ Benz, Anton \& Robert {\SortNoop{Rooij}}van~Rooij. 2007.
 Bergen, Leon, Roger Levy \& Noah~D. Goodman. 2016.
 \newblock Pragmatic reasoning through semantic inference.
 \newblock \emph{Semantics and Pragmatics} 9(20).
+
+\bibitem[{Bohn et~al.(2019)Bohn, Tessler, Merrick \&
+  Frank}]{bohn2019predicting}
+Bohn, Manuel, Michael~H Tessler, Megan Merrick \& Michael~C Frank. 2019.
+\newblock Predicting pragmatic cue integration in adults' and children's
+  inferences about novel word meanings.
+\newblock In \emph{Proceedings of the 41st annual conference of the {C}ognitive
+  {S}cience {S}ociety}, Cognitive Science Society.
 
 \bibitem[{Brown \& Levinson(1987)}]{brown1987politeness}
 Brown, Penelope \& Stephen~C Levinson. 1987.
@@ -95,6 +103,13 @@ Franke, Michael \& Gerhard J\"{a}ger. 2016.
   for pragmatics.
 \newblock \emph{Zeitschrift f\"{u}r Sprachwissenschaf} 35. 3--44.
 
+\bibitem[{Gelman et~al.(2013)Gelman, Carlin, Stern, Dunson, Vehtari \&
+  Rubin}]{gelman2013bayesian}
+Gelman, Andrew, John~B Carlin, Hal~S Stern, David~B Dunson, Aki Vehtari \&
+  Donald~B Rubin. 2013.
+\newblock \emph{Bayesian data analysis}.
+\newblock CRC press.
+
 \bibitem[{Goodman \& Frank(2016)}]{goodmanfrank2016}
 Goodman, Noah~D. \& Michael~C. Frank. 2016.
 \newblock Pragmatic language interpretation as probabilistic inference.
@@ -162,12 +177,23 @@ Kao, Justine~T, Jean~Y Wu, Leon Bergen \& Noah~D. Goodman. 2014{\natexlab{b}}.
 \newblock \emph{Proceedings of the National Academy of Sciences of the United
   States of America} 111. 12002--12007.
 
+\bibitem[{Kruschke(2014)}]{kruschke2014doing}
+Kruschke, John. 2014.
+\newblock \emph{Doing bayesian data analysis: A tutorial with r, jags, and
+  stan}.
+\newblock Academic Press.
+
 \bibitem[{Lassiter \& Goodman(2013)}]{lassitergoodman2013}
 Lassiter, Daniel \& Noah~D. Goodman. 2013.
 \newblock Context, scale structure, and statistics in the interpretation of
   positive-form adjectives.
 \newblock In Todd Snider (ed.), \emph{Proceedings of {SALT} 23}, 587--610. CLC
   Publications.
+
+\bibitem[{Lee \& Wagenmakers(2014)}]{lee2014bayesian}
+Lee, Michael~D \& Eric-Jan Wagenmakers. 2014.
+\newblock \emph{Bayesian cognitive modeling: A practical course}.
+\newblock Cambridge university press.
 
 \bibitem[{Marr(1982)}]{marr1982}
 Marr, David. 1982.
@@ -242,9 +268,10 @@ Yoon, Erica~J, Michael~Henry Tessler, Noah~D Goodman \& Michael~C Frank. 2017.
 \newblock In \emph{Proceedings of the thirty-ninth annual conference of the
   {C}ognitive {S}cience {S}ociety}, .
 
-\bibitem[{Yoon et~al.(2018)Yoon, Tessler, Goodman \& Frank}]{yoonetal2018}
-Yoon, Erica~J, Michael~Henry Tessler, Noah~D Goodman \& Michael~C Frank. 2018.
-\newblock Polite speech emerges from competing social goals
+\bibitem[{Yoon et~al.(2020)Yoon, Tessler, Goodman \& Frank}]{yoonetal2020}
+Yoon, Erica~J, Michael~Henry Tessler, Noah~D Goodman \& Michael~C Frank. 2020.
+\newblock Polite speech emerges from competing social goals.
+\newblock \emph{Open Mind: Discoveries in Cognitive Science}
   \doi{10.31234/osf.io/67ne8}.
 \newblock \urlprefix\url{psyarxiv.com/67ne8}.
 

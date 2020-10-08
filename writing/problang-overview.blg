@@ -13,46 +13,45 @@ while executing---line 1555 of file sp.bst
 Name 1 in "Crain, Stephen, and Rosalind Thornton" has a comma at the end for entry crainthornton1998
 while executing---line 1555 of file sp.bst
 Warning--empty journal in frank2016rational
-Warning--empty journal in yoonetal2018
-You've used 39 entries,
+You've used 43 entries,
             3147 wiz_defined-function locations,
-            839 strings with 11315 characters,
-and the built_in function-call counts, 25006 in all, are:
-= -- 2043
-> -- 988
-< -- 30
-+ -- 350
-- -- 300
-* -- 1660
-:= -- 3775
-add.period$ -- 163
-call.type$ -- 39
-change.case$ -- 345
-chr.to.int$ -- 44
-cite$ -- 41
-duplicate$ -- 2032
-empty$ -- 1950
-format.name$ -- 443
-if$ -- 5125
+            854 strings with 11982 characters,
+and the built_in function-call counts, 27311 in all, are:
+= -- 2207
+> -- 1113
+< -- 32
++ -- 393
+- -- 339
+* -- 1814
+:= -- 4144
+add.period$ -- 180
+call.type$ -- 43
+change.case$ -- 381
+chr.to.int$ -- 48
+cite$ -- 44
+duplicate$ -- 2216
+empty$ -- 2124
+format.name$ -- 494
+if$ -- 5581
 int.to.chr$ -- 2
 int.to.str$ -- 1
-missing$ -- 400
-newline$ -- 205
-num.names$ -- 172
-pop$ -- 908
+missing$ -- 442
+newline$ -- 226
+num.names$ -- 188
+pop$ -- 1010
 preamble$ -- 2
-purify$ -- 250
+purify$ -- 279
 quote$ -- 0
-skip$ -- 732
+skip$ -- 794
 stack$ -- 0
-substring$ -- 1026
-swap$ -- 951
+substring$ -- 1070
+swap$ -- 1026
 text.length$ -- 4
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 339
-warning$ -- 2
-while$ -- 168
+type$ -- 366
+warning$ -- 1
+while$ -- 180
 width$ -- 0
-write$ -- 516
+write$ -- 567
 (There were 4 error messages)
