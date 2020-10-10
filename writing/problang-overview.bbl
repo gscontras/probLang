@@ -1,5 +1,5 @@
 \newcommand{\SortNoop}[1]{}
-\begin{thebibliography}{43}
+\begin{thebibliography}{41}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \providecommand{\urlprefix}{}
@@ -19,14 +19,6 @@ Benz, Anton \& Robert {\SortNoop{Rooij}}van~Rooij. 2007.
 Bergen, Leon, Roger Levy \& Noah~D. Goodman. 2016.
 \newblock Pragmatic reasoning through semantic inference.
 \newblock \emph{Semantics and Pragmatics} 9(20).
-
-\bibitem[{Bohn et~al.(2019)Bohn, Tessler, Merrick \&
-  Frank}]{bohn2019predicting}
-Bohn, Manuel, Michael~H Tessler, Megan Merrick \& Michael~C Frank. 2019.
-\newblock Predicting pragmatic cue integration in adults' and children's
-  inferences about novel word meanings.
-\newblock In \emph{Proceedings of the 41st annual conference of the {C}ognitive
-  {S}cience {S}ociety}, Cognitive Science Society.
 
 \bibitem[{Brown \& Levinson(1987)}]{brown1987politeness}
 Brown, Penelope \& Stephen~C Levinson. 1987.
@@ -103,13 +95,6 @@ Franke, Michael \& Gerhard J\"{a}ger. 2016.
   for pragmatics.
 \newblock \emph{Zeitschrift f\"{u}r Sprachwissenschaf} 35. 3--44.
 
-\bibitem[{Gelman et~al.(2013)Gelman, Carlin, Stern, Dunson, Vehtari \&
-  Rubin}]{gelman2013bayesian}
-Gelman, Andrew, John~B Carlin, Hal~S Stern, David~B Dunson, Aki Vehtari \&
-  Donald~B Rubin. 2013.
-\newblock \emph{Bayesian data analysis}.
-\newblock CRC press.
-
 \bibitem[{Goodman \& Frank(2016)}]{goodmanfrank2016}
 Goodman, Noah~D. \& Michael~C. Frank. 2016.
 \newblock Pragmatic language interpretation as probabilistic inference.
@@ -177,23 +162,12 @@ Kao, Justine~T, Jean~Y Wu, Leon Bergen \& Noah~D. Goodman. 2014{\natexlab{b}}.
 \newblock \emph{Proceedings of the National Academy of Sciences of the United
   States of America} 111. 12002--12007.
 
-\bibitem[{Kruschke(2014)}]{kruschke2014doing}
-Kruschke, John. 2014.
-\newblock \emph{Doing bayesian data analysis: A tutorial with r, jags, and
-  stan}.
-\newblock Academic Press.
-
 \bibitem[{Lassiter \& Goodman(2013)}]{lassitergoodman2013}
 Lassiter, Daniel \& Noah~D. Goodman. 2013.
 \newblock Context, scale structure, and statistics in the interpretation of
   positive-form adjectives.
 \newblock In Todd Snider (ed.), \emph{Proceedings of {SALT} 23}, 587--610. CLC
   Publications.
-
-\bibitem[{Lee \& Wagenmakers(2014)}]{lee2014bayesian}
-Lee, Michael~D \& Eric-Jan Wagenmakers. 2014.
-\newblock \emph{Bayesian cognitive modeling: A practical course}.
-\newblock Cambridge university press.
 
 \bibitem[{Marr(1982)}]{marr1982}
 Marr, David. 1982.
@@ -242,6 +216,28 @@ Scontras, Gregory \& Noah~D. Goodman. 2017.
 \newblock Resolving uncertainty in plural predication.
 \newblock \emph{Cognition} 168. 294--311.
 
+\bibitem[{Sedivy(2007)}]{sedivy2007}
+Sedivy, Julie~C. 2007.
+\newblock Implicature during real time conversation: A view from language
+  processing research.
+\newblock \emph{Philosophy Compass} 2(3). 475--496.
+
+\bibitem[{Sedivy et~al.(1999)Sedivy, Tanenhaus, Chambers \&
+  Carlson}]{sedivyetal1999}
+Sedivy, Julie~C., Michael~K. Tanenhaus, Craig~G. Chambers \& Gergory~N.
+  Carlson. 1999.
+\newblock Achieving incremental semantic interpretation through contextual
+  representation.
+\newblock \emph{Cognition} 71. 109--147.
+\newblock \doi{10.1016/S0010-0277(99)00025-6}.
+
+\bibitem[{Tanenhaus et~al.(1995)Tanenhaus, Spivey-Knowlton, Eberhard \&
+  Sedivy}]{tanenhausetal1995}
+Tanenhaus, M.K., M.J. Spivey-Knowlton, K.M. Eberhard \& J.C. Sedivy. 1995.
+\newblock Integration of visual and linguistic information in spoken language
+  comprehension.
+\newblock \emph{Science} 268(5217). 1632--1634.
+
 \bibitem[{Tessler \& Goodman(2019)}]{tesslergoodman2019}
 Tessler, Michael~Henry \& Noah~D. Goodman. 2019.
 \newblock The language of generalization.
@@ -267,13 +263,6 @@ Yoon, Erica~J, Michael~Henry Tessler, Noah~D Goodman \& Michael~C Frank. 2017.
 \newblock ``i won't lie, it wasn't amazing'': Modeling polite indirect speech.
 \newblock In \emph{Proceedings of the thirty-ninth annual conference of the
   {C}ognitive {S}cience {S}ociety}, .
-
-\bibitem[{Yoon et~al.(2020)Yoon, Tessler, Goodman \& Frank}]{yoonetal2020}
-Yoon, Erica~J, Michael~Henry Tessler, Noah~D Goodman \& Michael~C Frank. 2020.
-\newblock Polite speech emerges from competing social goals.
-\newblock \emph{Open Mind: Discoveries in Cognitive Science}
-  \doi{10.31234/osf.io/67ne8}.
-\newblock \urlprefix\url{psyarxiv.com/67ne8}.
 
 \bibitem[{Zaslavsky et~al.(2020)Zaslavsky, Hu \& Levy}]{zaslavsky2020rate}
 Zaslavsky, Noga, Jennifer Hu \& Roger~P Levy. 2020.
