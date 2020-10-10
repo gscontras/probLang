@@ -1,5 +1,5 @@
 \newcommand{\SortNoop}[1]{}
-\begin{thebibliography}{41}
+\begin{thebibliography}{42}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \providecommand{\urlprefix}{}
@@ -36,6 +36,13 @@ Chierchia, Gennaro, Danny Fox \& Benjamin Spector. 2012.
 Chierchia, Gennaro \& Sally McConnell-Ginet. 2000.
 \newblock \emph{Meaning and grammar: An introduction to semantics.}
 \newblock Cambridge, MA: MIT Press.
+
+\bibitem[{Cohn-Gordon et~al.(2019)Cohn-Gordon, Goodman \&
+  Potts}]{cohngordgonetal2019}
+Cohn-Gordon, Reuben, Noah~D. Goodman \& Christopher Potts. 2019.
+\newblock An incremental iterated response model of pragmatics.
+\newblock In \emph{Proceedings of the {S}ociety for {C}omputation in
+  {L}inguistics ({SCiL}) 2019}, 81--90.
 
 \bibitem[{Crain \& McKee(1985)}]{crainmckee1985}
 Crain, Stephen \& Cecile McKee. 1985.
