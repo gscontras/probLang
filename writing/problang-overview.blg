@@ -3,11 +3,6 @@ Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: problang-overview.aux
 The style file: sp.bst
 Database file #1: problang.bib
-Warning--I didn't find a database entry for "gelman2013bayesian"
-Warning--I didn't find a database entry for "kruschke2014doing"
-Warning--I didn't find a database entry for "lee2014bayesian"
-Warning--I didn't find a database entry for "yoonetal2020"
-Warning--I didn't find a database entry for "bohn2019predicting"
 Name 1 in "Crain, Stephen, and Rosalind Thornton" has a comma at the end for entry crainthornton1998
 while executing---line 1478 of file sp.bst
 Name 1 in "Crain, Stephen, and Rosalind Thornton" has a comma at the end for entry crainthornton1998
@@ -18,45 +13,45 @@ while executing---line 1555 of file sp.bst
 Name 1 in "Crain, Stephen, and Rosalind Thornton" has a comma at the end for entry crainthornton1998
 while executing---line 1555 of file sp.bst
 Warning--empty journal in frank2016rational
-You've used 42 entries,
+You've used 57 entries,
             3147 wiz_defined-function locations,
-            864 strings with 12052 characters,
-and the built_in function-call counts, 27082 in all, are:
-= -- 2214
-> -- 1066
-< -- 31
-+ -- 379
-- -- 324
-* -- 1797
-:= -- 4085
-add.period$ -- 176
-call.type$ -- 42
-change.case$ -- 371
-chr.to.int$ -- 47
-cite$ -- 43
-duplicate$ -- 2195
-empty$ -- 2119
-format.name$ -- 474
-if$ -- 5557
-int.to.chr$ -- 2
+            931 strings with 14474 characters,
+and the built_in function-call counts, 36413 in all, are:
+= -- 2932
+> -- 1528
+< -- 37
++ -- 541
+- -- 468
+* -- 2470
+:= -- 5534
+add.period$ -- 237
+call.type$ -- 57
+change.case$ -- 506
+chr.to.int$ -- 61
+cite$ -- 58
+duplicate$ -- 2937
+empty$ -- 2808
+format.name$ -- 671
+if$ -- 7390
+int.to.chr$ -- 3
 int.to.str$ -- 1
-missing$ -- 433
-newline$ -- 221
-num.names$ -- 184
-pop$ -- 969
+missing$ -- 590
+newline$ -- 297
+num.names$ -- 244
+pop$ -- 1325
 preamble$ -- 2
-purify$ -- 270
+purify$ -- 378
 quote$ -- 0
-skip$ -- 785
+skip$ -- 1013
 stack$ -- 0
-substring$ -- 1150
-swap$ -- 1035
+substring$ -- 1469
+swap$ -- 1372
 text.length$ -- 4
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 366
+type$ -- 492
 warning$ -- 1
-while$ -- 182
+while$ -- 239
 width$ -- 0
-write$ -- 557
+write$ -- 748
 (There were 4 error messages)

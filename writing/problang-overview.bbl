@@ -1,5 +1,5 @@
 \newcommand{\SortNoop}[1]{}
-\begin{thebibliography}{42}
+\begin{thebibliography}{57}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \providecommand{\urlprefix}{}
@@ -7,6 +7,11 @@
   \providecommand{\doi}[1]{doi:\discretionary{}{}{}#1}\else
   \providecommand{\doi}{doi:\discretionary{}{}{}\begingroup
   \urlstyle{rm}\Url}\fi
+
+\bibitem[{Akhtar et~al.(1996)Akhtar, Carpenter \& Tomasello}]{akhtar1996role}
+Akhtar, Nameera, Malinda Carpenter \& Michael Tomasello. 1996.
+\newblock The role of discourse novelty in early word learning.
+\newblock \emph{Child Development} 67(2). 635--645.
 
 \bibitem[{Benz \&
   {\SortNoop{Rooij}}van~Rooij(2007)}]{BenzvanRooijOptimalAssertions2007}
@@ -19,6 +24,23 @@ Benz, Anton \& Robert {\SortNoop{Rooij}}van~Rooij. 2007.
 Bergen, Leon, Roger Levy \& Noah~D. Goodman. 2016.
 \newblock Pragmatic reasoning through semantic inference.
 \newblock \emph{Semantics and Pragmatics} 9(20).
+
+\bibitem[{Bohn et~al.(2019{\natexlab{a}})Bohn, Tessler, Merrick \&
+  Frank}]{bohn2019predicting}
+Bohn, Manuel, Michael~H Tessler, Megan Merrick \& Michael~C Frank.
+  2019{\natexlab{a}}.
+\newblock Predicting pragmatic cue integration in adults' and children's
+  inferences about novel word meanings.
+\newblock In \emph{Proceedings of the 41st annual conference of the {C}ognitive
+  {S}cience {S}ociety}, Cognitive Science Society.
+
+\bibitem[{Bohn et~al.(2019{\natexlab{b}})Bohn, Tessler \&
+  Frank}]{bohn2019integrating}
+Bohn, Manuel, Michael~Henry Tessler \& Michael~C Frank. 2019{\natexlab{b}}.
+\newblock Integrating common ground and informativeness in pragmatic word
+  learning.
+\newblock In \emph{Proceedings of the 41st annual meeting of the {C}ognitive
+  {S}cience {S}ociety}, .
 
 \bibitem[{Brown \& Levinson(1987)}]{brown1987politeness}
 Brown, Penelope \& Stephen~C Levinson. 1987.
@@ -36,6 +58,11 @@ Chierchia, Gennaro, Danny Fox \& Benjamin Spector. 2012.
 Chierchia, Gennaro \& Sally McConnell-Ginet. 2000.
 \newblock \emph{Meaning and grammar: An introduction to semantics.}
 \newblock Cambridge, MA: MIT Press.
+
+\bibitem[{Clark \& Wilkes-Gibbs(1986)}]{clark1986referring}
+Clark, Herbert~H \& Deanna Wilkes-Gibbs. 1986.
+\newblock Referring as a collaborative process.
+\newblock \emph{Cognition} 22(1). 1--39.
 
 \bibitem[{Cohn-Gordon et~al.(2019)Cohn-Gordon, Goodman \&
   Potts}]{cohngordgonetal2019}
@@ -89,6 +116,11 @@ Frank, Michael~C. \& Noah~D. Goodman. 2012.
 \newblock Predicting pragmatic reasoning in language games.
 \newblock \emph{Science} 336. 998--998.
 
+\bibitem[{Frank \& Goodman(2014)}]{frank2014inferring}
+Frank, Michael~C \& Noah~D Goodman. 2014.
+\newblock Inferring word meanings by assuming that speakers are informative.
+\newblock \emph{Cognitive psychology} 75. 80--96.
+
 \bibitem[{Franke(2014)}]{Franke2014:Typical-use-of-}
 Franke, Michael. 2014.
 \newblock Typical use of quantifiers: {A} probabilistic speaker model.
@@ -96,11 +128,27 @@ Franke, Michael. 2014.
   Scassellati (eds.), \emph{Proceedings of cogsci}, 487--492. Austin, TX:
   Cognitive Science Society.
 
+\bibitem[{Franke et~al.(2016)Franke, Dablander, Sch{\"o}ller, Bennett, Degen,
+  Tessler, Kao \& Goodman}]{franke2016does}
+Franke, Michael, Fabian Dablander, Anthea Sch{\"o}ller, Erin Bennett, Judith
+  Degen, Michael~Henry Tessler, Justine~T Kao \& Noah~D Goodman. 2016.
+\newblock What does the crowd believe? a hierarchical approach to estimating
+  subjective beliefs from empirical data.
+\newblock In \emph{Proceedings of the thirty-eighth annual conference of the
+  {C}ognitive {S}cience {S}ociety}, .
+
 \bibitem[{Franke \& J\"{a}ger(2016)}]{frankejaeger2016}
 Franke, Michael \& Gerhard J\"{a}ger. 2016.
 \newblock Probabilistic pragmatics, or why {B}ayes' rule is probably important
   for pragmatics.
 \newblock \emph{Zeitschrift f\"{u}r Sprachwissenschaf} 35. 3--44.
+
+\bibitem[{Gelman et~al.(2013)Gelman, Carlin, Stern, Dunson, Vehtari \&
+  Rubin}]{gelman2013bayesian}
+Gelman, Andrew, John~B Carlin, Hal~S Stern, David~B Dunson, Aki Vehtari \&
+  Donald~B Rubin. 2013.
+\newblock \emph{Bayesian data analysis}.
+\newblock CRC press.
 
 \bibitem[{Goodman \& Frank(2016)}]{goodmanfrank2016}
 Goodman, Noah~D. \& Michael~C. Frank. 2016.
@@ -130,6 +178,19 @@ Grice, Paul~Herbert. 1975.
 \newblock Logic and conversation.
 \newblock In Peter Cole \& Jerry~L. Morgan (eds.), \emph{Syntax and semantics,
   vol.~3, speech acts}, 41--58. New York: Academic Press.
+
+\bibitem[{Hawkins et~al.(2020)Hawkins, Frank \&
+  Goodman}]{hawkins2020characterizing}
+Hawkins, Robert~D, Michael~C Frank \& Noah~D Goodman. 2020.
+\newblock Characterizing the dynamics of learning in repeated reference games.
+\newblock \emph{Cognitive Science} 44(6). e12845.
+
+\bibitem[{Hawkins et~al.(2017)Hawkins, Frank \&
+  Goodman}]{hawkins2017convention}
+Hawkins, Robert~XD, Mike Frank \& Noah~D Goodman. 2017.
+\newblock Convention-formation in iterated reference games.
+\newblock In \emph{Proceedings of the thirty-ninth annual conference of the
+  {C}ognitive {S}cience {S}ociety}, .
 
 \bibitem[{Horn(1984)}]{horn1984}
 Horn, Laurence. 1984.
@@ -169,12 +230,29 @@ Kao, Justine~T, Jean~Y Wu, Leon Bergen \& Noah~D. Goodman. 2014{\natexlab{b}}.
 \newblock \emph{Proceedings of the National Academy of Sciences of the United
   States of America} 111. 12002--12007.
 
+\bibitem[{Kruschke(2014)}]{kruschke2014doing}
+Kruschke, John. 2014.
+\newblock \emph{Doing bayesian data analysis: A tutorial with r, jags, and
+  stan}.
+\newblock Academic Press.
+
 \bibitem[{Lassiter \& Goodman(2013)}]{lassitergoodman2013}
 Lassiter, Daniel \& Noah~D. Goodman. 2013.
 \newblock Context, scale structure, and statistics in the interpretation of
   positive-form adjectives.
 \newblock In Todd Snider (ed.), \emph{Proceedings of {SALT} 23}, 587--610. CLC
   Publications.
+
+\bibitem[{Lee \& Wagenmakers(2014)}]{lee2014bayesian}
+Lee, Michael~D \& Eric-Jan Wagenmakers. 2014.
+\newblock \emph{Bayesian cognitive modeling: A practical course}.
+\newblock Cambridge university press.
+
+\bibitem[{Markman \& Wachtel(1988)}]{markman1988children}
+Markman, Ellen~M \& Gwyn~F Wachtel. 1988.
+\newblock Children's use of mutual exclusivity to constrain the meanings of
+  words.
+\newblock \emph{Cognitive psychology} 20(2). 121--157.
 
 \bibitem[{Marr(1982)}]{marr1982}
 Marr, David. 1982.
@@ -217,6 +295,18 @@ Savinelli, K.J., Gregory Scontras \& Lisa Pearl. 2018.
   Developmental continuity and numeral semantics.
 \newblock In \emph{Proceedings of the 8th workshop on cognitive modeling and
   computational linguistics ({CMCL} 2018)}, 67--75.
+
+\bibitem[{Schulze et~al.(2013)Schulze, Grassmann \& Tomasello}]{schulze2013}
+Schulze, Cornelia, Susanne Grassmann \& Michael Tomasello. 2013.
+\newblock 3-year-old children make relevance inferences in indirect verbal
+  communication.
+\newblock \emph{Child development} 84(6). 2079--2093.
+
+\bibitem[{Schuster \& Degen(2020)}]{schuster2020know}
+Schuster, Sebastian \& Judith Degen. 2020.
+\newblock I know what you're probably going to say: Listener adaptation to
+  variable use of uncertainty expressions.
+\newblock \emph{Cognition} 203. 104285.
 
 \bibitem[{Scontras \& Goodman(2017)}]{scontrasgoodman2017}
 Scontras, Gregory \& Noah~D. Goodman. 2017.
@@ -270,6 +360,13 @@ Yoon, Erica~J, Michael~Henry Tessler, Noah~D Goodman \& Michael~C Frank. 2017.
 \newblock ``i won't lie, it wasn't amazing'': Modeling polite indirect speech.
 \newblock In \emph{Proceedings of the thirty-ninth annual conference of the
   {C}ognitive {S}cience {S}ociety}, .
+
+\bibitem[{Yoon et~al.(2020)Yoon, Tessler, Goodman \& Frank}]{yoonetal2020}
+Yoon, Erica~J, Michael~Henry Tessler, Noah~D Goodman \& Michael~C Frank. 2020.
+\newblock Polite speech emerges from competing social goals.
+\newblock \emph{Open Mind: Discoveries in Cognitive Science}
+  \doi{10.31234/osf.io/67ne8}.
+\newblock \urlprefix\url{psyarxiv.com/67ne8}.
 
 \bibitem[{Zaslavsky et~al.(2020)Zaslavsky, Hu \& Levy}]{zaslavsky2020rate}
 Zaslavsky, Noga, Jennifer Hu \& Roger~P Levy. 2020.
