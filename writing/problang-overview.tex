@@ -275,7 +275,14 @@ P_{L_1}(s \mid u, \textbf{x}) \propto P_{S_1}(u \mid s, \text{x}) \cdot P(s) \cd
 
 It is up to the pragmatic listener, $L_1$, to resolve the uncertainty surrounding \textbf{x}. To do so, $L_1$ hears the utterance and jointly infers both the state of the world (i.e., the weight of the state being described) and the relevant heaviness threshold. $L_1$ performs this inference just as in the vanilla model: which state and threshold would have been most likely to lead $S_1$ to select the utterance that $L_1$ encountered? In other words, $L_1$ simulates $S_1$'s behavior for the possible combinations of states and thresholds, then weights states and thresholds in proportion to the probability that they would lead $S_1$ to choose the utterance that was encountered.
 
-\mht{mention how this same mechanism is used for generics?} \mf{yes, if possible in one or two short sentences!?}
+A similar threshold inference mechanism can be used to formalize the truth conditions of generic statements (e.g., \emph{Birds fly}), whose relation to the within-category property prevalence (i.e., the \% of birds that fly) has been historically hard to pin down (e.g., not all birds fly). 
+Similar to the gradable adjectives model, the generics model adopts a threshold semantics where the generic is true just in case the prevalence of the feature $f$ within the category $k$ exceeds the relevant threshold \sem{generic}$^{\textbf{x}}$ = \lam f. \lam k. $P(f \mid k)$ $>$ \textbf{x}.
+Then, pragmatic reasoning can be used to jointly determine the prevalence  $P(f \mid k)$ as well as the threshold $\textbf{x}$ \citep{tesslergoodman2019}.\footnote{
+\cite{tesslergoodman2019} actually use a reduced version of this model where the threshold inference occurs at the level of the literal listener as opposed to the pragmatic listener. \cite{goodmanlassiter2015handbook} argued through simulation that threshold inference at the level of the literal listener results in interpretations that are too weak.
+Their simulations, however, did not consider the kinds of state priors that are relevant for generics (see Section \ref{practicalities-prior} for further details on state priors for generics). 
+It remains an open empirical question whether threshold inference at the level of the literal~vs.~pragmatic listener is preferred.
+}
+%\mht{mention how this same mechanism is used for generics?} \mf{yes, if possible in one or two short sentences!?}
 
 This technology---parameterization of the utterance semantics subject to pragmatic reasoning---allows for a recasting of the division of labor between semantics and pragmatics. With lexical uncertainty, the semantic content of an utterance can be (at least partially) determined via pragmatic inference. \cite{bergenetal2016} seize on this innovation to model M-implicatures \citep{horn1984} and certain embedded implicatures \citep{hurford1974,chierchiaetal2012}. Rather than uncertainty around the semantics of a single utterance (e.g., a gradable adjective, as in the example above), \citeauthor{bergenetal2016} assume uncertainty around entire lexica. %\gcs{need to say more about lexical uncertainty?} 
 
@@ -400,7 +407,7 @@ Our hope in the previous section was to present a menu of options to the would-b
 
 We focus in this section on issues in model development: the question of priors (broadly construed), linking functions between model predictions and empirical data, parameters external to RSA, and Bayesian data analysis. 
 
-\subsection{Priors}
+\subsection{Priors} \label{practicalities-prior}
  
 Here we focus on the question of priors for any parameter internal to the RSA model (as opposed to parameters external to the RSA model, which will be discussed below). 
 These parameters include the states of the world over which the listener reasons, the utterances available to the speaker, and potentially a host of unknown variables which will vary according to the structural description of the model. 
