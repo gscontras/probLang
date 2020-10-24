@@ -275,12 +275,12 @@ P_{L_1}(s \mid u, \textbf{x}) \propto P_{S_1}(u \mid s, \text{x}) \cdot P(s) \cd
 \ex. \label{heavy-sem}
 \sem{heavy}$^{\textbf{x}}$ = \lam s. weight(s) $>$ \textbf{x}
 
-It is up to the pragmatic listener, $L_1$, to resolve the uncertainty surrounding \textbf{x}. To do so, $L_1$ hears the utterance and jointly infers both the state of the world (i.e., the weight of the state being described) and the relevant heaviness threshold. $L_1$ performs this inference just as in the vanilla model: which state and threshold would have been most likely to lead $S_1$ to select the utterance that $L_1$ encountered? In other words, $L_1$ simulates $S_1$'s behavior for the possible combinations of states and thresholds, then weights states and thresholds in proportion to the probability that they would lead $S_1$ to choose the utterance that was encountered.
+It is up to the pragmatic listener, $L_1$, to resolve the uncertainty surrounding \textbf{x}. To do so, $L_1$ hears the utterance and jointly infers both the state of the world (i.e., the relevant weight) and the relevant heaviness threshold. $L_1$ performs this inference just as in the vanilla model: which state and threshold would have been most likely to lead $S_1$ to select the utterance that $L_1$ encountered? In other words, $L_1$ simulates $S_1$'s behavior for the possible combinations of states and thresholds, then weights states and thresholds in proportion to the probability that they would lead $S_1$ to choose the utterance that was encountered.
 
-A similar threshold inference mechanism can be used to formalize the truth conditions of generic statements (e.g., \emph{Birds fly}), whose relation to the within-category property prevalence (i.e., the \% of birds that fly) has been historically hard to pin down (e.g., not all birds fly). 
+A similar threshold-inference mechanism can be used to formalize the truth conditions of generic statements (e.g., \emph{Birds fly}), whose relation to the within-category property prevalence (i.e., the \% of birds that fly) has been historically hard to pin down (e.g., not all birds fly). 
 Similar to the gradable adjectives model, the generics model adopts a threshold semantics where the generic is true just in case the prevalence of the feature $f$ within the category $k$ exceeds the relevant threshold \sem{generic}$^{\textbf{x}}$ = \lam f. \lam k. $P(f \mid k)$ $>$ \textbf{x}.
 Then, pragmatic reasoning can be used to jointly determine the prevalence  $P(f \mid k)$ as well as the threshold $\textbf{x}$ \citep{tesslergoodman2019}.\footnote{
-\cite{tesslergoodman2019} actually use a reduced version of this model where the threshold inference occurs at the level of the literal listener as opposed to the pragmatic listener. \cite{goodmanlassiter2015handbook} argued through simulation that threshold inference at the level of the literal listener results in interpretations that are too weak.
+\cite{tesslergoodman2019} actually use a reduced version of this model where the threshold inference occurs at the level of $L_0$, as opposed to $L_1$. \cite{goodmanlassiter2015handbook} argued via simulation that threshold inference at the level of $L_0$ results in interpretations that are too weak.
 Their simulations, however, did not consider the kinds of state priors that are relevant for generics (see Section \ref{practicalities-prior} for further details on state priors for generics). 
 It remains an open empirical question whether threshold inference at the level of the literal~vs.~pragmatic listener is preferred.
 }
@@ -544,24 +544,24 @@ To that end, future work in RSA should examine the ways that a semantic composit
 
 In a Bayesian model, the computation of a posterior distribution can be viewed as a specification of the prior distribution in anticipation of the next update.
 In other words, ``today's posterior is tomorrow's prior''.
-The fact that RSA is a Bayesian model opens the door to unpacking problems of adaptation and learning. 
+The fact that RSA is a Bayesian model opens the door to formal treatments of adaptation and learning. 
 
 A form of adaptation is at play in the formation of conventions. 
 Speakers and listeners must coordinate on how to refer to things in the world.
-Such convention formation is studied using iterated ``tangram'' experiments, where participant dyads take turns referring to abstract shapes (``tangrams'') with the intention of getting their partner to pick out the same referent. 
-It is observed that over repeated rounds of this game, participants converge on conventional names for the referents, which are often reduced forms from how they originally refer to them (\cite{clark1986referring, hawkins2020characterizing}).
-This  lexical adaptation process can be formalized in the RSA modeling framework through interlocutors' reasoning about each others' lexica, \emph{a la} a Meaning Inference model (\cite{hawkins2017convention}).
-Beyond the lexicon, adaptation can occur at the level of pragmatics: Listeners may adapt to how others are using language (e.g., what utterances certain speakers prefer). 
+Such convention formation is studied using so-called ``tangram'' experiments, where participant dyads take turns referring to abstract shapes (the ``tangrams'') with the intention of getting their partner to pick out the same referent. 
+Over repeated rounds of this game, participants converge on conventional names for the referents, which are often reduced forms from how they originally refered to them \citep{clark1986referring, hawkins2020characterizing}.
+This  lexical adaptation process can be formalized in the RSA framework through interlocutors' reasoning about each others' lexica, as in the meaning-inference models surveyed in Section \ref{meaning-inference} above \citep{hawkins2017convention}.
+Beyond the lexicon, adaptation can occur at the level of pragmatics: listeners may adapt to how others are using language (e.g., what utterances certain speakers prefer). 
 \cite{schuster2020know} examined listeners' interpretations of uncertainty expressions (\emph{might}, \emph{probably}) and found that listeners update their expectations about the usage of such expressions after minimal evidence from a speaker. 
-Using a model comparison approach within the RSA framework, the authors found that this kind of semantic/pragmatic adaptation is explained by listeners adapting their representations of the speaker’s lexicon (word--meaning mappings) and the utterances a speaker prefers to say. 
+Using a model-comparison approach within the RSA framework, the authors found that this kind of semantic/pragmatic adaptation is explained by listeners adapting their representations of the speaker's lexicon (i.e., word--meaning mappings) and the utterances a speaker prefers to say. 
 
 \subsection{Language development}
 
-The RSA modeling framework puts forth a particular hypothesis about how language understanding unfolds, and the components and parameters of these can be taken to a correspond to a hypothesis about the representations that may vary across the population of speakers or develop with age. 
+The RSA modeling framework puts forth a particular hypothesis about how language understanding unfolds, and the model components and parameters can be taken to a correspond to a hypothesis about the representations that may vary across the population of speakers or develop with age. 
 % bring insight into the mechanisms by which pragmatic reasoning with language develops.
-For example, at a young age, children are sensitive to various information sources that help them learn the meanings of new words (e.g., an understanding of common ground, informativity, and their extant lexical knowledge; \cite{markman1988children, schulze2013, akhtar1996role}).
-In naturalistic contexts, multiple information sources may be presenting, raising the question of how these sources are integrated.
-RSA provides a hypothesis about this integration: Informativity is captured by the speaker rationality parameter; common ground influences the prior over states.
+For example, at a young age, children are sensitive to various information sources that help them learn the meanings of new words (e.g., an understanding of common ground, informativity, and their extant lexical knowledge; \citealp{markman1988children, schulze2013, akhtar1996role}).
+In naturalistic contexts, multiple information sources may be present, raising the question of how these sources are integrated.
+RSA provides a hypothesis about this integration: informativity is captured by the speaker rationality parameter; common ground influences the prior over states.
 Building on a paradigm pioneered by \cite{frank2014inferring},
 \cite{bohn2019predicting, bohn2019integrating} interrogated this hypothesis by studying 2-to-5 year old children in word learning tasks. 
 They use the RSA architecture to formalize a space of hypotheses about the integration process and its development (e.g., a rational integration process, or a biased integration process that deviates from RSA's Bayesian logic).
