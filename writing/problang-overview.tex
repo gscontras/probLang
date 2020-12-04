@@ -245,6 +245,29 @@ In that case, we have:
 \end{align*}
 This derivation of the speaker production rule in Equation~\eqref{S1} in terms of belief alignment is useful because it clearly shows how to generalize the Vanilla RSA model to contexts in which the speaker might not be fully knowledgable about the true world state \citep{goodmanstuhlmuller2013,HerbstrittFranke2019:Complex-probabi}.
 
+\section{Pragmatic agents as probabilistic programs}
+
+\mf{I suggest to add here a short section with the content sketched below. The motivation is that otherwise, I feel, the connection to the web-book is too weak. We don't want to refer to individual chapters or specific content, so this is my suggestion for making a more high-level connection why people should care about the code, and why this article and the web-book should co-exist.}
+
+\begin{itemize}
+  \item web-book realizes RSA models through probabilistic programs
+  \item sometimes the tools shape the theories
+  \item indeed, some ideas are easier conceived in one way or another
+        \begin{itemize}
+          \item maybe analogy to different types of definitions in math (game theoretic semantics?)
+        \end{itemize}
+  \item contrast ``RSA as formulas'' and ``RSA as random processes''
+        \begin{itemize}
+          \item maybe give example of normal distribution: as formula for PDF and as limiting process of additive differences
+        \end{itemize}
+  \item example where this matters:
+        \begin{itemize}
+          \item utterance salience (reuse text above (currently commented out))
+          \item different implementations of uncertain speaker in web-book chapter 2
+        \end{itemize}
+  \item carry-home massage: important to have the mental flexibility to ``think in code'' \emph{and} to ``think in math'' at the same time; whence that the web-book is really important: it is currently the \emph{only} resource that explicitly teaches to ``think in code''
+\end{itemize}
+
 \section{Variations on Vanilla} \label{variations}
 
 We have seen how Vanilla RSA can be used to model pragmatic reasoning in simple reference games, as well as specificity implicatures more generally. However, pragmatic reasoning involves much more complexity than Vanilla RSA captures. In particular, there are many different aspects of uncertainty that must be included in order to handle a broader range of language phenomena. In this section, we explore recent extensions of RSA meant to handle such complex language phenomena; each variation introduces reasoning about different sources of uncertainty:
@@ -612,13 +635,13 @@ When this learning or inference task is carried out repeatedly across (stylized)
 
 In our characterization of RSA reasoning, we have described agents performing various reasoning steps, talking about $L_1$ reasoning about $S_1$'s reasoning about $L_0$, etc. However, this language can sometimes prove misleading. RSA models are intended to deliver a computational-level description of the problem speakers face as they use language to communicate. As a computational-level analysis \citep{marr1982}, these models intentionally avoid pronouncements about the specific mechanisms involved in solving the problem of language understanding. In other words, the RSA framework is not conceived as a model of language processing.
 
-Indeed, one may wonder about the psychological validity of the perfectly rational agents operating within an RSA model. Language users face limits on their cognitive abilities---limitations of memory, attention, and general processing resources---yet it may not be obvious where such resource limitations enter into RSA. One avenue through which resource limitations may enter is the optimality parameter $\alpha$, which control's $S_1$'s utility-maximizing behavior. As $\alpha$ decreases, $S_1$ is less likely to choose actions (i.e., utterances) with higher utility.
-
-Another avenue through which resources limitations may enter RSA is the number of layers of recursive reasoning.
-\mf{Individual variability (cite Franke \& Degen) (who are we modeling?)}
-
-\gcs{MH were you planning to build out this point?} This kind of analysis of model parameters is productive in a way that allows for more fine-grained analysis of the phenomena. For example, one may posit that $\alpha$ actually varies across demographic features of the data set (e.g, age of participant); then, one may model $\alpha$ via linear regression (predicting $\alpha$ as a function of age) to see how pragmatic competence develops \citep{bohn2019predicting}.
-\mht{this is starting to rub shoulders with Extensions... eg., it is conceivable to talk about individual differences at this point}
+Indeed, one may wonder about the psychological validity of the rational agents operating within an RSA model.
+Language users face limits on their cognitive abilities---limitations of memory, attention, and general processing resources---yet it may not be obvious where such resource limitations enter into RSA.
+One avenue through which resource limitations may enter is the optimality parameter $\alpha$, which control's $S_1$'s utility-maximizing behavior.
+For example, one may posit that $\alpha$ actually varies across demographic features of the data set (e.g, age of participant); then, one may model $\alpha$ via linear regression (predicting $\alpha$ as a function of age) to see how pragmatic competence develops \citep{bohn2019predicting}.
+As $\alpha$ decreases, $S_1$ is less likely to choose actions (i.e., utterances) with higher utility.
+Another avenue through which resources limitations may enter RSA is the number of layers of recursive reasoning \citep{FrankeDegen2015:Reasoning-in-Re}.
+\mf{include this sentence when we do have that section: ``Moreover, as detailed in Section XYZ, taking direct inspiration from probabilistic programs, we may see sampling approximations to computational-level solutions as another factor in which RSA-like behavior is a form of resource-bounded rationality \citep{GriffithsLieder2015:Rational-Use-of}.''}
 
 As a computational-level model operating over full utterances, RSA, at least in the formulations we have considered, also eschews the highly incremental nature of human language processing. Rather than waiting for utterances to terminate before reasoning about them, language users begin integrating information as soon as it arrives during the linear unfolding of time (e.g., \citealp{tanenhausetal1995}). This incremental processing is not limited to word recognition or syntactic parsing; pragmatic reasoning has also been shown to be incrementally engaged (e.g., \citealp{sedivyetal1999,sedivy2007}). We might wonder, then, whether RSA should incorporate incremental pragmatic reasoning, and, if so, how such reasoning may be implemented. \cite{cohngordgonetal2019} offer one path forward for incremental RSA, amending the speaker and listener models so that they reason about individual words and potential continuations.
 
