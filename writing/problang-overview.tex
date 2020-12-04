@@ -543,19 +543,9 @@ In addition to estimating model parameters, Bayesian methods can be used to arbi
 Examples of comparisons of RSA models based on empirical data is in the work of \citet{PottsLassiter2016:Embedded-implic} (albeit that these authors do not use Bayesian model comparison), \citet{qingfranke2015} or \citet{FrankeBergen2020:Theory-driven-s}.
 \mf{some more examples of model comparison w/o MF?}
 
-
-%\gcs{a note on BDA?}
-
-
-
-% though recent analytic results argue against this simple picture \mht{(Zaslavsky, Hu, Levy, 2020 cogsci?}).
- 
  %\mht{(Frank et al., manuscript; Peloquin et al.?  Levy cogsci 2018 paper?)}
 
-
 %XXX how many layers of recursion?
-
-
 
 \section{Extensions/limitations} \label{limitations}
 
@@ -563,7 +553,7 @@ With a better sense of the many aspects of probabilistic language understanding 
 
 \subsection{Compositionality}
 
-All of the models we have considered operate at the utterance level, taking as their starting point whatever the compositional semantics delivers to them as the meaning of a proposition; the models deliberately avoid the composition of the literal interpretations over which they operate. This move is made primarily for convenience. However, one of the most remarkable aspects of natural language is its compositionality: speakers generate arbitrarily complex meanings by stitching together their smaller, meaning-bearing parts. The compositional nature of language has served as the bedrock of semantic (indeed, linguistic) theory since its modern inception; \cite{montague1973} builds this principle into the bones of his semantics, demonstrating with his fragment how meaning gets constructed from a lexicon and some rules of composition. Since then, compositionality has continued to guide semantic inquiry: what are the meaning of the parts, and what is the nature of the mechanism that composes them? Put differently, what are the representations of the language we use, and what is the nature of the computational system that manipulates them? 
+All of the models we have considered operate at the utterance level, taking as their starting point whatever the compositional semantics delivers to them as the meaning of a proposition; the models deliberately avoid the composition of the literal interpretations over which they operate. This move is made primarily for convenience. However, one of the most remarkable aspects of natural language is its compositionality: speakers generate arbitrarily complex meanings by stitching together their smaller, meaning-bearing parts. The compositional nature of language has served as the bedrock of semantic (indeed, linguistic) theory since its modern inception; \cite{montague1973} builds this principle into the bones of his semantics, demonstrating with his fragment how meaning gets constructed from a lexicon and some rules of composition. Since then, compositionality has continued to guide semantic inquiry: what are the meanings of the parts, and what is the nature of the mechanism that composes them? Put differently, what are the representations of the language we use, and what is the nature of the computational system that manipulates them?
 
 We have seen how formalizing pragmatic reasoning in the form of computational cognitive models both informs pragmatic phenomena and enriches theories of semantics. Still, by operating primarily at the level of propositions, the RSA approach necessarily eschews much of the compositional machinery that generates those propositions in the first place. In principle, this semantic leveling is unnecessary; our models of meaning can take into account the rich compositionality of the communicative system they are meant to characterize. The many sources of uncertainty in semantic composition are ripe for a probabilistic treatment, and we now have the tools to deliver one. The basic functionality we are after is already built into the system: lambda abstraction, functional application, declarative memory and thus the possibility for a lexicon.
 
@@ -593,7 +583,7 @@ Using a model-comparison approach within the RSA framework, the authors found th
 
 \subsection{Language development}
 
-The RSA modeling framework puts forth a particular hypothesis about how language understanding unfolds, and the model components and parameters can be taken to a correspond to a hypothesis about the representations that may vary across the population of speakers or develop with age. 
+The RSA modeling framework puts forth a particular hypothesis about how language understanding unfolds, and the model components and parameters can be taken to correspond to a hypothesis about the representations that may vary across the population of speakers or develop with age.
 % bring insight into the mechanisms by which pragmatic reasoning with language develops.
 For example, at a young age, children are sensitive to various information sources that help them learn the meanings of new words (e.g., an understanding of common ground, informativity, and their extant lexical knowledge; \citealp{markman1988children, schulze2013, akhtar1996role}).
 In naturalistic contexts, multiple information sources may be present, raising the question of how these sources are integrated.
@@ -603,6 +593,11 @@ Building on a paradigm pioneered by \cite{frank2014inferring},
 They use the RSA architecture to formalize a space of hypotheses about the integration process and its development (e.g., a rational integration process, or a biased integration process that deviates from RSA's Bayesian logic).
 They find the developmental trajectories in word learning inferences trace back to the improved reliability of the various information sources and not the integration mechanism itself.
 
+Probabilistic speaker and listener behavior, as captured by RSA models, also helps build more realistic scenarios for language change or language evolution.
+Abstractly put, language learners mainly observe pragmatic language use, but need to reconstruct the underlying semantic structure that likely generated the speech they observed.
+When this learning or inference task is carried out repeatedly across (stylized) generations, transmission inefficiencies (e.g., through learning biases) can accumulate and shape the cultural evolution of language \citep[e.g.][]{BrochhagenFranke2017:Co-evolution-of,CarcassiSchwoustra2019:The-evolution-o,Carcassi2020:The-cultural-ev}.
+\citet{WoensdregtCummins2020:A-computational} apply the combination of iterated learning and RSA modeling to address questions after the potential co-evolution of language and mindreading through numerical simulations.
+\citet{OhmerKonig2020:Reinforcement-o} show how pragmatic language use, modelled in terms of RSA speaker and listener protocols, shapes and speeds up the emergence of conventional semantic meaning through reinforcement learning.
 
 
 %Development
