@@ -407,14 +407,14 @@ The pragmatic listener $L_1$ can reason jointly about the state of the world and
 
 \section{Pragmatic agents as probabilistic programs}
 
-So far, we have introduced the Vanilla RSA model and some common recipes for more realistic extensions.
-Our exposition so far was essentially centered on descriptions of the models in terms of mathematical notation, more concretely in terms of formulae characterizing conditional probability functions (mass or density; depending on the case).
-We tried to motivate and explain the ideas behind these formulae, e.g., by showing how the speaker's utility function in the Vanilla RSA model can be derived from an picture in which the speaker is trying to minimize the distance (measured in information-theoretic terms) between the speaker's and a literal listener's beliefs.
+%So far, we have introduced the Vanilla RSA model and some common recipes for more realistic extensions.
+Our exposition of the framework so far has essentially centered on descriptions of the models in terms of mathematical notation, more concretely in terms of formulae characterizing conditional probability functions (mass or density, depending on the case).
+We tried to motivate and explain the ideas behind these formulae, for example by showing how the speaker's utility function in the Vanilla RSA model can be derived from a picture of communication in which the speaker is trying to minimize the distance (measured in information-theoretic terms) between the speaker's and a literal listener's beliefs.
 
-While it is most common to communicate a probabilistic model in terms of such formulae-based representations in scientific writing, it is not the only way of conceptualizing a probabilistic model (be it an agent model, a statistical model or otherwise).
-Indeed, one very intuitive and appealing way of thinking about a probability distribution focuses not on a high-level, abstract description of the overall probability of events, but on the \emph{stochastic generative process} that we conceive of as the source of these events.
-The web-book ``Probabilistic Language Understanding'', for which this paper is an introductory and complementary companion, uses probabilistic programs to implement RSA-style probabilistic agent behavior in terms of explicitly formalized stochastic generative processes.
-The main motivation of this section is to: (i) highlight the distinction between ``thinking in math'' and ``thinking in code'' when it comes to developing probabilistic models, (ii) to demonstrate the usefulness of ``thinking in code'' and thereby underlining the added value of the web-book, and (iii) to argue that, ideally, researchers should develop models by flexibly exploring conceptually reasonable ideas in terms of of \emph{both} a mathematical and a code-based algorithmic perspective.
+While it is most common to communicate a probabilistic model in terms of such formulae-based representations in scientific writing, this approach is not the only way of conceptualizing a probabilistic model (be it an agent model, a statistical model, or otherwise).
+Indeed, one very intuitive way of thinking about a probability distribution focuses not on a high-level, abstract description of the overall probability of events, but on the \emph{stochastic generative process} that we conceive of as the source of these events.
+The web-book ``Probabilistic Language Understanding'', for which this paper is an introductory and complementary companion, uses probabilistic programs to implement RSA-style probabilistic agent behavior in terms of explicitly-formalized stochastic generative processes.
+The main motivation of this section is to: (i) highlight the distinction between ``thinking in math'' and ``thinking in code'' when it comes to developing probabilistic models, (ii) to demonstrate the usefulness of ``thinking in code'' and thereby underlining the added value of the web-book, and (iii) to argue that, ideally, researchers should develop models by flexibly exploring conceptually-reasonable ideas in terms of \emph{both} a mathematical and a code-based algorithmic perspective.
 
 To see the difference between a mathematical and a process-based representation of a probability distribution, consider the following definition of a probability density function on some $x \in [a;b]$ parameterized by some integer-valued $n>0$:
 \begin{align*}
@@ -425,17 +425,17 @@ To see the difference between a mathematical and a process-based representation 
   \end{cases}
 \end{align*}
 Unless you are already intimately familiar with the Bates distribution, chances are that this mathematical representation tells tells you very little about what is captured here.
-But, in fact, the Bates distribution derives from a very simple procedural idea:
+Despite the complex math, the Bates distribution derives from a very simple procedural idea:
 sample $n$ times from a uniform distribution in the interval $[a;b]$ and look at the mean $x$ over all of these $n$ values.
 The Bates distribution gives the probability of sampling any concrete value of $x$ by that process.
-The upshot of this example is that a formula-based mathematical representation of a probability distribution can be simple and highly useful for \emph{some} applications, but it might not be useful for \emph{all} purposes, one such purpose being to think about a possible process that could generate a particular output in a certain (stochastic) manner.
+The upshot of this example is that a formula-based mathematical representation of a probability distribution can be highly useful for \emph{some} applications, but it might not be useful for \emph{all} purposes, one such purpose being to think about a possible process that could generate a particular output in a certain (stochastic) manner.
 
 Probabilistic programming languages like WebPPL \citep{goodmanstuhlmuller2014}, in which the examples from the accompanying web-book are written, help to make the process-based perspective explicit.
-Ccomplex probability distributions, even those for which no closed form mathematical representation is known, can be approximately represented by a large-enough set of representative samples.
+Complex probability distributions, even those for which no closed-form mathematical representation is known, can be approximately represented by a large-enough set of representative samples.
 These approximate representations are good enough for most common practical purposes.
 Even more useful than a large set of fixed samples is a function that returns samples every time it is called.
-That is why probabilistic programming languages like WebPPL allow the user to define probability distributions in terms of a generative function, formulated simply as a process that would generate a single sample (if executed once).
-For example, the Bates distribution could be written down in WebPPL-inspired pseudo-code like this: \mf{TODO: prettier code (with grayed out comments and bold for function words)}
+Considerations like these are why probabilistic programming languages like WebPPL allow the user to define probability distributions in terms of a generative function, formulated simply as a process that would generate a single sample (if executed once).
+For example, the Bates distribution could be written down in WebPPL-inspired pseudo-code as follows: \mf{TODO: prettier code (with grayed out comments and bold for function words)}
 \begin{verbatim}
 var Bates_sample_function = function(n, a, b) {
   // take n samples from a uniform distribution on [a;b]
@@ -444,7 +444,7 @@ var Bates_sample_function = function(n, a, b) {
 }
 \end{verbatim}
 Such a \emph{sampling function} is sufficient to work with the Bates distribution (at least for simple applications).
-Indeed, the web-book defines the RSA speaker and listener protocols, which we explicated here in terms of formulae, in exactly these kinds of sampling functions.
+Indeed, the web-book defines the RSA speaker and listener protocols, which we explicated above in terms of formulae, in exactly these kinds of sampling functions.
 
 Adopting a perspective on language production and interpretation in terms of sampling functions is what we here refer to as ``thinking in code.''
 To think in code is particularly useful in the context of cognitive modeling because it enables a sampling-based perspective of an agent's reasoning and decision-making process in line with recent accounts of resource-bounded rationality \citep{GriffithsLieder2015:Rational-Use-of}. \mf{TODO: add more references}
