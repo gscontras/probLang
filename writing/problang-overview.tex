@@ -59,7 +59,7 @@
 \end{abstract}
 
 \begin{keywords}
-	XXX, XXX
+	Rational Speech Act models, probabilistic pragmatics, Gricean reasoning
 \end{keywords}
 
 \tableofcontents
@@ -75,7 +75,7 @@ The probabilistic pragmatics approach leverages the tools of structured probabil
 %\gcs{added some references} 
 These models are particularly well-suited for capturing complex patterns of pragmatic reasoning, especially cases that integrate multiple sources of uncertainty. For example, in order to infer what a speaker has meant by an utterance in a given context, listeners may have to reason about lexical or syntactic ambiguity \citep{bergenetal2016,savinellietal2017,FrankeBergen2020:Theory-driven-s}, resolve underspecification in semantic meaning \citep{lassitergoodman2013}, or consider the possibility of non-literal interpretation \citep{kaoetal2014metaphor,kaoetal2014}. Listeners may have to reason about the speaker's own likely epistemic state \citep{goodmanstuhlmuller2013,scontrasgoodman2017,HerbstrittFranke2019:Complex-probabi} or motives the speaker might entertain other than pure information exchange \citep{yoonetal2016,yoonetal2017}. Probability calculus provides a well-understood method for formalizing such complex patterns of reasoning, grounded in norms of rational belief formation and action choice. Recent advances in computer science provide accessible computational methods for implementing complex models of probabilistic reasoning, enabling us to naturally formulate and conveniently test pragmatic theories at a level of complexity and formal rigor that far exceeds what was possible before.
 
-The current paper offers a practical introduction to the modeling framework, serving as a companion piece to the hands-on web-book at \href{https://www.problang.org}{www.problang.org}. We begin in Section \ref{overview} with a high-level overview of RSA, walking through its basic implementation and the philosophical foundations that informed the architectural choices. \gcs{placeholder for the new section 3} We then explore variations to the basic architecture in Section \ref{variations}, surveying technological innovations that have allowed for broader empirical coverage. Section \ref{practicalities} discusses common practical considerations facing the modeler. In Section \ref{limitations}, we explore limitations of the current framework, which also serve as guidance for future extensions. \gcs{placeholder for NLP section} Section \ref{summary} concludes.
+The current paper offers a practical introduction to the modeling framework, serving as a companion piece to the hands-on web-book at \href{https://www.problang.org}{www.problang.org}. We begin in Section \ref{overview} with a high-level overview of RSA, walking through its basic implementation and the philosophical foundations that informed the architectural choices. We then explore variations to the basic architecture in Section \ref{variations}, surveying technological innovations that have allowed for broader empirical coverage. After a brief excursus on the relative benefits of ``thinking in math'' vs.~``thinking in code'' in Section \ref{prob-programs}, in Section \ref{practicalities} we discuss common practical considerations facing the modeler. In Section \ref{limitations}, we explore limitations of the current framework, which also serve as guidance for future extensions. Section \ref{summary} concludes.
 
 
 \section{High-level overview of RSA} \label{overview}
@@ -405,7 +405,7 @@ The pragmatic listener $L_1$ can reason jointly about the state of the world and
 %
 %\mht{show S2?}
 
-\section{Pragmatic agents as probabilistic programs}
+\section{Pragmatic agents as probabilistic programs} \label{prob-programs}
 
 %So far, we have introduced the Vanilla RSA model and some common recipes for more realistic extensions.
 Our exposition of the framework so far has essentially centered on descriptions of the models in terms of mathematical notation, more concretely in terms of formulae characterizing conditional probability functions (mass or density, depending on the case).
@@ -721,7 +721,7 @@ One avenue through which resource limitations may enter is the optimality parame
 For example, one may posit that $\alpha$ actually varies across demographic features of the data set (e.g, age of participant); then, one may model $\alpha$ via linear regression (predicting $\alpha$ as a function of age) to see how pragmatic competence develops \citep{bohn2019predicting}.
 As $\alpha$ decreases, $S_1$ is less likely to choose actions (i.e., utterances) with higher utility.
 Another avenue through which resources limitations may enter RSA is the number of layers of recursive reasoning \citep{FrankeDegen2015:Reasoning-in-Re}.
-\mf{include this sentence when we do have that section: ``Moreover, as detailed in Section XYZ, taking direct inspiration from probabilistic programs, we may see sampling approximations to inference processes as another factor in which RSA-like behavior is a form of resource-bounded rationality \citep{GriffithsLieder2015:Rational-Use-of}.''}
+Moreover, as detailed in Section \ref{prob-programs}, by taking direct inspiration from probabilistic programs, we may see sampling approximations to inference processes as another factor in which RSA-like behavior is a form of resource-bounded rationality \citep{GriffithsLieder2015:Rational-Use-of}.
 
 As a computational-level model operating over full utterances, RSA, at least in the formulations we have considered, also eschews the highly incremental nature of human language processing. Rather than waiting for utterances to terminate before reasoning about them, language users begin integrating information as soon as it arrives during the linear unfolding of time (e.g., \citealp{tanenhausetal1995}). This incremental processing is not limited to word recognition or syntactic parsing; pragmatic reasoning has also been shown to be incrementally engaged (e.g., \citealp{sedivyetal1999,sedivy2007}). We might wonder, then, whether RSA should incorporate incremental pragmatic reasoning, and, if so, how such reasoning may be implemented. \cite{cohngordgonetal2019} offer one path forward for incremental RSA, amending the speaker and listener models so that they reason about individual words and potential continuations, showing how this advance is beneficial for natural language processing applications.
 In psycholinguistics, \cite{WerningCosentino2017:The-interaction} and \cite{AugurzkyFranke2019:Gricean-expecta} show how probabilistic predictions about the whole utterance derived from RSA-style modeling can be broken down to next-word expectation, a finding which is supported even by quantitative aspects of EEG measurements.
@@ -746,9 +746,10 @@ This general idea of grounding semantic meaning in a data-trained module and bui
 
 As the title of the current work suggests, our aim has been a practical introduction to the RSA modeling framework: what would the would-be modeler need to design their own computational cognitive model of probabilistic language understanding? We began with a high-level overview of the modeling framework, which treats language understanding as a process of probabilistic, recursive social reasoning; we also stressed how the formalization offers an articulated implementation of Gricean pragmatics. With an understanding of Vanilla RSA from \cite{frankgoodman2012}, which was used to model communication behavior in simple coordinated reference games, we then expanded our sights to a broader range of language phenomena, taking note of the technology used to capture them. We showed how expanding the empirical coverage of RSA often involves taking into account additional sources of uncertainty: uncertainty about the semantics or lexicon, uncertainty about the QUD, uncertainty about the appropriate context, uncertainty about the epistemic states of conversational participants, and uncertainty about the speaker's utility calculus.
 
-We then shifted our focus to issues that commonly arise in model development: how to set parameters and how to link model predictions to the empirical data they are meant to model. While these considerations occupy a significant portion of the modeler's time, they rarely feature prominently in model write-ups, which means that best practices can be hard to identify without an exercise in trial-and-error.
+After considering the practical and theoretical benefit of thinking through models both ``in math'' and ``in code,'' 
+we then shifted our focus to issues that commonly arise in model development: how to set parameters and how to link model predictions to the empirical data they are meant to model. While these considerations occupy a significant portion of the modeler's time, they rarely feature prominently in model write-ups, which means that best practices can be hard to identify without an exercise in trial-and-error.
 
-Finally, we explored current limitations of the modeling framework, together with areas where the framework is being extended.
+Finally, we explored current limitations of the modeling framework, together with areas where the framework is being actively extended.
 
 Although our focus has been on the modeler, we hope to have offered valuable insight into the framework, which ought to provide even passive consumers with the ability to better evaluate and appreciate the growing RSA literature.
 
