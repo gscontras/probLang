@@ -452,31 +452,30 @@ We will here show two example cases where ``thinking in code'' and the adoption 
 
 \subsection{Utterance priors \& utterance salience}
 
-The Vanilla RSA model featured a definition of the speaker's choice probability in terms of \emph{utterance costs} $C(u)$, which we identified as a potential formalization of Gricean Manner or a general constraint of \emph{utterance economy}.
-Here is the original definition and the suggestive refactorization from Section~\ref{overview} again:
+The Vanilla RSA model defines the speaker's utterance-choice probability in terms of \emph{utterance costs}, $C(u)$, which we identified as a potential formalization of Gricean Manner or a general constraint of \emph{utterance economy}.
+Here is the original definition and the suggested refactorization from Section~\ref{overview}:
 \begin{align} \label{S1-repeat-again}
   P_{S_1}(u\mid s) \propto & \exp (\alpha (\log P_{L_0}(s \mid u) - C(u)))  \\
        & = \text{Truth}(u,s) \ \text{Informativity}(u)^{\alpha} \ \text{Economy}(u)^{\alpha} \nonumber
 \end{align}
-In this formulation, the cost $C(u)$ of a utterance $u$ affects the speaker's choice of expression: the higher the cost of $u$, all else equal, the lower the probability that the speaker picks this utterance.
-This is motivated by the idea that speaker economize on production effort and preferably utter shorter or otherwise more efficient words or phrases.
-Consequently, in line with this interpretation of minimization of utterance effort, the strength of the impact of utterance costs, is modulated by $\alpha$: the higher $\alpha$, the stronger the speaker's tendency to minimize utterance costs, all else equal.
-This is intuitive if we think of $\alpha$ as a rationality parameter.
-The more rational an agent, the more sensitive that agent should be also about the minimization of effort.
+In this formulation, the cost $C(u)$ of an utterance $u$ affects the speaker's choice of expression: the higher the cost of $u$, all else equal, the lower the probability that the speaker picks this utterance.
+This design is motivated by the idea that speakers economize production effort, preferring to utter shorter or otherwise more efficient words or phrases.
+Consequently, in line with this interpretation of minimization of utterance effort, the strength of the impact of utterance costs is modulated by $\alpha$: the higher the value of $\alpha$, the stronger the speaker's tendency to minimize utterance costs, all else equal.
+This outcome is intuitive if we think of $\alpha$ as a rationality parameter:
+the more rational an agent, the more sensitive that agent should be about the minimization of effort.
 
-Adopting a sampling-based perspective inspired by resource-bounded rationality, we can conceive of a natural alternative to the speaker model in \eqref{eq:S1-repeat-again}, in which differences between utterances are not treated as costs to be rationally economized but as differences in salience, i.e., the ease with which utterances comes to mind.
-The latter factor of \emph{differential salience} is arguably not subject to optimization: it is not the case that the more rational a speaker is, the more she would tend to select only the utterances which come to mind most easily.
+Adopting a sampling-based perspective inspired by resource-bounded rationality, we can conceive of a natural alternative to the speaker model in \eqref{S1-repeat-again}, in which differences between utterances are not treated as costs to be rationally economized, but rather as differences in salience---that is, the ease with which utterances comes to mind.
+The latter factor of \emph{differential salience} is arguably not subject to optimization: it is not the case that the more rational a speaker is, the more she would tend to select only the utterances that come to mind most easily.
 We can implement differential salience (ease of retrieval) with a mathematical formulation as follows:
 %
 \begin{align}
   \label{eq:S1-utterance-salience}
-  P_{S_1(u\mid s)}^{\text{Salience}}   & \propto \text{Truth}(u,s) \ \text{Informativity}(u)^{\alpha} \ \text{Salience}(u)
+  P_{S_1}^{\text{Salience}}(u\mid s)   & \propto \text{Truth}(u,s) \ \text{Informativity}(u)^{\alpha} \ \text{Salience}(u)
 \end{align}
 %
-The speaker model in \eqref{eq:S1-utterance-salience} includes the factor $\text{Salience}(u)$ as an \emph{utterance prior}, suggesting an algorithmic picture of utterance choice: the speaker searches for utterances to choose, based on a gradient of how easily these utterances come to mind, then compares the available options (weighted by their salience/prominence) based on the other factors relevant for communication: truth and informativity \citep[see][for an example application to the choice of quantity expression]{Tielvan-TielFranke2021:Probabilistic-p}.
+The speaker model in \eqref{eq:S1-utterance-salience} includes the factor $\text{Salience}(u)$ as an \emph{utterance prior}, suggesting an algorithmic picture of utterance choice: the speaker searches for utterances to choose, based on a gradient of how easily these utterances come to mind, then compares the available options (weighted by their salience/prominence) based on the other factors relevant for communication: truth and informativity (see \citealp{Tielvan-TielFranke2021:Probabilistic-p} for an example application for the choice of quantity expressions).
 
-The salience-based speaker model in \eqref{eq:S1-utterance-salience} is implemented very naturally in WebPPL (or other probabilistic programming languages).
-WebPPL-inspired pseudo-code looks as follows:
+The salience-based speaker model in \eqref{eq:S1-utterance-salience} is implemented very naturally in WebPPL (or other probabilistic programming languages); WebPPL-inspired pseudo-code looks as follows:
 \begin{verbatim}
 var speaker = function( state ) {
   // sample an utterance from an utterance prior
@@ -493,16 +492,16 @@ Notice that, for technical reasons, WebPPL indeed \emph{requires} the specificat
 \subsection{Uncertainty from sampling}
 
 Another example of a case where ``thinking in code'' makes a plausible conceptual idea much more readily available than a formula-based approach arises when we model a speaker who is uncertain about the true state of the world.
-In Section~\ref{sec:epistemic-inference}, we described the model of \citep{goodmanstuhlmuller2013}, the speaker component of which is repeated here:
+In Section~\ref{sec:epistemic-inference}, we described the model of \cite{goodmanstuhlmuller2013}, the speaker component of which is repeated here:
 %
 \begin{equation} \label{S1-epistemic-repeat}
 P_{S_1}(u\mid \textbf{x}) \propto \exp (\alpha \mathbb{E}_{P(s\mid \textbf{x})}(\log P_{L_0}(s\mid u) - C(u)))
 \end{equation}
 %
-The speaker is assumed to choose utterances proportionally to how much it minimizes the Kullback-Leibler divergence between the speaker's own belief and the literal listener's belief after each utterance.
+The speaker is assumed to choose utterances proportionally to how much they minimize the Kullback-Leibler divergence between the speaker's own belief and the literal listener's belief after each utterance.
 This model is easily written out in concise mathematical notation like in \autoref{S1-epistemic-repeat}, but the WebPPL code to implement it is rather clumsy (see accompanying web-book) and its calculation can be very costly for large sets of possible world states.
-Reversely, ``thinking in code'' and conceptualizing a resource-limited reasoner, suggests a different model, one that is very difficult to write down in mathematical notation but that is much easier to write down in a probabilistic program and also much more efficient to approximate.
-This alternative speaker model looks like this in WebPPL-like pseudo-code where \verb|belief_state| is a probability distribution capturing the speaker's belief state:
+However, ``thinking in code'' and conceptualizing a resource-limited reasoner suggests a different model, one that is difficult to write down in mathematical notation but that is much easier to write down in a probabilistic program---and also much more efficient to approximate.
+This alternative speaker model looks as follows in WebPPL-like pseudo-code, where \verb|belief_state| is a probability distribution capturing the speaker's belief state:
 \begin{verbatim}
 var speaker = function( belief_state ) {
   // sample an utterance from an utterance prior
@@ -516,19 +515,22 @@ var speaker = function( belief_state ) {
   return(utt)
 }
 \end{verbatim}
-This algorithmic speaker model imagines that, instead of globally reasoning about all possible world states and weighing each one in terms of how probable they are to the speaker, the speaker just samples a random world state from her beliefs and then chooses a true and informative utterance for the sampled state.\footnote{In fact, it is this easier model that \citet{goodmanstuhlmuller2013} implemented, as is apparent from the plots of the model's predictions given in the paper. The key difference between the KL-based and the sampling-based model is that the former will never have an agent choose an utterance for which she cannot rule out that it might be false. See the accompanying web-book for more on this.}
+This algorithmic speaker model imagines that, instead of globally reasoning about all possible world states and weighing each one in terms of how probable they are to the speaker, the speaker just samples a random world state from her beliefs and then chooses a true and informative utterance for the sampled state.\footnote{In fact, it is this easier model that \citet{goodmanstuhlmuller2013} implemented, as is apparent from the plots of the model's predictions given in the paper. The key difference between the KL-based and the sampling-based model is that the former will never have an agent choose an utterance for which she cannot rule out that it might be false. See the accompanying web-book for more on this topic.}
 
 \bigskip
 
-\noindent In conclusion, we believe that a synthesis of methods, ``thinking in code'' and ``thinking in math'', is most conducive of flexibly realizing a wide variety of conceptually plausible models of pragmatic reasoning.
-As in other domains, too, the available tools shape the theories.
-Therefore, having a multiplicity of tools ready-at-hand enlarges the space of conceivable and practically realizable  theories.
-The web-book ``Probabilistic Language Understanding'' offers a hands-on introduction to an exploration of probabilistic pragmatic models, for which this paper provides the accompanying mathematical perspective.
-\mf{This conclusion is lame, but I'm out of steam.}
+\noindent This example serves to highlight how the available tools---thinking both ``in math'' and ``in code''---help to shape the resulting theories. By having a multiplicity of tools handy, the modeler enlarges the space of conceivable (and practically-realizable) theories. While our focus in the current paper is RSA from a mathematical perspective, much of the work in implementing an RSA model involves conceiving of the relevant agents as sampling-based probabilistic programs; the accompanying web-book ``Probabilistic Language Understanding'' offers a hands-on introduction to this skill. In the following section, we dive more deeply into the practical considerations faced in the design and implementation of an RSA model.
+
+%
+%\noindent In conclusion, we believe that a synthesis of methods, ``thinking in code'' and ``thinking in math'', is most conducive of flexibly realizing a wide variety of conceptually plausible models of pragmatic reasoning.
+%As in other domains, too, the available tools shape the theories.
+%Therefore, having a multiplicity of tools ready-at-hand 
+%The web-book ``Probabilistic Language Understanding'' offers a hands-on introduction to an exploration of probabilistic pragmatic models, for which this paper provides the accompanying mathematical perspective.
+%\mf{This conclusion is lame, but I'm out of steam.}
 
 \section{Modeling practicalities} \label{practicalities}
 
-The previous section presented a menu of options to the would-be modeler: given a language-understanding phenomenon, which pieces of technology are likely to prove most useful in a formal treatment? Non-literal phenomena might benefit from a treatment via QUD inference or complex utility; vague or underspecified language suggests meaning inference, combined perhaps with uncertainty about the relevant context/prior; in cases where the speaker is unknowledgeable or behaves in an unexpected manner, we can try epistemic inference and/or context inference. Having introduced the basics of the RSA modeling framework, as well as useful additions and amendments, our focus now turns to the practical considerations involved in designing and implementing an RSA model, and testing the predictions of that model against human behavior.
+Section \ref{variations} presented a menu of options to the would-be modeler: given a language-understanding phenomenon, which pieces of technology are likely to prove most useful in a formal treatment? Non-literal phenomena might benefit from a treatment via QUD inference or complex utility; vague or underspecified language suggests meaning inference, combined perhaps with uncertainty about the relevant context/prior; in cases where the speaker is unknowledgeable or behaves in an unexpected manner, we can try epistemic inference and/or context inference. Having introduced the basics of the RSA modeling framework, as well as useful additions and amendments, our focus now turns to the practical considerations involved in designing and implementing an RSA model, and testing the predictions of that model against human behavior.
 
 We focus in this section on practical issues arising during model development and testing. Concretely, we will address questions like: which discrete choice options (e.g., world states and utterances) to include in a model; which priors to assign to world states; how to set other (numerical) model parameters (e.g., the rationality parameter $\alpha$); how to link model predictions and empirical data for (Bayesian) data analysis.
 
