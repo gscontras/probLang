@@ -37,6 +37,48 @@
 \usepackage{amsmath}
 \usepackage{hyperref}
 
+
+\usepackage{listings}
+\usepackage{color}
+\definecolor{lightgray}{rgb}{.9,.9,.9}
+\definecolor{darkgray}{rgb}{.4,.4,.4}
+\definecolor{purple}{rgb}{0.65, 0.12, 0.82}
+\definecolor{nc}{rgb}{0, 0.25, 0.5}
+
+\usepackage{pxfonts}
+
+\lstdefinelanguage{webppl}{
+  keywords={typeof, new, true, false, catch, function, return, null, catch, switch, var, if, in, while, do, else, case, break, condition, factor, observe, Infer, adjust_score},
+  keywordstyle=\color{black}\bfseries\textbf,
+  ndkeywords={Bates_sample_function, speaker},
+  ndkeywordstyle=\color{nc}\bfseries,
+  identifierstyle=\color{black},
+  sensitive=false,
+  comment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  commentstyle=\color{darkgray}\ttfamily,
+  stringstyle=\color{red}\ttfamily,
+  morestring=[b]',
+  morestring=[b]"
+}
+
+\lstset{
+   language=webppl,
+%   backgroundcolor=\color{lightgray},
+   extendedchars=true,
+   basicstyle=\footnotesize\ttfamily,
+   showstringspaces=false,
+   showspaces=false,
+%   numbers=left,
+%   numberstyle=\footnotesize,
+%   numbersep=9pt,
+   tabsize=2,
+   breaklines=true,
+   showtabs=false,
+   captionpos=b
+}
+
+
 \def\url#1{\expandafter\string\csname #1\endcsname}
 
 \newcommand{\gcs}[1]{\textcolor{blue}{[gcs: #1]}}
@@ -436,13 +478,13 @@ These approximate representations are good enough for most common practical purp
 Even more useful than a large set of fixed samples is a function that returns samples every time it is called.
 Considerations like these are why probabilistic programming languages like WebPPL allow the user to define probability distributions in terms of a generative function, formulated simply as a process that would generate a single sample (if executed once).
 For example, the Bates distribution could be written down in WebPPL-inspired pseudo-code as follows: \mf{TODO: prettier code (with grayed out comments and bold for function words)}
-\begin{verbatim}
+\begin{lstlisting}
 var Bates_sample_function = function(n, a, b) {
   // take n samples from a uniform distribution on [a;b]
   var unif_samples = sample_from_uniform(n, a, b)
   return(mean(unif_samples))
 }
-\end{verbatim}
+\end{lstlisting}
 Such a \emph{sampling function} is sufficient to work with the Bates distribution (at least for simple applications).
 Indeed, the web-book defines the RSA speaker and listener protocols, which we explicated above in terms of formulae, in exactly these kinds of sampling functions.
 
@@ -476,7 +518,7 @@ We can implement differential salience (ease of retrieval) with a mathematical f
 The speaker model in \eqref{eq:S1-utterance-salience} includes the factor $\text{Salience}(u)$ as an \emph{utterance prior}, suggesting an algorithmic picture of utterance choice: the speaker searches for utterances to choose, based on a gradient of how easily these utterances come to mind, then compares the available options (weighted by their salience/prominence) based on the other factors relevant for communication: truth and informativity (see \citealp{Tielvan-TielFranke2021:Probabilistic-p} for an example application for the choice of quantity expressions).
 
 The salience-based speaker model in \eqref{eq:S1-utterance-salience} is implemented very naturally in WebPPL (or other probabilistic programming languages); WebPPL-inspired pseudo-code looks as follows:
-\begin{verbatim}
+\begin{lstlisting}
 var speaker = function( state ) {
   // sample an utterance from an utterance prior
   //   (= 'see what comes to mind')
@@ -486,7 +528,7 @@ var speaker = function( state ) {
   // return utterance
   return(utt)
 }
-\end{verbatim}
+\end{lstlisting}
 Notice that, for technical reasons, WebPPL indeed \emph{requires} the specification of an utterance prior even if we do not use it to implement salience!\footnote{WebPPL requires the inclusion of an utterance prior because it minimally needs to know the set of all available utterances. If no salience prior is to be specified, the utterance prior in a WebPPL program should just be uniform.}
 
 \subsection{Uncertainty from sampling}
@@ -502,7 +544,7 @@ The speaker is assumed to choose utterances proportionally to how much they mini
 This model is easily written out in concise mathematical notation like in \autoref{S1-epistemic-repeat}, but the WebPPL code to implement it is rather clumsy (see accompanying web-book) and its calculation can be very costly for large sets of possible world states.
 However, ``thinking in code'' and conceptualizing a resource-limited reasoner suggests a different model, one that is difficult to write down in mathematical notation but that is much easier to write down in a probabilistic program---and also much more efficient to approximate.
 This alternative speaker model looks as follows in WebPPL-like pseudo-code, where \verb|belief_state| is a probability distribution capturing the speaker's belief state:
-\begin{verbatim}
+\begin{lstlisting}
 var speaker = function( belief_state ) {
   // sample an utterance from an utterance prior
   var utt = sample_from_utterance_prior()
@@ -514,7 +556,7 @@ var speaker = function( belief_state ) {
   // return utterance
   return(utt)
 }
-\end{verbatim}
+\end{lstlisting}
 This algorithmic speaker model imagines that, instead of globally reasoning about all possible world states and weighing each one in terms of how probable they are to the speaker, the speaker just samples a random world state from her beliefs and then chooses a true and informative utterance for the sampled state.\footnote{In fact, it is this easier model that \citet{goodmanstuhlmuller2013} implemented, as is apparent from the plots of the model's predictions given in the paper. The key difference between the KL-based and the sampling-based model is that the former will never have an agent choose an utterance for which she cannot rule out that it might be false. See the accompanying web-book for more on this topic.}
 
 \bigskip
