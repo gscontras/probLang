@@ -456,7 +456,7 @@ We tried to motivate and explain the ideas behind these formulae, for example by
 While it is most common to communicate a probabilistic model in terms of such formulae-based representations in scientific writing, this approach is not the only way of conceptualizing a probabilistic model (be it an agent model, a statistical model, or otherwise).
 Indeed, one very intuitive way of thinking about a probability distribution focuses not on a high-level, abstract description of the overall probability of events, but on the \emph{stochastic generative process} that we conceive of as the source of these events.
 The web-book ``Probabilistic Language Understanding'', for which this paper is an introductory and complementary companion, uses probabilistic programs to implement RSA-style probabilistic agent behavior in terms of explicitly-formalized stochastic generative processes.
-The main motivation of this section is to: (i) highlight the distinction between ``thinking in math'' and ``thinking in code'' when it comes to developing probabilistic models, (ii) to demonstrate the usefulness of ``thinking in code'' and thereby underlining the added value of the web-book, and (iii) to argue that, ideally, researchers should develop models by flexibly exploring conceptually-reasonable ideas in terms of \emph{both} a mathematical and a code-based algorithmic perspective.
+The main motivation of this section is to: (i) highlight the distinction between ``thinking in math'' and ``thinking in code'' when it comes to developing probabilistic models, (ii) to demonstrate the usefulness of ``thinking in code'' and thereby underlining the added value of the web-book, and (iii) to argue that, ideally, researchers should develop models by flexibly exploring conceptually-reasonable ideas in terms of both a mathematical and a code-based algorithmic perspective.
 
 To see the difference between a mathematical and a process-based representation of a probability distribution, consider the following definition of a probability density function on some $x \in [a;b]$ parameterized by some integer-valued $n>0$:
 \begin{align*}
@@ -470,14 +470,14 @@ Unless you are already intimately familiar with the Bates distribution, chances 
 Despite the complex math, the Bates distribution derives from a very simple procedural idea:
 sample $n$ times from a uniform distribution in the interval $[a;b]$ and look at the mean $x$ over all of these $n$ values.
 The Bates distribution gives the probability of sampling any concrete value of $x$ by that process.
-The upshot of this example is that a formula-based mathematical representation of a probability distribution can be highly useful for \emph{some} applications, but it might not be useful for \emph{all} purposes, one such purpose being to think about a possible process that could generate a particular output in a certain (stochastic) manner.
+The upshot of this example is that a formula-based mathematical representation of a probability distribution can be highly useful for some applications, but it might not be useful for all purposes, one such purpose being to think about a possible process that could generate a particular output in a certain (stochastic) manner.
 
 Probabilistic programming languages like WebPPL \citep{goodmanstuhlmuller2014}, in which the examples from the accompanying web-book are written, help to make the process-based perspective explicit.
 Complex probability distributions, even those for which no closed-form mathematical representation is known, can be approximately represented by a large-enough set of representative samples.
 These approximate representations are good enough for most common practical purposes.
 Even more useful than a large set of fixed samples is a function that returns samples every time it is called.
 Considerations like these are why probabilistic programming languages like WebPPL allow the user to define probability distributions in terms of a generative function, formulated simply as a process that would generate a single sample (if executed once).
-For example, the Bates distribution could be written down in WebPPL-inspired pseudo-code as follows: \mf{TODO: prettier code (with grayed out comments and bold for function words)}
+For example, the Bates distribution could be written down in WebPPL-inspired pseudo-code as follows: 
 \begin{lstlisting}
 var Bates_sample_function = function(n, a, b) {
   // take n samples from a uniform distribution on [a;b]
@@ -489,8 +489,8 @@ Such a \emph{sampling function} is sufficient to work with the Bates distributio
 Indeed, the web-book defines the RSA speaker and listener protocols, which we explicated above in terms of formulae, in exactly these kinds of sampling functions.
 
 Adopting a perspective on language production and interpretation in terms of sampling functions is what we here refer to as ``thinking in code.''
-To think in code is particularly useful in the context of cognitive modeling because it enables a sampling-based perspective of an agent's reasoning and decision-making process in line with recent accounts of resource-bounded rationality \citep{GriffithsLieder2015:Rational-Use-of}. \mf{TODO: add more references}
-We will here show two example cases where ``thinking in code'' and the adoption of a resource-bounded rationality perspective can add interesting flexibility to the modeling of pragmatic agents.
+To think in code is particularly useful in the context of cognitive modeling because it enables a sampling-based perspective of an agent's reasoning and decision-making process in line with recent accounts of resource-bounded rationality \citep{GriffithsLieder2015:Rational-Use-of, lieder2020resource}. % \mf{TODO: add more references}
+We will walk through two example cases where ``thinking in code'' and the adoption of a resource-bounded rationality perspective can add interesting flexibility to the modeling of pragmatic agents.
 
 \subsection{Utterance priors \& utterance salience}
 
@@ -550,7 +550,7 @@ var speaker = function( belief_state ) {
   var utt = sample_from_utterance_prior()
   // sample a possible world state from the speaker's beliefs
   var state = belief_state()
-  // weigh each sampled utterance by how true and informative it is
+  // weigh sampled utterance by how true and informative it is
   //   based on the current sample of a possible world state
   adjust_score( truth(utt, state) * informativity(utt)^alpha )
   // return utterance
@@ -681,11 +681,12 @@ Plausible \emph{a priori} values of parameters can be gleaned by reviewing other
 Parameter estimation is particularly interesting when targeting model parameters which are themselves of some theoretical relevance.
 For example, \citet{yoonetal2016} use empirical data to infer plausible values of the parameter $\textbf{x}$ from Equation~\eqref{S1-polite}, which models the relative importance of a speaker's informational and social goals during language production.
 \citet{FrankeScholler2016:Semantic-values} infer plausible semantic threshold variables for the vague quantifiers \emph{many} and \emph{few}, one pair for each of several different contexts, in order to address the question of whether it is plausible that the same threshold parameter explains the use of these expressions across different contexts of use.
-\mf{maybe one more example of parameter inference from someone who isn't us?} \gcs{I think it's fine as-is}
+\citet{schuster2020know} perform a similar Bayesian data analysis to infer semantic variables over uncertainty expressions (e.g., \emph{probably}, \emph{might}), finding that listeners entertain quite a bit of uncertainty about the semantic threshold for uncertainty expressions. \citet{degenetal2020} infer semantic ``noise'' values for color and size modifiers, tracing speakers propensity to over-modify with color adjectives back to differential semantic noise parameters for size~vs.~color adjectives. 
+%\mf{maybe one more example of parameter inference from someone who isn't us?} \gcs{I think it's fine as-is}
 
 In addition to estimating model parameters, Bayesian methods can be used to arbitrate between competing hypotheses (so-called ``model comparison''). At a high level, the approach is the same: we are asking which of two (or, $n$) models is the most likely explanation of the observed data. In practice, this aim is accomplished using what are called \emph{Bayes Factors} (or BF for short), which compare the average (marginal) likelihood of the observed data under each model \citep{Jeffreys1961:Theory-of-Proba,KassRaftery1995:Bayes-Factors}. Here, a ``model'' is considered both the RSA model and the prior distribution over parameter values (e.g., that $\alpha$ is sampled from a Uniform prior between 0 and 20). Since BFs take into account the prior distribution over parameters, models with more parameters will have broader prior distributions, and thus the average likelihood of the observed data under such models will be intuitively watered down by these broad priors (e.g., when the model makes very good predictions but only for a small set of values of the parameters). In this way, BFs take into account model complexity (i.e., more complex models will be penalized if the gains in model fit do not compensate for the increased complexity of the model) when deciding which is the best model.
-Examples of comparisons of RSA models based on empirical data include the work of \citet{PottsLassiter2016:Embedded-implic} (albeit in this case the authors do not use Bayesian model comparison), \citet{qingfranke2015}, and \citet{FrankeBergen2020:Theory-driven-s}.
-\mf{some more examples of model comparison w/o MF?}
+Examples of comparisons of RSA models based on empirical data include the work of \citet{PottsLassiter2016:Embedded-implic} (albeit in this case the authors do not use Bayesian model comparison), \citet{qingfranke2015}, \citet{FrankeBergen2020:Theory-driven-s}, \citet{yoonetal2020}, and \cite{bohn2019predicting}.
+%\mf{some more examples of model comparison w/o MF?}
 
  %\mht{(Frank et al., manuscript; Peloquin et al.?  Levy cogsci 2018 paper?)}
 
