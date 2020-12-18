@@ -466,8 +466,8 @@ To see the difference between a mathematical and a process-based representation 
     0 & \text{otherwise}.
   \end{cases}
 \end{align*}
-Unless you are already intimately familiar with the Bates distribution, chances are that this mathematical representation tells tells you very little about what is captured here.
-Despite the complex math, the Bates distribution derives from a very simple procedural idea:
+Unless you are already intimately familiar with the Bates distribution, chances are that this mathematical representation tells you very little about what is captured here.
+Yet, despite the complex math, the Bates distribution derives from a very simple procedural idea:
 sample $n$ times from a uniform distribution in the interval $[a;b]$ and look at the mean $x$ over all of these $n$ values.
 The Bates distribution gives the probability of sampling any concrete value of $x$ by that process.
 The upshot of this example is that a formula-based mathematical representation of a probability distribution can be highly useful for some applications, but it might not be useful for all purposes, one such purpose being to think about a possible process that could generate a particular output in a certain (stochastic) manner.
@@ -476,20 +476,20 @@ Probabilistic programming languages like WebPPL \citep{goodmanstuhlmuller2014}, 
 Complex probability distributions, even those for which no closed-form mathematical representation is known, can be approximately represented by a large-enough set of representative samples.
 These approximate representations are good enough for most common practical purposes.
 Even more useful than a large set of fixed samples is a function that returns samples every time it is called.
-Considerations like these are why probabilistic programming languages like WebPPL allow the user to define probability distributions in terms of a generative function, formulated simply as a process that would generate a single sample (if executed once).
+Considerations like these are why probabilistic programming languages like WebPPL allow the user to define probability distributions in terms of a \emph{sampling function}, formulated simply as a process that would generate a single sample (if executed once).
 For example, the Bates distribution could be written down in WebPPL-inspired pseudo-code as follows: 
 \begin{lstlisting}
-var Bates_sample_function = function(n, a, b) {
+var Bates_sampling_function = function(n, a, b) {
   // take n samples from a uniform distribution on [a;b]
   var unif_samples = sample_from_uniform(n, a, b)
   return(mean(unif_samples))
 }
 \end{lstlisting}
-Such a \emph{sampling function} is sufficient to work with the Bates distribution (at least for simple applications).
+This sampling function is sufficient to work with the Bates distribution (at least for most common applications).
 Indeed, the web-book defines the RSA speaker and listener protocols, which we explicated above in terms of formulae, in exactly these kinds of sampling functions.
 
 Adopting a perspective on language production and interpretation in terms of sampling functions is what we here refer to as ``thinking in code.''
-To think in code is particularly useful in the context of cognitive modeling because it enables a sampling-based perspective of an agent's reasoning and decision-making process in line with recent accounts of resource-bounded rationality \citep{GriffithsLieder2015:Rational-Use-of, lieder2020resource}. % \mf{TODO: add more references}
+To ``think in code'' is particularly useful in the context of cognitive modeling because it enables a sampling-based perspective of an agent's reasoning and decision-making process in line with recent accounts of resource-bounded rationality \citep{GriffithsLieder2015:Rational-Use-of, lieder2020resource}.
 We will walk through two example cases where ``thinking in code'' and the adoption of a resource-bounded rationality perspective can add interesting flexibility to the modeling of pragmatic agents.
 
 \subsection{Utterance priors \& utterance salience}
@@ -498,7 +498,7 @@ The Vanilla RSA model defines the speaker's utterance-choice probability in term
 Here is the original definition and the suggested refactorization from Section~\ref{overview}:
 \begin{align} \label{S1-repeat-again}
   P_{S_1}(u\mid s) \propto & \exp (\alpha (\log P_{L_0}(s \mid u) - C(u)))  \\
-       & = \text{Truth}(u,s) \ \text{Informativity}(u)^{\alpha} \ \text{Economy}(u)^{\alpha} \nonumber
+       & = \text{Truth}(u,s) \ \ \text{Informativity}(u)^{\alpha} \ \ \text{Economy}(u)^{\alpha} \nonumber
 \end{align}
 In this formulation, the cost $C(u)$ of an utterance $u$ affects the speaker's choice of expression: the higher the cost of $u$, all else equal, the lower the probability that the speaker picks this utterance.
 This design is motivated by the idea that speakers economize production effort, preferring to utter shorter or otherwise more efficient words or phrases.
@@ -515,7 +515,7 @@ We can implement differential salience (ease of retrieval) with a mathematical f
   P_{S_1}^{\text{Salience}}(u\mid s)   & \propto \text{Truth}(u,s) \ \text{Informativity}(u)^{\alpha} \ \text{Salience}(u)
 \end{align}
 %
-The speaker model in \eqref{eq:S1-utterance-salience} includes the factor $\text{Salience}(u)$ as an \emph{utterance prior}, suggesting an algorithmic picture of utterance choice: the speaker searches for utterances to choose, based on a gradient of how easily these utterances come to mind, then compares the available options (weighted by their salience/prominence) based on the other factors relevant for communication: truth and informativity (see \citealp{Tielvan-TielFranke2021:Probabilistic-p} for an example application for the choice of quantity expressions).
+The speaker model in \eqref{eq:S1-utterance-salience} includes the factor $\text{Salience}(u)$ as an \emph{utterance prior}, suggesting an algorithmic picture of utterance choice: the speaker searches for utterances to choose, based on a gradient of how easily these utterances come to mind, then compares the available options (weighted by their salience/prominence) based on the other factors relevant for communication: truth and informativity (see \citealp{Tielvan-TielFranke2021:Probabilistic-p} for an example application of salience priors to the choice of quantity expressions).
 
 The salience-based speaker model in \eqref{eq:S1-utterance-salience} is implemented very naturally in WebPPL (or other probabilistic programming languages); WebPPL-inspired pseudo-code looks as follows:
 \begin{lstlisting}
@@ -529,7 +529,7 @@ var speaker = function( state ) {
   return(utt)
 }
 \end{lstlisting}
-Notice that, for technical reasons, WebPPL indeed \emph{requires} the specification of an utterance prior even if we do not use it to implement salience!\footnote{WebPPL requires the inclusion of an utterance prior because it minimally needs to know the set of all available utterances. If no salience prior is to be specified, the utterance prior in a WebPPL program should just be uniform.}
+Notice that, for technical reasons, WebPPL indeed \emph{requires} the specification of an utterance prior even if we do not use it to implement salience!\footnote{WebPPL requires the inclusion of an utterance prior because it minimally needs to know the set of all available utterances. If no \emph{differential salience} is to be modelled, the utterance prior in a WebPPL program must still be specified but should then just be uniform.}
 
 \subsection{Uncertainty from sampling}
 
@@ -561,14 +561,7 @@ This algorithmic speaker model imagines that, instead of globally reasoning abou
 
 \bigskip
 
-\noindent This example serves to highlight how the available tools---thinking both ``in math'' and ``in code''---help to shape the resulting theories. By having a multiplicity of tools handy, the modeler enlarges the space of conceivable (and practically-realizable) theories. While our focus in the current paper is RSA from a mathematical perspective, much of the work in implementing an RSA model involves conceiving of the relevant agents as sampling-based probabilistic programs; the accompanying web-book ``Probabilistic Language Understanding'' offers a hands-on introduction to this skill. In the following section, we dive more deeply into the practical considerations faced in the design and implementation of an RSA model.
-
-%
-%\noindent In conclusion, we believe that a synthesis of methods, ``thinking in code'' and ``thinking in math'', is most conducive of flexibly realizing a wide variety of conceptually plausible models of pragmatic reasoning.
-%As in other domains, too, the available tools shape the theories.
-%Therefore, having a multiplicity of tools ready-at-hand 
-%The web-book ``Probabilistic Language Understanding'' offers a hands-on introduction to an exploration of probabilistic pragmatic models, for which this paper provides the accompanying mathematical perspective.
-%\mf{This conclusion is lame, but I'm out of steam.}
+\noindent This example serves to highlight how the available tools---being able to both ``think in math'' and to ``think in code''---help to shape the resulting theories. By having a multiplicity of tools handy, the modeler enlarges the space of conceivable (and practically-realizable) theories. While our focus in the current paper is RSA from a mathematical perspective, much of the work in implementing an RSA model involves conceiving of the relevant agents as sampling-based probabilistic programs; the accompanying web-book ``Probabilistic Language Understanding'' offers a hands-on introduction to this skill. In the following section, we dive more deeply into the practical considerations faced in the design and implementation of an RSA model.
 
 \section{Modeling practicalities} \label{practicalities}
 
@@ -774,7 +767,7 @@ In psycholinguistics, \cite{WerningCosentino2017:The-interaction} and \cite{Augu
 The final extension we discuss concerns the utility of RSA reasoning to current applications in language technologies. 
 Probabilistic formalizations of Gricean pragmatics lend themselves directly to integration into probabilistic models used in natural language processing.
 One line of research focuses on how a semantic meaning representation can be learned from data, based on the assumption that the data was generated by an RSA-style pragmatic agent.
-For example, \citet{Monroe:Potts:2015} explore how to set up a model in which RSA-style literal and pragmatic language agents learn underlying semantic meaning associations based on data from the TUNA corpus \citep{DeemterSluis2006:Building-a-Sema}, human data from tasks similar to the reference game from Section~\ref{overview}.
+For example, \citet{Monroe:Potts:2015} explore how to set up a model in which RSA-style literal and pragmatic language agents learn underlying semantic meaning associations based on data from the TUNA corpus \citep{DeemterSluis2006:Building-a-Sema} which provides human data from tasks similar to the reference game from Section~\ref{overview}.
 \citeauthor{Monroe:Potts:2015} show that pragmatic agents outperform literal language users in their set-up.
 \citet{Monroe:Hawkins:Goodman:Potts:2017} apply a similar strategy of learning semantic representations through the lens of a pragmatic agent to a novel corpus of color descriptions.
 
