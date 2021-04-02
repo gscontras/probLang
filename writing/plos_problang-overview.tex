@@ -315,10 +315,10 @@ The probabilistic pragmatics approach leverages the tools of structured probabil
 %\gcs{added some references} 
 These models are particularly well-suited for capturing complex patterns of pragmatic reasoning, especially cases that integrate multiple sources of uncertainty. For example, in order to infer what a speaker has meant by an utterance in a given context, listeners may have to reason about lexical or syntactic ambiguity \cite{bergenetal2016,savinellietal2017,FrankeBergen2020:Theory-driven-s}, resolve underspecification in semantic meaning \cite{lassitergoodman2013}, or consider the possibility of non-literal interpretation \cite{kaoetal2014metaphor,kaoetal2014}. Listeners may also have to reason about the speaker's own likely epistemic state \cite{goodmanstuhlmuller2013,scontrasgoodman2017,HerbstrittFranke2019:Complex-probabi} or motives the speaker might entertain other than pure information exchange \cite{yoonetal2016,yoonetal2017}. Probability calculus provides a well-understood method for formalizing such complex patterns of reasoning, grounded in norms of rational belief formation and action choice. Recent advances in computer science provide accessible computational methods for implementing complex models of probabilistic reasoning, enabling us to naturally formulate and conveniently test pragmatic theories at a level of complexity and formal rigor that far exceeds what was possible before.
 
-The current paper offers a practical introduction to the modeling framework, serving as a companion piece to the hands-on web-book at \href{https://www.problang.org}{www.problang.org} \cite{problang}. We begin in Section \ref{overview} with a high-level overview of RSA, walking through its basic implementation and the philosophical foundations that informed the architectural choices. We then explore variations to the basic architecture in Section \ref{variations}, surveying technological innovations that have allowed for broader empirical coverage. After a brief excursus on the relative benefits of ``thinking in math'' vs.~``thinking in code'' in Section \ref{prob-programs}, in Section \ref{practicalities} we discuss common practical considerations facing the modeler. In Section \ref{limitations}, we explore limitations of the current framework, which also serve as guidance for future extensions. Section \ref{summary} concludes.
+The current paper offers a practical introduction to the modeling framework, serving as a companion piece to the hands-on web-book at \href{https://www.problang.org}{www.problang.org} \cite{problang}. \gcs{can't rely on section numbers} We begin in Section \ref{overview} with a high-level overview of RSA, walking through its basic implementation and the philosophical foundations that informed the architectural choices. We then explore variations to the basic architecture in Section \ref{variations}, surveying technological innovations that have allowed for broader empirical coverage. After a brief excursus on the relative benefits of ``thinking in math'' vs.~``thinking in code'' in Section \ref{prob-programs}, in Section \ref{practicalities} we discuss common practical considerations facing the modeler. In Section \ref{limitations}, we explore limitations of the current framework, which also serve as guidance for future extensions. Section \ref{summary} concludes.
 
 
-\section{High-level overview of RSA} \label{overview}
+\section*{High-level overview of RSA} \label{overview}
 
 The RSA framework views language understanding as a process of recursive social reasoning between speakers and listeners: listeners interpret the utterances they hear by reasoning about how speakers generate them; speakers choose their utterances by reasoning about how listeners interpret them. In the original RSA formulation  (hereafter, ``Vanilla RSA''; \cite{frankgoodman2012}), this recursion involves three layers of inference.\footnote{For an earlier proposal of this architecture, see \cite{BenzvanRooijOptimalAssertions2007}.} Typically formulated as statements of conditional probability, as in (\ref{L0}), (\ref{S1}), and (\ref{L1}), these inference layers correspond to models of speakers and listeners. We will go over these definitions step by step.
 
@@ -463,7 +463,7 @@ In that case, we have:
 This derivation of the speaker production rule in Equation~\eqref{S1} in terms of belief alignment shows how to generalize the Vanilla RSA model to contexts in which the speaker might not be fully knowledgable about the true world state. % \cite{goodmanstuhlmuller2013,HerbstrittFranke2019:Complex-probabi}.
 
 
-\section{Variations on Vanilla} \label{variations}
+\section*{Variations on Vanilla} \label{variations}
 
 We have seen how Vanilla RSA can be used to model pragmatic reasoning in simple reference games, as well as specificity implicatures more generally. However, pragmatic reasoning involves much more complexity than Vanilla RSA captures. In particular, there are many different aspects of uncertainty that must be included in order to handle a broader range of language phenomena. In this section, we explore recent extensions of RSA meant to handle such complex language phenomena; each variation introduces reasoning about different sources of uncertainty:
 \begin{itemize}
@@ -482,7 +482,7 @@ As a point of reference for Vanilla RSA, we repeat the $S_1$ utterance-choice ru
   P_{L_0}(s \mid u) & \propto P_{L_O}(s)  \cdot \sem{u}(s) \nonumber
 \end{align}
 
-\subsection{Meaning inference} \label{meaning-inference}
+\subsection*{Meaning inference} \label{meaning-inference}
 
 Vanilla RSA assumes that the speaker and listener possess the same model of language, with a fixed, context-independent utterance semantics that is shared by both speakers and listeners. In this way, the speaker and listener are assumed to understand language in the same way regardless of the context in which the language is used. But what happens when there is uncertainty about the meanings of words, either because they are sensitive to context or because speakers and listeners are uncertain about the other's language model, such that the meaning of words might not be shared across the two? We can capture this flavor or uncertainty in RSA by parameterizing the interpretation function such that the utterance semantics is subject to change. This move is illustrated in \eqref{S1-lexical-uncertainty}, where the variable \textbf{x} modulates the truth-functional mapping for an utterance $u$. Once named, this interpretation-fixing variable \textbf{x} becomes subject to active pragmatic reasoning, resolved by the revised $L_1$ in (\ref{L1-lexical-uncertainty}). In other words, we can allow for uncertainty around $\textbf{x}$, such that the precise semantics of $u$ might be vague or underspecified in context. What results is the class of lexical uncertainty RSA models. %\mht{Do we want to show the pragmatic listener model too?} \mf{yes!}
 \begin{align} \label{S1-lexical-uncertainty}
@@ -526,7 +526,7 @@ Meaning inference also serves as a useful tool for modeling ambiguity resolution
 Both of these applications---plural predication and quantifier scope ambiguity---highlight how meaning inference in RSA can serve as a useful shorthand for providing computational-level descriptions of the process of ambiguity resolution. However, while these models offer a promising hypothesis for how listeners reason pragmatically to resolve ambiguity, it bears noting that neither application attempts to model the compositional processes that give rise to the relevant ambiguities in the first place. We return to this issue in Section \ref{limitations}.
 
 
-\subsection{QUD inference} \label{QUD-section}
+\subsection*{QUD inference} \label{QUD-section}
 
 The technology we have considered up to now allows for the pragmatic enrichment of utterances: from ``blue'' to ``blue square'' or from vague ``expensive'' to ``expensive'' with a contextually-determined price threshold. However, given that $S_1$'s utility relies on successfully communicating the observed state to $L_0$ (i.e., on informativity), our enrichments can only ever be literal---we have no way for ``blue'' to be interpreted as ``green''.\footnote{
   Formally, this outcome is a direct consequence of grounding the speaker's production utilities in information theoretic surprisal and KL-divergence, as described in Section~\ref{overview}. The Vanilla RSA model, as based on rules \eqref{S1}, entails that if $\sem{u}(s)=0$, while the speaker's belief assigns positive probability to $s$, there is zero probability of the speaker choosing utterance $u$. In other words, Vanilla RSA predicts that the speaker never chooses an utterance when the speaker is not certain that the utterance is true of the relevant state.
@@ -563,7 +563,7 @@ We have identified how non-literal utterances can be useful to a speaker, but we
 
 \cite{kaogoodman2015} use an extension of the hyperbole model to capture ironic interpretations of weather descriptions (e.g., ``It's terrible out'' to describe a beautiful sunny day). In addition to inferring speaker affect, the irony model incorporates an additional dimension of meaning that a speaker might want to communicate: their arousal about the weather (i.e., whether they feel strongly about it). The non-literal interpretation mechanism remains the same: if a speaker describes the weather as ``terrible'' but we know that terrible weather is extremely unlikely (the authors situate their imagined conversation in California, where the weather is rarely objectionable), then a listener will not conclude that the unlikely literal state (i.e., terrible weather) holds, but rather that the speaker must be addressing some other dimension of meaning, namely the strong arousal they feel in their positive affect toward the normal state of affairs: good weather. Similarly in \cite{kaoetal2014metaphor}, who model the interpretation of metaphors like ``John is a whale''. Rather than inferring that John is an aquatic mammal (a highly unlikely state of affairs), the listener concludes that the speaker chose the utterance to communicate about some other dimension of meaning, for example John's physical stature, which has whale-like properties.
 
-\subsection{Context/Prior inference} \label{context-inference}
+\subsection*{Context/Prior inference} \label{context-inference}
 
 We now have technology to model vagueness and ambiguity on the basis of an underspecified semantics, as well as shifting goals and the non-literal language that addresses them on the basis of uncertainty around the QUD. So far, all of this reasoning has happened with respect to a fixed context, or common ground. What happens when a listener is unsure of the context a speaker has in mind in the production of their utterance? %\mht{might want to draw this out as a very general problem: what aspects of context should the listener pay attention to?} 
 For example, upon hearing that a person is ``tall'', how does a listener identify the relevant comparison class against which to evaluate tallness? Does the speaker mean tall for a young child or tall for a basketball player?
@@ -591,7 +591,7 @@ The uncertainty over the comparison class is a special case of uncertainty over 
 }
 
 
-\subsection{Epistemic inference}
+\subsection*{Epistemic inference}
 \label{sec:epistemic-inference}
 
 By now it should be clear that a productive way of extending the RSA framework is to take into account various sorts of uncertainty that enter into communication scenarios: uncertainty about the semantics, the goals, or the context itself. Another common source of uncertainty concerns the epistemic states of the agents who are communicating. Speakers commonly describe states of the world without total knowledge of those states. For example, a speaker might observe an empty plate on John's desk with pizza crumbs on it and describe the scenario with ``John ate some of the pizza.'' As far as the speaker knows, John could have eaten all of the pizza, but, without seeing the pizza box, the speaker lacks evidence to make this stronger claim. A hungry listener will interpret the speaker's utterance to infer just how much pizza John has eaten. Importantly, whether the speaker saw the pizza box or just the crumb-covered plate is likely to influence the listener's inference about the full state of the pizza. The mechanism involves reasoning about the knowledge that the speaker used to make her utterance (i.e., the speaker's epistemic state), and the implications that the knowledge has for likely states of the world.
@@ -616,7 +616,7 @@ Conceptually, this task amounts to inferring the speaker's level of expertise or
 While non-probabilistic models of Gricean inference often make reference to a monolithic (though defeasible) assumption of speaker competence \cite{Geurts2010:Quantity-Implic,vanRooijSchulz:ExhaustiveInterpretation,Spector2006:Scalar-Implicat}, holistic probabilistic inference allows a more gradient picture.
 For example, after an utterance of a logically-stronger expression like ``all'', the pragmatic listener will put more credence in the proposition that the speaker has made an observation $\textbf{x}$ that makes the speaker knowledgable, than they would after hearing a logically-weaker expression like ``some''.
 
-\subsection{Complex utility/utility inference}
+\subsection*{Complex utility/utility inference}
 \label{sec:compl-util-infer}
  
  So far, the different variations of RSA that we have considered all proceed with the assumption that speakers want to convey information to the listener; their utility concerns informativity with respect to the QUD.\footnote{Generalizations of the speaker's goals for communication exist. We could, for example, model a speaker's utility function in terms of closeness to the true state, for example, for state spaces with a clear similarity ordering \cite{Franke2014:Typical-use-of-}.} Though informational uses of language are arguably the bread-and-butter of a successful communicative system, speakers do not always say what they mean. We dawdle, prevaricate, and sometimes outright lie, and this behavior is often in the service of maintaining our social relationships. Perhaps rather than telling your friend that their haircut is ugly, you could say ``it's an interesting look''. Why do speakers deviate from choosing the maximally-informative utterance? We can model non-informational uses of language by augmenting the speaker's utility function: 
@@ -645,7 +645,7 @@ The pragmatic listener $L_1$ can reason jointly about the state of the world and
 %
 %\mht{show S2?}
 
-\section{Pragmatic agents as probabilistic programs} \label{prob-programs}
+\section*{Pragmatic agents as probabilistic programs} \label{prob-programs}
 
 %So far, we have introduced the Vanilla RSA model and some common recipes for more realistic extensions.
 Our exposition of the framework so far has centered on descriptions of the models in terms of mathematical notation, more concretely in terms of formulae characterizing conditional probability functions (mass or density, depending on the case).
@@ -690,7 +690,7 @@ Adopting a perspective on language production and interpretation in terms of sam
 To ``think in code'' is particularly useful in the context of cognitive modeling because it enables a sampling-based perspective of an agent's reasoning and decision-making process in line with recent accounts of resource-bounded rationality \cite{GriffithsLieder2015:Rational-Use-of, lieder2020resource}.
 We will walk through two example cases where ``thinking in code'' and the adoption of a resource-bounded rationality perspective can add interesting flexibility to the modeling of pragmatic agents.
 
-\subsection{Utterance priors \& utterance salience}
+\subsection*{Utterance priors \& utterance salience}
 
 The Vanilla RSA model defines the speaker's utterance-choice probability in terms of \emph{utterance costs}, $C(u)$, which we identified as a potential formalization of Gricean Manner or a general constraint of \emph{utterance economy}.
 Here is the original definition and the suggested refactorization from Section~\ref{overview}:
@@ -729,7 +729,7 @@ var speaker = function(state) {
 \end{lstlisting}
 Notice that, for technical reasons, WebPPL indeed \emph{requires} the specification of an utterance prior even if we do not use it to implement salience.\footnote{WebPPL requires the inclusion of an utterance prior because it minimally needs to know the set of all available utterances. If no \emph{differential salience} is to be modeled, the utterance prior in a WebPPL program must still be specified but should then just be uniform.}
 
-\subsection{Uncertainty from sampling}
+\subsection*{Uncertainty from sampling}
 
 Another example of a case where ``thinking in code'' makes a plausible conceptual idea much more readily available than a formula-based approach arises when we model a speaker who is uncertain about the true state of the world.
 In Section~\ref{sec:epistemic-inference}, we described the model of \cite{goodmanstuhlmuller2013}, the speaker component of which is repeated here:
@@ -761,20 +761,20 @@ This algorithmic speaker model imagines that, instead of globally reasoning abou
 
 \noindent This example serves to highlight how the available tools---being able to both ``think in math'' and to ``think in code''---help to shape the resulting theories. By having a multiplicity of tools handy, the modeler enlarges the space of conceivable (and practically-realizable) theories. While our focus in the current paper is RSA from a mathematical perspective, much of the work in implementing an RSA model involves conceiving of the relevant agents as sampling-based probabilistic programs; the accompanying web-book offers a hands-on introduction to this skill. In the following section, we dive more deeply into the practical considerations faced in the design and implementation of an RSA model.
 
-\section{Modeling practicalities} \label{practicalities}
+\section*{Modeling practicalities} \label{practicalities}
 
 Section \ref{variations} presented a menu of options to the would-be modeler: given a language-understanding phenomenon, which pieces of technology are likely to prove most useful in a formal treatment? Non-literal phenomena might benefit from a treatment via QUD inference or complex utility; vague or underspecified language suggests meaning inference, combined perhaps with uncertainty about the relevant context/prior; in cases where the speaker is unknowledgeable or behaves in an unexpected manner, we can try epistemic inference and/or context inference. Having introduced the basics of the RSA modeling framework, as well as useful additions and amendments, our focus now turns to the practical considerations involved in designing and implementing an RSA model, and testing the predictions of that model against human behavior.
 
 We focus in this section on practical issues arising during model development and testing. Concretely, we will address questions like: which discrete choice options (e.g., world states and utterances) to include in a model; which priors to assign to world states; how to set other (numerical) model parameters (e.g., the rationality parameter $\alpha$); how to link model predictions and empirical data for (Bayesian) data analysis.
 
-\subsection{Determining world states, utterances etc.} \label{practicalities-prior}
+\subsection*{Determining world states, utterances etc.} \label{practicalities-prior}
 
 % Here we focus on the question of priors for any parameter internal to the RSA model (as opposed to parameters external to the RSA model, which will be discussed below).
 % These parameters include the states of the world over which the listener reasons, the utterances available to the speaker, and potentially a host of unknown variables which will vary according to the structural description of the model.
 % %In addressing the issue of priors, the modeler must answer basic representational questions: What constitutes a world-state? At what level of linguistic description will utterances be treated?
 % The question of priors can be decomposed into at least two parts: (i) specifying the set of possible values of the variable (or, the support of the prior distribution; e.g., the set of world-states being considered) and (ii) assigning relative prior probabilities to each value in the set of possible values (e.g., the relative prior probability of each world-state).
 
-% \subsubsection{Representation and possibilities}
+% \subsubsection*{Representation and possibilities}
 
 One of the most important modeling decisions concerns setting up the conversational scenario: how do we represent the states of the world and utterances that can be described in our model? In other words, what constitutes a world-state, and at what level of linguistic description will utterances be treated? Answering these questions often entails specifying the universe of possibilities of states and utterances (i.e., the support of the prior distributions).
 %Answering this question entails identifying the essence of the language phenomenon of interest and often entails specifying the set of possibilities. 
@@ -802,7 +802,7 @@ Conceptually, a ``null'' utterance can be plausible in cases where speakers may 
 Technically, a ``null'' utterance can be useful for understanding the meaning of an utterance even without reasoning about explicit alternatives (e.g., in the study of vagueness; \cite{lassitergoodman2013}).
 
 
-\subsubsection{Prior probabilities of world states}
+\subsubsection*{Prior probabilities of world states}
 
 Having decided what the relevant alternatives are and how to model them, the task then turns to implementing the appropriate priors: beliefs about which alternatives are more or less likely a priori. Some priors can be estimated empirically. With state priors, it is sometimes possible to ask people explicitly about the relevant probabilities. For example, \cite{kaoetal2014} asked participants to rate the probability of paying various prices for certain objects and how likely it is that someone would consider a given price expensive; those ratings were normalized and served as the state prior probabilities in the hyperbole model. In the reference game model, \cite{frankgoodman2012} got at the state prior probabilities using a less direct method. To determine which objects in Figure \ref{ref-game} were more likely to get referenced a priori, the authors told participants that someone had used an unknown word to signal one of the objects; based on participants' guesses at which object the speaker was intending, \cite{frankgoodman2012} were able to estimate the relevant state prior.
 In the experimental tests of the generics model, \cite{tesslergoodman2019} employ two alternative techniques: one has participants freely generate categories and then rate the prevalence of a target feature for those categories; another has participants answer targeted questions about the abstract parameters of the prior distribution and then uses Bayesian data analysis to reconstruct the appropriate priors. %\gcs{how you estimated the state prior using targeting questions to determine parameters of the relevant distributions}.
@@ -818,12 +818,12 @@ In some cases---for example, an analytic demonstration of a qualitative predicti
 %\mht{the previous two paragraphs are about the prior on world states.. this paragraph is potentially about many different modeling components}
 %In addition to deciding how to model the various state possibilities, one must also determine which possibilities to include. 
 
-%\subsubsection{Lifted variables}
+%\subsubsection*{Lifted variables}
 %
 %\mht{here we could discuss priors on QUDs, thresholds, wonky worlds, etc.}
 
 
-\subsection{Further (numerical) parameters}
+\subsection*{Further (numerical) parameters}
 
 Like the specific probabilities assigned in the various priors, other free parameters of the model must be fixed in order to generate predictions. Free parameters common to RSA include $\alpha$, which controls speaker optimality, and the various utterance cost parameters. These parameters are often not of direct theoretical interest but sometimes can be informed by domain knowledge. For instance, it is often natural to assume that the cost of an utterance is a function of either its length  (which could be measured in terms of number of words, syllables, or characters) or that the salience of an utterance is related to its frequency (estimated from a corpus).
 
@@ -831,7 +831,7 @@ Unfortunately,  no comparable motivation exists for the setting of the speaker o
 
 For the Vanilla RSA model, the number of layers of recursion can also be thought of as a free parameter. Empirically, it has been observed that levels of recursion and speaker optimality trade-off with one another  and hence lead to unidentifiability of the parameters \cite{frank2016rational}. Recent analytic analyses have shown, however, that speaker optimality determines a tradeoff between the expected utility optimized by RSA recursion and a conception of communicative effort \cite{zaslavsky2020rate}.
 
-\subsection{Linking functions}
+\subsection*{Linking functions}
 
 A fully-specified RSA model makes qualitative, probabilistic predictions that can be tested against empirical data.
 Interpreting those predictions, however, requires a clear linking function from the model output to human behavior, and the specific linking function needed will depend on the human behavior to be modeled.
@@ -857,7 +857,7 @@ Or, when a participant places ratings via sliders on all states, a logit-transfo
 %\mht{we should really summarize the findings of Franke et al. 2016 cogsci here...}
 %\gcs{I wonder whether we should raise S$_2$ here}
 
-\subsection{Parameter estimation and model comparison}
+\subsection*{Parameter estimation and model comparison}
 
 Besides actually building the RSA model of a linguistic phenomenon, the modeler is often tasked with evaluating (or criticizing) the model, as well as comparing it to alternative models.
 These evaluations and comparisons may be informal when examining whether relevant qualitative phenomena (e.g., symmetry-breaking) are exhibited by a model.
@@ -883,11 +883,11 @@ Examples of comparisons of RSA models based on empirical data include the work o
 
 %XXX how many layers of recursion?
 
-\section{Extensions/limitations} \label{limitations}
+\section*{Extensions/limitations} \label{limitations}
 
 With a better sense of the many aspects of probabilistic language understanding that the RSA framework has been used to capture, we turn now to current limitations of the framework and opportunities for further extensions.
 
-\subsection{Compositionality}
+\subsection*{Compositionality}
 
 All of the models we have considered operate at the utterance level, taking as their starting point whatever the compositional semantics delivers to them as the meaning of a proposition; the models deliberately avoid the composition of the literal interpretations over which they operate. This move is made primarily for convenience. However, one of the most remarkable aspects of natural language is its compositionality: speakers generate arbitrarily-complex meanings by stitching together their smaller, meaning-bearing parts. The compositional nature of language has served as the bedrock of semantic (indeed, linguistic) theory since its modern inception; \cite{montague1973} builds this principle into the bones of his semantics, demonstrating with his fragment how meaning gets constructed from a lexicon and some rules of composition. Since then, compositionality has continued to guide semantic inquiry: what are the meanings of the parts, and what is the nature of the mechanism that composes them? Put differently, what are the representations of the language we use, and what is the nature of the computational system that manipulates them?
 
@@ -902,7 +902,7 @@ To that end, future work in RSA should examine the ways that a semantic composit
 
 %Hand-coded: Don't have a theory of alternatives, state priors \gcs{could relate to the compositionality issue}
 
-\subsection{Adaptation}
+\subsection*{Adaptation}
 
 In a Bayesian model, the computation of a posterior distribution can be viewed as a specification of the prior distribution in anticipation of the next update.
 In other words, ``today's posterior is tomorrow's prior''.
@@ -917,7 +917,7 @@ Beyond the lexicon, adaptation can occur at the level of pragmatics: listeners m
 \cite{schuster2020know} examined listeners' interpretations of uncertainty expressions (\emph{might}, \emph{probably}) and found that listeners update their expectations about the usage of such expressions after minimal evidence from a speaker. 
 Using a model-comparison approach within the RSA framework, the authors found that this kind of semantic/pragmatic adaptation is explained by listeners adapting their representations of the speaker's lexicon (i.e., word--meaning mappings) and the utterances a speaker prefers to say. 
 
-\subsection{Language development}
+\subsection*{Language development}
 
 The RSA modeling framework puts forth a particular hypothesis about how language understanding unfolds, and the model components and parameters can be taken to correspond to a hypothesis about the representations that may vary across the population of speakers or develop with age.
 % bring insight into the mechanisms by which pragmatic reasoning with language develops.
@@ -943,7 +943,7 @@ When this learning or inference task is carried out repeatedly across (stylized)
 
 
 
-\subsection{Levels of analysis}
+\subsection*{Levels of analysis}
 
 %\mf{}\gcs{}``Just'' a computational level theory. Doesn't bear on mechanisms. But, potentially a hook via resource rational analysis (Leider, Griffiths, ...)
 
@@ -960,7 +960,7 @@ Moreover, as detailed in Section \ref{prob-programs}, by taking direct inspirati
 As a computational-level model operating over full utterances, RSA, at least in the formulations we have considered, also eschews the highly incremental nature of human language processing. Rather than waiting for utterances to terminate before reasoning about them, language users begin integrating information as soon as it arrives during the linear unfolding of time (e.g., \cite{tanenhausetal1995}). This incremental processing is not limited to word recognition or syntactic parsing; pragmatic reasoning has also been shown to be incrementally engaged (e.g., \cite{sedivyetal1999,sedivy2007}). We might wonder, then, whether RSA should incorporate incremental pragmatic reasoning, and, if so, how such reasoning may be implemented. \cite{cohngordgonetal2019} offer one path forward for incremental RSA, amending the speaker and listener models so that they reason about individual words and potential continuations, showing how this advance is beneficial for natural language processing applications.
 In psycholinguistics, \cite{WerningCosentino2017:The-interaction} and \cite{AugurzkyFranke2019:Gricean-expecta} show how probabilistic predictions about the whole utterance derived from RSA-style modeling can be broken down to next-word expectation, a finding which is supported even by quantitative aspects of EEG measurements.
 
-\subsection{Natural language processing}
+\subsection*{Natural language processing}
 
 The final extension we discuss concerns the utility of RSA reasoning to current applications in language technologies. 
 Probabilistic formalizations of Gricean pragmatics lend themselves directly to integration into probabilistic models used in natural language processing.
@@ -976,7 +976,7 @@ This general idea of grounding semantic meaning in a data-trained module and bui
 %\mht{potential differences in the prior over states and the prior over meanings... i think FG12 is more about the prior over meanings, whereas Kao et al is about the prior on states... might we want a little discussion of when to think which?} \mf{This is important, but also very tricky. If we discuss it, I'd say not here but in the final discussion section.}
 
 
-\section{Conclusion} \label{summary}
+\section*{Conclusion} \label{summary}
 
 As the title of the current work promises, our aim has been a practical introduction to the RSA modeling framework: what would the would-be modeler need to design their own computational cognitive model of probabilistic language understanding? We began with a high-level overview of the modeling framework, which treats language understanding as a process of probabilistic, recursive social reasoning; we also stressed how the formalization offers an articulated implementation of Gricean pragmatics. With an understanding of Vanilla RSA from \cite{frankgoodman2012}, which was used to model communication behavior in simple coordinated reference games, we then expanded our sights to a broader range of language phenomena, taking note of the technology used to capture them. We showed how expanding the empirical coverage of RSA often involves taking into account additional sources of uncertainty: uncertainty about the semantics or lexicon, uncertainty about the QUD, uncertainty about the appropriate context, uncertainty about the epistemic states of conversational participants, and uncertainty about the speaker's utility calculus.
 

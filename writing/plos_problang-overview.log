@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019) (preloaded format=pdflatex 2019.5.8)  2 APR 2021 13:46
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019) (preloaded format=pdflatex 2019.5.8)  2 APR 2021 13:52
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -845,9 +845,14 @@ Package microtype Info: Loading generic protrusion settings for font family
  [1
 
 {/usr/local/texlive/2019/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
+
+Package hyperref Warning: Suppressing empty link on input line 318.
+
+
+Package hyperref Warning: Suppressing empty link on input line 318.
+
 LaTeX Font Info:    Try loading font information for OT1+pxtt on input line 337
 .
-
 (/usr/local/texlive/2019/texmf-dist/tex/latex/pxfonts/ot1pxtt.fd
 File: ot1pxtt.fd 2000/12/14 v1.0
 )
@@ -856,7 +861,7 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
  [2]
-<pics/RefGame-example.pdf, id=175, 1927.2pt x 1084.05pt>
+<pics/RefGame-example.pdf, id=86, 1927.2pt x 1084.05pt>
 File: pics/RefGame-example.pdf Graphic file (type pdf)
 <use pics/RefGame-example.pdf>
 Package pdftex.def Info: pics/RefGame-example.pdf  used on input line 360.
@@ -868,7 +873,17 @@ LaTeX Font Info:    Try loading font information for TS1+pxr on input line 470.
 
 (/usr/local/texlive/2019/texmf-dist/tex/latex/pxfonts/ts1pxr.fd
 File: ts1pxr.fd 2000/12/14 v1.0
-) [7] [8]
+)
+
+Package hyperref Warning: Suppressing empty link on input line 470.
+
+
+Package hyperref Warning: Suppressing empty link on input line 471.
+
+[7] [8]
+
+Package hyperref Warning: Suppressing empty link on input line 533.
+
 [9]
 LaTeX Font Info:    Try loading font information for OMS+pxr on input line 555.
 
@@ -878,15 +893,44 @@ File: omspxr.fd 2000/12/14 v1.0
 LaTeX Font Info:    Font shape `OMS/pxr/m/n' in size <10> not available
 (Font)              Font shape `OMS/pxsy/m/n' tried instead on input line 555.
  [10]
-[11] [12] [13]
-(/usr/local/texlive/2019/texmf-dist/tex/latex/ucs/data/uni-32.def
+[11]
+
+Package hyperref Warning: Suppressing empty link on input line 579.
+
+
+Package hyperref Warning: Suppressing empty link on input line 591.
+
+[12]
+
+Package hyperref Warning: Suppressing empty link on input line 600.
+
+[13] (/usr/local/texlive/2019/texmf-dist/tex/latex/ucs/data/uni-32.def
 File: uni-32.def 2013/05/13 UCS: Unicode data U+2000..U+20FF
-) [14]
-[15]
+)
+[14] [15]
 LaTeX Font Info:    Font shape `OT1/pxtt/bx/n' in size <8> not available
 (Font)              Font shape `OT1/pxtt/b/n' tried instead on input line 680.
- [16] [17] [18] [19] [20] [21] [22] [23] [24] [25] [26] [27] [28] [29]
-[30] [31] [32] 
+
+
+Package hyperref Warning: Suppressing empty link on input line 696.
+
+[16] [17]
+
+Package hyperref Warning: Suppressing empty link on input line 766.
+
+[18] [19] [20]
+
+Package hyperref Warning: Suppressing empty link on input line 844.
+
+[21] [22] [23]
+
+Package hyperref Warning: Suppressing empty link on input line 915.
+
+[24] [25]
+
+Package hyperref Warning: Suppressing empty link on input line 968.
+
+[26] [27] [28] [29] [30] [31] [32] 
 AED: lastpage setting LastPage
 [33]
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1600.
@@ -897,18 +941,14 @@ Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1600.
 
 Package rerunfilecheck Info: File `plos_problang-overview.out' has not changed.
 
-(rerunfilecheck)             Checksum: E3DBF075E6430A247969EAB6D6BD5B36;1638.
-
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
+(rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1600.
  ) 
 Here is how much of TeX's memory you used:
- 14216 strings out of 492616
- 210291 string characters out of 6129482
- 401278 words of memory out of 5000000
- 17462 multiletter control sequences out of 15000+600000
+ 14192 strings out of 492616
+ 209896 string characters out of 6129482
+ 401248 words of memory out of 5000000
+ 17438 multiletter control sequences out of 15000+600000
  47059 words of font info for 244 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  42i,17n,43p,2068b,1870s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -926,10 +966,10 @@ btt.pfb></usr/local/texlive/2019/texmf-dist/fonts/type1/public/txfonts/txtt.pfb
 local/texlive/2019/texmf-dist/fonts/type1/urw/palatino/uplb8a.pfb></usr/local/t
 exlive/2019/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></usr/local/texlive/
 2019/texmf-dist/fonts/type1/urw/palatino/uplri8a.pfb>
-Output written on plos_problang-overview.pdf (33 pages, 932610 bytes).
+Output written on plos_problang-overview.pdf (33 pages, 930389 bytes).
 PDF statistics:
- 920 PDF objects out of 1000 (max. 8388607)
- 817 compressed objects within 9 object streams
+ 836 PDF objects out of 1000 (max. 8388607)
+ 734 compressed objects within 8 object streams
  219 named destinations out of 1000 (max. 500000)
- 35518 words of extra memory for PDF output out of 35830 (max. 10000000)
+ 35334 words of extra memory for PDF output out of 35830 (max. 10000000)
 
