@@ -1,0 +1,586 @@
+\newcommand{\SortNoop}[1]{}
+\begin{thebibliography}{10}
+
+\bibitem{goodmanfrank2016}
+Goodman ND, Frank MC.
+\newblock Pragmatic Language Interpretation as Probabilistic Inference.
+\newblock Trends in Cognitive Sciences. 2016;20(11):818--829.
+
+\bibitem{frankejaeger2016}
+Franke M, J\"{a}ger G.
+\newblock Probabilistic pragmatics, or why {B}ayes' rule is probably important
+  for pragmatics.
+\newblock Zeitschrift f\"{u}r Sprachwissenschaf. 2016;35:3--44.
+
+\bibitem{kaoetal2014metaphor}
+Kao JT, Bergen L, Goodman ND.
+\newblock Formalizing the pragmatics of metaphor understanding.
+\newblock In: Proceedings of the Thirty-Sixth Annual Conference of the
+  {C}ognitive {S}cience {S}ociety; 2014. p. 719--724.
+
+\bibitem{kaoetal2014}
+Kao JT, Wu JY, Bergen L, Goodman ND.
+\newblock Non-literal understanding of number words.
+\newblock Proceedings of the National Academy of Sciences of the United States
+  of America. 2014;111:12002--12007.
+
+\bibitem{lassitergoodman2013}
+Lassiter D, Goodman ND.
+\newblock Context, scale structure, and statistics in the interpretation of
+  positive-form adjectives.
+\newblock In: Snider T, editor. Proceedings of {SALT} 23. CLC Publications;
+  2013. p. 587--610.
+
+\bibitem{bergenetal2016}
+Bergen L, Levy R, Goodman ND.
+\newblock Pragmatic reasoning through semantic inference.
+\newblock Semantics and Pragmatics. 2016;9(20).
+
+\bibitem{savinellietal2017}
+Savinelli KJ, Scontras G, Pearl L.
+\newblock Modeling scope ambiguity resolution as pragmatic inference:
+  Formalizing differences in child and adult behavior.
+\newblock In: Proceedings of the Thirty-Ninth Annual Conference of the
+  {C}ognitive {S}cience {S}ociety; 2017. p. 2064--3069.
+
+\bibitem{FrankeBergen2020:Theory-driven-s}
+Franke M, Bergen L.
+\newblock Theory-driven statistical modeling for semantics \& pragmatics: {A}
+  case study on grammatically generated implicature readings.
+\newblock Language. 2020;96(2):e77--e96.
+
+\bibitem{goodmanstuhlmuller2013}
+Goodman ND, Stuhlm\"{u}ller A.
+\newblock Knowledge and Implicature: Modeling Language Understanding as Social
+  Cognition.
+\newblock Topics in Cognitive Science. 2013;5:173--184.
+
+\bibitem{scontrasgoodman2017}
+Scontras G, Goodman ND.
+\newblock Resolving uncertainty in plural predication.
+\newblock Cognition. 2017;168:294--311.
+
+\bibitem{HerbstrittFranke2019:Complex-probabi}
+Herbstritt M, Franke M.
+\newblock Complex probability expressions \& high-order uncertainty:
+  compositional semantics, probabilistic pragmatics \& experimental data.
+\newblock Cognition. 2019;186:50--71.
+
+\bibitem{yoonetal2016}
+Yoon EJ, Tessler MH, Goodman ND, Frank MC.
+\newblock Talking with tact: Polite language as a balance between kindness and
+  informativity.
+\newblock In: Proceedings of the Thirty-Eighth Annual Conference of the
+  {C}ognitive {S}cience {S}ociety; 2016.
+
+\bibitem{yoonetal2017}
+Yoon EJ, Tessler MH, Goodman ND, Frank MC.
+\newblock ``I won't lie, it wasn't amazing'': Modeling polite indirect speech.
+\newblock In: Proceedings of the Thirty-Ninth Annual Conference of the
+  {C}ognitive {S}cience {S}ociety; 2017.
+
+\bibitem{problang}
+Scontras G, Tessler MH, Franke M.
+\newblock Probabilistic language understanding: An introduction to the
+  {R}ational {S}peech {A}ct framework; electronic.
+
+\bibitem{frankgoodman2012}
+Frank MC, Goodman ND.
+\newblock Predicting Pragmatic Reasoning in Language Games.
+\newblock Science. 2012;336:998--998.
+
+\bibitem{BenzvanRooijOptimalAssertions2007}
+Benz A, {\SortNoop{Rooij}}van~Rooij R.
+\newblock Optimal Assertions and what they Implicate.
+\newblock Topoi. 2007;26:63--78.
+\newblock doi:{doi:10.1007/s11245-006-9007-3}.
+
+\bibitem{degenetal2020}
+Degen J, Hawkins RXD, Graf C, Kreiss E, Goodman ND.
+\newblock When redundancy is useful: A {B}ayesian approach to `overinformative'
+  referring expressions.
+\newblock Psychological Review. 2020;127(4):591--621.
+
+\bibitem{qingfranke2015}
+Qing C, Franke M.
+\newblock Variations on a {B}ayesian Theme: Comparing {B}ayesian Models of
+  Referential Reasoning.
+\newblock In: Zeevat H, Schmitz HC, editors. Bayesian Natural Language
+  Semantics and Pragmatics. Springer; 2015. p. 201--220.
+
+\bibitem{Skyrms2010:Signals}
+Skyrms B.
+\newblock Signals: {E}volution, Learning, and Information.
+\newblock Oxford: Oxford University Press; 2010.
+
+\bibitem{Grice1975:Logic-and-Conve}
+Grice PH.
+\newblock Logic and Conversation.
+\newblock In: Cole P, Morgan JL, editors. Syntax and Semantics, Vol.~3, Speech
+  Acts. New York: Academic Press; 1975. p. 41--58.
+
+\bibitem{tesslergoodman2019}
+Tessler MH, Goodman ND.
+\newblock The language of generalization.
+\newblock Psychological Review. 2019;126:395--436.
+
+\bibitem{goodmanlassiter2015handbook}
+Goodman ND, Lassiter D.
+\newblock Probabilistic Semantics and Pragmastics: Uncertainty in Language and
+  Thought.
+\newblock In: Lappin S, Fox C, editors. The Handbook of Contemporary Semantic
+  Theory. 2nd ed. Wiley-Blackwell; 2015.
+
+\bibitem{lassiter2017adjectival}
+Lassiter D, Goodman ND.
+\newblock Adjectival vagueness in a Bayesian model of interpretation.
+\newblock Synthese. 2017;194(10):3801--3836.
+
+\bibitem{QingFranke2014:Gradable-Adject}
+Qing C, Franke M.
+\newblock Gradable Adjectives, Vagueness, and Optimal Language Use: {A}
+  Speaker-Oriented Model.
+\newblock In: Grieser J, Snider T, D'Antonio S, Wiegand M, editors. Proceedings
+  of {SALT} 44. elanguage.net; 2014. p. 23--41.
+
+\bibitem{horn1984}
+Horn L.
+\newblock Toward a new taxonomy for pragmatic inference: {Q}-based and
+  {R}-based implicature.
+\newblock In: Schiffrin D, editor. Meaning, form, and use in context.
+  Washington DC: Georgetown University Press; 1984. p. 163--192.
+
+\bibitem{hurford1974}
+Hurford JR.
+\newblock Exclusive or inclusive disjunction.
+\newblock Foundations of Language. 1974;11(3):409--411.
+
+\bibitem{chierchiaetal2012}
+Chierchia G, Fox D, Spector B.
+\newblock Scalar implicature as a grammatical phenomenon.
+\newblock In: von Heusinger K, Maienborn C, Portner P, editors. Semantics: An
+  international handbook of natural language meaning. vol.~3. Berlin: Mouton de
+  Gruyter; 2012. p. 2297--2331.
+
+\bibitem{PottsLassiter2016:Embedded-implic}
+Potts C, Lassiter D, Levy R, Frank MC.
+\newblock Embedded implicatures as pragmatic inferences under compositional
+  lexical uncertainty.
+\newblock Journal of Semantics. 2016;33(4):755--802.
+
+\bibitem{savinellietal2018}
+Savinelli KJ, Scontras G, Pearl L.
+\newblock Exactly two things to learn from modeling scope ambiguity resolution:
+  Developmental continuity and numeral semantics.
+\newblock In: Proceedings of the 8th Workshop on Cognitive Modeling and
+  Computational Linguistics ({CMCL} 2018); 2018. p. 67--75.
+
+\bibitem{roberts2012}
+Roberts C.
+\newblock Information structure in discourse: Towards an integrated formal
+  theory of pragmatics.
+\newblock Semantics and Pragmatics. 2012;5(6):1--69.
+
+\bibitem{kaogoodman2015}
+Kao JT, Goodman ND.
+\newblock Let's talk (ironically) about the weather: Modeling verbal irony.
+\newblock In: Proceedings of the Thirty-Seventh Annual Conference of the
+  {C}ognitive {S}cience {S}ociety; 2015.
+
+\bibitem{tessler2017comparisonclass}
+Tessler MH, Lopez-Brau M, Goodman ND.
+\newblock {Warm (for winter): Comparison class understanding in vague
+  language}.
+\newblock In: Proceedings of the 39th Annual Meeting of the {C}ognitive
+  {S}cience {S}ociety; 2017.
+
+\bibitem{degen2015wonky}
+Degen J, Tessler MH, Goodman ND.
+\newblock Wonky worlds: Listeners revise world knowledge when utterances are
+  odd.
+\newblock In: Proceedings of the 37th Annual Meeting of the {C}ognitive
+  {S}cience {S}ociety; 2015.
+
+\bibitem{Geurts2010:Quantity-Implic}
+Geurts B.
+\newblock Quantity Implicatures.
+\newblock Cambridge, UK: Cambridge University Press; 2010.
+
+\bibitem{vanRooijSchulz:ExhaustiveInterpretation}
+Schulz K, {\SortNoop{Rooij}}van~Rooij R.
+\newblock Pragmatic Meaning and Non-monotonic Reasoning: The Case of Exhaustive
+  Interpretation.
+\newblock Linguistics and Philosophy. 2006;29:205--250.
+
+\bibitem{Spector2006:Scalar-Implicat}
+Spector B.
+\newblock Scalar Implicatures: Exhaustivity and Gricean Reasoning.
+\newblock In: Aloni M, Butler A, Dekker P, editors. Questions in Dynamic
+  Semantics. Amsterdam, Singapore: Elsevier; 2006. p. 229--254.
+
+\bibitem{Franke2014:Typical-use-of-}
+Franke M.
+\newblock Typical use of quantifiers: {A} probabilistic speaker model.
+\newblock In: Bello P, Guarini M, McShane M, Scassellati B, editors.
+  Proceedings of CogSci. Austin, TX: Cognitive Science Society; 2014. p.
+  487--492.
+
+\bibitem{brown1987politeness}
+Brown P, Levinson SC.
+\newblock Politeness: Some universals in language usage.
+\newblock Cambridge university press; 1987.
+
+\bibitem{goodmanstuhlmuller2014}
+Goodman ND, Stuhlm\"{u}ller A. The Design and Implementation of Probabilistic
+  Programming Languages; 2014.
+\newblock \url{http://dippl.org}.
+
+\bibitem{GriffithsLieder2015:Rational-Use-of}
+Griffiths TL, Lieder F, Goodman ND.
+\newblock {Rational Use of Cognitive Resources: Levels of Analysis Between the
+  Computational and the Algorithmic}.
+\newblock Topics in Cognitive Science. 2015;7:217--229.
+
+\bibitem{lieder2020resource}
+Lieder F, Griffiths TL.
+\newblock Resource-rational analysis: understanding human cognition as the
+  optimal use of limited computational resources.
+\newblock Behavioral and Brain Sciences. 2020;43.
+
+\bibitem{Tielvan-TielFranke2021:Probabilistic-p}
+{\SortNoop{Tiel}}{van Tiel} B, Franke M, Sauerland U.
+\newblock Probabilistic pragmatics explains gradience and focality in natural
+  language quantification; 2021.
+
+\bibitem{FrankeScholler2016:Semantic-values}
+Sch\"{o}ller A, Franke M.
+\newblock Semantic values as latent parameters: {T}esting a fixed threshold
+  hypothesis for cardinal readings of \emph{few} \& \emph{many}.
+\newblock Linguistic Vanguard. 2017;3(1).
+
+\bibitem{ChemlaSingh2014:Remarks-on-the-}
+Chemla E, Singh R.
+\newblock Remarks on the Experimental Turn in the Study of Scalar Implicature
+  (Part I \& II).
+\newblock Language and Linguistics Compass. 2014;8(9):373--386, 387--399.
+
+\bibitem{Katzir2007:Structurally-De}
+Katzir R.
+\newblock Structurally-Defined Alternatives.
+\newblock Linguistics and Philosophy. 2007;30(6):669--690.
+
+\bibitem{FoxKatzir2011:On-the-Characte}
+Fox D, Katzir R.
+\newblock On the Characterization of Alternatives.
+\newblock Natural Language Semantics. 2011;19:87--107.
+
+\bibitem{Franke2012:Pragmatic-Reaso}
+Franke M.
+\newblock Pragmatic Reasoning about Unawareness.
+\newblock Erkenntnis. 2014;79(4):729--767.
+\newblock doi:{10.1007/s10670-013-9464-1}.
+
+\bibitem{zaslavsky2020rate}
+Zaslavsky N, Hu J, Levy RP.
+\newblock A Rate-Distortion view of human pragmatic reasoning.
+\newblock arXiv preprint arXiv:200506641. 2020;.
+
+\bibitem{frank2016rational}
+Frank MC, Emilsson AG, Peloquin B, Goodman ND, Potts C.
+\newblock Rational speech act models of pragmatic reasoning in reference games.
+  2016;.
+
+\bibitem{crainmckee1985}
+Crain S, McKee C.
+\newblock The acquisition of structural restrictions on anaphora.
+\newblock In: Proceedings of {NELS}. vol.~15; 1985. p. 94--110.
+
+\bibitem{crainthornton1998}
+Crain S, Thornton R.
+\newblock Investigations in {U}niversal {G}rammar: A guide to research on the
+  acquisition of syntax and semantics.
+\newblock Cambridge, MA: MIT Press; 1998.
+
+\bibitem{chierchiamcconnellginet2000}
+Chierchia G, McConnell-Ginet S.
+\newblock Meaning and grammar: An introduction to semantics.
+\newblock Cambridge, MA: MIT Press; 2000.
+
+\bibitem{degengoodman2014}
+Degen J, Goodman ND.
+\newblock Lost your marbles? The puzzle of dependent measures in experimental
+  pragmatics.
+\newblock In: Proceedings of the 36th annual conference of the {C}ognitive
+  {S}cience {S}ociety; 2014. p. 397--402.
+
+\bibitem{Franke2016:Task-types-link}
+Franke M.
+\newblock Task types, link functions \& probabilistic modeling in experimental
+  pragmatics.
+\newblock In: Salfner F, Sauerland U, editors. Proceedings of Trends in
+  Experimental Pragmatics; 2016. p. 56--63.
+
+\bibitem{jasbietal2019}
+Jasbi M, Waldon B, Degen J.
+\newblock Linking Hypothesis and Number of Response Options Modulate Inferred
+  Scalar Implicature Rate.
+\newblock Frontiers in Psychology. 2019;10:189.
+
+\bibitem{franke2016does}
+Franke M, Dablander F, Sch{\"o}ller A, Bennett E, Degen J, Tessler MH, et~al.
+\newblock What does the crowd believe? A hierarchical approach to estimating
+  subjective beliefs from empirical data.
+\newblock In: Proceedings of the Thirty-Eighth Annual Conference of the
+  {C}ognitive {S}cience {S}ociety; 2016.
+
+\bibitem{gelman2013bayesian}
+Gelman A, Carlin JB, Stern HS, Dunson DB, Vehtari A, Rubin DB.
+\newblock Bayesian data analysis.
+\newblock CRC press; 2013.
+
+\bibitem{kruschke2014doing}
+Kruschke J.
+\newblock Doing Bayesian data analysis: A tutorial with R, JAGS, and Stan.
+\newblock Academic Press; 2014.
+
+\bibitem{lee2014bayesian}
+Lee MD, Wagenmakers EJ.
+\newblock Bayesian cognitive modeling: A practical course.
+\newblock Cambridge university press; 2014.
+
+\bibitem{Lambert2018:A-Students-Guid}
+Lambert B.
+\newblock A Student's Guide to Bayesian Statistics.
+\newblock Sage Publications; 2018.
+
+\bibitem{yoonetal2020}
+Yoon EJ, Tessler MH, Goodman ND, Frank MC.
+\newblock Polite speech emerges from competing social goals.
+\newblock Open Mind: Discoveries in Cognitive Science.
+  2020;doi:{10.31234/osf.io/67ne8}.
+
+\bibitem{schuster2020know}
+Schuster S, Degen J.
+\newblock I know what you're probably going to say: Listener adaptation to
+  variable use of uncertainty expressions.
+\newblock Cognition. 2020;203:104285.
+
+\bibitem{Jeffreys1961:Theory-of-Proba}
+Jeffreys H.
+\newblock Theory of Probability.
+\newblock 3rd ed. Oxford: Oxford University Press; 1961.
+
+\bibitem{KassRaftery1995:Bayes-Factors}
+Kass RE, Raftery AE.
+\newblock Bayes Factors.
+\newblock Journal of the American Statistical Association.
+  1995;90(430):773--795.
+
+\bibitem{bohn2019predicting}
+Bohn M, Tessler MH, Merrick M, Frank MC.
+\newblock Predicting pragmatic cue integration in adults' and children's
+  inferences about novel word meanings. 2019;.
+
+\bibitem{montague1973}
+Montague R.
+\newblock The Proper Treatment of Quantification in Ordinary {E}nglish.
+\newblock In: Hintikka KJJ, Moravcsik JME, Suppes P, editors. Approaches to
+  Natural Language. vol.~49 of Synthese Library. Dordrecht: Reidel; 1973. p.
+  221--242.
+
+\bibitem{clark1986referring}
+Clark HH, Wilkes-Gibbs D.
+\newblock Referring as a collaborative process.
+\newblock Cognition. 1986;22(1):1--39.
+
+\bibitem{hawkins2020characterizing}
+Hawkins RD, Frank MC, Goodman ND.
+\newblock Characterizing the dynamics of learning in repeated reference games.
+\newblock Cognitive Science. 2020;44(6):e12845.
+
+\bibitem{hawkins2017convention}
+Hawkins RX, Frank MC, Goodman ND.
+\newblock Convention-formation in iterated reference games.
+\newblock In: Proceedings of the Thirty-Ninth Annual Conference of the
+  {C}ognitive {S}cience {S}ociety; 2017.
+
+\bibitem{markman1988children}
+Markman EM, Wachtel GF.
+\newblock Children's use of mutual exclusivity to constrain the meanings of
+  words.
+\newblock Cognitive psychology. 1988;20(2):121--157.
+
+\bibitem{schulze2013}
+Schulze C, Grassmann S, Tomasello M.
+\newblock 3-year-old children make relevance inferences in indirect verbal
+  communication.
+\newblock Child development. 2013;84(6):2079--2093.
+
+\bibitem{akhtar1996role}
+Akhtar N, Carpenter M, Tomasello M.
+\newblock The role of discourse novelty in early word learning.
+\newblock Child Development. 1996;67(2):635--645.
+
+\bibitem{frank2014inferring}
+Frank MC, Goodman ND.
+\newblock Inferring word meanings by assuming that speakers are informative.
+\newblock Cognitive psychology. 2014;75:80--96.
+
+\bibitem{bohn2019integrating}
+Bohn M, Tessler MH, Frank MC.
+\newblock Integrating common ground and informativeness in pragmatic word
+  learning.
+\newblock In: Proceedings of the 41st Annual Meeting of the {C}ognitive
+  {S}cience {S}ociety; 2019.
+
+\bibitem{BrochhagenFranke2017:Co-evolution-of}
+Brochhagen T, Franke M, van Rooij R.
+\newblock Co-evolution of lexical meaning and pragmatic use.
+\newblock Cognitive Science. 2018;42(8):2757--2789.
+
+\bibitem{CarcassiSchwoustra2019:The-evolution-o}
+Carcassi F, Schwoustra M, Kirby S.
+\newblock The evolution of adjectival monotonicity.
+\newblock In: Espinal MT, Castroviejo E, Leonetti M, McNally L,
+  Real-Puigdollers C, editors. Proceedings of {S}inn und {B}edeutung 23.
+  vol.~1; 2019. p. 219--230.
+
+\bibitem{Carcassi2020:The-cultural-ev}
+Carcassi F.
+\newblock The cultural evolution of scalar categorization.
+\newblock University of Edinburgh; 2020.
+
+\bibitem{WoensdregtCummins2020:A-computational}
+Woensdregt M, Cummins C, Smith K.
+\newblock A computational model of the cultural co-evolution of language and
+  mindreading.
+\newblock Synthese. 2020;.
+
+\bibitem{OhmerKonig2020:Reinforcement-o}
+Ohmer X, K\"{o}nig P, Franke M.
+\newblock Reinforcement of Semantic Representations in Pragmatic Agents Leads
+  to the Emergence of a Mutual Exclusivity Bias.
+\newblock In: Proceedings of {CogSci} 42; 2020.
+
+\bibitem{lundetal2019}
+Lund G, Jarvis R, Scontras G.
+\newblock The pragmatics of semantic change: Modeling the
+  progressive-to-imperfective shift.
+\newblock In: Proceedings of {Sinn und Bedeutung} 23; 2019. p. 73--90.
+
+\bibitem{marr1982}
+Marr D.
+\newblock Vision: A Computational Investigation into the Human Representation
+  and Processing of Visual Information.
+\newblock San Francisco: W. H. Freeman and Company; 1982.
+
+\bibitem{FrankeDegen2015:Reasoning-in-Re}
+Franke M, Degen J.
+\newblock Reasoning in Reference Games: {I}ndividual- vs.~Population-Level
+  Probabilistic Modeling.
+\newblock PLoS ONE. 2016;11(5):e0154854.
+
+\bibitem{tanenhausetal1995}
+Tanenhaus MK, Spivey-Knowlton MJ, Eberhard KM, Sedivy JC.
+\newblock Integration of visual and linguistic information in spoken language
+  comprehension.
+\newblock Science. 1995;268(5217):1632--1634.
+
+\bibitem{sedivyetal1999}
+Sedivy JC, Tanenhaus MK, Chambers CG, Carlson GN.
+\newblock Achieving incremental semantic interpretation through contextual
+  representation.
+\newblock Cognition. 1999;71:109--147.
+\newblock doi:{10.1016/S0010-0277(99)00025-6}.
+
+\bibitem{sedivy2007}
+Sedivy JC.
+\newblock Implicature during real time conversation: A view from language
+  processing research.
+\newblock Philosophy Compass. 2007;2(3):475--496.
+
+\bibitem{cohngordgonetal2019}
+Cohn-Gordon R, Goodman ND, Potts C.
+\newblock An Incremental Iterated Response Model of Pragmatics.
+\newblock In: Proceedings of the {S}ociety for {C}omputation in {L}inguistics
+  ({SCiL}) 2019; 2019. p. 81--90.
+
+\bibitem{WerningCosentino2017:The-interaction}
+Werning M, Cosentino E.
+\newblock The interaction of {B}ayesian pragmatics and lexical semantics in
+  linguistic interpretation: {U}sing event-related potentials to investigate
+  hearers' probabilistic predictions.
+\newblock In: Gunzelmann G, Howes A, Tenbrink T, Davelaar E, editors.
+  Proceedings of {CogSci} 39. Austin, TX: Cognitive Science Society; 2017. p.
+  3504--3509.
+
+\bibitem{AugurzkyFranke2019:Gricean-expecta}
+Augurzky P, Franke M, Ulrich R.
+\newblock Gricean expectations in online sentence comprehension: an {ERP} study
+  on the processing of scalar inferences.
+\newblock Cognitive Science. 2019;43(8).
+
+\bibitem{Monroe:Potts:2015}
+Monroe W, Potts C.
+\newblock Learning in the {R}ational {S}peech {A}cts Model.
+\newblock In: Proceedings of 20th {A}msterdam {C}olloquium. Amsterdam: ILLC;
+  2015.
+
+\bibitem{DeemterSluis2006:Building-a-Sema}
+van Deemter K, van~der Sluis I, Gatt A.
+\newblock Building a Semantically Transparent Corpus for the Generation of
+  Referring Expressions.
+\newblock In: Proceedings of the Fourth International Natural Language
+  Generation Conference. Sydney, Australia: Association for Computational
+  Linguistics; 2006. p. 130--132.
+
+\bibitem{Monroe:Hawkins:Goodman:Potts:2017}
+Monroe W, Hawkins RXD, Goodman ND, Potts C.
+\newblock Colors in Context: A Pragmatic Neural Model for Grounded Language
+  Understanding.
+\newblock Transactions of the Association for Computational Linguistics.
+  2017;5:325--338.
+
+\bibitem{AndreasKlein2016:Reasoning-about}
+Andreas J, Klein D.
+\newblock Reasoning about pragmatics with neural listeners and speakers.
+\newblock In: Proceedings of the 2016 Conference on Empirical Methods in
+  Natural Language Processing. Austin, TX: Association for Computational
+  Linguistics; 2016. p. 1173--1182.
+
+\bibitem{FriedHu2018:Speaker-Followe}
+Fried D, Hu R, Cirik V, Rohrbach A, Andreas J, Morency LP, et~al.
+\newblock Speaker-Follower Models for Vision-and-Language Navigation.
+\newblock In: Bengio S, Wallach H, Larochelle H, Grauman K, Cesa-Bianchi N,
+  Garnett R, editors. Advances in Neural Information Processing Systems.
+  vol.~31. Curran Associates, Inc.; 2018. p. 3314--3325.
+
+\bibitem{ShenFried2019:Pragmatically-I}
+Shen S, Fried D, Andreas J, Klein D.
+\newblock Pragmatically Informative Text Generation.
+\newblock In: Proceedings of NAACL; 2019.
+
+\bibitem{Cohn-GordonGoodman2018:Pragmatically-I}
+Cohn-Gordon R, Goodman ND, Potts C.
+\newblock Pragmatically Informative Image Captioning with Character-Level
+  Inference.
+\newblock In: Proceedings of the 2018 Conference of the {N}orth {A}merican
+  Chapter of the {A}ssociation for {C}omputational {L}inguistics: Human
+  Language Technologies. Stroudsburg, PA: Association for Computational
+  Linguistics; 2018. p. 439--443.
+
+\bibitem{NieCohn-Gordon2020:Pragmatic-Issue}
+Nie A, Cohn-Gordon R, Potts C.
+\newblock Pragmatic Issue-Sensitive Image Captioning.
+\newblock In: Findings of the Association for Computational Linguistics: EMNLP
+  2020. Online: Association for Computational Linguistics; 2020. p. 1924--1938.
+
+\bibitem{Cohn-GordonGoodman2019:Lost-in-Machine}
+Cohn-Gordon R, Goodman ND.
+\newblock Lost in Machine Translation: A Method to Reduce Meaning Loss.
+\newblock In: Proceedings of the 2019 Conference of the North American Chapter
+  of the Association for Computational Linguistics: {H}uman Language
+  Technologies. vol.~1. Minneapolis, Minnesota: Association for Computational
+  Linguistics; 2019. p. 437--441.
+
+\end{thebibliography}

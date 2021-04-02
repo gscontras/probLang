@@ -1,0 +1,23 @@
+\BOOKMARK [1][-]{section.1}{High-level overview of RSA}{}% 1
+\BOOKMARK [1][-]{section.2}{Variations on Vanilla}{}% 2
+\BOOKMARK [2][-]{subsection.2.1}{Meaning inference}{section.2}% 3
+\BOOKMARK [2][-]{subsection.2.2}{QUD inference}{section.2}% 4
+\BOOKMARK [2][-]{subsection.2.3}{Context/Prior inference}{section.2}% 5
+\BOOKMARK [2][-]{subsection.2.4}{Epistemic inference}{section.2}% 6
+\BOOKMARK [2][-]{subsection.2.5}{Complex utility/utility inference}{section.2}% 7
+\BOOKMARK [1][-]{section.3}{Pragmatic agents as probabilistic programs}{}% 8
+\BOOKMARK [2][-]{subsection.3.1}{Utterance priors \046 utterance salience}{section.3}% 9
+\BOOKMARK [2][-]{subsection.3.2}{Uncertainty from sampling}{section.3}% 10
+\BOOKMARK [1][-]{section.4}{Modeling practicalities}{}% 11
+\BOOKMARK [2][-]{subsection.4.1}{Determining world states, utterances etc.}{section.4}% 12
+\BOOKMARK [3][-]{subsubsection.4.1.1}{Prior probabilities of world states}{subsection.4.1}% 13
+\BOOKMARK [2][-]{subsection.4.2}{Further \(numerical\) parameters}{section.4}% 14
+\BOOKMARK [2][-]{subsection.4.3}{Linking functions}{section.4}% 15
+\BOOKMARK [2][-]{subsection.4.4}{Parameter estimation and model comparison}{section.4}% 16
+\BOOKMARK [1][-]{section.5}{Extensions/limitations}{}% 17
+\BOOKMARK [2][-]{subsection.5.1}{Compositionality}{section.5}% 18
+\BOOKMARK [2][-]{subsection.5.2}{Adaptation}{section.5}% 19
+\BOOKMARK [2][-]{subsection.5.3}{Language development}{section.5}% 20
+\BOOKMARK [2][-]{subsection.5.4}{Levels of analysis}{section.5}% 21
+\BOOKMARK [2][-]{subsection.5.5}{Natural language processing}{section.5}% 22
+\BOOKMARK [1][-]{section.6}{Conclusion}{}% 23
