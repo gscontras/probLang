@@ -232,7 +232,7 @@ var meaning = function(utterance, price, theta) {
 var literalListener = cache(function(utterance, theta, item) {
   var statePrior = statePrior_lookup(item);
   return Infer({method: "enumerate"}, function() {
-    var price = statePrior(item);
+    var price = statePrior();
     condition(meaning(utterance, price, theta));
     return price;
   });
