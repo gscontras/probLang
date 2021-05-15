@@ -4,19 +4,19 @@ title: Quantifier choice & approximate number
 description: "Speaker choice of quantifiers for situations where perception of cardinality is uncertain"
 ---
 
-### Appendix chapter 04: Quantifier choice & approximate number
+### Appendix chapter 05: Quantifier choice & approximate number
 
 *Author: Michael Franke*
 
 ##### Quantifiers and focal ranges
 
-[Chapter 2](02-pragmatics.html) introduced a model for reasoning about the meaning of quantifiers in order to study scalar implicature, the phenomenon that from an utterance of *some* we can often infer that *some but not all* is likely. This, however, is not the only kind of pragmatic enrichment that affects the meaning of quantifiers. Suppose Alex says that she owns some of the Stones' studio albums on vinyl. You know that the Stones released a total of 25 studio albums. How many LPs do you think Alex owns?
+[Chapter 2](02-pragmatics.html) introduced a model for reasoning about the meaning of quantifiers in order to study scalar implicature, the phenomenon that from an utterance of *some* we can often infer that *some but not all* is likely. This, however, is not the only kind of pragmatic enrichment that affects the meaning of quantifiers. Suppose Alex says that she owns some of the Stones' studio albums on vinyl. You know that the Stones released a total of 30 studio albums. How many LPs do you think Alex owns?
 
-By the logic of pragmatic enrichment discussed in [Chapter 2](02-pragmatics.html) you should believe, if you had initially deemed any number equally likely, that Alex owns at least one but probably not 25. But, intuitively, it may be much more likely that she owns no more than half. Otherwise Alex would likely have said *most*. Presumably, it is not just one or two, for Alex would probably have said *one* or *two*. And maybe it is not just a very small number, for otherwise Alex had said *a few* or *a couple*. In conclusion, the pragmatic interpretation of one quantifier may in fact be constrained by a whole battery of likely alternative descriptions the speaker could have used but did not. (For arguments and data motivating the assumption that our interpretation of *some* is affected by more than the frequently assumed alternatives *all* and *most*, see reft:DegenTanenhaus2015 or reft:Franke2014.) 
+By the logic of pragmatic enrichment discussed in [Chapter 2](02-pragmatics.html) you should believe, if you had initially deemed any number equally likely, that Alex owns at least one but probably not all 30. But, intuitively, it may be much more likely that she owns no more than half. Otherwise Alex would likely have said *most*. Presumably, it is not just one or two, for Alex would probably have said *one* or *two*. And maybe it is not just a very small number, for otherwise Alex had said *a few* or *a couple*. In conclusion, the pragmatic interpretation of one quantifier may in fact be constrained by a whole battery of likely alternative descriptions the speaker could have used but did not. (For arguments and data motivating the assumption that our interpretation of *some* is affected by more than the frequently assumed alternatives *all* and *most*, see reft:DegenTanenhaus2015 or reft:Franke2014.) 
 
-The psychological literature on quantifier use and interpretation has shown that natural language quantifiers like *some*, *most*, *many* or *a few* seem to be associated with so-called **focal ranges**, i.e., subsets of their logical meaning in which they are preferably used. These focal ranges do not have sharp boundaries but are only imprecisely delineated. Here, we look at an RSA model that tries to account of these imprecise focal ranges. We look at empirical data on the free production of quantifier expressions to describe visually presented cardinalities. A secondary purpose of this chapter is to show that it is relatively easy to integrate into probabilistic RSA models assumptions about general cognitive mechanisms outside of language processing as well. Here we will look at approximate cardinality perception and representation.
+The psychological literature on quantifier use and interpretation has shown that natural language quantifiers like *some*, *most*, *many* or *a few* seem to be associated with so-called **focal ranges**, i.e., subsets of their logical meaning in which they are preferably used. These focal ranges do not have sharp boundaries but are only imprecisely delineated. Here, we look at an RSA model that tries to account for these imprecise focal ranges. We look at empirical data on the free production of quantifier expressions to describe visually presented cardinalities. A secondary purpose of this chapter is to show that it is relatively easy to combine probabilistic RSA models assumptions with probabilistic models of other cognitive mechanisms outside of language processing. Here we will look at approximate cardinality perception and representation.
 
-Concretely, the model presented here extends the first model from [Chapter 2](02-pragmatics.html) (without the speaker's uncertainty) by incorporating:
+Concretely, the model presented here is a simplified version of a model developed by reft:TielFrankeSauerland2021. It  extends the first model from [Chapter 2](02-pragmatics.html) (without the speaker's uncertainty) by incorporating:
 
 - many more states and utterances
 - non-uniform utterance priors, instead of utterance costs, to model the relative frequency with which expressions come to mind, rather than their relative complexity or production effort
@@ -25,7 +25,7 @@ Concretely, the model presented here extends the first model from [Chapter 2](02
 
 ##### Eliciting quantifiers experimentally
 
-reft:BaathSauerland2010 presented participants with displays like in Fig. 1, all of which consisted of 432 circles of which a variable number was red and the rest black. Participants then filled in whatever quantifying expression they found most appropriate to complete the sentence (with the exception of number terms, which they were told not to use):
+reft:TielFrankeSauerland2021 presented participants with displays like in Fig. 1, all of which consisted of 432 circles of which a variable number was red and the rest black. Participants then filled in whatever quantifying expression they found most appropriate to complete the sentence (with the exception of number terms, which they were told not to use):
 
 <center> "_______________ of the circles are red." </center>
 
@@ -37,7 +37,7 @@ number = "1"
 width="400px" 
 %}
 
-We look here at the fifteen most frequently filled in quantifying expressions, together with the important but naturally less frequent options *none* and *all*. We take their their relative proportion of mentioning in the experiment as a (admittedly tentative) stand-in for the relative ease with which these expression may come to mind. We model the ease with which an expression comes to mind as a non-uniform utterance prior, instead of an utterance cost which would rather model an utteranc's production effort (see also [Appendix Chapter](app-03-costs.html) for more on this distinction).
+We look here at the fifteen most frequently filled in quantifying expressions, together with the important but naturally less frequent options *none* and *all*. We take their their relative proportion of mentioning in the experiment as a (admittedly tentative) stand-in for the relative ease with which these expression may come to mind. We model the ease with which an expression comes to mind as a non-uniform utterance prior, instead of an utterance cost which would rather model an utterance's production effort (see also [Appendix Chapter 3](app-03-costs.html) for more on this distinction).
 
 
 ~~~~
