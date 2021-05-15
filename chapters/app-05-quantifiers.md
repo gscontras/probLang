@@ -57,7 +57,7 @@ viz(utterancePrior)
 ~~~~
 
 
-The goal of the remainder of this section is to use these expressions (and their relative frequency) to account for imprecise focal ranges of these expressions. To keep things simple, we will not look at the actual production data from reft:BaathSauerland2010 but rather rely on our own intuitions about plausibility of the model. The main points to demonstrate are: (i) how probabilistic pragmatic reasoning can cope with many utterances with their respective weights, and (ii) how to combine an RSA model with imprecise cardinality perception/representation.
+The goal of the remainder of this section is to use these expressions (and their relative frequency) to account for imprecise focal ranges of these expressions. To keep things simple, we will not look at the actual production data from reft:TielFrankeSauerland2021 but rather rely on our own intuitions about plausibility of the model. The main points to demonstrate are: (i) how probabilistic pragmatic reasoning can cope with many utterances with their respective weights, and (ii) how to combine an RSA model with imprecise cardinality perception/representation.
 
 ##### A model for many quantifiers 
 
