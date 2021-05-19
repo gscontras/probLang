@@ -192,7 +192,7 @@ speaker1(1, 0.99)
 
 ### A listener who understands politeness
 
-If different speakers can have different weights on the mixture parameter `phi`, which governs the trade-off between kindness and informativity, listeners may have uncertainty about what kind of speaker they are interacting with. (Another motivation is to interpret the kindness vs. informativity behind a single utterance, for a known speaker.) This can be captured by endowing the `pragmaticListener` with a prior distribution over `phi`, corresponding to uncertainty about the parameter of the speaker's utility function. The pragmatic listener model assumed here is a joint-inference model, much like used in previous chapters, inferring world state and `phi`-parameter at the same time:
+If different speakers can have different weights on the mixture parameter `phi`, which governs the trade-off between kindness and informativity, listeners may have uncertainty about what kind of speaker they are interacting with. (Another motivation is to interpret the kindness vs. informativity behind a single utterance, for a known speaker.) This can be captured by endowing the `pragmaticListener` with a prior distribution over `phi`, corresponding to uncertainty about the parameter of the speaker's utility function. The pragmatic listener model assumed here is a joint-inference model, much like those used in previous chapters, inferring world state and `phi`-parameter at the same time:
 
 $$P_{L_1}( s, \varphi \mid u) \propto P(s) \ P(\varphi) \ P_{S_1}( u \mid s, \varphi)$$
 
