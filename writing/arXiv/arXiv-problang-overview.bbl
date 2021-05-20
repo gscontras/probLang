@@ -1,0 +1,639 @@
+\newcommand{\SortNoop}[1]{}
+\begin{thebibliography}{97}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\providecommand{\urlprefix}{}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi:\discretionary{}{}{}#1}\else
+  \providecommand{\doi}{doi:\discretionary{}{}{}\begingroup
+  \urlstyle{rm}\Url}\fi
+
+\bibitem[{Akhtar et~al.(1996)Akhtar, Carpenter \& Tomasello}]{akhtar1996role}
+Akhtar, Nameera, Malinda Carpenter \& Michael Tomasello. 1996.
+\newblock The role of discourse novelty in early word learning.
+\newblock \emph{Child Development} 67(2). 635--645.
+
+\bibitem[{Andreas \& Klein(2016)}]{AndreasKlein2016:Reasoning-about}
+Andreas, Jacob \& Dan Klein. 2016.
+\newblock Reasoning about pragmatics with neural listeners and speakers.
+\newblock In \emph{Proceedings of the 2016 conference on empirical methods in
+  natural language processing}, 1173--1182. Austin, TX: Association for
+  Computational Linguistics.
+
+\bibitem[{Augurzky et~al.(2019)Augurzky, Franke \&
+  Ulrich}]{AugurzkyFranke2019:Gricean-expecta}
+Augurzky, Petra, Michael Franke \& Rolf Ulrich. 2019.
+\newblock Gricean expectations in online sentence comprehension: an {ERP} study
+  on the processing of scalar inferences.
+\newblock \emph{Cognitive Science} 43(8).
+
+\bibitem[{Benz \&
+  {\SortNoop{Rooij}}van~Rooij(2007)}]{BenzvanRooijOptimalAssertions2007}
+Benz, Anton \& Robert {\SortNoop{Rooij}}van~Rooij. 2007.
+\newblock Optimal assertions and what they implicate.
+\newblock \emph{Topoi} 26. 63--78.
+\newblock \doi{doi:10.1007/s11245-006-9007-3}.
+
+\bibitem[{Bergen et~al.(2016)Bergen, Levy \& Goodman}]{bergenetal2016}
+Bergen, Leon, Roger Levy \& Noah~D. Goodman. 2016.
+\newblock Pragmatic reasoning through semantic inference.
+\newblock \emph{Semantics and Pragmatics} 9(20).
+
+\bibitem[{Bohn et~al.(2019{\natexlab{a}})Bohn, Tessler \&
+  Frank}]{bohn2019integrating}
+Bohn, Manuel, Michael~Henry Tessler \& Michael~C Frank. 2019{\natexlab{a}}.
+\newblock Integrating common ground and informativeness in pragmatic word
+  learning.
+\newblock In \emph{Proceedings of the 41st annual meeting of the {C}ognitive
+  {S}cience {S}ociety}, .
+
+\bibitem[{Bohn et~al.(2019{\natexlab{b}})Bohn, Tessler, Merrick \&
+  Frank}]{bohn2019predicting}
+Bohn, Manuel, Michael~Henry Tessler, Megan Merrick \& Michael~C Frank.
+  2019{\natexlab{b}}.
+\newblock Predicting pragmatic cue integration in adults' and children's
+  inferences about novel word meanings .
+
+\bibitem[{Brochhagen et~al.(2018)Brochhagen, Franke \& van
+  Rooij}]{BrochhagenFranke2017:Co-evolution-of}
+Brochhagen, Thomas, Michael Franke \& Robert van Rooij. 2018.
+\newblock Co-evolution of lexical meaning and pragmatic use.
+\newblock \emph{Cognitive Science} 42(8). 2757--2789.
+
+\bibitem[{Brown \& Levinson(1987)}]{brown1987politeness}
+Brown, Penelope \& Stephen~C Levinson. 1987.
+\newblock \emph{Politeness: Some universals in language usage}.
+\newblock Cambridge university press.
+
+\bibitem[{Carcassi(2020)}]{Carcassi2020:The-cultural-ev}
+Carcassi, Fausto. 2020.
+\newblock \emph{The cultural evolution of scalar categorization}: University of
+  Edinburgh dissertation.
+
+\bibitem[{Carcassi et~al.(2019)Carcassi, Schwoustra \&
+  Kirby}]{CarcassiSchwoustra2019:The-evolution-o}
+Carcassi, Fausto, Marieke Schwoustra \& Simon Kirby. 2019.
+\newblock The evolution of adjectival monotonicity.
+\newblock In M.~Teresa Espinal, Elena Castroviejo, Manuel Leonetti, Louise
+  McNally \& Cristina Real-Puigdollers (eds.), \emph{Proceedings of {S}inn und
+  {B}edeutung 23}, vol.~1, 219--230.
+
+\bibitem[{Chemla \& Singh(2014)}]{ChemlaSingh2014:Remarks-on-the-}
+Chemla, Emmanuel \& Raij Singh. 2014.
+\newblock Remarks on the experimental turn in the study of scalar implicature
+  (part i \& ii).
+\newblock \emph{Language and Linguistics Compass} 8(9). 373--386, 387--399.
+
+\bibitem[{Chierchia et~al.(2012)Chierchia, Fox \& Spector}]{chierchiaetal2012}
+Chierchia, Gennaro, Danny Fox \& Benjamin Spector. 2012.
+\newblock Scalar implicature as a grammatical phenomenon.
+\newblock In Klaus von Heusinger, Claudia Maienborn \& Paul Portner (eds.),
+  \emph{Semantics: An international handbook of natural language meaning},
+  vol.~3, chap.~87, 2297--2331. Berlin: Mouton de Gruyter.
+
+\bibitem[{Chierchia \& McConnell-Ginet(2000)}]{chierchiamcconnellginet2000}
+Chierchia, Gennaro \& Sally McConnell-Ginet. 2000.
+\newblock \emph{Meaning and grammar: An introduction to semantics.}
+\newblock Cambridge, MA: MIT Press.
+
+\bibitem[{Clark \& Wilkes-Gibbs(1986)}]{clark1986referring}
+Clark, Herbert~H \& Deanna Wilkes-Gibbs. 1986.
+\newblock Referring as a collaborative process.
+\newblock \emph{Cognition} 22(1). 1--39.
+
+\bibitem[{Cohn-Gordon \&
+  Goodman(2019)}]{Cohn-GordonGoodman2019:Lost-in-Machine}
+Cohn-Gordon, Reuben \& Noah~D. Goodman. 2019.
+\newblock Lost in machine translation: A method to reduce meaning loss.
+\newblock In \emph{Proceedings of the 2019 conference of the north american
+  chapter of the association for computational linguistics: {H}uman language
+  technologies}, vol.~1, 437--441. Minneapolis, Minnesota: Association for
+  Computational Linguistics.
+
+\bibitem[{Cohn-Gordon et~al.(2018)Cohn-Gordon, Goodman \&
+  Potts}]{Cohn-GordonGoodman2018:Pragmatically-I}
+Cohn-Gordon, Reuben, Noah~D. Goodman \& Christopher Potts. 2018.
+\newblock Pragmatically informative image captioning with character-level
+  inference.
+\newblock In \emph{Proceedings of the 2018 conference of the {N}orth {A}merican
+  chapter of the {A}ssociation for {C}omputational {L}inguistics: Human
+  language technologies}, 439--443. Stroudsburg, PA: Association for
+  Computational Linguistics.
+
+\bibitem[{Cohn-Gordon et~al.(2019)Cohn-Gordon, Goodman \&
+  Potts}]{cohngordgonetal2019}
+Cohn-Gordon, Reuben, Noah~D. Goodman \& Christopher Potts. 2019.
+\newblock An incremental iterated response model of pragmatics.
+\newblock In \emph{Proceedings of the {S}ociety for {C}omputation in
+  {L}inguistics ({SCiL}) 2019}, 81--90.
+
+\bibitem[{Crain \& McKee(1985)}]{crainmckee1985}
+Crain, Stephen \& Cecile McKee. 1985.
+\newblock The acquisition of structural restrictions on anaphora.
+\newblock In \emph{Proceedings of {NELS}}, vol.~15, 94--110.
+
+\bibitem[{Crain \& Thornton(1998)}]{crainthornton1998}
+Crain, Stephen \& Rosalind Thornton. 1998.
+\newblock \emph{Investigations in {U}niversal {G}rammar: A guide to research on
+  the acquisition of syntax and semantics}.
+\newblock Cambridge, MA: MIT Press.
+
+\bibitem[{van Deemter et~al.(2006)van Deemter, van~der Sluis \&
+  Gatt}]{DeemterSluis2006:Building-a-Sema}
+van Deemter, Kees, Ielka van~der Sluis \& Albert Gatt. 2006.
+\newblock Building a semantically transparent corpus for the generation of
+  referring expressions.
+\newblock In \emph{Proceedings of the fourth international natural language
+  generation conference}, 130--132. Sydney, Australia: Association for
+  Computational Linguistics.
+
+\bibitem[{Degen \& Goodman(2014)}]{degengoodman2014}
+Degen, Judith \& Noah~D Goodman. 2014.
+\newblock Lost your marbles? the puzzle of dependent measures in experimental
+  pragmatics.
+\newblock In \emph{Proceedings of the 36th annual conference of the {C}ognitive
+  {S}cience {S}ociety}, 397--402.
+
+\bibitem[{Degen et~al.(2020)Degen, Hawkins, Graf, Kreiss \&
+  Goodman}]{degenetal2020}
+Degen, Judith, Robert~X.D. Hawkins, Caroline Graf, Elisa Kreiss \& Noah~D.
+  Goodman. 2020.
+\newblock When redundancy is useful: A {B}ayesian approach to `overinformative'
+  referring expressions.
+\newblock \emph{Psychological Review} 127(4). 591--621.
+
+\bibitem[{Degen et~al.(2015)Degen, Tessler \& Goodman}]{degen2015wonky}
+Degen, Judith, Michael~Henry Tessler \& Noah~D Goodman. 2015.
+\newblock Wonky worlds: Listeners revise world knowledge when utterances are
+  odd.
+\newblock In \emph{Proceedings of the 37th annual meeting of the {C}ognitive
+  {S}cience {S}ociety}, .
+
+\bibitem[{Fox \& Katzir(2011)}]{FoxKatzir2011:On-the-Characte}
+Fox, Danny \& Roni Katzir. 2011.
+\newblock On the characterization of alternatives.
+\newblock \emph{Natural Language Semantics} 19. 87--107.
+
+\bibitem[{Frank et~al.(2016)Frank, Emilsson, Peloquin, Goodman \&
+  Potts}]{frank2016rational}
+Frank, Michael~C, Andres~Gomez Emilsson, Benjamin Peloquin, Noah~D Goodman \&
+  Christopher Potts. 2016.
+\newblock Rational speech act models of pragmatic reasoning in reference games
+  .
+
+\bibitem[{Frank \& Goodman(2012)}]{frankgoodman2012}
+Frank, Michael~C. \& Noah~D. Goodman. 2012.
+\newblock Predicting pragmatic reasoning in language games.
+\newblock \emph{Science} 336. 998--998.
+
+\bibitem[{Frank \& Goodman(2014)}]{frank2014inferring}
+Frank, Michael~C \& Noah~D Goodman. 2014.
+\newblock Inferring word meanings by assuming that speakers are informative.
+\newblock \emph{Cognitive psychology} 75. 80--96.
+
+\bibitem[{Franke(2014{\natexlab{a}})}]{Franke2012:Pragmatic-Reaso}
+Franke, Michael. 2014{\natexlab{a}}.
+\newblock Pragmatic reasoning about unawareness.
+\newblock \emph{Erkenntnis} 79(4). 729--767.
+\newblock \doi{10.1007/s10670-013-9464-1}.
+
+\bibitem[{Franke(2014{\natexlab{b}})}]{Franke2014:Typical-use-of-}
+Franke, Michael. 2014{\natexlab{b}}.
+\newblock Typical use of quantifiers: {A} probabilistic speaker model.
+\newblock In Paul Bello, Marcello Guarini, Marjorie McShane \& Brian
+  Scassellati (eds.), \emph{Proceedings of cogsci}, 487--492. Austin, TX:
+  Cognitive Science Society.
+
+\bibitem[{Franke(2016)}]{Franke2016:Task-types-link}
+Franke, Michael. 2016.
+\newblock Task types, link functions \& probabilistic modeling in experimental
+  pragmatics.
+\newblock In Fabienne Salfner \& Uli Sauerland (eds.), \emph{Proceedings of
+  trends in experimental pragmatics}, 56--63.
+
+\bibitem[{Franke \& Bergen(2020)}]{FrankeBergen2020:Theory-driven-s}
+Franke, Michael \& Leon Bergen. 2020.
+\newblock Theory-driven statistical modeling for semantics \& pragmatics: {A}
+  case study on grammatically generated implicature readings.
+\newblock \emph{Language} 96(2). e77--e96.
+
+\bibitem[{Franke et~al.(2016)Franke, Dablander, Sch{\"o}ller, Bennett, Degen,
+  Tessler, Kao \& Goodman}]{franke2016does}
+Franke, Michael, Fabian Dablander, Anthea Sch{\"o}ller, Erin Bennett, Judith
+  Degen, Michael~Henry Tessler, Justine~T Kao \& Noah~D Goodman. 2016.
+\newblock What does the crowd believe? a hierarchical approach to estimating
+  subjective beliefs from empirical data.
+\newblock In \emph{Proceedings of the thirty-eighth annual conference of the
+  {C}ognitive {S}cience {S}ociety}, .
+
+\bibitem[{Franke \& Degen(2016)}]{FrankeDegen2015:Reasoning-in-Re}
+Franke, Michael \& Judith Degen. 2016.
+\newblock Reasoning in reference games: {I}ndividual- vs.~population-level
+  probabilistic modeling.
+\newblock \emph{PLoS ONE} 11(5). e0154854.
+
+\bibitem[{Franke \& J\"{a}ger(2016)}]{frankejaeger2016}
+Franke, Michael \& Gerhard J\"{a}ger. 2016.
+\newblock Probabilistic pragmatics, or why {B}ayes' rule is probably important
+  for pragmatics.
+\newblock \emph{Zeitschrift f\"{u}r Sprachwissenschaf} 35. 3--44.
+
+\bibitem[{Fried et~al.(2018)Fried, Hu, Cirik, Rohrbach, Andreas, Morency,
+  Berg-Kirkpatrick, Saenko, Klein \& Darrell}]{FriedHu2018:Speaker-Followe}
+Fried, Daniel, Ronghang Hu, Volkan Cirik, Anna Rohrbach, Jacob Andreas,
+  Louis-Philippe Morency, Taylor Berg-Kirkpatrick, Kate Saenko, Dan Klein \&
+  Trevor Darrell. 2018.
+\newblock Speaker-follower models for vision-and-language navigation.
+\newblock In S.~Bengio, H.~Wallach, H.~Larochelle, K.~Grauman, N.~Cesa-Bianchi
+  \& R.~Garnett (eds.), \emph{Advances in neural information processing
+  systems}, vol.~31, 3314--3325. Curran Associates, Inc.
+
+\bibitem[{Gelman et~al.(2013)Gelman, Carlin, Stern, Dunson, Vehtari \&
+  Rubin}]{gelman2013bayesian}
+Gelman, Andrew, John~B Carlin, Hal~S Stern, David~B Dunson, Aki Vehtari \&
+  Donald~B Rubin. 2013.
+\newblock \emph{Bayesian data analysis}.
+\newblock CRC press.
+
+\bibitem[{Geurts(2010)}]{Geurts2010:Quantity-Implic}
+Geurts, Bart. 2010.
+\newblock \emph{Quantity implicatures}.
+\newblock Cambridge, UK: Cambridge University Press.
+
+\bibitem[{Goodman \& Frank(2016)}]{goodmanfrank2016}
+Goodman, Noah~D. \& Michael~C. Frank. 2016.
+\newblock Pragmatic language interpretation as probabilistic inference.
+\newblock \emph{Trends in Cognitive Sciences} 20(11). 818--829.
+
+\bibitem[{Goodman \& Lassiter(2015)}]{goodmanlassiter2015handbook}
+Goodman, Noah~D. \& Daniel Lassiter. 2015.
+\newblock Probabilistic semantics and pragmastics: Uncertainty in language and
+  thought.
+\newblock In S.~Lappin \& C.~Fox (eds.), \emph{The handbook of contemporary
+  semantic theory}, Wiley-Blackwell 2nd edn.
+
+\bibitem[{Goodman \& Stuhlm\"{u}ller(2013)}]{goodmanstuhlmuller2013}
+Goodman, Noah~D. \& Andreas Stuhlm\"{u}ller. 2013.
+\newblock Knowledge and implicature: Modeling language understanding as social
+  cognition.
+\newblock \emph{Topics in Cognitive Science} 5. 173--184.
+
+\bibitem[{Goodman \& Stuhlm\"{u}ller(2014)}]{goodmanstuhlmuller2014}
+Goodman, Noah~D. \& Andreas Stuhlm\"{u}ller. 2014.
+\newblock The design and implementation of probabilistic programming languages.
+\newblock \url{http://dippl.org}.
+
+\bibitem[{Grice(1975)}]{Grice1975:Logic-and-Conve}
+Grice, Paul~Herbert. 1975.
+\newblock Logic and conversation.
+\newblock In Peter Cole \& Jerry~L. Morgan (eds.), \emph{Syntax and semantics,
+  vol.~3, speech acts}, 41--58. New York: Academic Press.
+
+\bibitem[{Griffiths et~al.(2015)Griffiths, Lieder \&
+  Goodman}]{GriffithsLieder2015:Rational-Use-of}
+Griffiths, Thomas~L., Falk Lieder \& Noah~D. Goodman. 2015.
+\newblock {Rational Use of Cognitive Resources: Levels of Analysis Between the
+  Computational and the Algorithmic}.
+\newblock \emph{Topics in Cognitive Science} 7. 217--229.
+
+\bibitem[{Hawkins et~al.(2020)Hawkins, Frank \&
+  Goodman}]{hawkins2020characterizing}
+Hawkins, Robert~D, Michael~C Frank \& Noah~D Goodman. 2020.
+\newblock Characterizing the dynamics of learning in repeated reference games.
+\newblock \emph{Cognitive Science} 44(6). e12845.
+
+\bibitem[{Hawkins et~al.(2017)Hawkins, Frank \&
+  Goodman}]{hawkins2017convention}
+Hawkins, Robert~XD, Michael~C. Frank \& Noah~D Goodman. 2017.
+\newblock Convention-formation in iterated reference games.
+\newblock In \emph{Proceedings of the thirty-ninth annual conference of the
+  {C}ognitive {S}cience {S}ociety}, .
+
+\bibitem[{Herbstritt \& Franke(2019)}]{HerbstrittFranke2019:Complex-probabi}
+Herbstritt, Michele \& Michael Franke. 2019.
+\newblock Complex probability expressions \& high-order uncertainty:
+  compositional semantics, probabilistic pragmatics \& experimental data.
+\newblock \emph{Cognition} 186. 50--71.
+
+\bibitem[{Horn(1984)}]{horn1984}
+Horn, Laurence. 1984.
+\newblock Toward a new taxonomy for pragmatic inference: {Q}-based and
+  {R}-based implicature.
+\newblock In Deborah Schiffrin (ed.), \emph{Meaning, form, and use in context},
+  163--192. Washington DC: Georgetown University Press.
+
+\bibitem[{Hurford(1974)}]{hurford1974}
+Hurford, James~R. 1974.
+\newblock Exclusive or inclusive disjunction.
+\newblock \emph{Foundations of Language} 11(3). 409--411.
+
+\bibitem[{Jasbi et~al.(2019)Jasbi, Waldon \& Degen}]{jasbietal2019}
+Jasbi, Msoud, Brandon Waldon \& Judith Degen. 2019.
+\newblock Linking hypothesis and number of response options modulate inferred
+  scalar implicature rate.
+\newblock \emph{Frontiers in Psychology} 10. 189.
+
+\bibitem[{Jeffreys(1961)}]{Jeffreys1961:Theory-of-Proba}
+Jeffreys, Harold. 1961.
+\newblock \emph{Theory of probability}.
+\newblock Oxford: Oxford University Press 3rd edn.
+
+\bibitem[{Kao et~al.(2014{\natexlab{a}})Kao, Bergen \&
+  Goodman}]{kaoetal2014metaphor}
+Kao, Justine~T, Leon Bergen \& Noah~D. Goodman. 2014{\natexlab{a}}.
+\newblock Formalizing the pragmatics of metaphor understanding.
+\newblock In \emph{Proceedings of the thirty-sixth annual conference of the
+  {C}ognitive {S}cience {S}ociety}, 719--724.
+
+\bibitem[{Kao \& Goodman(2015)}]{kaogoodman2015}
+Kao, Justine~T \& Noah~D. Goodman. 2015.
+\newblock Let's talk (ironically) about the weather: Modeling verbal irony.
+\newblock In \emph{Proceedings of the thirty-seventh annual conference of the
+  {C}ognitive {S}cience {S}ociety}, .
+
+\bibitem[{Kao et~al.(2014{\natexlab{b}})Kao, Wu, Bergen \&
+  Goodman}]{kaoetal2014}
+Kao, Justine~T, Jean~Y Wu, Leon Bergen \& Noah~D. Goodman. 2014{\natexlab{b}}.
+\newblock Non-literal understanding of number words.
+\newblock \emph{Proceedings of the National Academy of Sciences of the United
+  States of America} 111. 12002--12007.
+
+\bibitem[{Kass \& Raftery(1995)}]{KassRaftery1995:Bayes-Factors}
+Kass, Robert~E. \& Adrian~E. Raftery. 1995.
+\newblock Bayes factors.
+\newblock \emph{Journal of the American Statistical Association} 90(430).
+  773--795.
+
+\bibitem[{Katzir(2007)}]{Katzir2007:Structurally-De}
+Katzir, Roni. 2007.
+\newblock Structurally-defined alternatives.
+\newblock \emph{Linguistics and Philosophy} 30(6). 669--690.
+
+\bibitem[{Kruschke(2014)}]{kruschke2014doing}
+Kruschke, John. 2014.
+\newblock \emph{Doing bayesian data analysis: A tutorial with r, jags, and
+  stan}.
+\newblock Academic Press.
+
+\bibitem[{Lambert(2018)}]{Lambert2018:A-Students-Guid}
+Lambert, Ben. 2018.
+\newblock \emph{A student's guide to bayesian statistics}.
+\newblock Sage Publications.
+
+\bibitem[{Lassiter \& Goodman(2013)}]{lassitergoodman2013}
+Lassiter, Daniel \& Noah~D. Goodman. 2013.
+\newblock Context, scale structure, and statistics in the interpretation of
+  positive-form adjectives.
+\newblock In Todd Snider (ed.), \emph{Proceedings of {SALT} 23}, 587--610. CLC
+  Publications.
+
+\bibitem[{Lassiter \& Goodman(2017)}]{lassiter2017adjectival}
+Lassiter, Daniel \& Noah~D Goodman. 2017.
+\newblock Adjectival vagueness in a bayesian model of interpretation.
+\newblock \emph{Synthese} 194(10). 3801--3836.
+
+\bibitem[{Lee \& Wagenmakers(2014)}]{lee2014bayesian}
+Lee, Michael~D \& Eric-Jan Wagenmakers. 2014.
+\newblock \emph{Bayesian cognitive modeling: A practical course}.
+\newblock Cambridge university press.
+
+\bibitem[{Lieder \& Griffiths(2020)}]{lieder2020resource}
+Lieder, Falk \& Thomas~L Griffiths. 2020.
+\newblock Resource-rational analysis: understanding human cognition as the
+  optimal use of limited computational resources.
+\newblock \emph{Behavioral and Brain Sciences} 43.
+
+\bibitem[{Lund et~al.(2019)Lund, Jarvis \& Scontras}]{lundetal2019}
+Lund, Gunnar, Rebecca Jarvis \& Gregory Scontras. 2019.
+\newblock The pragmatics of semantic change: Modeling the
+  progressive-to-imperfective shift.
+\newblock In \emph{Proceedings of {Sinn und Bedeutung} 23}, 73--90.
+
+\bibitem[{Markman \& Wachtel(1988)}]{markman1988children}
+Markman, Ellen~M \& Gwyn~F Wachtel. 1988.
+\newblock Children's use of mutual exclusivity to constrain the meanings of
+  words.
+\newblock \emph{Cognitive psychology} 20(2). 121--157.
+
+\bibitem[{Marr(1982)}]{marr1982}
+Marr, David. 1982.
+\newblock \emph{Vision: A computational investigation into the human
+  representation and processing of visual information}.
+\newblock San Francisco: W. H. Freeman and Company.
+
+\bibitem[{Monroe et~al.(2017)Monroe, Hawkins, Goodman \&
+  Potts}]{Monroe:Hawkins:Goodman:Potts:2017}
+Monroe, Will, Robert X.~D. Hawkins, Noah~D. Goodman \& Christopher Potts. 2017.
+\newblock Colors in context: A pragmatic neural model for grounded language
+  understanding.
+\newblock \emph{Transactions of the Association for Computational Linguistics}
+  5. 325--338.
+
+\bibitem[{Monroe \& Potts(2015)}]{Monroe:Potts:2015}
+Monroe, Will \& Christopher Potts. 2015.
+\newblock Learning in the {R}ational {S}peech {A}cts model.
+\newblock In \emph{Proceedings of 20th {A}msterdam {C}olloquium}, Amsterdam:
+  ILLC.
+
+\bibitem[{Montague(1973)}]{montague1973}
+Montague, Richard. 1973.
+\newblock The proper treatment of quantification in ordinary {E}nglish.
+\newblock In K~J~J Hintikka, J~M~E Moravcsik \& P~Suppes (eds.),
+  \emph{Approaches to natural language}, vol.~49 Synthese Library, 221--242.
+  Dordrecht: Reidel.
+
+\bibitem[{Nie et~al.(2020)Nie, Cohn-Gordon \&
+  Potts}]{NieCohn-Gordon2020:Pragmatic-Issue}
+Nie, Allen, Reuben Cohn-Gordon \& Christopher Potts. 2020.
+\newblock Pragmatic issue-sensitive image captioning.
+\newblock In \emph{Findings of the association for computational linguistics:
+  Emnlp 2020}, 1924--1938. Online: Association for Computational Linguistics.
+
+\bibitem[{Ohmer et~al.(2020)Ohmer, K\"{o}nig \&
+  Franke}]{OhmerKonig2020:Reinforcement-o}
+Ohmer, Xenia, Peter K\"{o}nig \& Michael Franke. 2020.
+\newblock Reinforcement of semantic representations in pragmatic agents leads
+  to the emergence of a mutual exclusivity bias.
+\newblock In \emph{Proceedings of {CogSci} 42}, .
+
+\bibitem[{Potts et~al.(2016)Potts, Lassiter, Levy \&
+  Frank}]{PottsLassiter2016:Embedded-implic}
+Potts, Christopher, Daniel Lassiter, Roger Levy \& Michael~C. Frank. 2016.
+\newblock Embedded implicatures as pragmatic inferences under compositional
+  lexical uncertainty.
+\newblock \emph{Journal of Semantics} 33(4). 755--802.
+
+\bibitem[{Qing \& Franke(2014)}]{QingFranke2014:Gradable-Adject}
+Qing, Ciyang \& Michael Franke. 2014.
+\newblock Gradable adjectives, vagueness, and optimal language use: {A}
+  speaker-oriented model.
+\newblock In Jessi Grieser, Todd Snider, Sarah D'Antonio \& Mia Wiegand (eds.),
+  \emph{Proceedings of {SALT} 44}, 23--41. elanguage.net.
+
+\bibitem[{Qing \& Franke(2015)}]{qingfranke2015}
+Qing, Ciyang \& Michael Franke. 2015.
+\newblock Variations on a {B}ayesian theme: Comparing {B}ayesian models of
+  referential reasoning.
+\newblock In H.~Zeevat \& H.-C. Schmitz (eds.), \emph{Bayesian natural language
+  semantics and pragmatics}, 201--220. Springer.
+
+\bibitem[{Roberts(2012)}]{roberts2012}
+Roberts, Craige. 2012.
+\newblock Information structure in discourse: Towards an integrated formal
+  theory of pragmatics.
+\newblock \emph{Semantics and Pragmatics} 5(6). 1--69.
+
+\bibitem[{Savinelli et~al.(2017)Savinelli, Scontras \&
+  Pearl}]{savinellietal2017}
+Savinelli, K.J., Gregory Scontras \& Lisa Pearl. 2017.
+\newblock Modeling scope ambiguity resolution as pragmatic inference:
+  Formalizing differences in child and adult behavior.
+\newblock In \emph{Proceedings of the thirty-ninth annual conference of the
+  {C}ognitive {S}cience {S}ociety}, 2064--3069.
+
+\bibitem[{Savinelli et~al.(2018)Savinelli, Scontras \&
+  Pearl}]{savinellietal2018}
+Savinelli, K.J., Gregory Scontras \& Lisa Pearl. 2018.
+\newblock Exactly two things to learn from modeling scope ambiguity resolution:
+  Developmental continuity and numeral semantics.
+\newblock In \emph{Proceedings of the 8th workshop on cognitive modeling and
+  computational linguistics ({CMCL} 2018)}, 67--75.
+
+\bibitem[{Sch\"{o}ller \& Franke(2017)}]{FrankeScholler2016:Semantic-values}
+Sch\"{o}ller, Anthea \& Michael Franke. 2017.
+\newblock Semantic values as latent parameters: {T}esting a fixed threshold
+  hypothesis for cardinal readings of \emph{few} \& \emph{many}.
+\newblock \emph{Linguistic Vanguard} 3(1).
+
+\bibitem[{Schulz \&
+  {\SortNoop{Rooij}}van~Rooij(2006)}]{vanRooijSchulz:ExhaustiveInterpretation}
+Schulz, Katrin \& Robert {\SortNoop{Rooij}}van~Rooij. 2006.
+\newblock Pragmatic meaning and non-monotonic reasoning: The case of exhaustive
+  interpretation.
+\newblock \emph{Linguistics and Philosophy} 29. 205--250.
+
+\bibitem[{Schulze et~al.(2013)Schulze, Grassmann \& Tomasello}]{schulze2013}
+Schulze, Cornelia, Susanne Grassmann \& Michael Tomasello. 2013.
+\newblock 3-year-old children make relevance inferences in indirect verbal
+  communication.
+\newblock \emph{Child development} 84(6). 2079--2093.
+
+\bibitem[{Schuster \& Degen(2020)}]{schuster2020know}
+Schuster, Sebastian \& Judith Degen. 2020.
+\newblock I know what you're probably going to say: Listener adaptation to
+  variable use of uncertainty expressions.
+\newblock \emph{Cognition} 203. 104285.
+
+\bibitem[{Scontras \& Goodman(2017)}]{scontrasgoodman2017}
+Scontras, Gregory \& Noah~D. Goodman. 2017.
+\newblock Resolving uncertainty in plural predication.
+\newblock \emph{Cognition} 168. 294--311.
+
+\bibitem[{Scontras et~al.(electronic)Scontras, Tessler \& Franke}]{problang}
+Scontras, Gregory, Michael~Henry Tessler \& Michael Franke. electronic.
+\newblock Probabilistic language understanding: An introduction to the
+  {R}ational {S}peech {A}ct framework.
+\newblock Retrieved from https://www.problang.org.
+
+\bibitem[{Sedivy(2007)}]{sedivy2007}
+Sedivy, Julie~C. 2007.
+\newblock Implicature during real time conversation: A view from language
+  processing research.
+\newblock \emph{Philosophy Compass} 2(3). 475--496.
+
+\bibitem[{Sedivy et~al.(1999)Sedivy, Tanenhaus, Chambers \&
+  Carlson}]{sedivyetal1999}
+Sedivy, Julie~C., Michael~K. Tanenhaus, Craig~G. Chambers \& Gergory~N.
+  Carlson. 1999.
+\newblock Achieving incremental semantic interpretation through contextual
+  representation.
+\newblock \emph{Cognition} 71. 109--147.
+\newblock \doi{10.1016/S0010-0277(99)00025-6}.
+
+\bibitem[{Shen et~al.(2019)Shen, Fried, Andreas \&
+  Klein}]{ShenFried2019:Pragmatically-I}
+Shen, Sheng, Daniel Fried, Jacob Andreas \& Dan Klein. 2019.
+\newblock Pragmatically informative text generation.
+\newblock In \emph{Proceedings of naacl}, .
+
+\bibitem[{Skyrms(2010)}]{Skyrms2010:Signals}
+Skyrms, Brian. 2010.
+\newblock \emph{Signals: {E}volution, learning, and information}.
+\newblock Oxford: Oxford University Press.
+
+\bibitem[{Spector(2006)}]{Spector2006:Scalar-Implicat}
+Spector, Benjamin. 2006.
+\newblock Scalar implicatures: Exhaustivity and gricean reasoning.
+\newblock In Maria Aloni, Alistair Butler \& Paul Dekker (eds.),
+  \emph{Questions in dynamic semantics}, 229--254. Amsterdam, Singapore:
+  Elsevier.
+
+\bibitem[{Tanenhaus et~al.(1995)Tanenhaus, Spivey-Knowlton, Eberhard \&
+  Sedivy}]{tanenhausetal1995}
+Tanenhaus, M.K., M.J. Spivey-Knowlton, K.M. Eberhard \& J.C. Sedivy. 1995.
+\newblock Integration of visual and linguistic information in spoken language
+  comprehension.
+\newblock \emph{Science} 268(5217). 1632--1634.
+
+\bibitem[{Tessler \& Goodman(2019)}]{tesslergoodman2019}
+Tessler, Michael~Henry \& Noah~D. Goodman. 2019.
+\newblock The language of generalization.
+\newblock \emph{Psychological Review} 126. 395--436.
+
+\bibitem[{Tessler et~al.(2017)Tessler, Lopez-Brau \&
+  Goodman}]{tessler2017comparisonclass}
+Tessler, Michael~Henry, Michael Lopez-Brau \& Noah~D Goodman. 2017.
+\newblock {Warm (for winter): Comparison class understanding in vague
+  language}.
+\newblock In \emph{Proceedings of the 39th annual meeting of the {C}ognitive
+  {S}cience {S}ociety}, .
+
+\bibitem[{{\SortNoop{Tiel}}{van Tiel} et~al.(2021){\SortNoop{Tiel}}{van Tiel},
+  Franke \& Sauerland}]{Tielvan-TielFranke2021:Probabilistic-p}
+{\SortNoop{Tiel}}{van Tiel}, Bob, Michael Franke \& Uli Sauerland. 2021.
+\newblock Probabilistic pragmatics explains gradience and focality in natural
+  language quantification.
+\newblock Manuscript.
+
+\bibitem[{Werning \& Cosentino(2017)}]{WerningCosentino2017:The-interaction}
+Werning, Markus \& Erica Cosentino. 2017.
+\newblock The interaction of {B}ayesian pragmatics and lexical semantics in
+  linguistic interpretation: {U}sing event-related potentials to investigate
+  hearers' probabilistic predictions.
+\newblock In Glenn Gunzelmann, Andrew Howes, Thora Tenbrink \& Eddy Davelaar
+  (eds.), \emph{Proceedings of {CogSci} 39}, 3504--3509. Austin, TX: Cognitive
+  Science Society.
+
+\bibitem[{Woensdregt et~al.(2020)Woensdregt, Cummins \&
+  Smith}]{WoensdregtCummins2020:A-computational}
+Woensdregt, Marieke, Chris Cummins \& Kenny Smith. 2020.
+\newblock A computational model of the cultural co-evolution of language and
+  mindreading.
+\newblock \emph{Synthese} .
+
+\bibitem[{Yoon et~al.(2016)Yoon, Tessler, Goodman \& Frank}]{yoonetal2016}
+Yoon, Erica~J, Michael~Henry Tessler, Noah~D Goodman \& Michael~C Frank. 2016.
+\newblock Talking with tact: Polite language as a balance between kindness and
+  informativity.
+\newblock In \emph{Proceedings of the thirty-eighth annual conference of the
+  {C}ognitive {S}cience {S}ociety}, .
+
+\bibitem[{Yoon et~al.(2017)Yoon, Tessler, Goodman \& Frank}]{yoonetal2017}
+Yoon, Erica~J, Michael~Henry Tessler, Noah~D Goodman \& Michael~C Frank. 2017.
+\newblock ``i won't lie, it wasn't amazing'': Modeling polite indirect speech.
+\newblock In \emph{Proceedings of the thirty-ninth annual conference of the
+  {C}ognitive {S}cience {S}ociety}, .
+
+\bibitem[{Yoon et~al.(2020)Yoon, Tessler, Goodman \& Frank}]{yoonetal2020}
+Yoon, Erica~J, Michael~Henry Tessler, Noah~D Goodman \& Michael~C Frank. 2020.
+\newblock Polite speech emerges from competing social goals.
+\newblock \emph{Open Mind: Discoveries in Cognitive Science}
+  \doi{10.31234/osf.io/67ne8}.
+\newblock \urlprefix\url{psyarxiv.com/67ne8}.
+
+\bibitem[{Zaslavsky et~al.(2020)Zaslavsky, Hu \& Levy}]{zaslavsky2020rate}
+Zaslavsky, Noga, Jennifer Hu \& Roger~P Levy. 2020.
+\newblock A rate-distortion view of human pragmatic reasoning.
+\newblock \emph{arXiv preprint arXiv:2005.06641} .
+
+\end{thebibliography}
