@@ -288,7 +288,7 @@ Above, we have a listener who hears that they did "good" and infers how well the
 
 Above, we modeled the case study of **white lies**, utterances which convey misleading information for purposes of politeness. There are other ways to be polite, however. Speakers may deliberately be **indirect** for considerations of politeness. Consider a listener who just gave an objectively terrible presentation. They look fragile as they come to you for your feedback. You tell them "It wasn't bad."
 
-Why would somebody produce such an indirect speech act? If the speaker wanted to actually be nice, they would say "It was fine." or "It was great." If the speaker wanted to actually convey information, they would say "It was terrible." [Yoon et al. (2017)](https://cogsci.mindmodeling.org/2017/papers/0679/paper0679.pdf) and [Yoon, Tessler et al. (2018)](https://psyarxiv.com/67ne8) hypothesize that speakers produce indirect speech acts in order to *appear* to care both about conveying information and saving the listener's face. Can we elaborate the model above to account for politeness by being indirect? First, we can define the speaker's utility as we did before, breaking it up into component parts of epistemic and social utility, defined now with respect to the pragmatic listener $L_1$.
+Why would somebody produce such an indirect speech act? If the speaker wanted to actually be nice, they would say "It was fine." or "It was great." If the speaker wanted to actually convey information, they would say "It was terrible." [Yoon et al. (2017)](https://cogsci.mindmodeling.org/2017/papers/0679/paper0679.pdf) and [Yoon, Tessler et al. (2018)](https://psyarxiv.com/67ne8) hypothesize that speakers produce indirect speech acts in order to *appear* to care both about conveying information and saving the listener's face. Can we elaborate the model above to account for politeness by being indirect? First, we can define the speaker's utility as we did before, breaking it up into component parts of epistemic and social utility, defined now with respect to the pragmatic listener $$L_1$$.
 
 $$
 U_{\text{epistemic}}(u; s) = \log(P_{L_1}(s \mid u))
@@ -303,13 +303,13 @@ P_{L_1}(s \mid u) = \int_\varphi P_{L_1}(s, \varphi \mid u) d\varphi
 $$
 
 where $$V$$ is a value function from before that maps states to subjective utility values.
-With our higher-order speaker, however, we have a new possible utility component: a self-presentational utility -- defined with respect to the pragmatic listener's inferences about the politeness mixture component $\phi$.
+With our higher-order speaker, however, we have a new possible utility component: a self-presentational utility -- defined with respect to the pragmatic listener's inferences about the politeness mixture component $$\phi$$.
 
 $$
 U_{\text{presentational}}(u) = \log(P_{L_1}(\varphi \mid u)) = \int_s P_{L_1}(s, \varphi \mid u) ds
 $$
 
-Speaker utility is then a mixture of these three components, weighed by mixture component vector $\omega$:
+Speaker utility is then a mixture of these three components, weighed by mixture component vector $$\omega$$:
 
 $$
 U(u; s; \varphi; \omega) = \omega_{\text{epistemic}} \cdot U_{\text{epistemic}}(u; s) + \omega_{\text{social}}  \cdot U_{\text{social}}(u) + \omega_{\text{presentational}}  \cdot U_{\text{presentational}}(u)
@@ -331,9 +331,9 @@ var speaker2 = function(state, phi, omega) {
       social: expectation(L1_state, valueFunction),
       presentational: L1_goal.score(phi)
     }
-    var speakerUtility = omega.epistemic + utilities.epistemic +
-      omega.social + utilities.social +
-      omega.presentational + utilities.presentational
+    var speakerUtility = omega.epistemic * utilities.epistemic +
+      omega.social * utilities.social +
+      omega.presentational * utilities.presentational
     factor(alpha2 * speakerUtility)
     return utterance
   }})
