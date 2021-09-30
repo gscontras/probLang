@@ -31,7 +31,7 @@ $$S = \{\text{blue-square}, \text{blue-circle}, \text{green-square}\}$$
 
 contains the three objects given. The **set of utterances**
 
-$$U = \{ \text{``square"}, \text{``circle"}, \text{``green"}, \text{``blue"}  \}$$
+$$U = \{ \text{"square"}, \text{"circle"}, \text{"green"}, \text{"blue"}  \}$$
 
 contains the four properties from which the speaker can choose.
 
@@ -46,7 +46,7 @@ number = "2"
 
 ### Literal listeners
 
-At the base of this reasoning, the naive, literal listener $$L_{0}$$ interprets an utterance according to its meaning. That is, $$L_{0}$$ computes the probability of $$s$$ given $$u$$ according to the semantics of $$u$$ and the prior probability of $$s$$. A standard view of the semantic content of an utterance suffices: a mapping from states of the world to truth values. For example, the utterance $$\text{``blue"}$$ is true of states $$\text{blue-square}$$ and $$\text{blue-circle}$$ and false of state $$\text{green-square}$$. We write $$[\![u]\!] \colon S \mapsto \{0,1\}$$ for the denotation function of this standard, Boolean semantics of utterances in terms of states. The literal listener is then defined via a function $$P_{L_{0}} \colon U \mapsto \Delta^S$$ that maps each utterance to a probability distribution over world states, like so:
+At the base of this reasoning, the naive, literal listener $$L_{0}$$ interprets an utterance according to its meaning. That is, $$L_{0}$$ computes the probability of $$s$$ given $$u$$ according to the semantics of $$u$$ and the prior probability of $$s$$. A standard view of the semantic content of an utterance suffices: a mapping from states of the world to truth values. For example, the utterance $$\text{"blue"}$$ is true of states $$\text{blue-square}$$ and $$\text{blue-circle}$$ and false of state $$\text{green-square}$$. We write $$[\![u]\!] \colon S \mapsto \{0,1\}$$ for the denotation function of this standard, Boolean semantics of utterances in terms of states. The literal listener is then defined via a function $$P_{L_{0}} \colon U \mapsto \Delta^S$$ that maps each utterance to a probability distribution over world states, like so:
 
 $$P_{L_{0}}(s\mid u) \propto [\![u]\!](s) \cdot P(s)$$
 
