@@ -73,7 +73,7 @@ var listener = function(utterance) {
   Infer({model: function(){
     var prevalence = sample(prevalencePrior)
     var theta = uniform(0, 1)
-    condition( prevalence > theta)
+    condition(meaning(utterance,prevalence,theta))
     return prevalence
   }})
 }
