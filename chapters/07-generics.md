@@ -210,7 +210,7 @@ $$
 <!-- $$\phi$$ is a parameter that governs mixture between these two components.
  For example, "is female" has a high `phi` to be present in a kind; while "lays eggs" has less potential (owing to the fact that a lot of animals do not have any members who lay eggs). "Carries malaria" has a very low potential to be present. `prevalenceWhenPresent` is the *mean prevalence when the property is present*. Knowing that the property is present in a kind, what % of the kind do you expect to have it? -->
 
-The components of the prior can be probed with human intuitions through two questions. To determine the relative prominence of the stable cause, $$\phi$$, we consider how likely it is for any member of a kind to have the relevant property. To determine the average prevalence among those kinds where the property is stably present, $$\gamma$$, we consider the proportion of the property within a single kind; looking at the variability among multiple judgments, we can estimate the contration of this proportion, $$\delta$$. The task proceeds as follows:
+The components of the prior can be probed with human intuitions through two questions. To determine the relative prominence of the stable cause, $$\phi$$, we consider how likely it is for any member of a kind to have the relevant property. To determine the average prevalence among those kinds where the property is stably present, $$\gamma$$, we consider the proportion of the property within a single kind; looking at the variability among multiple judgments, we can estimate the concentration of this proportion, $$\delta$$. The task proceeds as follows:
 
 > We just discovered an animal on a far away island called a fep.
 > 1. How likely is it that there is a fep that has wings? ($$\phi$$)
