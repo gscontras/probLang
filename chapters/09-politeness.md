@@ -351,7 +351,7 @@ var utterances = [
   "not_terrible","not_bad","not_good","not_amazing"
 ];
 
-var states = [0, 1,2,3];
+var states = [0,1,2,3];
 
 var isNegation = function(utt){
   return (utt.split("_")[0] == "not")
@@ -473,7 +473,7 @@ var speaker2 = function(state, phi, weights) {
 };
 
 // Parameter values = Maximum A-Posteriori values from Yoon, Tessler et al., (2018)
-display('Listener gives presentation, worthy of 0 out of 4 hearts ("truly terrible")...')
+display('Listener gives presentation, worthy of 0 out of 3 hearts ("truly terrible")...')
 
 // informational
 display("Speaker wants to give Listener accurate and informative feedback")
