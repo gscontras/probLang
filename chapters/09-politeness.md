@@ -325,11 +325,11 @@ var speaker2 = function(state, phi, omega) {
     var utterance = sample(utterancePrior)
     var L1 = pragmaticListener(utterance)
     var L1_state = marginalize(L1, "state")
-    var L1_goal = marginalize(L1, "goal")
+    var L1_phi = marginalize(L1, "phi")
     var utilities = {
       epistemic: L1_state.score(state),
       social: expectation(L1_state, valueFunction),
-      presentational: L1_goal.score(phi)
+      presentational: L1_phi.score(phi)
     }
     var speakerUtility = omega.epistemic * utilities.epistemic +
       omega.social * utilities.social +
@@ -450,12 +450,12 @@ var speaker2 = function(state, phi, weights) {
     var utterance = uniformDraw(utterances);
     var L1 = listener1(utterance);
     var L1_state = marginalize(L1, "state");
-    var L1_goals = marginalize(L1, "phi");
+    var L1_phi = marginalize(L1, "phi");
 
     var utilities = {
       inf: L1_state.score(state), // log P(s | u)
       soc: expectation(L1_state), // E [s]
-      pres: L1_goals.score(phi) // // log P(phi | u)
+      pres: L1_phi.score(phi) // // log P(phi | u)
     }
 
     var totalUtility = weights.soc * utilities.soc +
